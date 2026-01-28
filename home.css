@@ -363,13 +363,15 @@ a:focus {
   background: rgba(56,189,248,0.35);
 }
 
-/* 6) Prevent the layout from looking “lost” when zoomed out */
-.shell {
-  min-width: 1100px;
+/* Keep layout responsive (no forced min-width) */
+.shell{
+  min-width: 0;
+  width: min(1100px, 100%);
 }
 
-body {
-  overflow-x: auto;
+body{
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Floating blobs (reliable) */
@@ -679,4 +681,5 @@ button.btn:not(.primary):active {
   transform: translateY(0);
   box-shadow: 0 5px 14px rgba(15, 23, 42, 0.10);
 }
+
 
