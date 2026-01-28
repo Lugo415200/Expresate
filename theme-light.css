@@ -1184,5 +1184,51 @@ pre, code {
   }
 }
 
+/* ===== Mobile: make content truly fluid ===== */
+@media (max-width: 560px){
+
+  /* Stop any min-width from forcing desktop sizing */
+  .shell, .content, .panel, .block, .topbar, .topbar-inner, main, aside, nav {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Make the shell fit the screen */
+  .shell{
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Remove “desktop card” spacing that wastes space */
+  .content{
+    width: 100% !important;
+    padding: 14px !important;
+    margin: 0 !important;
+  }
+
+  /* Panels should also be full width */
+  .panel.sidebar,
+  .panel.right{
+    width: 100% !important;
+    margin: 0 0 12px 0 !important;
+  }
+
+  /* Headline: prevent giant line overflow */
+  h1{
+    font-size: 1.65rem !important;
+    line-height: 1.12 !important;
+    word-break: break-word;
+  }
+
+  /* Buttons/pills shouldn’t force width */
+  .actions{
+    flex-wrap: wrap !important;
+  }
+  .btn, .pill{
+    max-width: 100% !important;
+  }
+}
+
 
 
