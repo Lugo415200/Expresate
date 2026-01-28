@@ -1,0 +1,1082 @@
+/* ======================================
+   THEME-LIGHT.CSS
+   Lighter, playful, Duolingo-inspired
+   ====================================== */
+
+/* 1) Global color tokens (THIS is the magic) */
+:root{
+  --bg: #eef6fb;                 /* soft sky background */
+  --panel: #f7fbff;              /* light panels */
+  --card: rgba(255,255,255,.85); /* glass cards */
+  --text: #0f172a;               /* deep readable text */
+  --muted: #475569;              /* softer gray text */
+  --border: rgba(15,23,42,.08);  /* subtle borders */
+
+  --accent: #38bdf8;             /* playful blue */
+  --accent-soft: #bae6fd;        /* highlights */
+  --link: #0284c7;
+}
+
+/* 2) Background depth (no emptiness) */
+body{
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(56,189,248,.18), transparent 60%),
+    radial-gradient(800px 500px at 90% 20%, rgba(147,197,253,.16), transparent 55%),
+    linear-gradient(180deg, #f8fbff, #eaf4fb);
+  color: var(--text);
+}
+
+/* 3) Panels feel lighter + modern */
+.panel,
+/* ================================
+   CENTER PANEL — SOFT SKY SURFACE
+   ================================ */
+
+.content{
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      #f1f7fd 100%
+    );
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow:
+    0 24px 60px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* Headings look richer on tinted bg */
+.content h1,
+.content h2,
+.content h3{
+  color: #0f172a;
+}
+
+/* Body text */
+.content p,
+.content li{
+  color: rgba(15,23,42,.78);
+}
+
+/* Sub text */
+.content .sub{
+  color: rgba(15,23,42,.55);
+}
+
+/* 4) Cards feel friendly, not heavy */
+.block{
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,.96),
+      rgba(248,250,252,.92)
+    );
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15,23,42,.08);
+}
+
+/* 5) Typography lift (Duolingo effect) */
+.content h1{
+  font-size: 2.2rem;
+  letter-spacing: -0.025em;
+}
+
+.block h2{
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sub{
+  color: var(--muted);
+}
+
+/* Accent underline */
+.content h1::after{
+  content:"";
+  display:block;
+  width:64px;
+  height:4px;
+  margin-top:12px;
+  border-radius:999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent-soft)
+  );
+}
+
+/* 6) Buttons = playful + tactile */
+.btn{
+  background: white;
+  color: #0f172a;
+  border-radius: 14px;
+  border: 1px solid rgba(15,23,42,.12);
+  box-shadow:
+    0 4px 0 rgba(15,23,42,.12),
+    0 10px 20px rgba(15,23,42,.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+}
+
+.btn:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 2px 0 rgba(15,23,42,.12),
+    0 6px 12px rgba(15,23,42,.06);
+}
+
+/* Primary CTA (Duolingo-like) */
+.btn.primary{
+  background: linear-gradient(
+    180deg,
+    #38bdf8,
+    #0ea5e9
+  );
+  color: white;
+  border: none;
+  box-shadow:
+    0 4px 0 #0284c7,
+    0 14px 28px rgba(56,189,248,.45);
+}
+
+/* 7) Sidebar: lighter + calm */
+.sidebar a{
+  color: #0f172a;
+  opacity: .85;
+}
+
+.sidebar a:hover{
+  background: rgba(56,189,248,.12);
+}
+
+.sidebar a.active{
+  background: rgba(56,189,248,.22);
+  font-weight: 700;
+}
+
+/* 8) Topbar feels airy */
+.topbar{
+  background: rgba(32, 48, 141, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand{
+  color:#0f172a;
+}
+
+/* 9) Floating background blobs (life + motion) */
+html::before,
+html::after{
+  content:"";
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: .45;
+  pointer-events:none;
+  z-index:0;
+}
+
+html::before{
+  left:-200px;
+  top:120px;
+  background: radial-gradient(circle, #7dd3fc, transparent 60%);
+}
+
+html::after{
+  right:-220px;
+  bottom:80px;
+  background: radial-gradient(circle, #bae6fd, transparent 60%);
+}
+
+body{ position:relative; z-index:1; }
+
+/* Motion respect */
+@media (prefers-reduced-motion: reduce){
+  html::before, html::after{ display:none; }
+}
+
+/* ================================
+   LIGHT THEME POLISH (PASTE LAST)
+   ================================ */
+
+/* 1) Unify radii + softer global shadow */
+:root{
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --shadow-soft: 0 10px 28px rgba(15,23,42,.08);
+  --shadow-card: 0 12px 28px rgba(15,23,42,.10);
+}
+
+/* 2) Panels: consistent rounding + less heavy borders */
+.panel,
+.content{
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+/* 3) Dark side panels (left/right): soften + add “glass” */
+.panel.sidebar,
+.panel.right{
+  background: linear-gradient(180deg, rgba(17,24,39,.92), rgba(10,16,32,.98));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 16px 40px rgba(15,23,42,.12);
+}
+
+/* Make headings in side panels pop gently */
+.panel.sidebar h3,
+.panel.right h3{
+  color: rgba(255,255,255,.92);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* 4) Sidebar links: cleaner, less “blocky”, more Duolingo */
+.sidebar a{
+  border-bottom: none;
+  margin: 6px 8px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: rgba(255,255,255,.88);
+  opacity: .85;
+}
+
+.sidebar a:hover{
+  background: rgba(56,189,248,.12);
+  opacity: 1;
+}
+
+.sidebar a.active{
+  background: rgba(56,189,248,.22);
+  box-shadow: inset 0 0 0 1px rgba(56,189,248,.22);
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* 5) Center cards: less flat + consistent spacing */
+.block{
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(15,23,42,.06);
+}
+
+/* Card hover (subtle) */
+.block{
+  transition: transform 140ms ease, box-shadow 200ms ease;
+}
+.block:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(15,23,42,.12);
+}
+@media (prefers-reduced-motion: reduce){
+  .block{ transition:none; }
+  .block:hover{ transform:none; }
+}
+
+/* 6) Topbar: reduce visual noise, pills match light theme */
+.topbar{
+  background: rgba(248,251,255,.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(15,23,42,.08);
+}
+
+.pill{
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(15,23,42,.10);
+  color: #0f172a;
+  box-shadow: 0 6px 14px rgba(15,23,42,.06);
+}
+.pill:hover{
+  background: rgba(255,255,255,.92);
+  text-decoration: none;
+}
+
+/* 7) Right panel CTA: make it feel like the “next step” */
+.panel.right .btn.primary{
+  border: none;
+  box-shadow:
+    0 4px 0 rgba(2,132,199,.8),
+    0 14px 26px rgba(56,189,248,.28);
+}
+
+/* 8) Typography tuning: modern app rhythm */
+.content h1{
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+.sub{
+  line-height: 1.5;
+  color: rgba(15,23,42,.68);
+}
+
+/* 9) Clean HR line in light areas */
+hr{
+  border-top: 1px solid rgba(15,23,42,.10);
+}
+
+/* ================================
+   SIDE PANELS — LIGHTENED / AIRY
+   ================================ */
+
+/* Base panel tone: blue-gray glass instead of dark slab */
+.panel.sidebar,
+.panel.right{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(240,248,255,0.75),
+      rgba(224,240,255,0.88)
+    );
+  border: 1px solid rgba(15,23,42,.08);
+  box-shadow:
+    0 12px 32px rgba(15,23,42,.10),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Panel headers */
+.panel.sidebar h3,
+.panel.right h3{
+  color: #0f172a;
+  border-bottom: 1px solid rgba(15,23,42,.08);
+  background: transparent;
+}
+
+/* ================================
+   SIDEBAR LINKS — SOFTER + FRIENDLIER
+   ================================ */
+
+.sidebar a{
+  color: #1f2937;
+  opacity: .85;
+  background: transparent;
+  margin: 6px 10px;
+  border-radius: 12px;
+}
+
+/* Hover */
+.sidebar a:hover{
+  background: rgba(56,189,248,.14);
+  opacity: 1;
+}
+
+/* Active item */
+.sidebar a.active{
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,.25),
+    rgba(147,197,253,.18)
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(56,189,248,.25),
+    0 6px 14px rgba(56,189,248,.18);
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* ================================
+   RIGHT PANEL CONTENT TUNING
+   ================================ */
+
+.panel.right .small,
+.panel.right p,
+.panel.right li{
+  color: rgba(15,23,42,.75);
+}
+
+/* CTA button pops more now */
+.panel.right .btn.primary{
+  background: linear-gradient(
+    180deg,
+    #38bdf8,
+    #0ea5e9
+  );
+  color: white;
+  box-shadow:
+    0 4px 0 rgba(2,132,199,.9),
+    0 16px 30px rgba(56,189,248,.35);
+}
+
+/* ================================
+   OPTIONAL: Slight transparency on panels
+   ================================ */
+
+.panel.sidebar,
+.panel.right{
+  backdrop-filter: blur(10px);
+}
+
+/* ================================
+   GLOBAL LIGHT THEME — BLUE TINTED
+   ================================ */
+
+/* Page background (keep airy, not white) */
+body{
+  background:
+    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
+    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
+    #f3f9ff;
+}
+
+/* ALL PANELS (sidebar, center, right) */
+.panel,
+.content{
+  background:
+    linear-gradient(
+      180deg,
+      #f0f7ff 0%,
+      #eaf3fb 100%
+    );
+  border: 1px solid rgba(15,23,42,.06);
+  border-radius: 20px;
+  box-shadow:
+    0 20px 50px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Sidebar slightly darker for hierarchy */
+.panel.sidebar{
+  background:
+    linear-gradient(
+      180deg,
+      #e6f2fb 0%,
+      #ddeaf6 100%
+    );
+}
+
+/* Right panel (today focus) */
+.panel.right{
+  background:
+    linear-gradient(
+      180deg,
+      #eef6fd 0%,
+      #e6f0fa 100%
+    );
+}
+
+/* Cards inside panels */
+.block{
+  background-color: rgb(13, 75, 67);
+  border: 1px solid rgba(15,23,42,.06);
+  border-radius: 18px;
+  box-shadow: 0 14px 35px rgba(15,23,42,.06);
+}
+
+/* Text colors recalibrated for light UI */
+h1, h2, h3{
+  color: #0f172a;
+}
+
+p, li{
+  color: rgba(15,23,42,.78);
+}
+
+.sub,
+.small{
+  color: rgba(15,23,42,.55);
+}
+
+/* Sidebar links */
+.sidebar a{
+  color: rgba(15,23,42,.75);
+}
+
+.sidebar a.active{
+  background: #d7ecff;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn.primary{
+  background: linear-gradient(180deg, #4fc3ff, #2ea8f5);
+  border: none;
+  color: white;
+  box-shadow: 0 10px 25px rgba(46,168,245,.35);
+}
+
+.btn.primary:hover{
+  filter: brightness(1.05);
+}
+
+.topbar{
+  background: rgba(50, 79, 240, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.btn.primary {
+  background: rgba(50, 79, 240, 0.92);
+}
+
+.rightPanelTitle {
+  background: rgba(50, 79, 240, 0.92);
+}
+
+:root {
+  --font-body: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-title: 'Poppins', system-ui, sans-serif;
+}
+/* Main page title */
+.content h1 {
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+.block h2 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  font-size: 1.05rem;
+  max-width: 60ch;
+  color: #475569;
+}
+
+/* Top-left brand title */
+.brand {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.015em;
+  color: #ffffff; /* soft blue */
+}
+
+.brand::after {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #38bdf8,
+    #60a5fa
+  );
+}
+
+/* Primary CTA uses brand color (same as top bar) */
+.btn.primary {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: white;
+  box-shadow: 0 10px 24px rgba(75, 102, 242, 0.35);
+}
+
+/* Hover state */
+.btn.primary:hover {
+  background: #3f57e0; /* slightly darker */
+  border-color: #3f57e0;
+}
+
+/* Active / pressed */
+.btn.primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 14px rgba(75, 102, 242, 0.3);
+}
+
+.btn.primary:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(75, 102, 242, 0.25),
+    0 10px 24px rgba(75, 102, 242, 0.35);
+}
+
+/* FORCE: Make primary buttons match topbar */
+:root { --brand-blue: #4b66f2; } /* replace with your exact topbar color */
+
+a.btn.primary,
+button.btn.primary {
+  background: var(--brand-blue) !important;
+  border-color: var(--brand-blue) !important;
+  color: #fff !important;
+}
+
+/* Hover/active */
+a.btn.primary:hover,
+button.btn.primary:hover {
+  filter: brightness(0.96);
+}
+
+a.btn.primary:active,
+button.btn.primary:active {
+  transform: translateY(1px);
+}
+
+/* ===== PRIMARY BUTTON (FINAL OVERRIDE) ===== */
+a.btn.primary,
+button.btn.primary {
+  background: var(--brand-blue) !important;
+  border-color: var(--brand-blue) !important;
+  color: #ffffff !important;
+
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 22px rgba(75, 102, 242, 0.28);
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 120ms ease;
+}
+
+/* HOVER — no black, just richer blue */
+a.btn.primary:hover,
+button.btn.primary:hover {
+  background: var(--brand-blue-hover) !important;
+  border-color: var(--brand-blue-hover) !important;
+
+  box-shadow:
+    0 14px 30px rgba(75, 102, 242, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ACTIVE (click) */
+a.btn.primary:active,
+button.btn.primary:active {
+  transform: translateY(0);
+  box-shadow:
+    0 8px 18px rgba(75, 102, 242, 0.25);
+}
+
+a.btn:not(.primary),
+button.btn:not(.primary) {
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+a.btn:not(.primary):hover,
+button.btn:not(.primary):hover {
+  background: #f1f5f9;
+}
+
+/* ============================
+   FINAL BUTTON OVERRIDES
+   ============================ */
+
+:root{
+  --brand-blue: #4b66f2;        /* match your topbar */
+  --brand-blue-hover: #3f58e0;
+}
+
+/* Primary buttons */
+a.btn.primary,
+button.btn.primary{
+  background: var(--brand-blue) !important;
+  border: 1px solid var(--brand-blue) !important;
+  color: #fff !important;
+}
+
+/* Hover should NEVER go black */
+a.btn.primary:hover,
+button.btn.primary:hover{
+  background: var(--brand-blue-hover) !important;
+  border-color: var(--brand-blue-hover) !important;
+  filter: none !important;               /* kills old brightness filters */
+  opacity: 1 !important;                 /* kills old fade rules */
+}
+
+/* Secondary buttons stay solid */
+a.btn:not(.primary),
+button.btn:not(.primary){
+  background: #fff !important;
+  color: #1f2937 !important;
+  border: 1px solid rgba(15,23,42,.10) !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+a.btn:not(.primary):hover,
+button.btn:not(.primary):hover{
+  background: #fff !important;
+  box-shadow: 0 10px 22px rgba(15,23,42,.12) !important;
+  transform: translateY(-1px);
+}
+
+/* ============================
+   SIDE PANELS MATCH TOP BAR
+   ============================ */
+
+:root{
+  --topbar-blue: #4b66f2;
+  --topbar-blue-soft: #5b74ff;
+  --topbar-blue-deep: #425ae0;
+}
+
+/* Left + Right panels */
+.panel.sidebar,
+.panel.right{
+  background: linear-gradient(
+    180deg,
+    var(--topbar-blue),
+    var(--topbar-blue-deep)
+  );
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(75,102,242,.25);
+}
+
+/* Panel headers */
+.panel.sidebar h3,
+.panel.right h3{
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+}
+
+/* Sidebar links */
+.sidebar a{
+  color: rgba(255,255,255,.9);
+}
+
+.sidebar a:hover{
+  background: rgba(255,255,255,.12);
+  color: #ffffff;
+}
+
+/* Active nav item */
+.sidebar a.active{
+  background: rgba(255,255,255,.18);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Right panel text */
+.panel.right p,
+.panel.right .small{
+  color: rgba(255,255,255,.85);
+}
+
+/* Keep CTA button readable */
+.panel.right .btn.primary{
+  background: #ffffff !important;
+  color: var(--topbar-blue) !important;
+}
+
+.panel.right .btn.primary:hover{
+  background: #f1f4ff !important;
+}
+
+/* ============================
+   SIDEBAR TYPOGRAPHY
+   ============================ */
+
+.panel.sidebar{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* Sidebar title */
+.panel.sidebar h3{
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+/* Navigation links */
+.sidebar a{
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+/* Active item feels more “button-like” */
+.sidebar a.active{
+  font-weight: 600;
+}
+
+.sidebar a{
+  border-radius: 10px;
+  margin: 4px 8px;
+}
+
+pre {
+  margin: 12px 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+
+  /* LIGHT surface instead of dark */
+  background: linear-gradient(
+    180deg,
+    #f5f9ff 0%,
+    #edf4ff 100%
+  );
+
+  border: 1px solid rgba(15, 23, 42, 0.08);
+
+  /* text */
+  color: #0f172a;
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  /* remove "code block" feel */
+  font-family: 'Inter', system-ui, sans-serif;
+
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* PRACTICE (interactive) */
+.practice .practice-item{
+  padding: 14px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.65);
+  margin: 12px 0;
+}
+
+.practice .prompt{
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.practice .row{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.practice input.answer{
+  flex: 1;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255,255,255,0.90);
+  outline: none;
+}
+
+.practice input.answer:focus{
+  border-color: rgba(29, 78, 216, 0.55);
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+}
+
+.practice .feedback{
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.practice .feedback.ok{ color: #15803d; }
+.practice .feedback.bad{ color: #b91c1c; }
+
+.practice-actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.letter-tile{
+  width: 120px;
+  height: 120px;
+
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+
+  background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.letter-glyph{
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgba(15, 23, 42, 0.85);
+}
+
+a.is-locked {
+  pointer-events: none;
+  opacity: 0.55;
+  filter: grayscale(0.2);
+}
+
+/* MAPEO RAPIDO (Plantilla 002) */
+.mapeo{ margin-top: 10px; }
+
+.map-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 10px 0 12px;
+}
+
+.map-card{
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  padding: 14px 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(243,249,255,0.85) 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.map-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  background: rgba(29, 78, 216, 0.10);
+  border: 1px solid rgba(29, 78, 216, 0.20);
+  color: rgba(29, 78, 216, 0.95);
+}
+
+.map-badge.does{
+  background: rgba(147, 51, 234, 0.10);
+  border-color: rgba(147, 51, 234, 0.20);
+  color: rgba(147, 51, 234, 0.95);
+}
+
+.map-line{
+  margin-top: 10px;
+  font-size: 1.05rem;
+  color: rgba(15, 23, 42, 0.92);
+}
+
+.map-sub{
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.map-rule{
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255,255,255,0.70);
+  color: rgba(15, 23, 42, 0.86);
+}
+
+.chip{
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-right: 8px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  color: rgba(21, 128, 61, 0.95);
+}
+
+.muted{ color: rgba(15, 23, 42, 0.55); }
+
+.map-example{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.map-example .good,
+.map-example .bad{
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255,255,255,0.70);
+  font-weight: 700;
+}
+
+.map-example .good{
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.map-example .bad{
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+@media (max-width: 860px){
+  .map-grid{ grid-template-columns: 1fr; }
+  .map-example{ grid-template-columns: 1fr; }
+}
+
+/* ===== Card Upgrade ===== */
+.block{
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(243,249,255,0.85) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 22px;
+
+  box-shadow:
+    0 14px 36px rgba(15,23,42,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.block:hover{
+  transform: translateY(-2px);
+  border-color: rgba(29,78,216,0.18);
+  box-shadow:
+    0 18px 46px rgba(15,23,42,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+/* subtle “shine” */
+.block::before{
+  content:"";
+  position:absolute;
+  inset:-60px -80px auto -80px;
+  height:160px;
+  background: radial-gradient(closest-side, rgba(59,130,246,0.14), transparent 70%);
+  transform: rotate(-8deg);
+  pointer-events:none;
+}
+
+.block > h2:first-child,
+.block > h1:first-child{
+  position: relative;
+  padding-left: 14px;
+}
+
+.block > h2:first-child::before,
+.block > h1:first-child::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0.25em;
+  width:6px;
+  height:1.2em;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(59,130,246,0.95), rgba(147,51,234,0.75));
+}
+
+/* ===== Scroll-in animation ===== */
+.reveal{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.reveal.in{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect accessibility */
+@media (prefers-reduced-motion: reduce){
+  .reveal, .reveal.in{ transition:none; transform:none; opacity:1; }
+  .block{ transition:none; }
+}
+
+
+

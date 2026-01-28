@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lección 001 | Sonidos clave | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+<body data-lesson-id="lesson-001-sounds">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="curso.html">Curso</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <!-- LEFT -->
+    <aside class="panel sidebar">
+      <h3>Navegación</h3>
+      <nav class="sidebar">
+        <a href="index.html">Inicio</a>
+        <a class="active" href="curso.html">Curso</a>
+        <a href="diccionario.html">Diccionario</a>
+      </nav>
+    </aside>
+
+    <!-- CENTER -->
+    <main class="content">
+      <h1>Lección 001 — Sonidos clave para hispanohablantes</h1>
+      <p class="sub">Meta: mejorar pronunciación en 10 minutos con 3 sonidos importantes.</p>
+
+      <div class="block">
+        <h2>Cómo usar esta lección</h2>
+        <ol>
+          <li>Escucha el audio (1–2 segundos).</li>
+          <li>Repite 5 veces lento.</li>
+          <li>Luego repite 5 veces normal.</li>
+          <li>Grábate (opcional) y compárate.</li>
+        </ol>
+        <p class="small">No busques perfección. Busca claridad.</p>
+      </div>
+
+      <!-- SOUND 1: /iː/ vs /ɪ/ -->
+      <div class="block">
+        <h2>1) “ee” vs “i” (sheep vs ship)</h2>
+        <p class="small">
+          En español casi siempre suena estable. En inglés hay dos sonidos parecidos y cambian el significado.
+        </p>
+
+        <pre>sheep (oveja)  /iː/  ← largo (ee)
+ship (barco)   /ɪ/   ← corto (i)</pre>
+
+        <div class="actions">
+          <button class="btn" type="button" data-audio="audio/sounds/sheep.mp3">▶️ sheep</button>
+          <button class="btn" type="button" data-audio="audio/sounds/ship.mp3">▶️ ship</button>
+        </div>
+
+        <p class="small">
+          Tip: “sheep” = sonrisa más larga. “ship” = más rápido y corto.
+        </p>
+
+        <p><strong>Práctica:</strong></p>
+        <ul>
+          <li>sheep — ship</li>
+          <li>he — hi</li>
+          <li>leave — live</li>
+        </ul>
+      </div>
+
+      <!-- SOUND 2: TH -->
+      <div class="block">
+        <h2>2) “TH” (think vs this)</h2>
+        <p class="small">
+          “TH” no existe igual en español. Hay dos versiones:
+        </p>
+
+        <pre>think  (θ)  sin vibración (como “s” suave con la lengua afuera)
+this   (ð)  con vibración (la garganta vibra)</pre>
+
+        <div class="actions">
+          <button class="btn" type="button" data-audio="audio/sounds/think.mp3">▶️ think</button>
+          <button class="btn" type="button" data-audio="audio/sounds/this.mp3">▶️ this</button>
+        </div>
+
+        <p class="small">
+          Tip: Coloca la lengua entre los dientes (poquito). No es “tink” y no es “dis” (aunque muchos lo dicen).
+        </p>
+
+        <p><strong>Práctica:</strong></p>
+        <ul>
+          <li>think — this</li>
+          <li>three — there</li>
+          <li>thank you</li>
+        </ul>
+      </div>
+
+      <!-- SOUND 3: V -->
+      <div class="block">
+        <h2>3) “V” (very)</h2>
+        <p class="small">
+          Muchos hispanohablantes lo pronuncian como “b”. En inglés “V” usa los dientes con el labio.
+        </p>
+
+        <pre>very  → dientes arriba + labio abajo (vibración)
+berry → sonido “b”</pre>
+
+        <div class="actions">
+          <button class="btn" type="button" data-audio="audio/sounds/very.mp3">▶️ very</button>
+          <button class="btn" type="button" data-audio="audio/sounds/berry.mp3">▶️ berry</button>
+        </div>
+
+        <p class="small">
+          Tip: Para “V”, toca el labio inferior con los dientes superiores y deja salir aire con vibración.
+        </p>
+
+        <p><strong>Práctica:</strong></p>
+        <ul>
+          <li>very — berry</li>
+          <li>vote — boat</li>
+          <li>visit</li>
+        </ul>
+      </div>
+
+      <!-- QUICK DRILL -->
+      <div class="block">
+        <h2>Mini-drill (2 minutos)</h2>
+        <p class="small">Di esto 3 veces:</p>
+        <pre>I think this is very good.</pre>
+
+        <div class="actions">
+          <button class="btn" type="button" data-audio="audio/sounds/sentence-1.mp3">▶️ Frase</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="curso.html">← Volver al curso</a>
+        <a class="btn primary" href="curso.html">Ir al Quiz →</a>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT -->
+    <aside class="panel right">
+      <h3>Enfoque</h3>
+      <div style="padding:12px 14px;">
+        <p class="small"><strong>Objetivo:</strong> claridad, no perfección.</p>
+        <hr />
+        <p class="small">✅ sheep vs ship</p>
+        <p class="small">✅ think vs this</p>
+        <p class="small">✅ very vs berry</p>
+        <hr />
+        <p class="small">Haz el quiz para desbloquear el siguiente módulo.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Audio play handler for buttons with data-audio
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-audio]");
+      if (!btn) return;
+      const src = btn.getAttribute("data-audio");
+      if (!src) return;
+      const audio = new Audio(src);
+      audio.play().catch(() => {});
+    });
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>

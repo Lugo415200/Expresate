@@ -1,0 +1,682 @@
+/* ================================
+   HOME.CSS — “OPEN + MODERN” (Duolingo-ish)
+   Works as an override on top of layout.css
+   Add AFTER layout.css in index.html:
+   <link rel="stylesheet" href="layout.css" />
+   <link rel="stylesheet" href="home.css" />
+   ================================ */
+
+   html, body {
+    overscroll-behavior: none;
+    touch-action: pan-x pan-y;
+   }
+
+/* Softer background + subtle depth */
+body {
+  background:
+    radial-gradient(1200px 600px at 12% 8%, rgba(79, 106, 119, 0.22), transparent 60%),
+    radial-gradient(900px 500px at 88% 18%, rgba(96,165,250,0.18), transparent 55%),
+    radial-gradient(700px 400px at 50% 90%, rgba(147,197,253,0.14), transparent 60%),
+    var(--bg);
+}
+
+/* Soft floating blobs behind the layout */
+body::before,
+body::after{
+  content:"";
+  position: fixed;
+  inset: auto;
+  width: 520px;
+  height: 520px;
+  border-radius: 999px;
+  filter: blur(50px);
+  opacity: 0.35;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before{
+  left: -140px;
+  top: 120px;
+  background: radial-gradient(circle, rgba(155, 179, 190, 0.55), transparent 60%);
+  animation: float1 10s ease-in-out infinite;
+}
+
+body::after{
+  right: -160px;
+  bottom: 90px;
+  background: radial-gradient(circle, rgba(96,165,250,.45), transparent 60%);
+  animation: float2 12s ease-in-out infinite;
+}
+
+@keyframes float1{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(18px,-22px); }
+}
+@keyframes float2{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(-16px,18px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  body::before, body::after{ animation:none; }
+}
+
+/* Smooth scroll reveal (works with JS below) */
+.reveal{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce){
+  .reveal{ transition:none; opacity:1; transform:none; }
+}
+
+
+/* Make the home page feel more open:
+   - reduce “panel-box” heaviness
+   - introduce airy hero spacing
+*/
+.content {
+  padding: 22px;
+  background: linear-gradient(
+    180deg,
+    rgba(71, 82, 109, 0.85),
+    rgba(107, 120, 151, 0.95)
+  );
+}
+
+/* Hero treatment (targets your existing H1 + sub on home) */
+.content h1 {
+  font-size: 2.1rem;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.content h1::after {
+   content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    rgba(66, 79, 85, 0.4)
+  ); 
+}
+
+.sub {
+  font-size: 1.05rem;
+  max-width: 62ch;
+  margin-bottom: 18px;
+}
+
+/* Softer cards on home */
+.block {
+  border-radius: 18px;
+  padding: 18px;
+  margin: 16px 0;
+  background:
+    linear-gradient(180deg, rgba(20, 30, 55, 0.95),
+    rgba(10, 16, 32, 0.95));
+  box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+}
+
+/* Headings inside blocks look “app-like” */
+.block h2 {
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+/* Buttons: more playful + modern */
+.btn {
+  border-radius: 14px;
+  padding: 11px 16px;
+  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
+  will-change: transform;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary CTA: brighter accent ring */
+.btn.primary {
+  border-color: rgba(172, 198, 209, 0.9);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+/* Pills in topbar: feel more “chip-like” */
+.pill {
+  background: rgba(112, 124, 156, 0.5);
+  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.pill:hover {
+  text-decoration: none;
+  background: rgba(15, 23, 42, 0.75);
+  transform: translateY(-1px);
+}
+
+/* Sidebar items: slightly more breathable */
+.sidebar a {
+  padding: 11px 14px;
+}
+
+/* Right panel copy spacing (home feels less “dense”) */
+.panel.right .small,
+.panel.sidebar .small {
+  line-height: 1.6;
+}
+
+/* Make lists feel “friendly” */
+.content ul,
+.content ol {
+  padding-left: 20px;
+}
+
+.content li {
+  margin: 6px 0;
+}
+
+/* Add a “feature grid” feel on larger screens:
+   This reflows your blocks into a nicer layout WITHOUT changing HTML.
+   It only affects the center content area. */
+@media (min-width: 1000px) {
+  /* Keep your 3-column shell, but make center content breathe */
+  .shell {
+    gap: 18px;
+  }
+
+  .content {
+    padding: 26px;
+  }
+
+  /* Turn blocks into a responsive grid */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-content: start;
+  }
+
+  /* Keep the title/sub full width */
+  .content > h1,
+  .content > .sub {
+    grid-column: 1 / -1;
+  }
+
+  /* Keep footer full width */
+  .content > p.small:last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Make your “Empieza ahora” block stand out if it exists */
+  .content .block:nth-of-type(3) {
+    grid-column: 1 / -1;
+    padding: 22px;
+  }
+}
+
+/* Mobile: keep it stacked and roomy */
+@media (max-width: 999px) {
+  .content {
+    padding: 18px;
+  }
+  .content h1 {
+    font-size: 1.85rem;
+  }
+  .block {
+    border-radius: 16px;
+    padding: 16px;
+  }
+}
+
+/* Optional: nicer focus states for accessibility */
+.btn:focus,
+.pill:focus,
+input:focus,
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.25);
+}
+
+/* Optional: reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .pill {
+    transition: none;
+  }
+  .btn:hover,
+  .pill:hover {
+    transform: none;
+  }
+}
+
+/* ================================
+   FINAL POLISH — DUOLINGO-STYLE FEEL
+   Paste at the VERY END of home.css
+   ================================ */
+
+/* 1) Calm the side panels so center is the star */
+.panel.sidebar,
+.panel.right {
+  background: linear-gradient(
+    180deg,
+    rgba(17, 24, 39, 0.92),
+    rgba(10, 16, 32, 0.98)
+  );
+}
+
+.panel.sidebar h3,
+.panel.right h3 {
+  letter-spacing: -0.01em;
+  opacity: 0.95;
+}
+
+/* Sidebar links feel lighter */
+.sidebar a {
+  opacity: 0.82;
+}
+.sidebar a:hover {
+  opacity: 1;
+}
+.sidebar a.active {
+  opacity: 1;
+  background: rgba(147, 197, 253, 0.14);
+}
+
+/* 2) Coach-style right panel (guided feeling) */
+.panel.right h3 {
+  color: var(--accent);
+}
+
+.panel.right hr {
+  border-top: 1px solid rgba(255,255,255,0.10);
+}
+
+.panel.right .btn.primary {
+  box-shadow:
+    0 0 0 3px rgba(56,189,248,0.14),
+    0 10px 22px rgba(56,189,248,0.10);
+}
+
+/* 3) Reduce boxy borders (more app-like) */
+.content,
+.panel,
+.block {
+  border-color: rgba(110, 202, 23, 0.1);
+}
+
+.block {
+  border-color: rgba(160, 190, 23, 0.08);
+}
+
+/* 4) Card hover = playful + interactive */
+.block {
+  transition:
+    transform 140ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.block:hover {
+  transform: translateY(-2px);
+  border-color: rgba(112, 169, 194, 0.18);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+}
+
+/* Respect reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .block {
+    transition: none;
+  }
+  .block:hover {
+    transform: none;
+  }
+}
+
+/* 5) Subtle progress vibe on block titles */
+.block h2 {
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.block h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 36px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(56,189,248,0.35);
+}
+
+/* 6) Prevent the layout from looking “lost” when zoomed out */
+.shell {
+  min-width: 1100px;
+}
+
+body {
+  overflow-x: auto;
+}
+
+/* Floating blobs (reliable) */
+html { position: relative; }
+
+html::before,
+html::after{
+  content:"";
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0; /* behind your content (which is naturally above) */
+}
+
+/* left/top blob */
+html::before{
+  left: -180px;
+  top: 110px;
+  background: radial-gradient(circle, rgba(125,211,252,.70), transparent 60%);
+  animation: float1 10s ease-in-out infinite;
+}
+
+/* right/bottom blob */
+html::after{
+  right: -200px;
+  bottom: 90px;
+  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
+  animation: float2 12s ease-in-out infinite;
+}
+
+/* Make sure your app sits above blobs */
+body { position: relative; z-index: 1; }
+
+@keyframes float1{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(18px,-22px); }
+}
+@keyframes float2{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(-16px,18px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html::before, html::after{ animation:none; }
+}
+
+
+
+/* Less boxy blocks: softer + lighter */
+.block{
+  border: 1px solid rgba(15,23,42,.06);
+  background: rgba(168, 82, 82, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(15,23,42,.06);
+}
+
+/* Optional: reduce border on most blocks */
+.block:not(.featured){
+  border-color: rgba(15,23,42,.04);
+  box-shadow: 0 8px 18px rgba(15,23,42,.05);
+}
+
+/* Ambient blob + dot texture */
+body{
+  position: relative;
+}
+
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  /* dots */
+  background-image:
+    radial-gradient(rgba(187, 164, 33, 0.18) 1px, transparent 1px),
+    radial-gradient(rgba(147,197,253,.14) 1px, transparent 1px);
+  background-size: 26px 26px, 34px 34px;
+  background-position: 0 0, 12px 14px;
+  opacity: .28;
+}
+
+html::before,
+html::after{
+  content:"";
+  position: fixed;
+  width: 560px;
+  height: 560px;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: .42;
+  pointer-events: none;
+  z-index: 0;
+}
+
+html::before{
+  left: -220px;
+  top: 120px;
+  background: radial-gradient(circle, rgba(179, 187, 190, 0.7), transparent 60%);
+  animation: float1 10s ease-in-out infinite;
+}
+
+html::after{
+  right: -240px;
+  bottom: 90px;
+  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
+  animation: float2 12s ease-in-out infinite;
+}
+
+body{ z-index: 1; }
+
+@keyframes float1{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(18px,-22px); }
+}
+@keyframes float2{
+  0%,100%{ transform: translate(0,0); }
+  50%{ transform: translate(-16px,18px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html::before, html::after{ animation: none; }
+  body::before{ opacity: .18; }
+}
+
+/* Scroll reveal */
+.reveal{
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 520ms ease, transform 520ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity: 1; transform:none; transition:none; }
+}
+
+/* ================================
+   GLOBAL LIGHT THEME — BLUE TINTED
+   ================================ */
+
+/* Page background (keep airy, not white) */
+body{
+  background:
+    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
+    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
+    #f3f9ff;
+}
+
+/* ALL PANELS (sidebar, center, right) */
+.panel,
+.content{
+  background:
+    linear-gradient(
+      180deg,
+      #f0f7ff 0%,
+      #eaf3fb 100%
+    );
+  border: 1px solid rgba(15,23,42,.06);
+  border-radius: 20px;
+  box-shadow:
+    0 20px 50px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Sidebar slightly darker for hierarchy */
+.panel.sidebar{
+  background:
+    linear-gradient(
+      180deg,
+      #e6f2fb 0%,
+      #ddeaf6 100%
+    );
+}
+
+/* Right panel (today focus) */
+.panel.right{
+  background:
+    linear-gradient(
+      180deg,
+      #eef6fd 0%,
+      #e6f0fa 100%
+    );
+}
+
+/* Cards inside panels */
+.block{
+  background:
+    linear-gradient(
+      180deg,
+      #ffffffcc,
+      #f6fbff
+    );
+  border: 1px solid rgba(15,23,42,.06);
+  border-radius: 18px;
+  box-shadow: 0 14px 35px rgba(15,23,42,.06);
+}
+
+/* Text colors recalibrated for light UI */
+h1, h2, h3{
+  color: #0f172a;
+}
+
+p, li{
+  color: rgba(15,23,42,.78);
+}
+
+.sub,
+.small{
+  color: rgba(15,23,42,.55);
+}
+
+/* Sidebar links */
+.sidebar a{
+  color: rgba(15,23,42,.75);
+}
+
+.sidebar a.active{
+  background: #d7ecff;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn.primary{
+  background: linear-gradient(180deg, #4fc3ff, #2ea8f5);
+  border: none;
+  color: white;
+  box-shadow: 0 10px 25px rgba(46,168,245,.35);
+}
+
+.btn.primary:hover{
+  filter: brightness(1.05);
+}
+
+/* ================================
+   CENTER PANEL — SOFT SKY SURFACE
+   ================================ */
+
+.content{
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      #f1f7fd 100%
+    );
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow:
+    0 24px 60px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* Headings look richer on tinted bg */
+.content h1,
+.content h2,
+.content h3{
+  color: #0f172a;
+}
+
+/* Body text */
+.content p,
+.content li{
+  color: rgba(15,23,42,.78);
+}
+
+/* Sub text */
+.content .sub{
+  color: rgba(15,23,42,.55);
+}
+
+/* ===== SECONDARY BUTTONS (STABLE, NO FADE) ===== */
+a.btn:not(.primary),
+button.btn:not(.primary) {
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 120ms ease;
+}
+
+/* Hover: subtle elevation, NO light fade */
+a.btn:not(.primary):hover,
+button.btn:not(.primary):hover {
+  background: #ffffff; /* stays white */
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Active: press down */
+a.btn:not(.primary):active,
+button.btn:not(.primary):active {
+  transform: translateY(0);
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.10);
+}

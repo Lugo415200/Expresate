@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lección 000 | Alfabeto | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+
+<body data-lesson-id="lesson-000">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="curso.html">Curso</a>
+    </div>
+  </div>
+
+  <div class="shell">
+
+    <!-- LEFT -->
+    <aside class="panel sidebar">
+      <h3>Navegación</h3>
+      <nav class="sidebar">
+        <a href="index.html">Inicio</a>
+        <a class="active" href="curso.html">Curso</a>
+        <a href="diccionario.html">Diccionario</a>
+      </nav>
+    </aside>
+
+    <!-- CENTER -->
+    <main class="content">
+      <h1>Lección 000 — El alfabeto (A–Z)</h1>
+
+      <!-- MINI DECK -->
+      <div id="deck-lesson-001"></div>
+
+      <p class="sub">
+        Meta: reconocer las letras en inglés y practicar los sonidos base.
+      </p>
+
+      <!-- ALPHABET OVERVIEW -->
+      <div class="block">
+        <h2>1) Alfabeto (rápido)</h2>
+        <p class="small">Consejo: no memorices todo en un día. Aprende por bloques.</p>
+
+<pre>A B C D E F G
+H I J K L M N
+O P Q R S T U
+V W X Y Z</pre>
+      </div>
+
+      <!-- VOWELS -->
+      <div class="block">
+        <h2>2) Vocales (lo más importante)</h2>
+        <p class="small">
+          Estas 5 letras aparecen en todo. Aquí solo necesitas la idea general.
+          (Luego pulimos pronunciación.)
+        </p>
+
+        <ul>
+          <li><strong>A</strong> suena como “ei”</li>
+          <li><strong>E</strong> suena como “ii”</li>
+          <li><strong>I</strong> suena como “ai”</li>
+          <li><strong>O</strong> suena como “ou”</li>
+          <li><strong>U</strong> suena como “iu / yu”</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn" data-audio="audio/alphabet/a.mp3">▶️ A</button>
+          <button class="btn" data-audio="audio/alphabet/e.mp3">▶️ E</button>
+          <button class="btn" data-audio="audio/alphabet/i.mp3">▶️ I</button>
+          <button class="btn" data-audio="audio/alphabet/o.mp3">▶️ O</button>
+          <button class="btn" data-audio="audio/alphabet/u.mp3">▶️ U</button>
+        </div>
+      </div>
+
+      <!-- PRACTICE -->
+      <div class="block">
+        <h2>3) Práctica rápida</h2>
+        <ol>
+          <li>Escribe tu nombre y apellido.</li>
+          <li>Sepáralo por letras (ej: Y-N-O-E-L).</li>
+          <li>Di las letras en voz alta (lento y claro).</li>
+        </ol>
+      </div>
+
+      <!-- OPTIONAL VIDEO -->
+      <div class="block">
+        <h2>4) Video de referencia (opcional)</h2>
+        <p class="small">
+          Si quieres, puedes usar un video unlisted de YouTube aquí.
+        </p>
+
+        <div style="border:1px solid rgba(255,255,255,.12); border-radius:12px; overflow:hidden;">
+          <iframe
+            width="100%"
+            height="315"
+            src="https://www.youtube.com/embed/ChqnN3cKzXQ"
+            title="Alfabeto en inglés"
+            frameborder="0"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- NAV ACTIONS -->
+      <div class="actions">
+        <a class="btn" href="curso.html">← Volver al curso</a>
+        <a class="btn primary" href="curso.html">Ir al Quiz 000 →</a>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT -->
+    <aside class="panel right">
+      <h3>Enfoque</h3>
+      <div style="padding:12px 14px;">
+        <p class="small"><strong>Objetivo:</strong> A–Z + vocales.</p>
+        <hr />
+        <p class="small">✅ Lee 5 minutos</p>
+        <p class="small">✅ Practica tu nombre</p>
+        <p class="small">✅ Haz el Quiz 000</p>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- MINI DECK SCRIPT -->
+  <script src="mini-deck.js"></script>
+
+  <script>
+    // Alphabet mini-deck (audio wired per card)
+    const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+
+    const deck001 = letters.map(l => ({
+      letter: l.toUpperCase(),
+      es: l.toUpperCase(),
+      en: "—",
+      audio: `audio/alphabet/${l}.mp3`
+    }));
+
+    createMiniDeck("deck-lesson-001", deck001, {
+      title: "Para esta lección necesitas conocer:"
+    });
+  </script>
+
+  <!-- GLOBAL APP -->
+  <script src="app.js"></script>
+
+</body>
+</html>
+

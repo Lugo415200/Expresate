@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plantilla 001 | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+<body data-lesson-id="template-001">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="lessons.html">Lecciones</a>
+    </div>
+  </div>
+
+  <div class="shell">
+
+    <!-- LEFT: NAV -->
+    <aside class="panel sidebar">
+      <h3>Plantillas</h3>
+      <nav class="sidebar">
+        <a href="index.html">Inicio</a>
+        <a href="lessons.html">Lecciones</a>
+        <a href="curso.html">Curso</a>
+      </nav>
+    </aside>
+
+    <!-- CENTER: CONTENT -->
+    <main class="content">
+      <h1>Plantilla 001</h1>
+      <p class="sub">Pronombres (sujeto) + Verbos básicos</p>
+
+      <div class="block">
+        <h2>Objetivo</h2>
+        <p>Identificar el sujeto (quién) y formar oraciones simples en inglés usando el mapeo español → inglés.</p>
+        <p><strong>No memorices reglas. Sigue el patrón.</strong></p>
+      </div>
+
+      <div class="block">
+        <h2>1) Pronombres (mapeo directo)</h2>
+        <pre>Yo         → I
+Tú         → You
+Él         → He
+Ella       → She
+Nosotros/as   → We
+Ellos/as      → They</pre>
+
+        <p class="small"><strong>Importante:</strong> En inglés, el sujeto siempre es obligatorio.</p>
+        <p class="small">Español: <em>Trabajo</em> → Inglés: <em><s>Work</s></em> → <strong>I work ✅</strong></p>
+      </div>
+
+      <div class="block">
+        <h2>2) Patrón básico del verbo (presente)</h2>
+        <p>Verbo: <strong>work / trabajar</strong></p>
+
+        <pre>Yo trabajo           → I work
+Tú trabajas          → You work
+Él trabaja           → He works
+Ella trabaja         → She works
+Nosotros trabajamos  → We work
+Ellos trabajan       → They work</pre>
+
+        <p class="small">Nota: En inglés el verbo casi no cambia. Solo <strong>he/she</strong> agrega <strong>-s</strong>.</p>
+      </div>
+
+      <div class="block">
+        <h2>3) Más verbos (mismo patrón)</h2>
+
+        <h3>Live / Vivir</h3>
+        <pre>Yo vivo aquí            → I live here
+Tú vives aquí           → You live here
+Él vive aquí            → He lives here
+Ella vive aquí          → She lives here
+Nosotros vivimos aquí   → We live here
+Ellos viven aquí        → They live here</pre>
+
+        <h3>Study / Estudiar</h3>
+        <pre>Yo estudio              → I study
+Tú estudias             → You study
+Él estudia              → He studies
+Ella estudia            → She studies
+Nosotros estudiamos     → We study
+Ellos estudian          → They study</pre>
+      </div>
+
+      <div class="block">
+        <h2>4) Ejemplos (trabajo)</h2>
+        <ul>
+          <li>Yo trabajo aquí. → <strong>I work here.</strong></li>
+          <li>Yo busco trabajo. → <strong>I look for a job.</strong></li>
+          <li>Tengo experiencia. → <strong>I have experience.</strong></li>
+          <li>Yo aprendo inglés. → <strong>I learn English.</strong></li>
+        </ul>
+      </div>
+
+      <div class="block practice" id="practice-001">
+  <h2>5) Práctica (escribe)</h2>
+  <p class="small">Traduce al inglés. Escribe tu respuesta y presiona <strong>Verificar</strong> (o Enter).</p>
+
+  <div class="practice-list">
+
+    <div class="practice-item" data-answer="I work.">
+      <div class="prompt">1) Yo trabajo.</div>
+      <div class="row">
+        <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+        <button class="check-btn btn" type="button">Verificar</button>
+      </div>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+    <div class="practice-item" data-answer="She lives here.">
+      <div class="prompt">2) Ella vive aquí.</div>
+      <div class="row">
+        <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+        <button class="check-btn btn" type="button">Verificar</button>
+      </div>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+    <div class="practice-item" data-answer="We study.">
+      <div class="prompt">3) Nosotros estudiamos.</div>
+      <div class="row">
+        <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+        <button class="check-btn btn" type="button">Verificar</button>
+      </div>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+    <div class="practice-item" data-answer="They work here.">
+      <div class="prompt">4) Ellos trabajan aquí.</div>
+      <div class="row">
+        <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+        <button class="check-btn btn" type="button">Verificar</button>
+      </div>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+    <div class="practice-item" data-answer="I learn English.">
+      <div class="prompt">5) Yo aprendo inglés.</div>
+      <div class="row">
+        <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+        <button class="check-btn btn" type="button">Verificar</button>
+      </div>
+      <div class="feedback" aria-live="polite"></div>
+    </div>
+
+  </div>
+
+  <div class="practice-actions">
+    <button class="btn" id="checkAll" type="button">Verificar todo</button>
+    <button class="btn" id="resetPractice" type="button">Reiniciar</button>
+  </div>
+</div>
+
+      <div class="block">
+        <h2>6) Práctica (cambia el sujeto)</h2>
+        <p class="small">Ejemplo: “Yo trabajo aquí.” → “He works here.”</p>
+        <ol>
+          <li>Yo vivo aquí.</li>
+          <li>Yo estudio inglés.</li>
+          <li>Yo trabajo mucho.</li>
+        </ol>
+      </div>
+
+      <div class="block">
+        <h2>Audio (pronunciación)</h2>
+        <p class="small">Escucha y repite. (Agrega MP3 después en <code>/audio/template-001/</code>)</p>
+
+        <p><strong>I</strong> (Yo)</p>
+        <audio controls preload="none">
+          <source src="audio/template-001/i.mp3" type="audio/mpeg">
+        </audio>
+
+        <p><strong>You</strong> (Tú)</p>
+        <audio controls preload="none">
+          <source src="audio/template-001/you.mp3" type="audio/mpeg">
+        </audio>
+
+        <p><strong>He works.</strong></p>
+        <audio controls preload="none">
+          <source src="audio/template-001/he-works.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="lessons.html">← Volver</a>
+        <a class="btn primary" href="#" title="Próximamente">Siguiente →</a>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT: ACTIONS -->
+    <aside class="panel right">
+      <h3>Acciones</h3>
+      <div style="padding:12px 14px;">
+        <p id="lessonStatus" class="small">Estado: No completada todavía</p>
+
+        <div class="actions">
+          <button id="markComplete" class="btn primary" type="button">
+            Marcar como completada
+          </button>
+
+          <a class="btn" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noreferrer">
+            Hacer el quiz
+          </a>
+        </div>
+
+        <hr />
+
+        <p class="small">
+          Cuando termines, envía el quiz y manda una nota de voz para corregir tu pronunciación.
+        </p>
+
+        <div class="actions">
+          <a class="btn" href="https://wa.me/REPLACE_ME" target="_blank" rel="noreferrer">Enviar nota de voz (WhatsApp)</a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script src="app.js"></script>
+<script>
+  function normalizeAnswer(s) {
+    return (s || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[“”"]/g, '"')
+      .replace(/[’‘]/g, "'")
+      .replace(/\s+/g, " ")
+      .replace(/[.!?]+$/g, ""); // ignore ending punctuation
+  }
+
+  function checkItem(item) {
+    const input = item.querySelector("input.answer");
+    const feedback = item.querySelector(".feedback");
+    const expected = item.getAttribute("data-answer") || "";
+
+    const user = input.value;
+
+    if (!user.trim()) {
+      feedback.className = "feedback bad";
+      feedback.textContent = "Escribe tu respuesta primero.";
+      return false;
+    }
+
+    const ok = normalizeAnswer(user) === normalizeAnswer(expected);
+
+    if (ok) {
+      feedback.className = "feedback ok";
+      feedback.textContent = "✅ Correcto";
+      item.dataset.status = "ok";
+      return true;
+    } else {
+      feedback.className = "feedback bad";
+      feedback.textContent = `❌ Incorrecto. Respuesta: ${expected}`;
+      item.dataset.status = "bad";
+      return false;
+    }
+  }
+
+  function resetItem(item) {
+    item.querySelector("input.answer").value = "";
+    const feedback = item.querySelector(".feedback");
+    feedback.className = "feedback";
+    feedback.textContent = "";
+    delete item.dataset.status;
+  }
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".check-btn");
+    if (btn) {
+      const item = btn.closest(".practice-item");
+      checkItem(item);
+      return;
+    }
+
+    const checkAll = e.target.closest("#checkAll");
+    if (checkAll) {
+      const box = checkAll.closest(".practice");
+      const items = box.querySelectorAll(".practice-item");
+      let correct = 0;
+      items.forEach(i => { if (checkItem(i)) correct++; });
+      return;
+    }
+
+    const reset = e.target.closest("#resetPractice");
+    if (reset) {
+      const box = reset.closest(".practice");
+      box.querySelectorAll(".practice-item").forEach(resetItem);
+      return;
+    }
+  });
+
+  // Enter key checks current item
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    const input = e.target.closest("input.answer");
+    if (!input) return;
+    e.preventDefault();
+    const item = input.closest(".practice-item");
+    checkItem(item);
+  });
+</script>
+</body>
+</html>
+

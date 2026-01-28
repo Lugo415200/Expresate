@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curso | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="index.html">Inicio</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="panel sidebar">
+      <h3>Navegación</h3>
+      <nav class="sidebar">
+        <a href="index.html">Inicio</a>
+        <a class="active" href="curso.html">Curso</a>
+        <a href="diccionario.html">Diccionario</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Curso (Ruta)</h1>
+      <p class="sub">Teoría → Quiz → Desbloquea el siguiente</p>
+
+      <!-- MODULE 0 -->
+      <details class="block" open>
+        <summary style="cursor:pointer; font-weight:700;">Módulo 0 — Fundamentos (Pronunciación)</summary>
+
+        <div style="margin-top:12px;">
+          <div class="small">Teoría</div>
+          <div class="actions">
+            <a class="btn primary" href="lesson-000-alphabet.html">Lección 000 — Alfabeto</a>
+            <a class="btn" href="lesson-001-sounds.html">Lección 001 — Sonidos clave</a>
+            <button class="btn" data-open-quiz="quiz-000" type="button">Abrir Quiz 000</button>
+          </div>
+
+          <div id="quiz-000" style="display:none; margin-top:14px;"></div>
+        </div>
+      </details>
+
+      <!-- MODULE 1 (locked until quiz-000 pass) -->
+<details class="block" data-lock="quiz-000">
+  <summary style="cursor:pointer; font-weight:700;">
+    Módulo 1 — Plantillas (Presente)
+    <span class="doneBadge" data-lock-badge="quiz-000">Bloqueado</span>
+  </summary>
+
+  <div style="margin-top:12px;">
+    <div class="small">Teoría</div>
+
+    <div class="actions">
+      <!-- Lesson links stay "locked" until quiz-000 is passed -->
+      <a class="btn primary"
+         href="lesson-001.html"
+         aria-disabled="true"
+         data-locked-link="quiz-000">
+        Plantilla 001 — Pronombres + Verbos
+      </a>
+
+      <a class="btn"
+         href="lesson-002.html"
+         aria-disabled="true"
+         data-locked-link="quiz-000">
+        Plantilla 002 — Preguntas (Do/Does)
+      </a>
+
+      <a class="btn"
+   href="lesson-003.html"
+   aria-disabled="true"
+   data-locked-link="quiz-000">
+  Plantilla 003 — Negaciones (Don’t/Doesn’t)
+</a>
+
+
+      <!-- Quiz placeholders (enable once module is unlocked in curso.js) -->
+      <button class="btn" data-open-quiz="quiz-001" type="button" disabled>Quiz 001</button>
+      <button class="btn" data-open-quiz="quiz-002" type="button" disabled>Quiz 002</button>
+      <button class="btn" data-open-quiz="quiz-003" type="button" disabled>Quiz 003</button>
+
+    </div>
+
+    <p class="small">Completa el Quiz 000 para desbloquear este módulo.</p>
+
+    <div id="quiz-001" style="display:none; margin-top:14px;"></div>
+    <div id="quiz-002" style="display:none; margin-top:14px;"></div>
+    <div id="quiz-003" style="display:none; margin-top:14px;"></div>
+
+  </div>
+</details>
+
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <aside class="panel right">
+      <h3>Tu progreso</h3>
+      <div style="padding:12px 14px;">
+        <p class="small" id="progressText">Cargando progreso…</p>
+        <hr />
+        <p class="small">Regla: necesitas aprobar el quiz para continuar.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script src="curso.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+

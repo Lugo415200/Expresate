@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>Ynoel English | Inglés claro para hispanohablantes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+  <div class="brand"><strong>Expresate</strong></div>
+
+  <div class="topbar-actions">
+    <a class="pill" href="curso.html">Curso</a>
+
+    <!-- PROFILE MENU -->
+    <a id="profileBtn" class="pill" type="button" style="display:none;">
+      Perfil ▾
+    </a>
+
+    <div id="profileMenu" class="panel" style="
+      display:none;
+      position:absolute;
+      right:16px;
+      top:56px;
+      width:260px;
+      padding:12px;
+      z-index:999;
+    ">
+      <p class="small" style="margin:0 0 10px;">
+        Sesión: <strong id="profileEmail">—</strong>
+      </p>
+      <div class="actions" style="margin:0;">
+        <a id="profileLink" class="btn" href="auth.html">Cuenta</a>
+        <button id="logoutBtnGlobal" class="btn primary" type="button">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <div class="shell">
+
+    <!-- LEFT: NAV -->
+    <aside class="panel sidebar">
+      <h3>Navegación</h3>
+      <nav class="sidebar">
+        <a class="active" href="index.html"><strong>Inicio</strong></a>
+        <a href="lessons.html"><strong>Lecciones</strong></a>
+        <a href="diccionario.html"><strong>Diccionario</strong></a>
+        <a href="juego-comida.html"><strong>Juego</strong></a>
+      </nav>
+    </aside>
+
+    <!-- CENTER: CONTENT -->
+    <main class="content">
+      <h1>Bienvenido(a). Aquí vas a aprender inglés con claridad.</h1>
+      <p class="sub">
+        Método español → inglés: plantillas + práctica real + correcciones.</p>
+      <div class="block">
+        <h2>¿Qué es esto?</h2>
+        <p>
+          Este es un sistema para hispanohablantes que quieren <strong>hablar y escribir inglés correctamente</strong>
+          sin perderse en reglas largas.
+        </p>
+        <p class="small">
+          Aprendes por <strong>patrones</strong> (plantillas) y los aplicas con ejemplos del mundo real.
+        </p>
+      </div>
+
+      <div class="block">
+        <h2>La ruta (simple y efectiva)</h2>
+        <ol>
+          <li><strong>Plantilla</strong>: aprendes el patrón (ej: Yo → I, Él → He).</li>
+          <li><strong>Práctica</strong>: escribes y repites con ejemplos cortos.</li>
+          <li><strong>Quiz</strong>: confirmas el aprendizaje.</li>
+          <li><strong>Pronunciación</strong>: envías nota de voz para corrección (opcional).</li>
+        </ol>
+        <p class="small">Si sigues esta ruta, mejoras más rápido y con confianza.</p>
+      </div>
+
+      <div class="block">
+        <h2>Empieza ahora (primer paso)</h2>
+        <p>
+          Si estás comenzando, <strong>no pienses demasiado</strong>. Solo empieza con la primera plantilla.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="lesson-001.html">Ir a Plantilla 001 →</a>
+          <a class="btn" href="lessons.html">Ver lecciones</a>
+          <a class="btn" href="diccionario.html">Usar diccionario</a>
+        </div>
+        <p class="small">
+          Tip: el diccionario te muestra el verbo en todos los tiempos (exacto, sin errores).
+        </p>
+      </div>
+
+      <div class="block">
+        <h2>¿Qué vas a lograr?</h2>
+        <ul>
+          <li><strong>Hablar con estructura</strong> (sin traducir palabra por palabra).</li>
+          <li><strong>Mejor pronunciación</strong> con práctica guiada.</li>
+          <li><strong>Inglés para trabajo</strong>: entrevistas, frases, correos.</li>
+          <li><strong>Consistencia</strong>: paso a paso, sin confusión.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Acceso / Inscripción</h2>
+        <p>
+          Si quieres seguimiento, quizzes y correcciones personalizadas, solicita acceso:
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noreferrer">Pedir acceso (Formulario)</a>
+          <a class="btn" href="https://wa.me/REPLACE_ME" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+        <p class="small">
+          (Puedes usar las plantillas por tu cuenta también. El acceso es para soporte y personalización.)
+        </p>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT: FOCUS PANEL -->
+    <aside class="panel right">
+      <h3>Enfoque de hoy</h3>
+      <div style="padding:12px 14px;">
+        <p class="small"><strong>Objetivo:</strong> una plantilla bien hecha.</p>
+        <hr />
+        <p class="small"><strong>1)</strong> Lee Plantilla 001</p>
+        <p class="small"><strong>2)</strong> Haz la práctica escrita</p>
+        <p class="small"><strong>3)</strong> Usa el diccionario (elige 3 verbos)</p>
+        <p class="small"><strong>4)</strong> Repite en voz alta (2 minutos)</p>
+        <hr />
+        <div class="actions">
+          <a class="btn primary" href="lesson-001.html">Empezar →</a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="app.js"></script>
+<script>
+  // Reveal blocks as you scroll (home only)
+  document.querySelectorAll(".content .block").forEach(el => el.classList.add("reveal"));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add("is-visible");
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
+
+

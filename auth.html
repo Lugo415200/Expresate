@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acceso | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="curso.html">Curso</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <!-- LEFT -->
+    <aside class="panel sidebar">
+      <h3>Acceso</h3>
+      <p class="small">
+        Inicia sesión para guardar tu progreso y acceder al curso.
+      </p>
+
+      <div class="block" style="margin-top:12px;">
+        <p class="small" style="margin:0;"><strong>Tip:</strong> si vienes de una lección, te regresaremos automáticamente.</p>
+      </div>
+    </aside>
+
+    <!-- CENTER -->
+    <main class="content">
+      <h1>Cuenta</h1>
+      <p class="sub">Inicia sesión o crea una cuenta.</p>
+
+      <div class="block" style="max-width:520px;">
+        <!-- Mode toggle -->
+        <div class="actions" style="margin-bottom:12px;">
+          <button id="modeLogin" class="btn primary" type="button">Iniciar sesión</button>
+          <button id="modeSignup" class="btn" type="button">Crear cuenta</button>
+        </div>
+
+        <!-- Signed in state -->
+        <div id="signedInBox" style="display:none; margin-bottom:12px;">
+          <p class="small" style="margin:0 0 10px;">
+            Sesión activa: <strong id="userEmail">—</strong>
+          </p>
+          <div class="actions">
+            <button id="continueBtn" class="btn primary" type="button">Continuar</button>
+            <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <!-- Auth form -->
+        <form id="authForm" autocomplete="on">
+          <label class="small" for="email"><strong>Email</strong></label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="tu@email.com"
+            style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a1020; color:#e5e7eb;"
+          />
+
+          <div style="height:10px;"></div>
+
+          <label class="small" for="password"><strong>Contraseña</strong></label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            placeholder="••••••••"
+            style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a1020; color:#e5e7eb;"
+          />
+
+          <div class="actions" style="margin-top:14px;">
+            <button id="submitBtn" class="btn primary" type="submit">Entrar</button>
+            <a id="backLink" class="btn" href="curso.html">← Volver</a>
+          </div>
+
+          <p id="msg" class="small" style="display:none; margin-top:12px; border:1px solid rgba(255,255,255,.12); padding:10px; border-radius:12px; background:#0a1020;"></p>
+        </form>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT -->
+    <aside class="panel right">
+      <h3>¿Por qué crear cuenta?</h3>
+      <div style="padding:12px 14px;">
+        <p class="small">• Guarda tu progreso</p>
+        <p class="small">• Acceso a quizzes</p>
+        <p class="small">• Mejor experiencia con audio</p>
+        <hr />
+        <p class="small">Si no quieres cuenta todavía, puedes explorar el sitio, pero algunas funciones serán limitadas.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

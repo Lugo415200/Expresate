@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diccionario de Verbos | Ynoel English</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Ynoel English</div>
+      <a class="pill" href="lessons.html">Lecciones</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <!-- LEFT -->
+    <aside class="panel sidebar">
+      <h3>Navegación</h3>
+      <nav class="sidebar">
+        <a href="index.html">Inicio</a>
+        <a href="lessons.html">Lecciones</a>
+        <a href="curso.html">Curso</a>
+        <a class="active" href="diccionario.html">Diccionario</a>
+      </nav>
+    </aside>
+
+    <!-- CENTER -->
+    <main class="content">
+      <h1>Diccionario de Verbos</h1>
+      <p class="sub">Busca un verbo del programa y mira sus formas + plantillas.</p>
+
+      <div class="block">
+        <label for="verbInput"><strong>Buscar verbo (solo del listado)</strong></label><br />
+
+        <!-- Important: datalist makes it easy to select approved verbs -->
+        <input
+          id="verbInput"
+          list="verbList"
+          type="text"
+          placeholder="Busca en inglés o español… (ej: eat / comer, have / tener)"
+          autocomplete="off"
+          style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a1020; color:#e5e7eb;"
+        />
+
+        <datalist id="verbList"></datalist>
+
+        <div class="actions">
+          <button id="searchBtn" class="btn primary" type="button">Buscar</button>
+          <button id="clearBtn" class="btn" type="button">Limpiar</button>
+        </div>
+
+        <p id="errorMsg" class="small"
+           style="display:none; border:1px solid rgba(255,255,255,.12); padding:10px; border-radius:12px; background:#0a1020;"></p>
+
+        <p class="small">
+          Tip: selecciona un verbo del listado para resultados exactos.
+        </p>
+      </div>
+
+      <div id="result" class="block" style="display:none;"></div>
+
+      <div class="block">
+        <h2>¿Por qué solo del listado?</h2>
+        <p class="small">
+          Porque el inglés tiene muchos verbos irregulares (eat → ate, go → went).
+          Para evitar errores como “eated”, este diccionario solo conjuga verbos aprobados.
+        </p>
+      </div>
+
+      <p class="small">© <span id="year"></span> Ynoel English</p>
+    </main>
+
+    <!-- RIGHT -->
+    <aside class="panel right">
+      <h3>Qué muestra</h3>
+      <div style="padding:12px 14px;">
+        <p class="small">• Base: work</p>
+        <p class="small">• He/She: works</p>
+        <p class="small">• Pasado: worked / ate / went</p>
+        <p class="small">• Participio: worked / eaten / gone</p>
+        <p class="small">• -ing: working / eating / going</p>
+        <hr />
+        <p class="small">Incluye plantillas para usar el verbo en frases reales.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Scripts MUST be in this order -->
+  <script src="verb.js"></script>
+  <script src="diccionario.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
