@@ -1249,6 +1249,75 @@ pre, code {
 @media (min-width: 981px){
   .shell{ grid-template-columns: 250px minmax(0, 1fr) 280px; }
 }
+/* ===== DESKTOP PRESENCE BOOST ===== */
+@media (min-width: 1200px){
+  .shell{
+    width: min(1480px, 100%);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr) 320px;
+    gap: 28px;
+  }
+}
+
+@media (min-width: 1600px){
+  .shell{
+    width: min(1640px, 100%);
+    grid-template-columns: 300px minmax(0, 1fr) 340px;
+  }
+}
+
+/* SEARCH BAR — ALWAYS VISIBLE BORDER */
+#verbInput{
+  background: linear-gradient(180deg, #ffffff, #f1f6ff) !important;
+  color: #0f172a !important;
+
+  border: 2px solid #0f172a !important;   /* solid dark border */
+  border-radius: 14px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 6px 16px rgba(15,23,42,.08);
+}
+
+/* Placeholder */
+#verbInput::placeholder{
+  color: rgba(15,23,42,.45) !important;
+}
+
+/* Focus: keep border, add subtle glow */
+#verbInput:focus{
+  outline: none;
+  border-color: #0f172a !important;
+  box-shadow:
+    0 0 0 3px rgba(15,23,42,.18),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+
+/* DATA SECTIONS ONLY (e.g. Formas principales) */
+.block pre{
+  border: 2px solid #0f172a;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.block pre{
+  background: linear-gradient(180deg, #ffffff, #f6f9ff);
+  border-left: 6px solid var(--brand-blue);
+  border-radius: 14px;
+
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  font-weight: 600;
+
+  box-shadow: 0 10px 26px rgba(15,23,42,.12);
+  padding: 16px 18px;
+   background: linear-gradient(90deg, rgba(56,189,248,.35), rgba(75,102,242,.30), rgba(56,189,248,.35));
+  
+}
 
 
 
