@@ -111,7 +111,7 @@ function renderResult(verbKey) {
     <div class="block">
       <h3>Formas principales</h3>
       <pre>Base [ I | You | We | They ]: ${entry.base}
-[ He  | She | It ]: ${entry.present}
+[ He | She | It ]: ${entry.present}
 Past (Pasado): ${entry.past}
 Past Participle (Participio): ${entry.pp}
 -ing: ${entry.ing}</pre>
