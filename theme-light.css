@@ -1061,7 +1061,7 @@ a.is-locked {
 }
 
 /* ===== Scroll-in animation ===== */
-.reveal{
+/*.reveal{
   opacity: 0;
   transform: translateY(10px);
   transition: opacity .45s ease, transform .45s ease;
@@ -1071,13 +1071,17 @@ a.is-locked {
   opacity: 1;
   transform: translateY(0);
 }
+  */
 
 /* Respect accessibility */
 @media (prefers-reduced-motion: reduce){
   .reveal, .reveal.in{ transition:none; transform:none; opacity:1; }
   .block{ transition:none; }
 }
+
 /* ---------- Mobile Responsive Patch ---------- */
+
+/* Make sure nothing forces horizontal scrolling */
 /* Make sure nothing forces horizontal scrolling */
 html { max-width: 100%; overflow-x: clip; }
 body { max-width: 100%; overflow-x: hidden; overflow-y: auto; }
@@ -1184,52 +1188,6 @@ pre, code {
   }
 }
 
-/* ===== Mobile: make content truly fluid ===== */
-@media (max-width: 560px){
-
-  /* Stop any min-width from forcing desktop sizing */
-  .shell, .content, .panel, .block, .topbar, .topbar-inner, main, aside, nav {
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-
-  /* Make the shell fit the screen */
-  .shell{
-    width: 100% !important;
-    padding: 12px !important;
-    margin: 0 auto !important;
-  }
-
-  /* Remove “desktop card” spacing that wastes space */
-  .content{
-    width: 100% !important;
-    padding: 14px !important;
-    margin: 0 !important;
-  }
-
-  /* Panels should also be full width */
-  .panel.sidebar,
-  .panel.right{
-    width: 100% !important;
-    margin: 0 0 12px 0 !important;
-  }
-
-  /* Headline: prevent giant line overflow */
-  h1{
-    font-size: 1.65rem !important;
-    line-height: 1.12 !important;
-    word-break: break-word;
-  }
-
-  /* Buttons/pills shouldn’t force width */
-  .actions{
-    flex-wrap: wrap !important;
-  }
-  .btn, .pill{
-    max-width: 100% !important;
-  }
-}
-
 /* ===== DESKTOP WIDTH BOOST (paste last) ===== */
 @media (min-width: 981px){
   /* Make the whole app wider */
@@ -1249,6 +1207,7 @@ pre, code {
 @media (min-width: 981px){
   .shell{ grid-template-columns: 250px minmax(0, 1fr) 280px; }
 }
+
 /* ===== DESKTOP PRESENCE BOOST ===== */
 @media (min-width: 1200px){
   .shell{
@@ -1318,6 +1277,57 @@ pre, code {
    background: linear-gradient(90deg, rgba(56,189,248,.35), rgba(75,102,242,.30), rgba(56,189,248,.35));
   
 }
+
+.word-bank{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:10px;
+}
+
+.dnd-chip{
+  border: 2px solid rgba(15,23,42,.18);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dnd-chip.used{
+  opacity: .45;
+  filter: grayscale(.2);
+  cursor: not-allowed;
+}
+
+.sentence{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:12px;
+  border-radius:16px;
+  background: linear-gradient(180deg,#ffffff,#f6f9ff);
+  border: 1px solid rgba(15,23,42,.10);
+}
+
+.dnd-slot{
+  min-width: 120px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px dashed rgba(75,102,242,.55);
+  background: rgba(255,255,255,.75);
+  font-weight: 700;
+  color: rgba(15,23,42,.65);
+  cursor: pointer;
+}
+
+.dnd-slot.filled{
+  border-style: solid;
+  color: #0f172a;
+}
+
+
 
 
 
