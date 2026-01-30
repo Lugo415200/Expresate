@@ -10,7 +10,7 @@ function createMiniDeck(containerId, cards, opts = {}) {
 
   // Optional: base folder for short audio keys like "a"
   // Default for alphabet module:
-  const audioBasePath = opts.audioBasePath || "audio/alphabet/";
+  const audioBasePath = opts.audioBasePath || "audio/lessons/template-001/";
 
   // Reuse one audio player (prevents overlapping + improves performance)
   const player = new Audio();
@@ -121,3 +121,4 @@ function createMiniDeck(containerId, cards, opts = {}) {
 
   render();
 }
+
