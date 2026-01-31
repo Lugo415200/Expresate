@@ -1,5 +1,19 @@
+/******************************
+ * curso.js — Unified Progress
+ ******************************/
+
 const COURSE_KEY = "ynoel_course_progress_v1";
 
+/** ---------------------------
+ * Storage
+ * data shape:
+ * {
+ *   "quiz-000": { passed: true, ts: 123 },
+ *   "lesson-000-alphabet": { done: true, ts: 123 },
+ *   "lesson-001-sounds": { done: true, ts: 123 },
+ *   "lesson-000-syllables": { done: true, ts: 123 }
+ * }
+ ----------------------------*/
 function loadCourse() {
   try {
     return JSON.parse(localStorage.getItem(COURSE_KEY)) || {};
@@ -12,6 +26,9 @@ function saveCourse(data) {
   localStorage.setItem(COURSE_KEY, JSON.stringify(data));
 }
 
+/** ---------------------------
+ * Quiz helpers
+ ----------------------------*/
 function setQuizPassed(quizId, passed) {
   const data = loadCourse();
   data[quizId] = { passed: !!passed, ts: Date.now() };
@@ -23,31 +40,32 @@ function isQuizPassed(quizId) {
   return !!data?.[quizId]?.passed;
 }
 
+/** ---------------------------
+ * Lesson completion helpers
+ ----------------------------*/
+function setLessonDone(lessonId, done = true) {
+  const data = loadCourse();
+  data[lessonId] = { ...(data[lessonId] || {}), done: !!done, ts: Date.now() };
+  saveCourse(data);
+}
+
+function isLessonDone(lessonId) {
+  const data = loadCourse();
+  return !!data?.[lessonId]?.done;
+}
+
+/** ---------------------------
+ * Quizzes
+ ----------------------------*/
 const QUIZZES = {
   "quiz-000": {
     title: "Quiz 000 — Alfabeto (básico)",
     passingScore: 3,
     questions: [
-      {
-        prompt: "¿Cuál letra es la primera del alfabeto?",
-        options: ["A", "E", "I"],
-        correctIndex: 0
-      },
-      {
-        prompt: "¿Cuántas letras tiene el alfabeto en inglés?",
-        options: ["26", "27", "25"],
-        correctIndex: 0
-      },
-      {
-        prompt: "Selecciona una vocal:",
-        options: ["B", "A", "T"],
-        correctIndex: 1
-      },
-      {
-        prompt: "¿Cuál es una consonante?",
-        options: ["O", "U", "M"],
-        correctIndex: 2
-      }
+      { prompt: "¿Cuál letra es la primera del alfabeto?", options: ["A", "E", "I"], correctIndex: 0 },
+      { prompt: "¿Cuántas letras tiene el alfabeto en inglés?", options: ["26", "27", "25"], correctIndex: 0 },
+      { prompt: "Selecciona una vocal:", options: ["B", "A", "T"], correctIndex: 1 },
+      { prompt: "¿Cuál es una consonante?", options: ["O", "U", "M"], correctIndex: 2 }
     ]
   },
 
@@ -55,52 +73,27 @@ const QUIZZES = {
     title: "Quiz 001 — Pronombres + Verbos",
     passingScore: 3,
     questions: [
-      {
-        prompt: "Traduce: Yo trabajo.",
-        options: ["I work.", "He works.", "I worked."],
-        correctIndex: 0
-      },
-      {
-        prompt: "Traduce: Él trabaja.",
-        options: ["He work.", "He works.", "He working."],
-        correctIndex: 1
-      },
-      {
-        prompt: "Completa: She ____ here.",
-        options: ["live", "lives", "living"],
-        correctIndex: 1
-      }
+      { prompt: "Traduce: Yo trabajo.", options: ["I work.", "He works.", "I worked."], correctIndex: 0 },
+      { prompt: "Traduce: Él trabaja.", options: ["He work.", "He works.", "He working."], correctIndex: 1 },
+      { prompt: "Completa: She ____ here.", options: ["live", "lives", "living"], correctIndex: 1 }
     ]
   },
-  "quiz-003": {
-  title: "Quiz 003 — Negaciones (Don't/Doesn't)",
-  passingScore: 3,
-  questions: [
-    {
-      prompt: "Traduce: Yo no trabajo.",
-      options: ["I don't work.", "I doesn't work.", "I not work."],
-      correctIndex: 0
-    },
-    {
-      prompt: "Traduce: Ella no vive aquí.",
-      options: ["She don't live here.", "She doesn't live here.", "She doesn't lives here."],
-      correctIndex: 1
-    },
-    {
-      prompt: "Completa: He ____ study English.",
-      options: ["don't", "doesn't", "isn't"],
-      correctIndex: 1
-    },
-    {
-      prompt: "Selecciona la opción correcta:",
-      options: ["They don't work here.", "They doesn't work here.", "They not work here."],
-      correctIndex: 0
-    }
-  ]
-}
 
+  "quiz-003": {
+    title: "Quiz 003 — Negaciones (Don't/Doesn't)",
+    passingScore: 3,
+    questions: [
+      { prompt: "Traduce: Yo no trabajo.", options: ["I don't work.", "I doesn't work.", "I not work."], correctIndex: 0 },
+      { prompt: "Traduce: Ella no vive aquí.", options: ["She don't live here.", "She doesn't live here.", "She doesn't lives here."], correctIndex: 1 },
+      { prompt: "Completa: He ____ study English.", options: ["don't", "doesn't", "isn't"], correctIndex: 1 },
+      { prompt: "Selecciona la opción correcta:", options: ["They don't work here.", "They doesn't work here.", "They not work here."], correctIndex: 0 }
+    ]
+  }
 };
 
+/** ---------------------------
+ * Render quiz
+ ----------------------------*/
 function renderQuiz(container, quizId) {
   const quiz = QUIZZES[quizId];
   if (!quiz) {
@@ -163,16 +156,20 @@ function renderQuiz(container, quizId) {
   });
 }
 
+/** ---------------------------
+ * Apply locks:
+ * 1) Module locks via data-lock="quiz-000"
+ * 2) Lesson progression via .courseStep + data-requires
+ ----------------------------*/
 function applyLocks() {
+  // A) Module locks (your existing behavior)
   document.querySelectorAll("[data-lock]").forEach((module) => {
-    const lockId = module.getAttribute("data-lock");
+    const lockId = module.getAttribute("data-lock"); // expects a quizId like "quiz-000"
     const unlocked = isQuizPassed(lockId);
 
-    // Badge text
     const badge = module.querySelector(`[data-lock-badge="${lockId}"]`);
     if (badge) badge.textContent = unlocked ? "Desbloqueado ✅" : "Bloqueado";
 
-    // Locked lesson links (keep their real href; just block clicking via CSS class)
     module.querySelectorAll(`[data-locked-link="${lockId}"]`).forEach((a) => {
       if (unlocked) {
         a.removeAttribute("aria-disabled");
@@ -183,27 +180,71 @@ function applyLocks() {
       }
     });
 
-    // Enable/disable ANY quiz button inside that module (quiz-001, quiz-002, etc.)
     module.querySelectorAll(`[data-open-quiz]`).forEach((btn) => {
       btn.disabled = !unlocked;
     });
 
-    // Prevent expanding locked module
     if (!unlocked) module.open = false;
+  });
+
+  // B) Lesson steps progression (Module 0 route)
+  document.querySelectorAll(".courseStep").forEach((el) => {
+    const stepId = el.getAttribute("data-step-id");
+    const requires = el.getAttribute("data-requires");
+
+    // Step can be lesson or quiz
+    const done =
+      stepId?.startsWith("quiz-") ? isQuizPassed(stepId) : isLessonDone(stepId);
+
+    const unlocked =
+      !requires || (requires.startsWith("quiz-") ? isQuizPassed(requires) : isLessonDone(requires));
+
+    // Status label (optional)
+    if (stepId) {
+      const statusEl = document.querySelector(`[data-status-for="${stepId}"]`);
+      if (statusEl) {
+        if (done) statusEl.textContent = "Completado";
+        else if (!unlocked) statusEl.textContent = "Bloqueado";
+        else statusEl.textContent = "Disponible";
+      }
+    }
+
+    // Classes for styling
+    el.classList.toggle("isDone", !!done);
+
+    // Lock
+    if (!unlocked) {
+      el.classList.add("isLocked");
+      el.setAttribute("aria-disabled", "true");
+      if (el.tagName === "BUTTON") el.disabled = true;
+    } else {
+      el.classList.remove("isLocked");
+      el.removeAttribute("aria-disabled");
+      if (el.tagName === "BUTTON") el.disabled = false;
+    }
   });
 }
 
-
+/** ---------------------------
+ * Progress UI (right panel)
+ ----------------------------*/
 function updateProgressUI() {
+  const totalQuizzes = Object.keys(QUIZZES).length;
   const passedCount = Object.keys(QUIZZES).filter(isQuizPassed).length;
-  const total = Object.keys(QUIZZES).length;
+
   const el = document.getElementById("progressText");
-  if (el) el.textContent = `Quizzes aprobados: ${passedCount}/${total}`;
+  if (el) el.textContent = `Quizzes aprobados: ${passedCount}/${totalQuizzes}`;
 }
 
+/** ---------------------------
+ * Click handlers
+ ----------------------------*/
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-open-quiz]");
   if (!btn) return;
+
+  // If locked by aria-disabled, ignore
+  if (btn.getAttribute("aria-disabled") === "true") return;
 
   const quizId = btn.getAttribute("data-open-quiz");
   const container = document.getElementById(quizId);
@@ -233,8 +274,26 @@ document.addEventListener("click", (e) => {
   updateProgressUI();
 });
 
+/** ---------------------------
+ * Accept completion from lessons:
+ * curso.html?complete=lesson-000-alphabet
+ ----------------------------*/
+(function handleCompleteFromQuery() {
+  const params = new URLSearchParams(location.search);
+  const lessonId = params.get("complete");
+  if (!lessonId) return;
+
+  setLessonDone(lessonId, true);
+
+  params.delete("complete");
+  const newUrl = `${location.pathname}${params.toString() ? "?" + params.toString() : ""}`;
+  history.replaceState({}, "", newUrl);
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   applyLocks();
   updateProgressUI();
 });
+;
+
 
