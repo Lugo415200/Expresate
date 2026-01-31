@@ -1327,6 +1327,124 @@ pre, code {
   color: #0f172a;
 }
 
+/* Course path (ordered lesson list) */
+.lessonPath{
+  list-style:none;
+  padding:0;
+  margin:12px 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.lessonStep{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.06);
+  background: rgba(255,255,255,.65);
+  box-shadow: 0 10px 25px rgba(0,0,0,.06);
+}
+
+.stepNum{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  font-weight:800;
+  background: rgba(0,0,0,.06);
+}
+
+.stepBody{
+  flex:1;
+  min-width: 0;
+}
+
+.stepTitle{
+  font-weight:800;
+  line-height:1.15;
+}
+
+.stepMeta{
+  margin-top:4px;
+  font-size: 13px;
+  opacity:.75;
+}
+
+.stepBtn{
+  white-space:nowrap;
+}
+
+/* Make Quiz feel like the checkpoint */
+.lessonStepQuiz{
+  border:1px dashed rgba(0,0,0,.18);
+  background: rgba(255,255,255,.55);
+}
+
+/* Course steps styling */
+.courseStep{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+}
+
+.stepLeft{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.stepNum{
+  width:30px;
+  height:30px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  background: rgba(0,0,0,.08);
+}
+
+.stepText{
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+  min-width:0;
+}
+
+.stepSub{
+  font-size:12px;
+  opacity:.78;
+  margin-top:4px;
+}
+
+.stepStatus{
+  font-size:12px;
+  opacity:.85;
+  white-space:nowrap;
+}
+
+/* Locked state */
+.isLocked{
+  opacity:.55;
+  filter:saturate(.8);
+  cursor:not-allowed !important;
+  pointer-events:none; /* prevents clicking */
+}
+
+.isLocked .stepStatus::before{
+  content:"🔒 ";
+}
+
+/* Completed state */
+.isDone .stepStatus::before{
+  content:"✅ ";
+}
 
 
 
