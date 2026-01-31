@@ -22,7 +22,7 @@
       <nav class="sidebar">
         <a href="index.html">Inicio</a>
         <a class="active" href="curso.html">Curso</a>
-        <a href="diccionario.html">Diccionario</a>
+        <a href="diccionario.html">Diccionario de Verbos</a>
         <a href="juego-comida.html">Juego</a>
       </nav>
     </aside>
@@ -36,15 +36,73 @@
         <summary style="cursor:pointer; font-weight:700;">Módulo 0 — Fundamentos (Pronunciación)</summary>
 
         <div style="margin-top:12px;">
-          <div class="small">Teoría</div>
-          <div class="actions">
-            <a class="btn primary" href="lesson-000-alphabet.html">Lección 000 — Alfabeto</a>
-            <a class="btn" href="lesson-001-sounds.html">Lección 001 — Sonidos clave</a>
-            <button class="btn" data-open-quiz="quiz-000" type="button">Abrir Quiz 000</button>
-          </div>
+  <div class="small">Teoría (sigue el orden)</div>
 
-          <div id="quiz-000" style="display:none; margin-top:14px;"></div>
-        </div>
+<div class="actions" style="flex-direction:column; align-items:stretch; gap:10px;">
+  <!-- 1) Alphabet (always unlocked) -->
+  <a class="btn primary courseStep"
+     href="lesson-000-alphabet.html"
+     data-step-id="lesson-000-alphabet">
+    <span class="stepLeft">
+      <span class="stepNum">1</span>
+      <span class="stepText">
+        <strong>Lección 000 — Alfabeto</strong>
+        <span class="stepSub">Base: deletrear, A–Z</span>
+      </span>
+    </span>
+    <span class="stepStatus" data-status-for="lesson-000-alphabet"></span>
+  </a>
+
+  <!-- 2) Sounds (requires alphabet completed) -->
+  <a class="btn courseStep"
+     href="lesson-001-sounds.html"
+     data-step-id="lesson-001-sounds"
+     data-requires="lesson-000-alphabet">
+    <span class="stepLeft">
+      <span class="stepNum">2</span>
+      <span class="stepText">
+        <strong>Lección 001 — Sonidos clave</strong>
+        <span class="stepSub">SH / CH / TH + pares mínimos</span>
+      </span>
+    </span>
+    <span class="stepStatus" data-status-for="lesson-001-sounds"></span>
+  </a>
+
+  <!-- 3) Syllables (requires sounds completed) -->
+  <a class="btn courseStep"
+     href="Syllables.html"
+     data-step-id="lesson-000-syllables"
+     data-requires="lesson-001-sounds">
+    <span class="stepLeft">
+      <span class="stepNum">3</span>
+      <span class="stepText">
+        <strong>Lección 002 — Sílabas y Acento</strong>
+        <span class="stepSub">Stress + reducción (ritmo)</span>
+      </span>
+    </span>
+    <span class="stepStatus" data-status-for="lesson-000-syllables"></span>
+  </a>
+
+  <!-- 4) Quiz (choose if you want it locked until syllables) -->
+  <button class="btn courseStep"
+          type="button"
+          data-open-quiz="quiz-000"
+          data-step-id="quiz-000"
+          data-requires="lesson-000-syllables">
+    <span class="stepLeft">
+      <span class="stepNum">4</span>
+      <span class="stepText">
+        <strong>Abrir Quiz 000</strong>
+        <span class="stepSub">Aprobado = desbloquea Módulo 1</span>
+      </span>
+    </span>
+    <span class="stepStatus" data-status-for="quiz-000"></span>
+  </button>
+</div>
+
+<div id="quiz-000" style="display:none; margin-top:14px;"></div>
+
+
       </details>
 
       <!-- MODULE 1 (locked until quiz-000 pass) -->
@@ -98,7 +156,7 @@
 </details>
 
 
-      <p class="small">© <span id="year"></span> Exprésate</p>
+      <p class="small">© <span id="year"></span> Ynoel English</p>
     </main>
 
     <aside class="panel right">
@@ -115,6 +173,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
