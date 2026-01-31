@@ -136,8 +136,24 @@ berry → sonido “b”</pre>
       </div>
 
       <div class="actions">
-        <a class="btn" href="curso.html">← Volver al curso</a>
-        <a class="btn primary" href="curso.html">Ir al Quiz →</a>
+        <a class="btn" href="lesson-000-alphabet.html">← Volver al anterior</a>
+        <button class="btn primary" type="button" id="markComplete">
+  Marcar como completada ✅
+</button>
+
+<script>
+  const STORAGE_KEY = "expresate_progress_v1";
+  const LESSON_ID = "lesson-001-sounds";
+
+  document.getElementById("markComplete").addEventListener("click", () => {
+    const p = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    p[LESSON_ID] = true;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+
+    // Return to course and trigger unlock
+    window.location.href = `curso.html?complete=${encodeURIComponent(LESSON_ID)}`;
+  });
+</script>
       </div>
 
       <p class="small">© <span id="year"></span> Exprésate</p>
@@ -173,5 +189,6 @@ berry → sonido “b”</pre>
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
