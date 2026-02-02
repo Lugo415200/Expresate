@@ -1459,6 +1459,19 @@ pre, code {
   }
 }
 
+@media (min-width: 1200px) {
+  .shell {
+    display: grid;
+    grid-template-columns: 
+      260px     /* left nav */
+      minmax(0, 1fr)  /* center grows */
+      320px;    /* right panel */
+    gap: 28px;
+  }
+}
+
+
+
 
 
 
