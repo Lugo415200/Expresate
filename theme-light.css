@@ -1470,6 +1470,23 @@ pre, code {
   }
 }
 
+/* FORCE shell wider on desktop (override layout.css) */
+@media (min-width: 1200px){
+  .shell{
+    max-width: 1480px !important;
+    width: min(1480px, 100%) !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (min-width: 1600px){
+  .shell{
+    max-width: 1640px !important;
+    width: min(1640px, 100%) !important;
+  }
+}
+
+
 
 
 
