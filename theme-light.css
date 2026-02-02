@@ -1446,6 +1446,20 @@ pre, code {
   content:"✅ ";
 }
 
+/* ===============================
+   DESKTOP WIDTH EXPANSION
+   =============================== */
+
+@media (min-width: 1200px) {
+  .shell {
+    max-width: 1440px;     /* was probably ~1100 */
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px;
+  }
+}
+
+
 
 
 
