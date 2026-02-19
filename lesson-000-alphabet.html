@@ -69,12 +69,12 @@ V W X Y Z</pre>
         </ul>
 
         <div class="actions">
-          <button class="btn" data-audio="audio/lessons/template-001/a.mp3">▶️ A</button>
-          <button class="btn" data-audio="audio/lessons/template-001/e.mp3">▶️ E</button>
-          <button class="btn" data-audio="audio/lessons/template-001/i.mp3">▶️ I</button>
-          <button class="btn" data-audio="audio/lessons/template-001/o.mp3">▶️ O</button>
-          <button class="btn" data-audio="audio/lessons/template-001/u.mp3">▶️ U</button>
-        </div>
+  <button class="btn" data-audio-base="audio/lessons/template-001/" data-letter="a">▶️ A</button>
+  <button class="btn" data-audio-base="audio/lessons/template-001/" data-letter="e">▶️ E</button>
+  <button class="btn" data-audio-base="audio/lessons/template-001/" data-letter="i">▶️ I</button>
+  <button class="btn" data-audio-base="audio/lessons/template-001/" data-letter="o">▶️ O</button>
+  <button class="btn" data-audio-base="audio/lessons/template-001/" data-letter="u">▶️ U</button>
+</div>
       </div>
 
       <!-- PRACTICE -->
@@ -164,9 +164,23 @@ V W X Y Z</pre>
 
   <!-- GLOBAL APP -->
   <script src="app.js"></script>
+  <script>
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-audio-base][data-letter]");
+    if (!btn) return;
+
+    const base = btn.getAttribute("data-audio-base");
+    const letter = btn.getAttribute("data-letter");
+    const src = `${base}${letter}.mp3`;
+
+    const audio = new Audio(src);
+    audio.play().catch(err => console.error("Audio play failed:", err));
+  });
+</script>
 
 </body>
 </html>
+
 
 
 
