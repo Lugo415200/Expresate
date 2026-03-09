@@ -1,173 +1,69 @@
-/* ======================================
-   THEME-LIGHT.CSS
-   Lighter, playful, Duolingo-inspired
-   ====================================== */
+/* =========================================================
+   THEME-LIGHT.CSS (CONSOLIDATED — GitHub version)
+   Goal: keep the same FINAL appearance you currently get
+   by preserving “last rule wins”, removing duplicates, and
+   organizing cleanly.
+   ========================================================= */
 
-/* 1) Global color tokens (THIS is the magic) */
+/* =========================
+   1) TOKENS / FONTS
+   ========================= */
 :root{
-  --bg: #eef6fb;                 /* soft sky background */
-  --panel: #f7fbff;              /* light panels */
-  --card: rgba(255,255,255,.85); /* glass cards */
-  --text: #0f172a;               /* deep readable text */
-  --muted: #475569;              /* softer gray text */
-  --border: rgba(15,23,42,.08);  /* subtle borders */
+  /* base palette */
+  --bg: #eef6fb;
+  --panel: #f7fbff;
+  --card: rgba(255,255,255,.85);
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15,23,42,.08);
 
-  --accent: #38bdf8;             /* playful blue */
-  --accent-soft: #bae6fd;        /* highlights */
+  --accent: #38bdf8;
+  --accent-soft: #bae6fd;
   --link: #0284c7;
+
+  /* radii + shadows */
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --shadow-soft: 0 10px 28px rgba(15,23,42,.08);
+  --shadow-card: 0 12px 28px rgba(15,23,42,.10);
+
+  /* brand */
+  --brand-blue: #4b66f2;
+  --brand-blue-hover: #3f58e0;
+
+  /* topbar/panels */
+  --topbar-blue: #4b66f2;
+  --topbar-blue-soft: #5b74ff;
+  --topbar-blue-deep: #425ae0;
+
+  /* typography */
+  --font-body: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-title: 'Poppins', system-ui, sans-serif;
 }
 
-/* 2) Background depth (no emptiness) */
+/* =========================
+   2) GLOBAL / BACKGROUND
+   ========================= */
+html{ max-width: 100%; overflow-x: clip; }
+
 body{
-  background:
-    radial-gradient(900px 600px at 15% 10%, rgba(56,189,248,.18), transparent 60%),
-    radial-gradient(800px 500px at 90% 20%, rgba(147,197,253,.16), transparent 55%),
-    linear-gradient(180deg, #f8fbff, #eaf4fb);
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+
   color: var(--text);
-}
+  font-family: var(--font-body);
 
-/* 3) Panels feel lighter + modern */
-.panel,
-/* ================================
-   CENTER PANEL — SOFT SKY SURFACE
-   ================================ */
-
-.content{
+  /* FINAL body background in your file (last one wins) */
   background:
-    linear-gradient(
-      180deg,
-      #f8fbff 0%,
-      #f1f7fd 100%
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  box-shadow:
-    0 24px 60px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,.8);
+    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
+    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
+    #f3f9ff;
 }
 
-/* Headings look richer on tinted bg */
-.content h1,
-.content h2,
-.content h3{
-  color: #0f172a;
-}
-
-/* Body text */
-.content p,
-.content li{
-  color: rgba(15,23,42,.78);
-}
-
-/* Sub text */
-.content .sub{
-  color: rgba(15,23,42,.55);
-}
-
-/* 4) Cards feel friendly, not heavy */
-.block{
-  background:
-    linear-gradient(180deg,
-      rgba(255,255,255,.96),
-      rgba(248,250,252,.92)
-    );
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(15,23,42,.08);
-}
-
-/* 5) Typography lift (Duolingo effect) */
-.content h1{
-  font-size: 2.2rem;
-  letter-spacing: -0.025em;
-}
-
-.block h2{
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.sub{
-  color: var(--muted);
-}
-
-/* Accent underline */
-.content h1::after{
-  content:"";
-  display:block;
-  width:64px;
-  height:4px;
-  margin-top:12px;
-  border-radius:999px;
-  background: linear-gradient(
-    90deg,
-    var(--accent),
-    var(--accent-soft)
-  );
-}
-
-/* 6) Buttons = playful + tactile */
-.btn{
-  background: white;
-  color: #0f172a;
-  border-radius: 14px;
-  border: 1px solid rgba(15,23,42,.12);
-  box-shadow:
-    0 4px 0 rgba(15,23,42,.12),
-    0 10px 20px rgba(15,23,42,.08);
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-
-.btn:hover{
-  transform: translateY(-1px);
-}
-
-.btn:active{
-  transform: translateY(1px);
-  box-shadow:
-    0 2px 0 rgba(15,23,42,.12),
-    0 6px 12px rgba(15,23,42,.06);
-}
-
-/* Primary CTA (Duolingo-like) */
-.btn.primary{
-  background: linear-gradient(
-    180deg,
-    #38bdf8,
-    #0ea5e9
-  );
-  color: white;
-  border: none;
-  box-shadow:
-    0 4px 0 #0284c7,
-    0 14px 28px rgba(56,189,248,.45);
-}
-
-/* 7) Sidebar: lighter + calm */
-.sidebar a{
-  color: #0f172a;
-  opacity: .85;
-}
-
-.sidebar a:hover{
-  background: rgba(56,189,248,.12);
-}
-
-.sidebar a.active{
-  background: rgba(56,189,248,.22);
-  font-weight: 700;
-}
-
-/* 8) Topbar feels airy */
-.topbar{
-  background: rgba(32, 48, 141, 0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-
-.brand{
-  color:#0f172a;
-}
-
-/* 9) Floating background blobs (life + motion) */
+/* floating blobs */
 html::before,
 html::after{
   content:"";
@@ -180,256 +76,82 @@ html::after{
   pointer-events:none;
   z-index:0;
 }
-
 html::before{
   left:-200px;
   top:120px;
   background: radial-gradient(circle, #7dd3fc, transparent 60%);
 }
-
 html::after{
   right:-220px;
   bottom:80px;
   background: radial-gradient(circle, #bae6fd, transparent 60%);
 }
-
-body{ position:relative; z-index:1; }
-
-/* Motion respect */
 @media (prefers-reduced-motion: reduce){
   html::before, html::after{ display:none; }
 }
 
-/* ================================
-   LIGHT THEME POLISH (PASTE LAST)
-   ================================ */
-
-/* 1) Unify radii + softer global shadow */
-:root{
-  --radius-lg: 18px;
-  --radius-md: 14px;
-  --shadow-soft: 0 10px 28px rgba(15,23,42,.08);
-  --shadow-card: 0 12px 28px rgba(15,23,42,.10);
+/* Media should not overflow */
+img, video, canvas, svg{
+  max-width: 100%;
+  height: auto;
 }
 
-/* 2) Panels: consistent rounding + less heavy borders */
-.panel,
-.content{
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
+/* Wrap code on small screens */
+pre, code{
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-/* 3) Dark side panels (left/right): soften + add “glass” */
-.panel.sidebar,
-.panel.right{
-  background: linear-gradient(180deg, rgba(17,24,39,.92), rgba(10,16,32,.98));
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 16px 40px rgba(15,23,42,.12);
-}
-
-/* Make headings in side panels pop gently */
-.panel.sidebar h3,
-.panel.right h3{
-  color: rgba(255,255,255,.92);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-/* 4) Sidebar links: cleaner, less “blocky”, more Duolingo */
-.sidebar a{
-  border-bottom: none;
-  margin: 6px 8px;
-  border-radius: 12px;
-  padding: 10px 12px;
-  color: rgba(255,255,255,.88);
-  opacity: .85;
-}
-
-.sidebar a:hover{
-  background: rgba(56,189,248,.12);
-  opacity: 1;
-}
-
-.sidebar a.active{
-  background: rgba(56,189,248,.22);
-  box-shadow: inset 0 0 0 1px rgba(56,189,248,.22);
-  font-weight: 700;
-  opacity: 1;
-}
-
-/* 5) Center cards: less flat + consistent spacing */
-.block{
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  border: 1px solid rgba(15,23,42,.06);
-}
-
-/* Card hover (subtle) */
-.block{
-  transition: transform 140ms ease, box-shadow 200ms ease;
-}
-.block:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px rgba(15,23,42,.12);
-}
-@media (prefers-reduced-motion: reduce){
-  .block{ transition:none; }
-  .block:hover{ transform:none; }
-}
-
-/* 6) Topbar: reduce visual noise, pills match light theme */
+/* =========================
+   3) TOPBAR / BRAND
+   ========================= */
 .topbar{
-  background: rgba(248,251,255,.92);
+  background: rgba(50, 79, 240, 0.92);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(15,23,42,.08);
+  border-bottom: 1px solid var(--border);
 }
 
-.pill{
-  background: rgba(255,255,255,.7);
-  border: 1px solid rgba(15,23,42,.10);
-  color: #0f172a;
-  box-shadow: 0 6px 14px rgba(15,23,42,.06);
+.brand{
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.015em;
+  color: #ffffff;
 }
-.pill:hover{
-  background: rgba(255,255,255,.92);
-  text-decoration: none;
-}
-
-/* 7) Right panel CTA: make it feel like the “next step” */
-.panel.right .btn.primary{
-  border: none;
-  box-shadow:
-    0 4px 0 rgba(2,132,199,.8),
-    0 14px 26px rgba(56,189,248,.28);
+.brand::after{
+  content: "";
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8, #60a5fa);
 }
 
-/* 8) Typography tuning: modern app rhythm */
-.content h1{
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  margin-bottom: 10px;
-}
-.sub{
-  line-height: 1.5;
-  color: rgba(15,23,42,.68);
+/* Optional: right panel title chip you had */
+.rightPanelTitle{
+  background: rgba(50, 79, 240, 0.92);
 }
 
-/* 9) Clean HR line in light areas */
-hr{
-  border-top: 1px solid rgba(15,23,42,.10);
+/* =========================
+   4) SHELL / LAYOUT BASE
+   ========================= */
+.shell{
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 16px;
+}
+.shell, .content, .panel{
+  overflow: visible;
+  height: auto;
 }
 
-/* ================================
-   SIDE PANELS — LIGHTENED / AIRY
-   ================================ */
-
-/* Base panel tone: blue-gray glass instead of dark slab */
-.panel.sidebar,
-.panel.right{
-  background:
-    linear-gradient(
-      180deg,
-      rgba(240,248,255,0.75),
-      rgba(224,240,255,0.88)
-    );
-  border: 1px solid rgba(15,23,42,.08);
-  box-shadow:
-    0 12px 32px rgba(15,23,42,.10),
-    inset 0 1px 0 rgba(255,255,255,.6);
-}
-
-/* Panel headers */
-.panel.sidebar h3,
-.panel.right h3{
-  color: #0f172a;
-  border-bottom: 1px solid rgba(15,23,42,.08);
-  background: transparent;
-}
-
-/* ================================
-   SIDEBAR LINKS — SOFTER + FRIENDLIER
-   ================================ */
-
-.sidebar a{
-  color: #1f2937;
-  opacity: .85;
-  background: transparent;
-  margin: 6px 10px;
-  border-radius: 12px;
-}
-
-/* Hover */
-.sidebar a:hover{
-  background: rgba(56,189,248,.14);
-  opacity: 1;
-}
-
-/* Active item */
-.sidebar a.active{
-  background: linear-gradient(
-    90deg,
-    rgba(56,189,248,.25),
-    rgba(147,197,253,.18)
-  );
-  box-shadow:
-    inset 0 0 0 1px rgba(56,189,248,.25),
-    0 6px 14px rgba(56,189,248,.18);
-  color: #0f172a;
-  font-weight: 700;
-}
-
-/* ================================
-   RIGHT PANEL CONTENT TUNING
-   ================================ */
-
-.panel.right .small,
-.panel.right p,
-.panel.right li{
-  color: rgba(15,23,42,.75);
-}
-
-/* CTA button pops more now */
-.panel.right .btn.primary{
-  background: linear-gradient(
-    180deg,
-    #38bdf8,
-    #0ea5e9
-  );
-  color: white;
-  box-shadow:
-    0 4px 0 rgba(2,132,199,.9),
-    0 16px 30px rgba(56,189,248,.35);
-}
-
-/* ================================
-   OPTIONAL: Slight transparency on panels
-   ================================ */
-
-.panel.sidebar,
-.panel.right{
-  backdrop-filter: blur(10px);
-}
-
-/* ================================
-   GLOBAL LIGHT THEME — BLUE TINTED
-   ================================ */
-
-/* Page background (keep airy, not white) */
-body{
-  background:
-    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
-    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
-    #f3f9ff;
-}
-
-/* ALL PANELS (sidebar, center, right) */
+/* =========================
+   5) PANELS (FINAL STATE)
+   ========================= */
 .panel,
 .content{
-  background:
-    linear-gradient(
-      180deg,
-      #f0f7ff 0%,
-      #eaf3fb 100%
-    );
+  background: linear-gradient(180deg, #f0f7ff 0%, #eaf3fb 100%);
   border: 1px solid rgba(15,23,42,.06);
   border-radius: 20px;
   box-shadow:
@@ -437,260 +159,205 @@ body{
     inset 0 1px 0 rgba(255,255,255,.6);
 }
 
-/* Sidebar slightly darker for hierarchy */
-.panel.sidebar{
-  background:
-    linear-gradient(
-      180deg,
-      #e6f2fb 0%,
-      #ddeaf6 100%
-    );
-}
-
-/* Right panel (today focus) */
+/* Side panels match topbar (this was FINAL in your file) */
+.panel.sidebar,
 .panel.right{
-  background:
-    linear-gradient(
-      180deg,
-      #eef6fd 0%,
-      #e6f0fa 100%
-    );
+  background: linear-gradient(180deg, var(--topbar-blue), var(--topbar-blue-deep));
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(75,102,242,.25);
+  backdrop-filter: blur(10px);
+
+  /* FINAL padding rules from bottom of file */
+  padding: 22px 22px;
 }
 
-/* Cards inside panels */
-.block{
-  background-color: rgb(13, 75, 67);
-  border: 1px solid rgba(15,23,42,.06);
-  border-radius: 18px;
-  box-shadow: 0 14px 35px rgba(15,23,42,.06);
+/* Panel headers (FINAL) */
+.panel.sidebar h3,
+.panel.right h3{
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  background: transparent;
+  margin-top: 0;
+  margin-bottom: 12px;
+
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
-/* Text colors recalibrated for light UI */
-h1, h2, h3{
+/* Right panel text (FINAL) */
+.panel.right p,
+.panel.right .small,
+.panel.right li{
+  color: rgba(255,255,255,.85);
+}
+
+/* Sidebar typography + spacing (FINAL) */
+.panel.sidebar{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+.panel.sidebar p,
+.panel.sidebar .small{
+  margin: 0 0 12px;
+  line-height: 1.45;
+  color: rgba(255,255,255,.92);
+}
+
+/* Tip block inside sidebar (FINAL) */
+.panel.sidebar .block{
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.22);
+  color: rgba(255,255,255,.95);
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+}
+.panel.sidebar .block .small{
+  color: rgba(255,255,255,.95);
+}
+
+/* =========================
+   6) SIDEBAR LINKS (FINAL)
+   ========================= */
+.sidebar a{
+  border-bottom: none;
+
+  margin: 4px 8px;
+  border-radius: 10px;
+  padding: 10px 12px;
+
+  color: rgba(255,255,255,.9);
+  opacity: .85;
+
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+.sidebar a:hover{
+  background: rgba(255,255,255,.12);
+  color: #ffffff;
+  opacity: 1;
+}
+.sidebar a.active{
+  background: rgba(255,255,255,.18);
+  color: #ffffff;
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* =========================
+   7) CENTER CONTENT TYPOGRAPHY
+   ========================= */
+.content h1,
+.content h2,
+.content h3{
   color: #0f172a;
 }
-
-p, li{
+.content p,
+.content li{
   color: rgba(15,23,42,.78);
 }
-
-.sub,
-.small{
+.content .sub{
   color: rgba(15,23,42,.55);
 }
 
-/* Sidebar links */
-.sidebar a{
-  color: rgba(15,23,42,.75);
-}
+h1, h2, h3{ color: #0f172a; }
+p, li{ color: rgba(15,23,42,.78); }
+.sub, .small{ color: rgba(15,23,42,.55); }
 
-.sidebar a.active{
-  background: #d7ecff;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-/* Buttons */
-.btn.primary{
-  background: linear-gradient(180deg, #4fc3ff, #2ea8f5);
-  border: none;
-  color: white;
-  box-shadow: 0 10px 25px rgba(46,168,245,.35);
-}
-
-.btn.primary:hover{
-  filter: brightness(1.05);
-}
-
-.topbar{
-  background: rgba(50, 79, 240, 0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-
-.btn.primary {
-  background: rgba(50, 79, 240, 0.92);
-}
-
-.rightPanelTitle {
-  background: rgba(50, 79, 240, 0.92);
-}
-
-:root {
-  --font-body: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  --font-title: 'Poppins', system-ui, sans-serif;
-}
-/* Main page title */
-.content h1 {
+.content h1{
   font-family: var(--font-title);
   font-size: clamp(2.2rem, 3.5vw, 3rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: #0f172a;
   margin-bottom: 12px;
 }
 
-.block h2 {
+.block h2{
   font-family: var(--font-title);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 
-.sub {
+.sub{
   font-size: 1.05rem;
   max-width: 60ch;
-  color: #475569;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
-/* Top-left brand title */
-.brand {
-  font-family: 'Poppins', system-ui, sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
-  letter-spacing: 0.015em;
-  color: #ffffff; /* soft blue */
+/* Accent underline */
+.content h1::after{
+  content:"";
+  display:block;
+  width:64px;
+  height:4px;
+  margin-top:12px;
+  border-radius:999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
 }
 
-.brand::after {
-  content: "";
-  display: block;
-  width: 26px;
-  height: 3px;
-  margin-top: 4px;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    #38bdf8,
-    #60a5fa
-  );
-}
+/* Clean HR */
+hr{ border-top: 1px solid rgba(15,23,42,.10); }
 
-/* Primary CTA uses brand color (same as top bar) */
-.btn.primary {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
-  color: white;
-  box-shadow: 0 10px 24px rgba(75, 102, 242, 0.35);
-}
-
-/* Hover state */
-.btn.primary:hover {
-  background: #3f57e0; /* slightly darker */
-  border-color: #3f57e0;
-}
-
-/* Active / pressed */
-.btn.primary:active {
-  transform: translateY(1px);
-  box-shadow: 0 6px 14px rgba(75, 102, 242, 0.3);
-}
-
-.btn.primary:focus {
-  outline: none;
-  box-shadow:
-    0 0 0 4px rgba(75, 102, 242, 0.25),
-    0 10px 24px rgba(75, 102, 242, 0.35);
-}
-
-/* FORCE: Make primary buttons match topbar */
-:root { --brand-blue: #4b66f2; } /* replace with your exact topbar color */
-
-a.btn.primary,
-button.btn.primary {
-  background: var(--brand-blue) !important;
-  border-color: var(--brand-blue) !important;
-  color: #fff !important;
-}
-
-/* Hover/active */
-a.btn.primary:hover,
-button.btn.primary:hover {
-  filter: brightness(0.96);
-}
-
-a.btn.primary:active,
-button.btn.primary:active {
-  transform: translateY(1px);
-}
-
-/* ===== PRIMARY BUTTON (FINAL OVERRIDE) ===== */
-a.btn.primary,
-button.btn.primary {
-  background: var(--brand-blue) !important;
-  border-color: var(--brand-blue) !important;
-  color: #ffffff !important;
-
+/* =========================
+   8) BUTTONS (FINAL)
+   ========================= */
+.btn{
+  background: white;
+  color: #0f172a;
   border-radius: 14px;
-  padding: 12px 18px;
-  font-weight: 600;
-
+  border: 1px solid rgba(15,23,42,.12);
   box-shadow:
-    0 10px 22px rgba(75, 102, 242, 0.28);
-  transition:
-    background-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 120ms ease;
+    0 4px 0 rgba(15,23,42,.12),
+    0 10px 20px rgba(15,23,42,.08);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-
-/* HOVER — no black, just richer blue */
-a.btn.primary:hover,
-button.btn.primary:hover {
-  background: var(--brand-blue-hover) !important;
-  border-color: var(--brand-blue-hover) !important;
-
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{
+  transform: translateY(1px);
   box-shadow:
-    0 14px 30px rgba(75, 102, 242, 0.35);
-  transform: translateY(-1px);
+    0 2px 0 rgba(15,23,42,.12),
+    0 6px 12px rgba(15,23,42,.06);
 }
 
-/* ACTIVE (click) */
-a.btn.primary:active,
-button.btn.primary:active {
-  transform: translateY(0);
-  box-shadow:
-    0 8px 18px rgba(75, 102, 242, 0.25);
-}
-
-a.btn:not(.primary),
-button.btn:not(.primary) {
-  background: #ffffff;
-  color: #1f2937;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-}
-
-a.btn:not(.primary):hover,
-button.btn:not(.primary):hover {
-  background: #f1f5f9;
-}
-
-/* ============================
-   FINAL BUTTON OVERRIDES
-   ============================ */
-
-:root{
-  --brand-blue: #4b66f2;        /* match your topbar */
-  --brand-blue-hover: #3f58e0;
-}
-
-/* Primary buttons */
+/* Primary buttons — FINAL override version */
 a.btn.primary,
 button.btn.primary{
   background: var(--brand-blue) !important;
   border: 1px solid var(--brand-blue) !important;
   color: #fff !important;
+
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 600;
+
+  box-shadow: 0 10px 22px rgba(75, 102, 242, 0.28);
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
 }
 
-/* Hover should NEVER go black */
+/* Hover should never go black */
 a.btn.primary:hover,
 button.btn.primary:hover{
   background: var(--brand-blue-hover) !important;
   border-color: var(--brand-blue-hover) !important;
-  filter: none !important;               /* kills old brightness filters */
-  opacity: 1 !important;                 /* kills old fade rules */
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 14px 30px rgba(75, 102, 242, 0.35);
+  transform: translateY(-1px);
 }
 
-/* Secondary buttons stay solid */
+/* Active */
+a.btn.primary:active,
+button.btn.primary:active{
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(75, 102, 242, 0.25);
+}
+
+/* Secondary buttons (kept solid) */
 a.btn:not(.primary),
 button.btn:not(.primary){
   background: #fff !important;
@@ -699,7 +366,6 @@ button.btn:not(.primary){
   filter: none !important;
   opacity: 1 !important;
 }
-
 a.btn:not(.primary):hover,
 button.btn:not(.primary):hover{
   background: #fff !important;
@@ -707,307 +373,21 @@ button.btn:not(.primary):hover{
   transform: translateY(-1px);
 }
 
-/* ============================
-   SIDE PANELS MATCH TOP BAR
-   ============================ */
-
-:root{
-  --topbar-blue: #4b66f2;
-  --topbar-blue-soft: #5b74ff;
-  --topbar-blue-deep: #425ae0;
-}
-
-/* Left + Right panels */
-.panel.sidebar,
-.panel.right{
-  background: linear-gradient(
-    180deg,
-    var(--topbar-blue),
-    var(--topbar-blue-deep)
-  );
-  border: none;
-  color: #ffffff;
-  box-shadow: 0 18px 40px rgba(75,102,242,.25);
-}
-
-/* Panel headers */
-.panel.sidebar h3,
-.panel.right h3{
-  color: #ffffff;
-  border-bottom: 1px solid rgba(255,255,255,.18);
-}
-
-/* Sidebar links */
-.sidebar a{
-  color: rgba(255,255,255,.9);
-}
-
-.sidebar a:hover{
-  background: rgba(255,255,255,.12);
-  color: #ffffff;
-}
-
-/* Active nav item */
-.sidebar a.active{
-  background: rgba(255,255,255,.18);
-  color: #ffffff;
-  font-weight: 600;
-}
-
-/* Right panel text */
-.panel.right p,
-.panel.right .small{
-  color: rgba(255,255,255,.85);
-}
-
-/* Keep CTA button readable */
+/* Right panel CTA is inverted (FINAL) */
 .panel.right .btn.primary{
   background: #ffffff !important;
   color: var(--topbar-blue) !important;
 }
-
 .panel.right .btn.primary:hover{
   background: #f1f4ff !important;
 }
 
-/* ============================
-   SIDEBAR TYPOGRAPHY
-   ============================ */
-
-.panel.sidebar{
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-}
-
-/* Sidebar title */
-.panel.sidebar h3{
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
-  text-transform: none;
-}
-
-/* Navigation links */
-.sidebar a{
-  font-weight: 500;
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
-}
-
-/* Active item feels more “button-like” */
-.sidebar a.active{
-  font-weight: 600;
-}
-
-.sidebar a{
-  border-radius: 10px;
-  margin: 4px 8px;
-}
-
-pre {
-  margin: 12px 0;
-  padding: 16px 18px;
-  border-radius: 16px;
-
-  /* LIGHT surface instead of dark */
-  background: linear-gradient(
-    180deg,
-    #f5f9ff 0%,
-    #edf4ff 100%
-  );
-
-  border: 1px solid rgba(15, 23, 42, 0.08);
-
-  /* text */
-  color: #0f172a;
-  font-size: 0.95rem;
-  line-height: 1.6;
-
-  /* remove "code block" feel */
-  font-family: 'Inter', system-ui, sans-serif;
-
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
-}
-
-/* PRACTICE (interactive) */
-.practice .practice-item{
-  padding: 14px 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.65);
-  margin: 12px 0;
-}
-
-.practice .prompt{
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.practice .row{
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.practice input.answer{
-  flex: 1;
-  padding: 12px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255,255,255,0.90);
-  outline: none;
-}
-
-.practice input.answer:focus{
-  border-color: rgba(29, 78, 216, 0.55);
-  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
-}
-
-.practice .feedback{
-  margin-top: 10px;
-  font-weight: 700;
-}
-
-.practice .feedback.ok{ color: #15803d; }
-.practice .feedback.bad{ color: #b91c1c; }
-
-.practice-actions{
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-  flex-wrap: wrap;
-}
-
-.letter-tile{
-  width: 120px;
-  height: 120px;
-
-  border-radius: 18px;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-
-  background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.letter-glyph{
-  font-size: 64px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: rgba(15, 23, 42, 0.85);
-}
-
-a.is-locked {
-  pointer-events: none;
-  opacity: 0.55;
-  filter: grayscale(0.2);
-}
-
-/* MAPEO RAPIDO (Plantilla 002) */
-.mapeo{ margin-top: 10px; }
-
-.map-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 10px 0 12px;
-}
-
-.map-card{
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 18px;
-  padding: 14px 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(243,249,255,0.85) 100%);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-}
-
-.map-badge{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  font-size: 0.85rem;
-  background: rgba(29, 78, 216, 0.10);
-  border: 1px solid rgba(29, 78, 216, 0.20);
-  color: rgba(29, 78, 216, 0.95);
-}
-
-.map-badge.does{
-  background: rgba(147, 51, 234, 0.10);
-  border-color: rgba(147, 51, 234, 0.20);
-  color: rgba(147, 51, 234, 0.95);
-}
-
-.map-line{
-  margin-top: 10px;
-  font-size: 1.05rem;
-  color: rgba(15, 23, 42, 0.92);
-}
-
-.map-sub{
-  margin-top: 6px;
-  font-size: 0.9rem;
-  color: rgba(15, 23, 42, 0.62);
-}
-
-.map-rule{
-  margin-top: 6px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255,255,255,0.70);
-  color: rgba(15, 23, 42, 0.86);
-}
-
-.chip{
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  margin-right: 8px;
-  background: rgba(34, 197, 94, 0.12);
-  border: 1px solid rgba(34, 197, 94, 0.22);
-  color: rgba(21, 128, 61, 0.95);
-}
-
-.muted{ color: rgba(15, 23, 42, 0.55); }
-
-.map-example{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.map-example .good,
-.map-example .bad{
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255,255,255,0.70);
-  font-weight: 700;
-}
-
-.map-example .good{
-  border-color: rgba(34, 197, 94, 0.25);
-}
-
-.map-example .bad{
-  border-color: rgba(239, 68, 68, 0.25);
-}
-
-@media (max-width: 860px){
-  .map-grid{ grid-template-columns: 1fr; }
-  .map-example{ grid-template-columns: 1fr; }
-}
-
-/* ===== Card Upgrade ===== */
+/* =========================
+   9) CARDS / BLOCKS (FINAL)
+   ========================= */
+/* NOTE: your file had an earlier `.block{ background-color: rgb(13,75,67); }`
+   but later it was overridden by the “Card Upgrade”. Final appearance is
+   the upgraded light gradient card. */
 .block{
   position: relative;
   overflow: hidden;
@@ -1022,7 +402,6 @@ a.is-locked {
 
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
-
 .block:hover{
   transform: translateY(-2px);
   border-color: rgba(29,78,216,0.18);
@@ -1030,8 +409,6 @@ a.is-locked {
     0 18px 46px rgba(15,23,42,0.12),
     inset 0 1px 0 rgba(255,255,255,0.75);
 }
-
-/* subtle “shine” */
 .block::before{
   content:"";
   position:absolute;
@@ -1041,13 +418,11 @@ a.is-locked {
   transform: rotate(-8deg);
   pointer-events:none;
 }
-
 .block > h2:first-child,
 .block > h1:first-child{
   position: relative;
   padding-left: 14px;
 }
-
 .block > h2:first-child::before,
 .block > h1:first-child::before{
   content:"";
@@ -1060,191 +435,57 @@ a.is-locked {
   background: linear-gradient(180deg, rgba(59,130,246,0.95), rgba(147,51,234,0.75));
 }
 
-/* ===== Scroll-in animation ===== */
-/*.reveal{
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity .45s ease, transform .45s ease;
+/* =========================
+   10) PRE / DATA SECTIONS (FINAL)
+   ========================= */
+pre{
+  margin: 12px 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+
+  color: #0f172a;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  font-weight: 600;
+
+  /* final background (last one wins) */
+  background: linear-gradient(
+    90deg,
+    rgba(56,189,248,.35),
+    rgba(75,102,242,.30),
+    rgba(56,189,248,.35)
+  );
+
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-left: 6px solid var(--brand-blue);
+
+  box-shadow: 0 10px 26px rgba(15,23,42,.12);
 }
 
-.reveal.in{
-  opacity: 1;
-  transform: translateY(0);
-}
-  */
-
-/* Respect accessibility */
-@media (prefers-reduced-motion: reduce){
-  .reveal, .reveal.in{ transition:none; transform:none; opacity:1; }
-  .block{ transition:none; }
+/* If you specifically have <pre> inside blocks */
+.block pre{
+  border-radius: 14px;
+  padding: 16px 18px;
 }
 
-/* ---------- Mobile Responsive Patch ---------- */
-
-/* Make sure nothing forces horizontal scrolling */
-/* Make sure nothing forces horizontal scrolling */
-html { max-width: 100%; overflow-x: clip; }
-body { max-width: 100%; overflow-x: hidden; overflow-y: auto; }
-
-
-/* Images/media should not overflow */
-img, video, canvas, svg {
-  max-width: 100%;
-  height: auto;
-}
-
-/* If you have pre/code blocks, allow wrap on mobile */
-pre, code {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* Base shell spacing (helps small screens) */
-.shell {
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.shell, .content, .panel {
-  overflow: visible;
-  height: auto;
-}
-
-
-/* --------- BREAKPOINT: Tablets & down --------- */
-@media (max-width: 980px) {
-  /* If shell is a grid with 3 columns, stack */
-  .shell {
-    display: block !important;
-    padding: 14px;
-  }
-
-  /* Side panels become full-width cards above/below content */
-  .panel.sidebar,
-  .panel.right {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 0 14px 0 !important;
-  }
-
-  /* Center content full width */
-  .content {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 0 14px 0 !important;
-  }
-
-  /* Buttons wrap nicely */
-  .actions {
-    flex-wrap: wrap;
-  }
-}
-
-/* --------- BREAKPOINT: Phones --------- */
-@media (max-width: 560px) {
-  /* Tighten topbar and prevent overflow */
-  .topbar-inner {
-    padding: 10px 12px !important;
-    gap: 10px;
-  }
-
-  .brand {
-    font-size: 1.05rem !important;
-  }
-
-  /* Panels and blocks feel less huge */
-  .panel,
-  .block {
-    border-radius: 18px !important;
-  }
-
-  .block {
-    padding: 14px !important;
-  }
-
-  /* Headings scale down */
-  h1 {
-    font-size: 1.8rem !important;
-    line-height: 1.15 !important;
-  }
-  h2 {
-    font-size: 1.25rem !important;
-  }
-
-  /* Inputs/buttons fit */
-  input, button, .btn {
-    max-width: 100%;
-  }
-
-  /* Practice rows stack */
-  .practice .row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .practice .row .btn {
-    width: 100%;
-  }
-}
-
-/* ===== DESKTOP WIDTH BOOST (paste last) ===== */
-@media (min-width: 981px){
-  /* Make the whole app wider */
-  .shell{
-    width: min(1320px, 100%);   /* try 1280 / 1360 / 1440 */
-    padding: 18px;
-  }
-
-  /* If your shell is a 3-col grid, this makes the center bigger */
-  .shell{
-    display: grid;
-    grid-template-columns: 260px minmax(0, 1fr) 300px; /* shrink sides a bit */
-    gap: 22px;                                        /* more breathing room */
-  }
-}
-
-@media (min-width: 981px){
-  .shell{ grid-template-columns: 250px minmax(0, 1fr) 280px; }
-}
-
-/* ===== DESKTOP PRESENCE BOOST ===== */
-@media (min-width: 1200px){
-  .shell{
-    width: min(1480px, 100%);
-    padding: 20px;
-    display: grid;
-    grid-template-columns: 280px minmax(0, 1fr) 320px;
-    gap: 28px;
-  }
-}
-
-@media (min-width: 1600px){
-  .shell{
-    width: min(1640px, 100%);
-    grid-template-columns: 300px minmax(0, 1fr) 340px;
-  }
-}
-
-/* SEARCH BAR — ALWAYS VISIBLE BORDER */
+/* =========================
+   11) VERB SEARCH INPUT (FINAL)
+   ========================= */
 #verbInput{
   background: linear-gradient(180deg, #ffffff, #f1f6ff) !important;
   color: #0f172a !important;
 
-  border: 2px solid #0f172a !important;   /* solid dark border */
+  border: 2px solid #0f172a !important;
   border-radius: 14px;
 
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.8),
     0 6px 16px rgba(15,23,42,.08);
 }
-
-/* Placeholder */
 #verbInput::placeholder{
   color: rgba(15,23,42,.45) !important;
 }
-
-/* Focus: keep border, add subtle glow */
 #verbInput:focus{
   outline: none;
   border-color: #0f172a !important;
@@ -1253,38 +494,174 @@ pre, code {
     inset 0 1px 0 rgba(255,255,255,.9);
 }
 
-
-/* DATA SECTIONS ONLY (e.g. Formas principales) */
-.block pre{
-  border: 2px solid #0f172a;
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 14px 16px;
+/* =========================
+   12) PRACTICE (interactive)
+   ========================= */
+.practice .practice-item{
+  padding: 14px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.65);
+  margin: 12px 0;
+}
+.practice .prompt{
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.practice .row{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.practice input.answer{
+  flex: 1;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255,255,255,0.90);
+  outline: none;
+}
+.practice input.answer:focus{
+  border-color: rgba(29, 78, 216, 0.55);
+  box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+}
+.practice .feedback{
+  margin-top: 10px;
+  font-weight: 700;
+}
+.practice .feedback.ok{ color: #15803d; }
+.practice .feedback.bad{ color: #b91c1c; }
+.practice-actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
 }
 
-.block pre{
-  background: linear-gradient(180deg, #ffffff, #f6f9ff);
-  border-left: 6px solid var(--brand-blue);
-  border-radius: 14px;
+/* =========================
+   13) LETTER TILE
+   ========================= */
+.letter-tile{
+  width: 120px;
+  height: 120px;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.letter-glyph{
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgba(15, 23, 42, 0.85);
+}
+a.is-locked{
+  pointer-events: none;
+  opacity: 0.55;
+  filter: grayscale(0.2);
+}
 
-  font-family: 'Inter', system-ui, sans-serif;
+/* =========================
+   14) MAPEO RAPIDO (Plantilla 002)
+   ========================= */
+.mapeo{ margin-top: 10px; }
+
+.map-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 10px 0 12px;
+}
+.map-card{
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  padding: 14px 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(243,249,255,0.85) 100%);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+.map-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  background: rgba(29, 78, 216, 0.10);
+  border: 1px solid rgba(29, 78, 216, 0.20);
+  color: rgba(29, 78, 216, 0.95);
+}
+.map-badge.does{
+  background: rgba(147, 51, 234, 0.10);
+  border-color: rgba(147, 51, 234, 0.20);
+  color: rgba(147, 51, 234, 0.95);
+}
+.map-line{
+  margin-top: 10px;
   font-size: 1.05rem;
-  line-height: 1.75;
-  font-weight: 600;
+  color: rgba(15, 23, 42, 0.92);
+}
+.map-sub{
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: rgba(15, 23, 42, 0.62);
+}
+.map-rule{
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255,255,255,0.70);
+  color: rgba(15, 23, 42, 0.86);
+}
+.chip{
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-right: 8px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  color: rgba(21, 128, 61, 0.95);
+}
+.muted{ color: rgba(15, 23, 42, 0.55); }
 
-  box-shadow: 0 10px 26px rgba(15,23,42,.12);
-  padding: 16px 18px;
-   background: linear-gradient(90deg, rgba(56,189,248,.35), rgba(75,102,242,.30), rgba(56,189,248,.35));
-  
+.map-example{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.map-example .good,
+.map-example .bad{
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255,255,255,0.70);
+  font-weight: 700;
+}
+.map-example .good{ border-color: rgba(34, 197, 94, 0.25); }
+.map-example .bad{ border-color: rgba(239, 68, 68, 0.25); }
+
+@media (max-width: 860px){
+  .map-grid{ grid-template-columns: 1fr; }
+  .map-example{ grid-template-columns: 1fr; }
 }
 
+/* =========================
+   15) DRAG/DROP (word bank)
+   ========================= */
 .word-bank{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   padding:10px;
 }
-
 .dnd-chip{
   border: 2px solid rgba(15,23,42,.18);
   background: #fff;
@@ -1294,13 +671,11 @@ pre, code {
   cursor: pointer;
   user-select: none;
 }
-
 .dnd-chip.used{
   opacity: .45;
   filter: grayscale(.2);
   cursor: not-allowed;
 }
-
 .sentence{
   display:flex;
   gap:10px;
@@ -1310,7 +685,6 @@ pre, code {
   background: linear-gradient(180deg,#ffffff,#f6f9ff);
   border: 1px solid rgba(15,23,42,.10);
 }
-
 .dnd-slot{
   min-width: 120px;
   padding: 10px 12px;
@@ -1321,13 +695,14 @@ pre, code {
   color: rgba(15,23,42,.65);
   cursor: pointer;
 }
-
 .dnd-slot.filled{
   border-style: solid;
   color: #0f172a;
 }
 
-/* Course path (ordered lesson list) */
+/* =========================
+   16) COURSE PATH / STEPS
+   ========================= */
 .lessonPath{
   list-style:none;
   padding:0;
@@ -1336,7 +711,6 @@ pre, code {
   flex-direction:column;
   gap:10px;
 }
-
 .lessonStep{
   display:flex;
   align-items:center;
@@ -1347,7 +721,6 @@ pre, code {
   background: rgba(255,255,255,.65);
   box-shadow: 0 10px 25px rgba(0,0,0,.06);
 }
-
 .stepNum{
   width:34px;
   height:34px;
@@ -1357,34 +730,16 @@ pre, code {
   font-weight:800;
   background: rgba(0,0,0,.06);
 }
+.stepBody{ flex:1; min-width: 0; }
+.stepTitle{ font-weight:800; line-height:1.15; }
+.stepMeta{ margin-top:4px; font-size: 13px; opacity:.75; }
+.stepBtn{ white-space:nowrap; }
 
-.stepBody{
-  flex:1;
-  min-width: 0;
-}
-
-.stepTitle{
-  font-weight:800;
-  line-height:1.15;
-}
-
-.stepMeta{
-  margin-top:4px;
-  font-size: 13px;
-  opacity:.75;
-}
-
-.stepBtn{
-  white-space:nowrap;
-}
-
-/* Make Quiz feel like the checkpoint */
 .lessonStepQuiz{
   border:1px dashed rgba(0,0,0,.18);
   background: rgba(255,255,255,.55);
 }
 
-/* Course steps styling */
 .courseStep{
   display:flex;
   justify-content:space-between;
@@ -1392,15 +747,14 @@ pre, code {
   gap:12px;
   padding:12px 14px;
 }
-
 .stepLeft{
   display:flex;
   align-items:center;
   gap:12px;
   min-width:0;
 }
-
-.stepNum{
+/* smaller stepNum for courseStep (as in your file) */
+.courseStep .stepNum{
   width:30px;
   height:30px;
   border-radius:10px;
@@ -1409,68 +763,109 @@ pre, code {
   font-weight:800;
   background: rgba(0,0,0,.08);
 }
-
 .stepText{
   display:flex;
   flex-direction:column;
   line-height:1.15;
   min-width:0;
 }
-
 .stepSub{
   font-size:12px;
   opacity:.78;
   margin-top:4px;
 }
-
 .stepStatus{
   font-size:12px;
   opacity:.85;
   white-space:nowrap;
 }
 
-/* Locked state */
+/* Locked/Done state */
 .isLocked{
   opacity:.55;
   filter:saturate(.8);
   cursor:not-allowed !important;
-  pointer-events:none; /* prevents clicking */
+  pointer-events:none;
+}
+.isLocked .stepStatus::before{ content:"🔒 "; }
+.isDone .stepStatus::before{ content:"✅ "; }
+
+/* =========================
+   17) RESPONSIVE PATCHES
+   ========================= */
+@media (max-width: 980px){
+  .shell{
+    display: block !important;
+    padding: 14px;
+  }
+  .panel.sidebar,
+  .panel.right,
+  .content{
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 14px 0 !important;
+  }
+  .actions{ flex-wrap: wrap; }
 }
 
-.isLocked .stepStatus::before{
-  content:"🔒 ";
-}
-
-/* Completed state */
-.isDone .stepStatus::before{
-  content:"✅ ";
-}
-
-/* ===============================
-   DESKTOP WIDTH EXPANSION
-   =============================== */
-
-@media (min-width: 1200px) {
-  .shell {
-    max-width: 1440px;     /* was probably ~1100 */
+@media (max-width: 560px){
+  .topbar-inner{
+    padding: 10px 12px !important;
+    gap: 10px;
+  }
+  .brand{
+    font-size: 1.05rem !important;
+  }
+  .panel,
+  .block{
+    border-radius: 18px !important;
+  }
+  .block{
+    padding: 14px !important;
+  }
+  h1{
+    font-size: 1.8rem !important;
+    line-height: 1.15 !important;
+  }
+  h2{
+    font-size: 1.25rem !important;
+  }
+  input, button, .btn{
+    max-width: 100%;
+  }
+  .practice .row{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .practice .row .btn{
     width: 100%;
-    margin: 0 auto;
-    padding: 24px;
   }
 }
 
-@media (min-width: 1200px) {
-  .shell {
+/* =========================
+   18) DESKTOP WIDTH EXPANSION (FINAL)
+   ========================= */
+@media (min-width: 981px){
+  .shell{
+    width: min(1320px, 100%);
+    padding: 18px;
+
     display: grid;
-    grid-template-columns: 
-      260px     /* left nav */
-      minmax(0, 1fr)  /* center grows */
-      320px;    /* right panel */
+    grid-template-columns: 250px minmax(0, 1fr) 280px;
+    gap: 22px;
+  }
+}
+
+@media (min-width: 1200px){
+  .shell{
+    width: min(1480px, 100%);
+    padding: 20px;
+    grid-template-columns: 260px minmax(0, 1fr) 320px;
     gap: 28px;
   }
 }
 
-/* FORCE shell wider on desktop (override layout.css) */
+/* FORCE shell wider on desktop (your final overrides) */
 @media (min-width: 1200px){
   .shell{
     max-width: 1480px !important;
@@ -1478,13 +873,519 @@ pre, code {
     margin: 0 auto !important;
   }
 }
-
 @media (min-width: 1600px){
   .shell{
     max-width: 1640px !important;
     width: min(1640px, 100%) !important;
   }
 }
+
+@keyframes floaty{
+  0%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(12px,-10px,0); }
+  100%{ transform: translate3d(0,0,0); }
+}
+
+html::before{ animation: floaty 10s ease-in-out infinite; }
+html::after{  animation: floaty 14s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce){
+  html::before, html::after{ animation:none; }
+}
+
+/* =========================================
+   AUTH PAGE — LAYOUT OVERRIDE
+   ========================================= */
+
+body.auth-page{
+  min-height: 100vh;
+}
+
+.auth-shell{
+  width: min(1320px, calc(100% - 32px));
+  margin: 24px auto 40px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 280px;
+  gap: 26px;
+  align-items: stretch;
+}
+
+body.auth-page .auth-shell{
+  min-height: calc(100vh - 110px);
+}
+
+body.auth-page .auth-side{
+  align-self: center;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.auth-page .auth-main{
+  align-self: center;
+  padding: 36px 34px;
+  min-height: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body.auth-page .auth-header{
+  margin-bottom: 24px;
+}
+
+body.auth-page .auth-header h1{
+  margin: 0 0 10px;
+}
+
+body.auth-page .auth-card{
+  max-width: 560px;
+  width: 100%;
+  padding: 28px;
+  margin-top: 4px;
+}
+
+body.auth-page .auth-tabs{
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+body.auth-page .auth-form{
+  display: grid;
+  gap: 14px;
+}
+
+body.auth-page .auth-form label{
+  font-weight: 700;
+  color: rgba(15,23,42,.72);
+}
+
+body.auth-page .auth-form input{
+  width: 100%;
+  min-height: 48px;
+  border-radius: 14px;
+  border: 1px solid rgba(15,23,42,.12);
+  background: linear-gradient(180deg, #ffffff, #f7fbff);
+  padding: 0 14px;
+  font-size: 1rem;
+  color: #0f172a;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+body.auth-page .auth-form input:focus{
+  outline: none;
+  border-color: rgba(75,102,242,.75);
+  box-shadow: 0 0 0 4px rgba(75,102,242,.12);
+}
+
+body.auth-page .auth-actions{
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+body.auth-page .auth-footer{
+  margin-top: 16px;
+  color: rgba(15,23,42,.55);
+}
+
+body.auth-page .auth-benefits{
+  margin: 12px 0 18px;
+  padding-left: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+body.auth-page .auth-note{
+  margin-top: auto;
+  line-height: 1.6;
+}
+
+body.auth-page .auth-tip{
+  margin-top: 18px;
+}
+
+@media (min-width: 1400px){
+  .auth-shell{
+    width: min(1400px, calc(100% - 40px));
+    grid-template-columns: 270px minmax(620px, 1fr) 300px;
+  }
+
+  body.auth-page .auth-main{
+    padding: 44px 42px;
+  }
+
+  body.auth-page .auth-card{
+    max-width: 620px;
+    padding: 32px;
+  }
+}
+
+@media (max-width: 980px){
+  .auth-shell{
+    width: min(900px, calc(100% - 24px));
+    grid-template-columns: 1fr;
+    gap: 16px;
+    min-height: auto;
+    margin: 16px auto 28px;
+  }
+
+  body.auth-page .auth-side,
+  body.auth-page .auth-main{
+    min-height: auto;
+    align-self: stretch;
+  }
+
+  body.auth-page .auth-main{
+    padding: 26px 20px;
+  }
+
+  body.auth-page .auth-card{
+    max-width: 100%;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 560px){
+  .auth-shell{
+    width: calc(100% - 20px);
+    gap: 14px;
+  }
+
+  body.auth-page .auth-main{
+    padding: 20px 16px;
+  }
+
+  body.auth-page .auth-card{
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  body.auth-page .auth-tabs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.auth-page .auth-actions{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.auth-page .auth-actions .btn{
+    width: 100%;
+  }
+}
+
+/* AUTH PANEL SPACING FIX */
+
+body.auth-page .panel.auth-side{
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+body.auth-page .panel.auth-side h3{
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(15,23,42,.10);
+  font-weight: 600;
+}
+
+body.auth-page .panel.auth-side p{
+  margin: 0;
+  line-height: 1.5;
+}
+
+body.auth-page .auth-benefits{
+  margin-top: 6px;
+  margin-bottom: 12px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+body.auth-page .auth-tip{
+  padding: 12px 14px;
+  margin-top: 6px;
+  border-radius: 12px;
+}
+
+body.auth-page .auth-side{
+  align-self: start;
+}
+
+/* =========================================
+   AUTH PAGE — POLISHED PANEL / CARD PASS
+   ========================================= */
+
+body.auth-page .auth-shell{
+  align-items: center;
+}
+
+/* Side panels: less bulky, cleaner structure */
+body.auth-page .panel.auth-side{
+  padding: 18px 18px 20px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 14px;
+  border-radius: 22px;
+  box-shadow:
+    0 14px 34px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+/* Auth page side panels should feel lighter than course sidebars */
+body.auth-page .panel.auth-side{
+  background: linear-gradient(180deg, rgba(255,255,255,.82) 0%, rgba(241,247,255,.9) 100%);
+  border: 1px solid rgba(15,23,42,.06);
+  color: #0f172a;
+}
+
+body.auth-page .panel.auth-side h3{
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(15,23,42,.08);
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+body.auth-page .panel.auth-side p,
+body.auth-page .panel.auth-side li,
+body.auth-page .panel.auth-side .small{
+  color: rgba(15,23,42,.62);
+  line-height: 1.55;
+  margin: 0;
+}
+
+body.auth-page .auth-benefits{
+  margin: 2px 0 6px;
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+body.auth-page .auth-note{
+  margin-top: auto;
+  padding-top: 10px;
+  color: rgba(15,23,42,.52);
+}
+
+/* Tip card */
+body.auth-page .auth-tip{
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+body.auth-page .auth-tip .small{
+  color: rgba(15,23,42,.58);
+}
+
+/* Main auth area: slightly more prominent */
+body.auth-page .auth-main{
+  padding: 42px 42px 34px;
+  border-radius: 26px;
+}
+
+body.auth-page .auth-header{
+  margin-bottom: 26px;
+}
+
+body.auth-page .auth-header .sub{
+  max-width: none;
+}
+
+/* Main auth card */
+body.auth-page .auth-card{
+  max-width: 640px;
+  padding: 34px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.88) 0%, rgba(246,250,255,.92) 100%);
+  box-shadow:
+    0 20px 44px rgba(15,23,42,.10),
+    inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* Tabs feel more premium */
+body.auth-page .auth-tabs{
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+body.auth-page .auth-tabs .btn{
+  min-width: 138px;
+}
+
+/* Inputs */
+body.auth-page .auth-form{
+  gap: 12px;
+}
+
+body.auth-page .auth-form label{
+  font-size: .98rem;
+  font-weight: 700;
+  color: rgba(15,23,42,.72);
+}
+
+body.auth-page .auth-form .input,
+body.auth-page .auth-form input{
+  width: 100%;
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(15,23,42,.08);
+  background: linear-gradient(180deg, #f7fbff 0%, #eef4ff 100%);
+  color: #0f172a;
+  font-size: 1rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 1px 2px rgba(15,23,42,.03);
+}
+
+body.auth-page .auth-form .input:focus,
+body.auth-page .auth-form input:focus{
+  outline: none;
+  border-color: rgba(75,102,242,.45);
+  box-shadow:
+    0 0 0 4px rgba(75,102,242,.10),
+    inset 0 1px 0 rgba(255,255,255,.95);
+}
+
+/* Message box */
+body.auth-page .msgBox{
+  margin-top: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(15,23,42,.06);
+}
+
+/* Actions */
+body.auth-page .auth-actions{
+  margin-top: 10px;
+  gap: 12px;
+}
+
+body.auth-page .auth-actions .btn.primary{
+  min-width: 120px;
+}
+
+/* Footer */
+body.auth-page .auth-footer{
+  margin-top: 18px;
+  color: rgba(15,23,42,.52);
+}
+
+/* Desktop balance */
+@media (min-width: 981px){
+  body.auth-page .auth-side{
+    align-self: center;
+  }
+}
+
+/* Tablet */
+@media (max-width: 980px){
+  body.auth-page .panel.auth-side{
+    min-height: auto;
+  }
+
+  body.auth-page .auth-main{
+    padding: 28px 22px;
+  }
+
+  body.auth-page .auth-card{
+    max-width: 100%;
+    padding: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px){
+  body.auth-page .panel.auth-side{
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  body.auth-page .auth-main{
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+
+  body.auth-page .auth-card{
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  body.auth-page .auth-tabs .btn{
+    min-width: 0;
+  }
+}
+
+/* Topbar bubble selections*/
+
+.topbar-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-link{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1f2937;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,255,255,.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 6px 14px rgba(15,23,42,.10);
+  backdrop-filter: blur(10px);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+
+.topbar-link:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.86);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 10px 18px rgba(15,23,42,.12);
+}
+
+.topbar-link:active{
+  transform: translateY(0);
+}
+
+body.auth-page .auth-side{
+  align-self: start;
+}
+
 
 
 
