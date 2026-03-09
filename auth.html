@@ -3,102 +3,118 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Acceso | Ynoel English</title>
+  <title>Acceso | Exprésate</title>
+
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 </head>
 
-<body>
+<body class="auth-page">
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="brand">Ynoel English</div>
-      <a class="pill" href="curso.html">Curso</a>
+      <div class="brand">Exprésate</div>
+      <a class="topbar-link" href="curso.html">Curso</a>
     </div>
   </div>
 
-  <div class="shell">
+  <main class="auth-shell">
     <!-- LEFT -->
-    <aside class="panel sidebar">
+    <aside class="panel auth-side auth-side-left">
       <h3>Acceso</h3>
       <p class="small">
         Inicia sesión para guardar tu progreso y acceder al curso.
       </p>
 
-      <div class="block" style="margin-top:12px;">
-        <p class="small" style="margin:0;"><strong>Tip:</strong> si vienes de una lección, te regresaremos automáticamente.</p>
+      <div class="block auth-tip">
+        <p class="small" style="margin:0;">
+          <strong>Tip:</strong> si vienes de una lección, te regresaremos automáticamente.
+        </p>
       </div>
     </aside>
 
     <!-- CENTER -->
-    <main class="content">
-      <h1>Cuenta</h1>
-      <p class="sub">Inicia sesión o crea una cuenta.</p>
+    <section class="content auth-main">
+      <div class="auth-header">
+        <h1>Cuenta</h1>
+        <p class="sub">Inicia sesión o crea una cuenta.</p>
+      </div>
 
-      <div class="block" style="max-width:520px;">
+      <div class="block auth-card">
         <!-- Mode toggle -->
-        <div class="actions" style="margin-bottom:12px;">
+        <div class="auth-tabs">
           <button id="modeLogin" class="btn primary" type="button">Iniciar sesión</button>
           <button id="modeSignup" class="btn" type="button">Crear cuenta</button>
         </div>
 
         <!-- Signed in state -->
-        <div id="signedInBox" style="display:none; margin-bottom:12px;">
+        <div id="signedInBox" style="display:none;">
           <p class="small" style="margin:0 0 10px;">
             Sesión activa: <strong id="userEmail">—</strong>
           </p>
-          <div class="actions">
+
+          <div class="auth-actions">
             <button id="continueBtn" class="btn primary" type="button">Continuar</button>
             <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
           </div>
+
+          <hr style="margin:16px 0;" />
         </div>
 
         <!-- Auth form -->
-        <form id="authForm" autocomplete="on">
-         <label class="small" for="email"><strong>Email</strong></label>
-<input
-  id="email"
-  name="email"
-  type="email"
-  required
-  placeholder="tu@email.com"
-  class="input"
-/>
+        <form id="authForm" class="auth-form" autocomplete="on">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="tu@email.com"
+            class="input"
+          />
 
-<div style="height:10px;"></div>
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            placeholder="••••••••"
+            class="input"
+          />
 
-<label class="small" for="password"><strong>Contraseña</strong></label>
-<input
-  id="password"
-  name="password"
-  type="password"
-  required
-  placeholder="••••••••"
-  class="input"
-/>
+          <p id="msg" class="msgBox small" style="display:none;"></p>
 
-<p id="msg" class="msgBox small" style="display:none;"></p>
+          <div class="auth-actions">
+            <button id="submitAuth" class="btn primary" type="submit">Entrar</button>
+          </div>
         </form>
       </div>
 
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
+      <p class="auth-footer small">© <span id="year"></span> Exprésate</p>
+    </section>
 
     <!-- RIGHT -->
-    <aside class="panel right">
+    <aside class="panel auth-side auth-side-right">
       <h3>¿Por qué crear cuenta?</h3>
-      <div style="padding:12px 14px;">
-        <p class="small">• Guarda tu progreso</p>
-        <p class="small">• Acceso a quizzes</p>
-        <p class="small">• Mejor experiencia con audio</p>
-        <hr />
-        <p class="small">Si no quieres cuenta todavía, puedes explorar el sitio, pero algunas funciones serán limitadas.</p>
-      </div>
+
+      <ul class="auth-benefits">
+        <li>Guarda tu progreso</li>
+        <li>Acceso a quizzes</li>
+        <li>Mejor experiencia con audio</li>
+      </ul>
+
+      <p class="small auth-note">
+        Si no quieres cuenta todavía, puedes explorar el sitio, pero algunas funciones serán limitadas.
+      </p>
     </aside>
-  </div>
+  </main>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -107,5 +123,6 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
