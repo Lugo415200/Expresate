@@ -1,201 +1,142 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Diccionario de Verbos | Exprésate</title>
+  <title>Verbos | Exprésate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="diccionario.css" />
 </head>
-<body>
+<body data-page="diccionario">
 
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Exprésate</div>
-      <a class="pill" href="lessons.html">Lecciones</a>
-    </div>
-  </div>
+  <!-- Topbar filled by nav.js -->
+  <div class="topbar"></div>
 
   <div class="shell">
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="curso.html">Curso</a>
-      </nav>
-    </aside>
+    <!-- Sidebar filled by nav.js -->
+    <aside class="panel sidebar"></aside>
 
     <!-- CENTER -->
     <main class="content">
-      <h1>Diccionario de Verbos</h1>
-      <p class="sub">Busca un verbo del programa y mira sus formas + plantillas.</p>
+      <h1>Verbos aprobados</h1>
+      <p class="sub">Busca un verbo del programa y mira sus formas + ejemplos reales.</p>
 
+      <!-- CÓMO USARLO — compact 3-step strip -->
+      <div class="how-to-strip block">
+        <div class="how-to-step">
+          <span class="how-to-num">1</span>
+          <span class="how-to-text">Busca un verbo</span>
+        </div>
+        <div class="how-to-divider" aria-hidden="true"></div>
+        <div class="how-to-step">
+          <span class="how-to-num">2</span>
+          <span class="how-to-text">Revisa sus formas</span>
+        </div>
+        <div class="how-to-divider" aria-hidden="true"></div>
+        <div class="how-to-step">
+          <span class="how-to-num">3</span>
+          <span class="how-to-text">Usa la plantilla</span>
+        </div>
+      </div>
+
+      <!-- SEARCH BLOCK -->
       <div class="block">
-        <label for="verbInput"><strong>Buscar verbo (solo del listado)</strong></label><br />
+        <label for="verbInput">
+          <strong>Busca un verbo aprobado</strong>
+        </label>
+        <p class="small" style="margin:4px 0 0; color:rgba(15,23,42,.55);">
+          Escribe en inglés o español — también acepta formas conjugadas:
+          <em>ate</em>, <em>went</em>, <em>trabajo</em>, <em>comiendo</em>…
+        </p>
 
-        <!-- Important: datalist makes it easy to select approved verbs -->
         <input
           id="verbInput"
-          list="verbList"
           type="text"
-          placeholder="Busca en inglés o español… (ej: eat / comer, have / tener)"
+          placeholder="eat · comer · ate · trabajo · going…"
           autocomplete="off"
-          style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#ffffff; color:#000000;"
+          spellcheck="false"
         />
 
-        <datalist id="verbList"></datalist>
-
-
-        <div class="actions">
+        <div class="actions" style="margin-top:10px;">
           <button id="searchBtn" class="btn primary" type="button">Buscar</button>
-          <button id="clearBtn" class="btn" type="button">Limpiar</button>
+          <button id="clearBtn"  class="btn"         type="button">Limpiar</button>
         </div>
 
-        <p id="errorMsg" class="small"
-           style="display:none; border:1px solid rgba(255,255,255,.12); padding:10px; border-radius:12px; background:#0a1020;"></p>
+        <p id="searchStatus" class="search-status" aria-live="polite"></p>
 
-        <p class="small">
-          Tip: selecciona un verbo del listado para resultados exactos.
-        </p>
+        <!-- Starter chips — filled by diccionario.js -->
+        <div id="starterChips" class="chip-row" role="group" aria-label="Verbos rápidos"></div>
       </div>
 
-      <div id="result" class="block" style="display:none;"></div>
+      <!-- RESULT — populated by diccionario.js -->
+      <div id="result" style="display:none;"></div>
 
+      <!-- WHY APPROVED ONLY -->
       <div class="block">
-        <h2>¿Por qué solo del listado?</h2>
+        <h2>
+          ¿Por qué solo verbos aprobados?
+          <span class="verb-count-badge" id="verbCount" aria-label="Cantidad de verbos">—</span>
+        </h2>
         <p class="small">
-          Porque el inglés tiene muchos verbos irregulares (eat → ate, go → went).
-          Para evitar errores como “eated”, este diccionario solo conjuga verbos aprobados.
+          El inglés tiene muchos verbos irregulares (<em>eat → ate</em>, <em>go → went</em>,
+          <em>buy → bought</em>). Para evitar formas incorrectas como <em>"eated"</em> o
+          <em>"goed"</em>, este diccionario solo conjuga verbos verificados por el programa.
+          Así puedes copiar la forma y usarla con confianza.
         </p>
       </div>
 
-      <p class="small">© <span id="year"></span> Ynoel English</p>
+      <p class="small" style="margin-top:24px; color:rgba(15,23,42,.4);">
+        © <span id="year"></span> Exprésate
+      </p>
     </main>
 
-    <!-- RIGHT -->
+    <!-- RIGHT PANEL — Guía de formas -->
     <aside class="panel right">
-      <h3>Qué muestra</h3>
-      <div style="padding:12px 14px;">
-        <p class="small">• Base: work</p>
-        <p class="small">• He/She: works</p>
-        <p class="small">• Pasado: worked / ate / went</p>
-        <p class="small">• Participio: worked / eaten / gone</p>
-        <p class="small">• -ing: working / eating / going</p>
-        <hr />
-        <p class="small">Incluye plantillas para usar el verbo en frases reales.</p>
+      <h3>Guía de formas</h3>
+      <div class="form-guide" style="padding:4px 0 8px;">
+
+        <div class="form-guide-item">
+          <span class="form-guide-label">Base</span>
+          <span class="form-guide-example">work · eat · go</span>
+          <span class="form-guide-note">Yo / Tú / Nosotros (I / You / We / They)</span>
+        </div>
+
+        <div class="form-guide-item">
+          <span class="form-guide-label">He / She / It</span>
+          <span class="form-guide-example">works · eats · goes</span>
+          <span class="form-guide-note">Presente — se añade -s o -es</span>
+        </div>
+
+        <div class="form-guide-item">
+          <span class="form-guide-label">Pasado (Past)</span>
+          <span class="form-guide-example">worked · ate · went</span>
+          <span class="form-guide-note">Los irregulares cambian completamente</span>
+        </div>
+
+        <div class="form-guide-item">
+          <span class="form-guide-label">Participio (PP)</span>
+          <span class="form-guide-example">worked · eaten · gone</span>
+          <span class="form-guide-note">Se usa con <em>have</em>: I have eaten</span>
+        </div>
+
+        <div class="form-guide-item">
+          <span class="form-guide-label">-ing form</span>
+          <span class="form-guide-example">working · eating · going</span>
+          <span class="form-guide-note">I am working · She is eating</span>
+        </div>
+
       </div>
     </aside>
   </div>
 
-  <!-- Scripts MUST be in this order -->
+  <!-- Load order: verb data → search engine → shared infra → nav → app -->
   <script src="verb.js"></script>
   <script src="diccionario.js"></script>
+  <script src="progress.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
-
-=======
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Diccionario de Verbos | Expresate</title>
-  <link rel="stylesheet" href="layout.css" />
-  <link rel="stylesheet" href="theme-light.css" />
-</head>
-<body>
-
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Expresate</div>
-      <a class="pill" href="lessons.html">Lecciones</a>
-    </div>
-  </div>
-
-  <div class="shell">
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="lessons.html">Lecciones</a>
-        <a href="curso.html">Curso</a>
-        <a class="active" href="diccionario.html">Diccionario</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER -->
-    <main class="content">
-      <h1>Diccionario de Verbos</h1>
-      <p class="sub">Busca un verbo del programa y mira sus formas + plantillas.</p>
-
-      <div class="block">
-        <label for="verbInput"><strong>Buscar verbo (solo del listado)</strong></label><br />
-
-        <!-- Important: datalist makes it easy to select approved verbs -->
-        <input
-          id="verbInput"
-          list="verbList"
-          type="text"
-          placeholder="Busca en inglés o español… (ej: eat / comer, have / tener)"
-          autocomplete="off"
-          style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#ffffff; color:#000000;"
-        />
-
-        <datalist id="verbList"></datalist>
-
-        <div class="actions">
-          <button id="searchBtn" class="btn primary" type="button">Buscar</button>
-          <button id="clearBtn" class="btn" type="button">Limpiar</button>
-        </div>
-
-        <p id="errorMsg" class="small"
-           style="display:none; border:1px solid rgba(255,255,255,.12); padding:10px; border-radius:12px; background:#0a1020;"></p>
-
-        <p class="small">
-          Tip: selecciona un verbo del listado para resultados exactos.
-        </p>
-      </div>
-
-      <div id="result" class="block" style="display:none;"></div>
-
-      <div class="block">
-        <h2>¿Por qué solo del listado?</h2>
-        <p class="small">
-          Porque el inglés tiene muchos verbos irregulares (eat → ate, go → went).
-          Para evitar errores como “eated”, este diccionario solo conjuga verbos aprobados.
-        </p>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
-
-    <!-- RIGHT -->
-    <aside class="panel right">
-      <h3>Qué muestra</h3>
-      <div style="padding:12px 14px;">
-        <p class="small">• Base: work</p>
-        <p class="small">• He/She: works</p>
-        <p class="small">• Pasado: worked / ate / went</p>
-        <p class="small">• Participio: worked / eaten / gone</p>
-        <p class="small">• -ing: working / eating / going</p>
-        <hr />
-        <p class="small">Incluye plantillas para usar el verbo en frases reales.</p>
-      </div>
-    </aside>
-  </div>
-
-  <!-- Scripts MUST be in this order -->
-  <script src="verb.js"></script>
-  <script src="diccionario.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
-
-
-
-
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1

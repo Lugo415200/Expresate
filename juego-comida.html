@@ -1,236 +1,161 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Juego | Comida | Exprésate</title>
+  <title>Juego · Comida | Exprésate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="juego-comida.css" />
 </head>
-<body>
 
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Exprésate</div>
-      <a class="pill" href="curso.html">Curso</a>
+<body data-page="juego">
+
+  <!-- Topbar and sidebar rendered by nav.js -->
+  <div class="topbar"></div>
+
+  <div class="shell">
+    <aside class="panel sidebar"></aside>
+
+    <main class="content">
+      <h1>Flashcards · Comida 🍽️</h1>
+      <p class="sub">Aprender → Practicar → Jugar · domina el vocabulario paso a paso.</p>
+
+      <!-- ── MODE SELECTOR ── -->
+      <div class="game-mode-row" role="group" aria-label="Seleccionar modo">
+        <button class="game-mode-card is-active" id="modeLearn" type="button">
+          <span class="gmc-icon">📖</span>
+          <strong class="gmc-label">Aprender</strong>
+          <span class="gmc-desc">Mira · revela · repite</span>
+        </button>
+        <button class="game-mode-card" id="modePractice" type="button">
+          <span class="gmc-icon">✏️</span>
+          <strong class="gmc-label">Practicar</strong>
+          <span class="gmc-desc">Escribe la respuesta</span>
+        </button>
+        <button class="game-mode-card" id="modeGame" type="button">
+          <span class="gmc-icon">⚡</span>
+          <strong class="gmc-label">Jugar</strong>
+          <span class="gmc-desc">Elige la correcta · racha</span>
+        </button>
+        <button class="game-mode-card gmc-reset" id="resetProgress" type="button">
+          <span class="gmc-icon">↺</span>
+          <strong class="gmc-label">Reiniciar</strong>
+          <span class="gmc-desc">Borra el progreso</span>
+        </button>
+      </div>
+
+      <p class="small game-status-line" id="statusLine"></p>
+
+      <!-- ── MAIN GAME CARD ── -->
+      <div class="game-card" id="cardArea">
+
+        <!-- Visual / emoji zone -->
+        <div class="gc-visual" id="gcVisual">
+          <img id="cardImg" class="gc-img" alt="" />
+          <div id="cardEmoji" class="gc-emoji">🍽️</div>
+          <!-- Progress dots rendered by JS -->
+          <div class="gc-progress-dots" id="cardDots" aria-hidden="true"></div>
+        </div>
+
+        <!-- Word pair -->
+        <div class="gc-content">
+          <div class="gc-word-block">
+            <span class="gc-lang-label">Español</span>
+            <div class="gc-word-es" id="wordEs">—</div>
+          </div>
+
+          <div class="gc-divider"></div>
+
+          <div class="gc-word-block">
+            <span class="gc-lang-label">Inglés</span>
+            <div class="gc-word-en is-hidden" id="wordEn" aria-live="polite">—</div>
+          </div>
+        </div>
+
+        <!-- ── LEARN ACTIONS ── -->
+        <div class="gc-actions" id="learnActions">
+          <button class="btn gc-btn-reveal" id="revealBtn" type="button">
+            👁 Mostrar inglés
+          </button>
+          <button class="btn gc-btn-audio" id="audioBtn" type="button" disabled>
+            🔊 Audio
+          </button>
+          <button class="btn primary gc-btn-next" id="nextBtn" type="button">
+            Siguiente →
+          </button>
+        </div>
+
+        <p class="small gc-hint" id="hintLine"></p>
+
+        <!-- ── PRACTICE AREA ── -->
+        <div class="gc-practice" id="practiceArea" hidden>
+          <label class="gc-input-label" for="practiceInput">Escribe en inglés</label>
+          <input id="practiceInput" type="text" class="gc-input"
+                 placeholder="Escribe la palabra en inglés…"
+                 autocomplete="off" spellcheck="false" />
+          <div class="gc-practice-actions">
+            <button class="btn primary" id="checkBtn" type="button">Verificar ✓</button>
+            <button class="btn" id="showAnswerBtn" type="button">Ver respuesta</button>
+            <button class="btn primary gc-btn-next gc-next-practice" id="nextBtnPractice"
+                    type="button" style="margin-left:auto;">Siguiente →</button>
+          </div>
+          <p class="gc-result" id="practiceResult" aria-live="polite"></p>
+        </div>
+
+        <!-- ── GAME AREA ── -->
+        <div class="gc-game" id="gameArea" hidden>
+          <p class="gc-game-prompt">Elige la respuesta correcta en inglés:</p>
+          <div class="gc-choices" id="choices" role="group"></div>
+          <p class="gc-result" id="gameResult" aria-live="polite"></p>
+          <div class="gc-game-next" id="gameNextWrap" hidden>
+            <button class="btn primary" id="nextBtnGame" type="button">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- ── CARD FOOTER ── -->
+        <div class="gc-card-footer">
+          <span class="gc-card-num" id="cardNum">1 / 12</span>
+          <div class="gc-card-dots-row" id="cardDotsFooter" aria-hidden="true"></div>
+        </div>
+
+      </div><!-- .game-card -->
+
+      <p class="small game-page-footer">© <span id="year"></span> Exprésate</p>
+    </main>
+
+    <!-- ── RIGHT PANEL HUD ── -->
+    <aside class="panel right">
+      <h3>Tu progreso</h3>
+      <div id="gameHUD" style="padding:4px 4px 8px;">
+        <p class="small" style="color:rgba(255,255,255,.6);">Cargando…</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Reset confirmation modal (hidden by default) -->
+  <div class="reset-modal" id="resetModal" hidden role="dialog"
+       aria-modal="true" aria-labelledby="resetModalTitle">
+    <div class="reset-modal-box">
+      <div class="reset-modal-icon">↺</div>
+      <h3 id="resetModalTitle">¿Reiniciar progreso?</h3>
+      <p>Se borrarán todas las cartas aprendidas, practicadas y el XP ganado. Esta acción no se puede deshacer.</p>
+      <div class="reset-modal-actions">
+        <button class="btn" id="resetCancel" type="button">Cancelar</button>
+        <button class="btn" id="resetConfirm" type="button"
+                style="background:#ef4444;color:#fff;border-color:#ef4444;">
+          Sí, reiniciar
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="shell">
-
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="curso.html">Curso</a>
-        <a href="diccionario.html">Diccionario</a>
-        <a class="active" href="juego-comida.html">Juego: Comida</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER -->
-    <main class="content">
-      <h1>Juego: Flashcards de Comida</h1>
-      <p class="sub">Aprender → Practicar → Jugar (como FreeCodeCamp, pero visual).</p>
-
-      <div class="block">
-        <h2>Modo</h2>
-        <div class="actions">
-          <button class="btn primary" id="modeLearn" type="button">Aprender</button>
-          <button class="btn" id="modePractice" type="button">Practicar</button>
-          <button class="btn" id="modeGame" type="button">Jugar</button>
-          <button class="btn" id="resetProgress" type="button">Reiniciar</button>
-        </div>
-
-        <p class="small" id="statusLine">Listo.</p>
-      </div>
-
-      <!-- CARD -->
-      <div class="block" id="cardArea">
-        <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
-          <!-- Image / Emoji -->
-          <div id="imgWrap" style="width:160px; height:160px; border:1px solid rgba(255,255,255,.12); border-radius:14px; display:flex; align-items:center; justify-content:center; background:#0a1020; overflow:hidden;">
-            <img id="cardImg" alt="imagen" style="width:100%; height:100%; object-fit:cover; display:none;" />
-            <div id="cardEmoji" style="font-size:64px;">🍎</div>
-          </div>
-
-          <!-- Text -->
-          <div style="flex:1; min-width:220px;">
-            <p class="small" style="margin:0 0 6px;">Español</p>
-            <h2 style="margin:0 0 10px;" id="wordEs">manzana</h2>
-
-            <p class="small" style="margin:10px 0 6px;">Inglés</p>
-            <h2 style="margin:0 0 10px;" id="wordEn">—</h2>
-
-            <div class="actions">
-              <button class="btn" id="revealBtn" type="button">Mostrar inglés</button>
-              <button class="btn" id="audioBtn" type="button">▶️ Audio</button>
-              <button class="btn primary" id="nextBtn" type="button">Siguiente →</button>
-            </div>
-
-            <p class="small" id="hintLine" style="margin-top:10px;"></p>
-          </div>
-        </div>
-
-        <!-- PRACTICE INPUT -->
-        <div id="practiceArea" style="margin-top:16px; display:none;">
-          <h3>Tu respuesta (en inglés)</h3>
-          <input id="practiceInput" type="text" placeholder="Escribe la palabra en inglés…"
-                 style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a1020; color:#e5e7eb;" />
-
-          <div class="actions">
-            <button class="btn primary" id="checkBtn" type="button">Verificar</button>
-            <button class="btn" id="showAnswerBtn" type="button">Ver respuesta</button>
-          </div>
-
-          <p class="small" id="practiceResult"></p>
-        </div>
-
-        <!-- GAME AREA -->
-        <div id="gameArea" style="margin-top:16px; display:none;">
-          <h3>Elige la respuesta correcta (inglés)</h3>
-          <div id="choices" class="actions"></div>
-          <p class="small" id="gameResult"></p>
-        </div>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
-
-    <!-- RIGHT -->
-    <aside class="panel right">
-      <h3>Progreso</h3>
-      <div style="padding:12px 14px;">
-        <p class="small" id="progressLine">Cargando…</p>
-        <hr />
-        <p class="small"><strong>Regla recomendada:</strong> Aprende 10 cartas → Practica 10 → Juega 10.</p>
-      </div>
-    </aside>
-
-  </div>
-
+  <!-- Script load order: progress → alerts → nav → game → app -->
+  <script src="progress.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
   <script src="juego-comida.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
-=======
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Juego | Comida | Expresate</title>
-  <link rel="stylesheet" href="layout.css" />
-  <link rel="stylesheet" href="theme-light.css" />
-</head>
-<body>
-
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Expresate</div>
-      <a class="pill" href="curso.html">Curso</a>
-    </div>
-  </div>
-
-  <div class="shell">
-
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="curso.html">Curso</a>
-        <a href="diccionario.html">Diccionario</a>
-        <a class="active" href="juego-comida.html">Juego: Comida</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER -->
-    <main class="content">
-      <h1>Juego: Flashcards de Comida</h1>
-      <p class="sub">Aprender → Practicar → Jugar (como FreeCodeCamp, pero visual).</p>
-
-      <div class="block">
-        <h2>Modo</h2>
-        <div class="actions">
-          <button class="btn primary" id="modeLearn" type="button">Aprender</button>
-          <button class="btn" id="modePractice" type="button">Practicar</button>
-          <button class="btn" id="modeGame" type="button">Jugar</button>
-          <button class="btn" id="resetProgress" type="button">Reiniciar</button>
-        </div>
-
-        <p class="small" id="statusLine">Listo.</p>
-      </div>
-
-      <!-- CARD -->
-      <div class="block" id="cardArea">
-        <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
-          <!-- Image / Emoji -->
-          <div id="imgWrap" style="width:160px; height:160px; border:1px solid rgba(255,255,255,.12); border-radius:14px; display:flex; align-items:center; justify-content:center; background:#0a1020; overflow:hidden;">
-            <img id="cardImg" alt="imagen" style="width:100%; height:100%; object-fit:cover; display:none;" />
-            <div id="cardEmoji" style="font-size:64px;">🍎</div>
-          </div>
-
-          <!-- Text -->
-          <div style="flex:1; min-width:220px;">
-            <p class="small" style="margin:0 0 6px;">Español</p>
-            <h2 style="margin:0 0 10px;" id="wordEs">manzana</h2>
-
-            <p class="small" style="margin:10px 0 6px;">Inglés</p>
-            <h2 style="margin:0 0 10px;" id="wordEn">—</h2>
-
-            <div class="actions">
-              <button class="btn" id="revealBtn" type="button">Mostrar inglés</button>
-              <button class="btn" id="audioBtn" type="button">▶️ Audio</button>
-              <button class="btn primary" id="nextBtn" type="button">Siguiente →</button>
-            </div>
-
-            <p class="small" id="hintLine" style="margin-top:10px;"></p>
-          </div>
-        </div>
-
-        <!-- PRACTICE INPUT -->
-        <div id="practiceArea" style="margin-top:16px; display:none;">
-          <h3>Tu respuesta (en inglés)</h3>
-          <input id="practiceInput" type="text" placeholder="Escribe la palabra en inglés…"
-                 style="width:100%; padding:12px; margin-top:8px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0a1020; color:#e5e7eb;" />
-
-          <div class="actions">
-            <button class="btn primary" id="checkBtn" type="button">Verificar</button>
-            <button class="btn" id="showAnswerBtn" type="button">Ver respuesta</button>
-          </div>
-
-          <p class="small" id="practiceResult"></p>
-        </div>
-
-        <!-- GAME AREA -->
-        <div id="gameArea" style="margin-top:16px; display:none;">
-          <h3>Elige la respuesta correcta (inglés)</h3>
-          <div id="choices" class="actions"></div>
-          <p class="small" id="gameResult"></p>
-        </div>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
-
-    <!-- RIGHT -->
-    <aside class="panel right">
-      <h3>Progreso</h3>
-      <div style="padding:12px 14px;">
-        <p class="small" id="progressLine">Cargando…</p>
-        <hr />
-        <p class="small"><strong>Regla recomendada:</strong> Aprende 10 cartas → Practica 10 → Juega 10.</p>
-      </div>
-    </aside>
-
-  </div>
-
-  <script src="juego-comida.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
-
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1

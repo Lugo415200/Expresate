@@ -1,393 +1,361 @@
-<<<<<<< HEAD
-function normalizeText(v) {
-  return (v || "")
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
+/* diccionario.js — Verb search engine for Exprésate
+   Depends on: verb.js (window.VERB_DB must be defined first)
 
-function showError(msg) {
-  const e = document.getElementById("errorMsg");
-  if (!e) return alert(msg);
-  e.textContent = msg;
-  e.style.display = "block";
-}
+   Search supports:
+   - Exact English key          eat  →  eat
+   - English conjugated forms   ate  →  eat   |  going  →  go
+   - Spanish infinitive         comer  →  eat
+   - Spanish conjugated forms   trabajo  →  work  |  comiendo  →  eat
+   - Partial matches            "worki"  →  work
+   - Simple typos (Levenshtein) "studie"  →  study
+   - Accent-insensitive         "comi"  →  eat
+*/
+(function () {
+  "use strict";
 
-function clearError() {
-  const e = document.getElementById("errorMsg");
-  if (!e) return;
-  e.textContent = "";
-  e.style.display = "none";
-}
+  // ── Text helpers ──────────────────────────────────────────────
 
-function buildDatalist() {
-  const dl = document.getElementById("verbList");
-  const db = window.VERB_DB || {};
-  const keys = Object.keys(db).sort();
-  dl.innerHTML = keys.map(v => `<option value="${v}"></option>`).join("");
-}
-
-function buildSpanishIndex() {
-  const db = window.VERB_DB || {};
-  const index = new Map();
-
-  for (const [key, entry] of Object.entries(db)) {
-    const esRaw = entry.es || "";
-    if (!esRaw) continue;
-
-    const parts = esRaw
-      .split(/[\/,;]+/g)
-      .map(s => normalizeText(s))
-      .filter(Boolean);
-
-    for (const token of parts) {
-      if (!index.has(token)) index.set(token, new Set());
-      index.get(token).add(key);
-    }
+  function normaliseText(s) {
+    return (s || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "");
   }
 
-  return index;
-}
-
-function resolveSpanishToEnglish(spanishInput, spanishIndex) {
-  const s = normalizeText(spanishInput);
-  if (!s) return { type: "none" };
-
-  const set = spanishIndex.get(s);
-  if (!set || set.size === 0) return { type: "none" };
-
-  const keys = Array.from(set).sort();
-  if (keys.length === 1) return { type: "single", key: keys[0] };
-  return { type: "multi", keys };
-}
-
-function renderResult(verbKey) {
-  const r = document.getElementById("result");
-  const db = window.VERB_DB || {};
-  const entry = db[verbKey];
-
-  if (!entry) {
-    r.style.display = "none";
-    r.innerHTML = "";
-    return;
+  // Levenshtein distance — rolling-row O(n) space
+  function levenshtein(a, b) {
+    if (a === b) return 0;
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+    var prev = [];
+    for (var j = 0; j <= b.length; j++) prev[j] = j;
+    for (var i = 1; i <= a.length; i++) {
+      var curr = [i];
+      for (var jj = 1; jj <= b.length; jj++) {
+        var cost = a[i - 1] === b[jj - 1] ? 0 : 1;
+        curr[jj] = Math.min(prev[jj] + 1, curr[jj - 1] + 1, prev[jj - 1] + cost);
+      }
+      prev = curr;
+    }
+    return prev[b.length];
   }
 
-  r.style.display = "block";
-
-  const esForms = entry.esForms || {};
-
-  const yo      = esForms.yo      || "______";
-  const elElla  = esForms.elElla  || "______";
-  const ayerYo  = esForms.ayerYo  || "______";
-  const yoEstoy = esForms.yoEstoy || "______";
-  const yoVoyA  = esForms.yoVoyA  || "______";
-
-  // 🔊 Pronunciation audio (based on English key)
-  // Example file: audio/verbs/eat.mp3
-  const audioSrc = `audio/verbs/${verbKey}.mp3`;
-
-  r.innerHTML = `
-    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-      <h2 style="margin:0;">
-        Verbo:
-        <span style="color:var(--accent)">${entry.base}</span>
-      </h2>
-
-      <button
-        class="btn"
-        type="button"
-        data-audio="${audioSrc}"
-        title="Escuchar pronunciación"
-        style="padding:8px 10px;"
-      >
-        🔊
-      </button>
-    </div>
-
-    <p class="small">
-      Español: <strong>${entry.es || "—"}</strong> • Resultado exacto ✅
-    </p>
-
-    <div class="block">
-      <h3>Formas principales</h3>
-      <pre>Base [ I | You | We | They ]: ${entry.base}
-[ He | She | It ]: ${entry.present}
-Past (Pasado): ${entry.past}
-Past Participle (Participio): ${entry.pp}
--ing: ${entry.ing}</pre>
-      <p class="small">
-        Estas formas vienen del diccionario del programa (sin suposiciones).
-      </p>
-    </div>
-
-    <div class="block">
-      <h3>Plantillas (uso real)</h3>
-      <pre>Yo ${yo.padEnd(14, " ")} → I ${entry.base}
-Él/Ella ${elElla.padEnd(10, " ")} → He/She ${entry.present}
-Ayer yo ${ayerYo.padEnd(10, " ")} → I ${entry.past} yesterday
-Yo ${yoEstoy.padEnd(14, " ")} → I am ${entry.ing}
-Yo ${yoVoyA.padEnd(14, " ")} → I am going to ${entry.base}</pre>
-      <p class="small">
-        Las plantillas se completan automáticamente cuando el verbo tiene formas en español.
-      </p>
-    </div>
-  `;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  buildDatalist();
-  const spanishIndex = buildSpanishIndex();
-
-  const input = document.getElementById("verbInput");
-  const searchBtn = document.getElementById("searchBtn");
-  const clearBtn = document.getElementById("clearBtn");
-
-  function runSearch() {
-    clearError();
-    const raw = input.value;
-    const v = normalizeText(raw);
-    const db = window.VERB_DB || {};
-
-    if (!v) {
-      renderResult("");
-      return;
-    }
-
-    if (db[v]) {
-      renderResult(v);
-      return;
-    }
-
-    const resolved = resolveSpanishToEnglish(v, spanishIndex);
-
-    if (resolved.type === "single") {
-      input.value = resolved.key;
-      renderResult(resolved.key);
-      return;
-    }
-
-    if (resolved.type === "multi") {
-      renderResult("");
-      showError(`⚠️ "${raw}" puede referirse a varios verbos: ${resolved.keys.join(", ")}`);
-      return;
-    }
-
-    renderResult("");
-    showError(
-      "⚠️ No encontramos ese verbo en el programa. Prueba en inglés (eat, go, have) o en español (comer, ir, tener)."
-    );
+  // Safe HTML escape
+  function esc(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
-  searchBtn.addEventListener("click", runSearch);
+  // ── Search index ──────────────────────────────────────────────
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") runSearch();
+  function buildSearchIndex(db) {
+    var index = new Map();
+
+    function add(term, key) {
+      var t = normaliseText(term);
+      if (!t || t.length < 1) return;
+      if (!index.has(t)) index.set(t, new Set());
+      index.get(t).add(key);
+    }
+
+    function addAll(str, key) {
+      (str || "").split(/[\/,;\s]+/).forEach(function (part) {
+        var p = part.trim();
+        if (p) add(p, key);
+      });
+    }
+
+    for (var key in db) {
+      if (!Object.prototype.hasOwnProperty.call(db, key)) continue;
+      var v = db[key];
+      add(key, key);
+      addAll(v.base, key);
+      addAll(v.present, key);
+      addAll(v.past, key);
+      addAll(v.pp, key);
+      addAll(v.ing, key);
+      addAll(v.es, key);
+      (v.aliases || []).forEach(function (a) { add(a, key); });
+    }
+    return index;
+  }
+
+  // ── Search ────────────────────────────────────────────────────
+  //
+  // Returns one of:
+  //   { type: "empty" }
+  //   { type: "exact",       key: "work" }
+  //   { type: "ambiguous",   keys: ["do","make"] }
+  //   { type: "suggestions", keys: [...], query: "..." }
+  //   { type: "none",        query: "..." }
+
+  function search(rawQuery, db, index) {
+    var q = normaliseText(rawQuery);
+    if (!q) return { type: "empty" };
+
+    // Exact match
+    var exactSet = index.get(q);
+    if (exactSet && exactSet.size > 0) {
+      var exactKeys = Array.from(exactSet).sort();
+      if (exactKeys.length === 1) return { type: "exact", key: exactKeys[0] };
+      return { type: "ambiguous", keys: exactKeys };
+    }
+
+    if (q.length < 2) return { type: "none", query: q };
+
+    // Partial + fuzzy pass
+    var scores = new Map(); // verb key → best score (lower = better)
+    var allTerms = Array.from(index.keys());
+    var maxDist = Math.min(2, Math.max(1, Math.floor(q.length / 4)));
+
+    for (var i = 0; i < allTerms.length; i++) {
+      var term = allTerms[i];
+
+      // Substring match
+      var isPartial = term.indexOf(q) !== -1 || (q.length >= 4 && q.indexOf(term) !== -1);
+      if (isPartial) {
+        index.get(term).forEach(function (k) {
+          if (!scores.has(k) || scores.get(k) > 0.4) scores.set(k, 0.4);
+        });
+        continue;
+      }
+
+      // Levenshtein (only for queries ≥ 3 chars to avoid noise)
+      if (q.length >= 3) {
+        var dist = levenshtein(q, term);
+        if (dist <= maxDist) {
+          var score = dist / Math.max(q.length, term.length);
+          index.get(term).forEach(function (k) {
+            if (!scores.has(k) || scores.get(k) > score) scores.set(k, score);
+          });
+        }
+      }
+    }
+
+    if (scores.size === 0) return { type: "none", query: rawQuery };
+
+    var sorted = Array.from(scores.entries())
+      .sort(function (a, b) { return a[1] - b[1] || a[0].localeCompare(b[0]); })
+      .map(function (e) { return e[0]; })
+      .slice(0, 6);
+
+    return { type: "suggestions", keys: sorted, query: rawQuery };
+  }
+
+  // ── Render: verb result card ──────────────────────────────────
+
+  function renderResult(key, db) {
+    var el = document.getElementById("result");
+    if (!el) return;
+    var entry = db[key];
+    if (!entry) { el.style.display = "none"; el.innerHTML = ""; return; }
+
+    var audioSrc = entry.audio || ("audio/verbs/" + key + ".mp3");
+    var audioBtn = '<button class="btn verb-audio-btn" type="button" data-audio="'
+      + esc(audioSrc) + '" title="Escuchar pronunciación" aria-label="Escuchar pronunciación">🔊</button>';
+
+    // Forms grid
+    var forms = [
+      { label: "Base · I / You / We", value: entry.base },
+      { label: "He / She / It",       value: entry.present },
+      { label: "Pasado (Past)",        value: entry.past },
+      { label: "Participio (PP)",      value: entry.pp },
+      { label: "-ing form",            value: entry.ing }
+    ];
+    var formsHTML = forms.map(function (f) {
+      return '<div class="verb-form-item">'
+        + '<span class="verb-form-label">' + esc(f.label) + '</span>'
+        + '<span class="verb-form-value">' + esc(f.value) + '</span>'
+        + '</div>';
+    }).join("");
+
+    // Examples
+    var examplesHTML = "";
+    if (entry.examples && entry.examples.length) {
+      examplesHTML = '<div class="verb-examples">'
+        + '<span class="verb-section-label">Ejemplos reales</span>'
+        + entry.examples.map(function (ex) {
+            return '<div class="verb-example">'
+              + '<span class="verb-example-en">' + esc(ex.en) + '</span>'
+              + '<span class="verb-example-es">' + esc(ex.es) + '</span>'
+              + '</div>';
+          }).join("")
+        + '</div>';
+    }
+
+    // Template
+    var b  = esc(entry.base);
+    var pr = esc(entry.present);
+    var pa = esc(entry.past);
+    var ig = esc(entry.ing);
+
+    var templateHTML =
+      '<div class="verb-template">'
+      + '<span class="verb-section-label">Plantilla rápida</span>'
+      + '<div class="verb-template-grid">'
+      + row("Presente",  "I / You / We", "I <strong>" + b  + "</strong> every day.")
+      + row("Presente",  "He / She / It","She <strong>" + pr + "</strong> now.")
+      + row("Pasado",    "ayer",         "I <strong>" + pa + "</strong> yesterday.")
+      + row("-ing",      "ahora mismo",  "I am <strong>" + ig + "</strong> right now.")
+      + row("Futuro",    "ir a + inf.",  "I&rsquo;m going to <strong>" + b + "</strong>.")
+      + '</div>'
+      + '</div>';
+
+    el.style.display = "block";
+    el.className = "block verb-card";
+    el.innerHTML =
+        '<div class="verb-card-header">'
+      +   '<h2 class="verb-card-title">Verbo: <span class="verb-base">' + b + '</span></h2>'
+      +   audioBtn
+      + '</div>'
+      + '<p class="verb-card-subtitle">Español: <strong>' + esc(entry.es) + '</strong></p>'
+      + '<div class="verb-forms-grid">' + formsHTML + '</div>'
+      + examplesHTML
+      + templateHTML;
+  }
+
+  function row(tense, context, english) {
+    return '<div class="verb-template-row">'
+      + '<span class="verb-template-note">' + esc(tense) + '</span>'
+      + '<span class="verb-template-arrow">→</span>'
+      + '<span class="verb-template-en">' + english + '</span>'
+      + '</div>';
+  }
+
+  // ── Render: suggestion / ambiguous chips ──────────────────────
+
+  function renderChips(keys, label, db, onPick) {
+    var el = document.getElementById("result");
+    if (!el) return;
+    el.style.display = "block";
+    el.className = "block";
+
+    var chips = keys.map(function (k) {
+      var v = db[k] || {};
+      return '<button class="suggestion-chip" type="button" data-verb-key="' + esc(k) + '">'
+        + '<strong>' + esc(k) + '</strong>'
+        + (v.es ? ' <span style="font-weight:500;color:rgba(15,23,42,.45);">— ' + esc(v.es) + '</span>' : '')
+        + '</button>';
+    }).join("");
+
+    el.innerHTML = '<div class="suggestions-box">'
+      + '<p class="suggestions-label">' + label + '</p>'
+      + '<div class="suggestion-chips">' + chips + '</div>'
+      + '</div>';
+
+    el.querySelectorAll(".suggestion-chip").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        onPick(btn.getAttribute("data-verb-key"));
+      });
+    });
+  }
+
+  // ── Status line ───────────────────────────────────────────────
+
+  function setStatus(msg) {
+    var el = document.getElementById("searchStatus");
+    if (el) el.textContent = msg || "";
+  }
+
+  // ── Boot ──────────────────────────────────────────────────────
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var db    = window.VERB_DB || {};
+    var index = buildSearchIndex(db);
+
+    // Verb count badge
+    var countEl = document.getElementById("verbCount");
+    if (countEl) countEl.textContent = Object.keys(db).length;
+
+    // Footer year
+    var yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    var input     = document.getElementById("verbInput");
+    var searchBtn = document.getElementById("searchBtn");
+    var clearBtn  = document.getElementById("clearBtn");
+    var resultEl  = document.getElementById("result");
+
+    // Core search dispatcher
+    function runSearch(forceQuery) {
+      var raw = forceQuery !== undefined ? forceQuery : (input ? input.value : "");
+      if (input && forceQuery !== undefined) input.value = forceQuery;
+
+      var res = search(raw, db, index);
+
+      function onPick(key) {
+        if (input) input.value = key;
+        renderResult(key, db);
+        setStatus("");
+      }
+
+      if (res.type === "empty") {
+        if (resultEl) { resultEl.style.display = "none"; resultEl.innerHTML = ""; }
+        setStatus("");
+
+      } else if (res.type === "exact") {
+        renderResult(res.key, db);
+        setStatus("");
+
+      } else if (res.type === "ambiguous") {
+        renderChips(
+          res.keys,
+          "Esta palabra puede referirse a varios verbos. ¿Cuál buscas?",
+          db, onPick
+        );
+        setStatus("");
+
+      } else if (res.type === "suggestions") {
+        renderChips(
+          res.keys,
+          "No encontramos una coincidencia exacta. ¿Quisiste decir…?",
+          db, onPick
+        );
+        setStatus("");
+
+      } else {
+        // none
+        if (resultEl) { resultEl.style.display = "none"; resultEl.innerHTML = ""; }
+        setStatus('No encontramos "' + raw + '". Prueba en inglés o español (ej: eat, comer, trabajo).');
+      }
+    }
+
+    // Wire controls
+    if (searchBtn) {
+      searchBtn.addEventListener("click", function () { runSearch(); });
+    }
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") runSearch();
+      });
+      input.addEventListener("input", function () { setStatus(""); });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        if (input) { input.value = ""; input.focus(); }
+        if (resultEl) { resultEl.style.display = "none"; resultEl.innerHTML = ""; }
+        setStatus("");
+      });
+    }
+
+    // Starter chips
+    var chipsContainer = document.getElementById("starterChips");
+    if (chipsContainer) {
+      var starters = ["work", "eat", "go", "have", "make", "take", "want", "need"];
+      chipsContainer.innerHTML = starters.map(function (k) {
+        return '<button class="chip" type="button" data-verb-key="' + esc(k) + '">' + esc(k) + '</button>';
+      }).join("");
+
+      chipsContainer.querySelectorAll(".chip").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          runSearch(btn.getAttribute("data-verb-key"));
+        });
+      });
+    }
   });
 
-  input.addEventListener("input", clearError);
-
-  clearBtn.addEventListener("click", () => {
-    input.value = "";
-    clearError();
-    renderResult("");
-    input.focus();
-  });
-});
-=======
-function normalizeText(v) {
-  return (v || "")
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function showError(msg) {
-  const e = document.getElementById("errorMsg");
-  if (!e) return alert(msg);
-  e.textContent = msg;
-  e.style.display = "block";
-}
-
-function clearError() {
-  const e = document.getElementById("errorMsg");
-  if (!e) return;
-  e.textContent = "";
-  e.style.display = "none";
-}
-
-function buildDatalist() {
-  const dl = document.getElementById("verbList");
-  const db = window.VERB_DB || {};
-  const keys = Object.keys(db).sort();
-  dl.innerHTML = keys.map(v => `<option value="${v}"></option>`).join("");
-}
-
-function buildSpanishIndex() {
-  const db = window.VERB_DB || {};
-  const index = new Map();
-
-  for (const [key, entry] of Object.entries(db)) {
-    const esRaw = entry.es || "";
-    if (!esRaw) continue;
-
-    const parts = esRaw
-      .split(/[\/,;]+/g)
-      .map(s => normalizeText(s))
-      .filter(Boolean);
-
-    for (const token of parts) {
-      if (!index.has(token)) index.set(token, new Set());
-      index.get(token).add(key);
-    }
-  }
-
-  return index;
-}
-
-function resolveSpanishToEnglish(spanishInput, spanishIndex) {
-  const s = normalizeText(spanishInput);
-  if (!s) return { type: "none" };
-
-  const set = spanishIndex.get(s);
-  if (!set || set.size === 0) return { type: "none" };
-
-  const keys = Array.from(set).sort();
-  if (keys.length === 1) return { type: "single", key: keys[0] };
-  return { type: "multi", keys };
-}
-
-function renderResult(verbKey) {
-  const r = document.getElementById("result");
-  const db = window.VERB_DB || {};
-  const entry = db[verbKey];
-
-  if (!entry) {
-    r.style.display = "none";
-    r.innerHTML = "";
-    return;
-  }
-
-  r.style.display = "block";
-
-  const esForms = entry.esForms || {};
-
-  const yo      = esForms.yo      || "______";
-  const elElla  = esForms.elElla  || "______";
-  const ayerYo  = esForms.ayerYo  || "______";
-  const yoEstoy = esForms.yoEstoy || "______";
-  const yoVoyA  = esForms.yoVoyA  || "______";
-
-  // 🔊 Pronunciation audio (based on English key)
-  // Example file: audio/verbs/eat.mp3
-  const audioSrc = `audio/verbs/${verbKey}.mp3`;
-
-  r.innerHTML = `
-    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-      <h2 style="margin:0;">
-        Verbo:
-        <span style="color:var(--accent)">${entry.base}</span>
-      </h2>
-
-      <button
-        class="btn"
-        type="button"
-        data-audio="${audioSrc}"
-        title="Escuchar pronunciación"
-        style="padding:8px 10px;"
-      >
-        🔊
-      </button>
-    </div>
-
-    <p class="small">
-      Español: <strong>${entry.es || "—"}</strong> • Resultado exacto ✅
-    </p>
-
-    <div class="block">
-      <h3>Formas principales</h3>
-      <pre>Base (I/You/We/They): ${entry.base}
-He/She/It: ${entry.present}
-Past (Pasado): ${entry.past}
-Past Participle (Participio): ${entry.pp}
--ing: ${entry.ing}</pre>
-      <p class="small">
-        Estas formas vienen del diccionario del programa (sin suposiciones).
-      </p>
-    </div>
-
-    <div class="block">
-      <h3>Plantillas (uso real)</h3>
-      <pre>Yo ${yo.padEnd(14, " ")} → I ${entry.base}
-Él/Ella ${elElla.padEnd(10, " ")} → He/She ${entry.present}
-Ayer yo ${ayerYo.padEnd(10, " ")} → I ${entry.past} yesterday
-Yo ${yoEstoy.padEnd(14, " ")} → I am ${entry.ing}
-Yo ${yoVoyA.padEnd(14, " ")} → I am going to ${entry.base}</pre>
-      <p class="small">
-        Las plantillas se completan automáticamente cuando el verbo tiene formas en español.
-      </p>
-    </div>
-  `;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  buildDatalist();
-  const spanishIndex = buildSpanishIndex();
-
-  const input = document.getElementById("verbInput");
-  const searchBtn = document.getElementById("searchBtn");
-  const clearBtn = document.getElementById("clearBtn");
-
-  function runSearch() {
-    clearError();
-    const raw = input.value;
-    const v = normalizeText(raw);
-    const db = window.VERB_DB || {};
-
-    if (!v) {
-      renderResult("");
-      return;
-    }
-
-    if (db[v]) {
-      renderResult(v);
-      return;
-    }
-
-    const resolved = resolveSpanishToEnglish(v, spanishIndex);
-
-    if (resolved.type === "single") {
-      input.value = resolved.key;
-      renderResult(resolved.key);
-      return;
-    }
-
-    if (resolved.type === "multi") {
-      renderResult("");
-      showError(`⚠️ "${raw}" puede referirse a varios verbos: ${resolved.keys.join(", ")}`);
-      return;
-    }
-
-    renderResult("");
-    showError(
-      "⚠️ No encontramos ese verbo en el programa. Prueba en inglés (eat, go, have) o en español (comer, ir, tener)."
-    );
-  }
-
-  searchBtn.addEventListener("click", runSearch);
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") runSearch();
-  });
-
-  input.addEventListener("input", clearError);
-
-  clearBtn.addEventListener("click", () => {
-    input.value = "";
-    clearError();
-    renderResult("");
-    input.focus();
-  });
-});
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1
+})();

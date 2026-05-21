@@ -1,0 +1,750 @@
+/* ============================================================
+   juego-comida.css — Polished game styles for Exprésate.
+
+   Loads after: layout.css · theme-light.css · gamify.css
+   Scope: juego-comida.html only.
+
+   Design tokens used from theme-light.css:
+     --brand-blue · --text · --bg-main · accent-amber
+   gamify.css provides: .stat-card · .stat-icon · .stat-value · .stat-label
+   ============================================================ */
+
+/* ============================================================
+   MODE SELECTOR
+   ============================================================ */
+.game-mode-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 680px) {
+  .game-mode-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+.game-mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 14px 10px 13px;
+  border-radius: 16px;
+  border: 2px solid rgba(15,23,42,.10);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .12s ease,
+              background .15s ease, color .15s ease;
+  box-shadow: 0 2px 0 rgba(15,23,42,.08), 0 4px 12px rgba(15,23,42,.05);
+  font-family: inherit;
+  color: rgba(15,23,42,.60);
+  text-align: center;
+  outline-offset: 3px;
+}
+
+.game-mode-card:hover {
+  border-color: rgba(75,102,242,.35);
+  box-shadow: 0 2px 0 rgba(75,102,242,.25), 0 8px 24px rgba(75,102,242,.14);
+  transform: translateY(-2px);
+}
+
+.game-mode-card:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 0 rgba(15,23,42,.12);
+}
+
+.game-mode-card.is-active {
+  border-color: var(--brand-blue, #4b66f2);
+  background: rgba(75,102,242,.07);
+  color: var(--brand-blue, #4b66f2);
+  box-shadow: 0 2px 0 rgba(75,102,242,.30), 0 8px 24px rgba(75,102,242,.16);
+}
+
+.game-mode-card.gmc-reset {
+  color: rgba(15,23,42,.40);
+}
+
+.game-mode-card.gmc-reset:hover {
+  border-color: #ef4444;
+  color: #dc2626;
+  background: rgba(239,68,68,.05);
+  box-shadow: 0 2px 0 rgba(239,68,68,.25), 0 8px 18px rgba(239,68,68,.12);
+}
+
+.gmc-icon {
+  font-size: 1.55rem;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.gmc-label {
+  font-size: .84rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  display: block;
+}
+
+.gmc-desc {
+  font-size: .70rem;
+  font-weight: 500;
+  opacity: .72;
+  line-height: 1.3;
+  display: block;
+}
+
+.game-mode-card.is-active .gmc-desc { opacity: .82; }
+
+/* ── Status line ── */
+.game-status-line {
+  margin: 8px 0 18px;
+  color: rgba(15,23,42,.50);
+  font-weight: 500;
+  min-height: 1.4em;
+}
+
+/* ============================================================
+   MAIN GAME CARD
+   ============================================================ */
+.game-card {
+  background: #fff;
+  border-radius: 22px;
+  border: 1px solid rgba(15,23,42,.07);
+  box-shadow:
+    0 6px 0 rgba(15,23,42,.10),
+    0 16px 48px rgba(15,23,42,.08);
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition:
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+/* Flash states */
+.game-card.card-correct {
+  box-shadow:
+    0 6px 0 #059669,
+    0 16px 48px rgba(5,150,105,.20);
+  border-color: rgba(16,185,129,.35);
+}
+
+.game-card.card-wrong {
+  box-shadow:
+    0 6px 0 #dc2626,
+    0 16px 48px rgba(220,38,38,.16);
+  border-color: rgba(220,38,38,.30);
+}
+
+/* ── Visual / emoji zone ── */
+.gc-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  background: linear-gradient(145deg, #f0f5ff 0%, #e8effe 60%, #eef4ff 100%);
+  overflow: hidden;
+}
+
+/* Subtle pattern overlay */
+.gc-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(75,102,242,.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(168,85,247,.06) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.gc-emoji {
+  font-size: 88px;
+  line-height: 1;
+  user-select: none;
+  filter: drop-shadow(0 6px 18px rgba(15,23,42,.18));
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  position: relative; /* above ::before */
+}
+
+.game-card.card-correct .gc-emoji { transform: scale(1.14) rotate(-3deg); }
+.game-card.card-wrong  .gc-emoji { transform: scale(0.88) rotate(2deg); }
+
+.gc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Progress dots (inside visual area, bottom) ── */
+.gc-progress-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  flex-wrap: nowrap;
+}
+
+.gc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(15,23,42,.18);
+  transition: background .25s ease, width .20s ease;
+  flex: 0 0 auto;
+}
+
+.gc-dot.is-done    { background: #10b981; }
+.gc-dot.is-current { background: var(--brand-blue, #4b66f2); width: 18px; }
+
+/* XP float toast (absolute inside gc-visual) */
+.gc-xp-toast {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: #fbbf24;
+  color: #78350f;
+  font-size: .78rem;
+  font-weight: 800;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(251,191,36,.40);
+  animation: gc-xp-float 1.3s ease-out both;
+}
+
+@keyframes gc-xp-float {
+  0%   { opacity: 0; transform: translateY(6px) scale(.8); }
+  15%  { opacity: 1; transform: translateY(0)   scale(1); }
+  75%  { opacity: 1; transform: translateY(-22px) scale(1); }
+  100% { opacity: 0; transform: translateY(-36px) scale(.9); }
+}
+
+/* ── Word content area ── */
+.gc-content {
+  padding: 22px 26px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gc-word-block {
+  padding: 8px 0;
+}
+
+.gc-lang-label {
+  display: block;
+  font-size: .70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(15,23,42,.38);
+  margin-bottom: 3px;
+}
+
+.gc-word-es {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text, #0f172a);
+  letter-spacing: -.04em;
+  line-height: 1.1;
+}
+
+.gc-word-en {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  color: var(--brand-blue, #4b66f2);
+  min-height: 2.6rem;
+  position: relative;
+  transition: color .2s;
+}
+
+/* Hidden state: show a blur-bar placeholder */
+.gc-word-en.is-hidden {
+  color: transparent !important;
+}
+
+.gc-word-en.is-hidden::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 140px;
+  height: 1.6rem;
+  border-radius: 8px;
+  background: rgba(15,23,42,.10);
+}
+
+/* Reveal animation */
+.gc-word-en.revealing {
+  animation: gc-reveal .30s cubic-bezier(.25,.46,.45,.94) both;
+}
+
+@keyframes gc-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Horizontal rule between ES and EN */
+.gc-divider {
+  height: 1px;
+  background: rgba(15,23,42,.07);
+  margin: 4px 0;
+}
+
+/* ── Learn actions bar ── */
+.gc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 26px 8px;
+}
+
+.gc-btn-reveal {
+  background: rgba(75,102,242,.09);
+  color: var(--brand-blue, #4b66f2);
+  border-color: rgba(75,102,242,.22);
+  font-weight: 700;
+}
+
+.gc-btn-reveal:hover {
+  background: rgba(75,102,242,.16);
+  border-color: rgba(75,102,242,.40);
+}
+
+.gc-btn-audio:disabled {
+  opacity: .40;
+  cursor: not-allowed;
+}
+
+.gc-btn-next {
+  margin-left: auto;
+}
+
+/* ── Hint line ── */
+.gc-hint {
+  padding: 0 26px 14px;
+  color: rgba(15,23,42,.45);
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Practice area ── */
+.gc-practice {
+  border-top: 1px solid rgba(15,23,42,.07);
+  padding: 20px 26px 22px;
+}
+
+.gc-input-label {
+  display: block;
+  font-size: .80rem;
+  font-weight: 700;
+  color: rgba(15,23,42,.50);
+  margin-bottom: 8px;
+  letter-spacing: .01em;
+}
+
+.gc-input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(15,23,42,.12);
+  background: #f8fafc;
+  color: var(--text, #0f172a);
+  font-size: 1.05rem;
+  font-family: inherit;
+  font-weight: 600;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  box-sizing: border-box;
+  display: block;
+}
+
+.gc-input:focus {
+  outline: none;
+  border-color: var(--brand-blue, #4b66f2);
+  box-shadow: 0 0 0 3px rgba(75,102,242,.14);
+  background: #fff;
+}
+
+.gc-input.input-correct {
+  border-color: #10b981;
+  background: rgba(16,185,129,.06);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.12);
+}
+
+.gc-input.input-wrong {
+  border-color: #ef4444;
+  background: rgba(239,68,68,.05);
+  box-shadow: 0 0 0 3px rgba(239,68,68,.10);
+}
+
+.gc-practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.gc-next-practice {
+  margin-left: auto;
+}
+
+/* ── Game choice grid ── */
+.gc-game {
+  border-top: 1px solid rgba(15,23,42,.07);
+  padding: 20px 26px 4px;
+}
+
+.gc-game-prompt {
+  font-size: .86rem;
+  font-weight: 600;
+  color: rgba(15,23,42,.50);
+  margin: 0 0 12px;
+}
+
+.gc-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .gc-choices { grid-template-columns: 1fr; }
+}
+
+.gc-choice {
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 2px solid rgba(15,23,42,.11);
+  background: #fafbff;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+  cursor: pointer;
+  transition: border-color .15s, background .15s, transform .12s, box-shadow .15s;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(15,23,42,.04);
+}
+
+.gc-choice:hover:not(:disabled) {
+  border-color: var(--brand-blue, #4b66f2);
+  background: rgba(75,102,242,.07);
+  box-shadow: 0 4px 14px rgba(75,102,242,.16);
+  transform: translateY(-2px);
+}
+
+.gc-choice:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.gc-choice.choice-correct {
+  border-color: #10b981;
+  background: rgba(16,185,129,.10);
+  color: #047857;
+  box-shadow: 0 2px 10px rgba(16,185,129,.20);
+}
+
+.gc-choice.choice-wrong {
+  border-color: #ef4444;
+  background: rgba(239,68,68,.08);
+  color: #dc2626;
+}
+
+.gc-choice:disabled {
+  pointer-events: none;
+  opacity: .60;
+}
+
+.gc-game-next {
+  padding: 14px 0 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Feedback result line ── */
+.gc-result {
+  margin: 12px 0 4px;
+  font-size: .88rem;
+  font-weight: 700;
+  min-height: 1.3em;
+  transition: color .15s;
+}
+
+.gc-result.ok  { color: #047857; }
+.gc-result.bad { color: #dc2626; }
+
+/* ── Card footer: number + dot strip ── */
+.gc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 26px 16px;
+  border-top: 1px solid rgba(15,23,42,.06);
+  margin-top: 4px;
+}
+
+.gc-card-num {
+  font-size: .75rem;
+  font-weight: 700;
+  color: rgba(15,23,42,.36);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.gc-card-dots-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.gc-dot-f {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(15,23,42,.14);
+  flex: 0 0 auto;
+  transition: background .22s ease, width .20s ease;
+}
+
+.gc-dot-f.is-done    { background: #10b981; }
+.gc-dot-f.is-current { background: var(--brand-blue, #4b66f2); width: 18px; }
+
+/* ============================================================
+   RIGHT PANEL HUD
+   ============================================================ */
+
+/* reuse .stat-card, .stat-icon, .stat-value, .stat-label from gamify.css */
+
+.game-hud {
+  display: grid;
+  gap: 10px;
+}
+
+/* Override streak zero state to match game context */
+.game-hud .stat-card.streak-zero .stat-icon { opacity: .40; }
+
+/* Streak pop animation on increase */
+@keyframes hud-streak-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  65%  { transform: scale(.88); }
+  100% { transform: scale(1); }
+}
+
+.streak-pop {
+  animation: hud-streak-pop .42s cubic-bezier(.36,.07,.19,.97) 1 both;
+  display: inline-block;
+}
+
+/* Recommendation tip box */
+.hud-tip {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.20);
+  color: rgba(255,255,255,.88);
+  font-size: .80rem;
+  line-height: 1.50;
+}
+
+.hud-tip strong { color: #fff; }
+
+/* ============================================================
+   RESET CONFIRMATION MODAL
+   ============================================================ */
+.reset-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  backdrop-filter: blur(3px);
+  animation: modal-in .18s ease both;
+}
+
+.reset-modal[hidden] { display: none; }
+
+@keyframes modal-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reset-modal-box {
+  background: #fff;
+  border-radius: 22px;
+  padding: 30px 28px 24px;
+  max-width: 360px;
+  width: 92%;
+  box-shadow: 0 24px 70px rgba(15,23,42,.28);
+  text-align: center;
+  animation: modal-box-in .22s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes modal-box-in {
+  from { transform: scale(.90) translateY(14px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);    opacity: 1; }
+}
+
+.reset-modal-icon {
+  font-size: 2.4rem;
+  margin-bottom: 6px;
+  color: #ef4444;
+}
+
+.reset-modal-box h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: var(--text, #0f172a);
+}
+
+.reset-modal-box p {
+  font-size: .86rem;
+  color: rgba(15,23,42,.55);
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.reset-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* ============================================================
+   PAGE FOOTER
+   ============================================================ */
+.game-page-footer {
+  color: rgba(15,23,42,.35);
+  margin-top: 8px;
+}
+
+/* ============================================================
+   REDUCED MOTION — disable all transitions/animations
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .game-mode-card,
+  .game-card,
+  .gc-emoji,
+  .gc-choice,
+  .gc-input,
+  .gc-dot,
+  .gc-dot-f,
+  .gc-word-en {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .gc-word-en.revealing,
+  .gc-xp-toast,
+  .streak-pop,
+  .game-card.card-correct .gc-emoji,
+  .game-card.card-wrong .gc-emoji {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reset-modal,
+  .reset-modal-box {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE / ZOOM HARDENING
+   Fluid game controls and card internals for zoomed desktop,
+   tablets, and narrow phones.
+   ============================================================ */
+.game-mode-row {
+  grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
+}
+
+.game-card {
+  max-width: 100%;
+}
+
+.gc-visual {
+  height: clamp(8.75rem, 24vw, 11.25rem);
+}
+
+.gc-emoji {
+  font-size: clamp(4rem, 12vw, 5.5rem);
+}
+
+.gc-content,
+.gc-actions,
+.gc-hint,
+.gc-practice,
+.gc-game,
+.gc-card-footer {
+  padding-inline: clamp(1rem, 3vw, 1.625rem);
+}
+
+.gc-word-es,
+.gc-word-en {
+  font-size: clamp(1.65rem, 5vw, 2.2rem);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.gc-word-en.is-hidden::after {
+  width: min(8.75rem, 60%);
+}
+
+.gc-choices {
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+}
+
+@media (max-width: 700px) {
+  .gc-btn-next,
+  .gc-next-practice {
+    margin-left: 0;
+  }
+
+  .gc-actions,
+  .gc-practice-actions,
+  .gc-game-next {
+    justify-content: stretch;
+  }
+
+  .gc-actions .btn,
+  .gc-practice-actions .btn,
+  .gc-game-next .btn {
+    flex: 1 1 12rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-mode-row,
+  .gc-choices {
+    grid-template-columns: 1fr;
+  }
+
+  .gc-card-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gc-card-dots-row {
+    justify-content: flex-start;
+  }
+
+  .reset-modal-actions {
+    flex-direction: column;
+  }
+
+  .reset-modal-actions .btn {
+    width: 100%;
+  }
+}

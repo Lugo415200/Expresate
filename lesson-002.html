@@ -1,630 +1,327 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Plantilla 002 | Exprésate</title>
+  <title>Plantilla 002 — Preguntas (Do/Does) | Exprésate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="lesson-flashcard.css" />
 </head>
-<body data-lesson-id="template-002">
+<body class="lesson-step-mode" data-lesson-id="lesson-002-preguntas" data-page="curso">
 
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Exprésate</div>
-      <a class="pill" href="lessons.html">Lecciones</a>
-    </div>
-  </div>
+  <div class="topbar"></div>
 
   <div class="shell">
+    <aside class="panel sidebar"></aside>
 
-    <!-- LEFT: NAV -->
-    <aside class="panel sidebar">
-      <h3>Plantillas</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="diccionario.html">Diccionario de Verbos</a>
-        <a href="curso.html">Curso</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER: CONTENT -->
     <main class="content">
-      <h1>Plantilla 002</h1>
-      <p class="sub">Preguntas en presente: <strong>Do / Does</strong></p>
+      <h1>Plantilla 002 — Preguntas (Do / Does)</h1>
+      <p class="sub">Formula preguntas en presente sin pensar palabra por palabra.</p>
 
-      <div class="block">
-        <h2>Objetivo</h2>
-        <p>Formar preguntas simples en inglés usando <strong>Do</strong> y <strong>Does</strong>.</p>
-        <p><strong>No memorices reglas. Sigue el patrón.</strong></p>
-      </div>
+      <div data-lesson-progress></div>
 
-      <div class="block">
-        <h2>1) Mapeo rápido</h2>
-        <div class="mapeo">
-  <div class="map-grid">
-    <div class="map-card">
-      <div class="map-badge">DO</div>
-      <div class="map-line"><strong>I</strong> / You / We / They</div>
-      <div class="map-sub">Preguntas en presente</div>
-    </div>
-
-    <div class="map-card">
-      <div class="map-badge does">DOES</div>
-      <div class="map-line">He / <strong>She</strong></div>
-      <div class="map-sub">Él / Ella</div>
-    </div>
-  </div>
-
-  <div class="map-rule">
-    <span class="chip">Regla</span>
-    En preguntas, el verbo va en forma base: <strong>work</strong>
-    <span class="muted">(no <s>works</s>)</span>
-  </div>
-
-  <div class="map-example">
-    <div class="good">✅ Does she work?</div>
-    <div class="bad">❌ Does she works?</div>
-  </div>
-</div>
-
-
-        <p class="small"><strong>Importante:</strong> En preguntas, el verbo va en forma base: <strong>work</strong> (no <s>works</s>).</p>
-        <p class="small">✅ <strong>Does she work?</strong> (no <s>Does she works?</s>)</p>
-      </div>
-
-      <div class="block">
-        <h2>2) Patrón básico</h2>
-        <p>Verbo: <strong>work</strong></p>
-        <pre>¿Tú trabajas?         → Do you work?
-¿Nosotros trabajamos?  → Do we work?
-¿Ellos trabajan?       → Do they work?
-¿Ella trabaja?         → Does she work?
-¿Él trabaja aquí?      → Does he work here?</pre>
-      </div>
-
-      <div class="block">
-        <h2>3) Respuestas cortas (sí / no)</h2>
-        <pre>Do you work?     → Yes, I do. / No, I don't.
-Does she work?   → Yes, she does. / No, she doesn't.</pre>
-
-        <p class="small"><strong>Pista:</strong> Responde con <strong>do/does</strong>, no con el verbo principal.</p>
-      </div>
-
-      <div class="block">
-        <h2>4) Ejemplos (live / study)</h2>
-        <ul>
-          <li>¿Tú vives aquí? → <strong>Do you live here?</strong></li>
-          <li>¿Ella vive aquí? → <strong>Does she live here?</strong></li>
-          <li>¿Ellos estudian? → <strong>Do they study?</strong></li>
-          <li>¿Él estudia inglés? → <strong>Does he study English?</strong></li>
-        </ul>
-      </div>
-
-      <!-- INTERACTIVE PRACTICE -->
-      <div class="block practice" id="practice-002">
-        <h2>5) Práctica (escribe)</h2>
-        <p class="small">Traduce al inglés. Escribe tu respuesta y presiona <strong>Verificar</strong> (o Enter).</p>
-
-        <div class="practice-list">
-
-          <div class="practice-item" data-answer="Do you work?">
-            <div class="prompt">1) ¿Tú trabajas?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
+      <!-- 1 — Intro -->
+      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
+               data-fc-tip="Para preguntar en presente casi siempre necesitas Do o Does. Sin ellos, la pregunta suena rara.">
+        <div class="fc-head">
+          <div class="fc-num">1</div>
+          <div class="fc-titles">
+            <strong class="fc-title">¡Bienvenido(a) a la Plantilla 002!</strong>
+            <span class="fc-sub">Preguntas en presente con Do / Does</span>
           </div>
-
-          <div class="practice-item" data-answer="Does she live here?">
-            <div class="prompt">2) ¿Ella vive aquí?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Do they study?">
-            <div class="prompt">3) ¿Ellos estudian?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Does he work here?">
-            <div class="prompt">4) ¿Él trabaja aquí?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Do we work today?">
-            <div class="prompt">5) ¿Nosotros trabajamos hoy?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
+          <div class="fc-status"></div>
         </div>
-
-        <div class="practice-actions">
-          <button class="btn" id="checkAll" type="button">Verificar todo</button>
-          <button class="btn" id="resetPractice" type="button">Reiniciar</button>
+        <div class="fc-body">
+          <p>En esta plantilla vas a:</p>
+          <ul>
+            <li>Aprender cuándo usar <strong>Do</strong> y cuándo <strong>Does</strong>.</li>
+            <li>Formar preguntas con verbos comunes en presente.</li>
+            <li>Dar <strong>respuestas cortas</strong> al estilo natural.</li>
+            <li>Hacer un <strong>mini reto</strong> de traducción al final.</li>
+          </ul>
+          <p class="small">Pista: el verbo después de Do / Does va en su forma base. Nunca con -s.</p>
         </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 2 — Mapeo Do/Does (theory) -->
+      <section class="flashcard block" data-fc-id="mapeo" data-fc-title="Do vs Does"
+               data-fc-tip="Do = I, you, we, they. Does = he, she, it. Memoriza este reparto.">
+        <div class="fc-head">
+          <div class="fc-num">2</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Mapeo rápido: Do vs Does</strong>
+            <span class="fc-sub">¿Qué pronombre usa cuál?</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="mapeo">
+            <div class="map-grid">
+              <div class="map-card">
+                <div class="map-badge">DO</div>
+                <div class="map-line"><strong>I</strong> · You · We · They</div>
+                <div class="map-sub">Yo, tú, nosotros, ellos</div>
+              </div>
+              <div class="map-card">
+                <div class="map-badge does">DOES</div>
+                <div class="map-line">He · <strong>She</strong> · It</div>
+                <div class="map-sub">Él, ella, eso</div>
+              </div>
+            </div>
+
+            <div class="map-rule">
+              <span class="chip">Regla</span>
+              En preguntas, el verbo va en forma base: <strong>work</strong>
+              <span class="muted">(no <s>works</s>)</span>
+            </div>
+
+            <div class="map-example">
+              <div class="good">✓ Does she work?</div>
+              <div class="bad">✗ Does she works?</div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 3 — Patrón básico (theory) -->
+      <section class="flashcard block" data-fc-id="patron-basico" data-fc-title="Patrón básico"
+               data-fc-tip="Después de Do / Does, el verbo va en su forma base. Nunca con -s.">
+        <div class="fc-head">
+          <div class="fc-num">3</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Patrón básico</strong>
+            <span class="fc-sub">Verbo: <em>work</em> · trabajar</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <pre>¿Tú trabajas?         → Do you work?
+¿Nosotros trabajamos? → Do we work?
+¿Ellos trabajan?      → Do they work?
+¿Ella trabaja?        → Does she work?
+¿Él trabaja aquí?     → Does he work here?
+¿Eso funciona?        → Does it work?</pre>
+          <p class="small">Mismo patrón con <em>live</em> (vivir) y <em>study</em> (estudiar): <strong>Does she live here?</strong> / <strong>Do they study?</strong></p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 4 — Respuestas cortas (theory) -->
+      <section class="flashcard block" data-fc-id="respuestas-cortas" data-fc-title="Respuestas cortas"
+               data-fc-tip="Responde con Do / Does (o sus negativos), no con el verbo principal.">
+        <div class="fc-head">
+          <div class="fc-num">4</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Respuestas cortas (sí / no)</strong>
+            <span class="fc-sub">Suenan más naturales en inglés</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <pre>Do you work?     → Yes, I do.  /  No, I don’t.
+Do they study?   → Yes, they do.  /  No, they don’t.
+Does she work?   → Yes, she does.  /  No, she doesn’t.
+Does he study?   → Yes, he does.  /  No, he doesn’t.</pre>
+          <p class="small">No respondas con el verbo principal (<s>Yes, I work</s>). Usa <strong>do / does</strong>.</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 5 — Práctica escrita (practice) -->
+      <section class="flashcard block" data-fc-id="practica-escrita" data-fc-title="Práctica escrita"
+               data-fc-tip="Antes de escribir, identifica el sujeto. ¿Va con Do o con Does?">
+        <div class="fc-head">
+          <div class="fc-num">5</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Práctica (escribe)</strong>
+            <span class="fc-sub">Traduce al inglés. Enter o "Verificar".</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="block practice" id="practice-002">
+            <div class="practice-list">
+
+              <div class="practice-item" data-answer="Do you work?">
+                <div class="prompt">1) ¿Tú trabajas?</div>
+                <div class="row">
+                  <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+                  <button class="check-btn btn" type="button">Verificar</button>
+                </div>
+                <div class="feedback" aria-live="polite"></div>
+              </div>
+
+              <div class="practice-item" data-answer="Does she live here?">
+                <div class="prompt">2) ¿Ella vive aquí?</div>
+                <div class="row">
+                  <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+                  <button class="check-btn btn" type="button">Verificar</button>
+                </div>
+                <div class="feedback" aria-live="polite"></div>
+              </div>
+
+              <div class="practice-item" data-answer="Do they study?">
+                <div class="prompt">3) ¿Ellos estudian?</div>
+                <div class="row">
+                  <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+                  <button class="check-btn btn" type="button">Verificar</button>
+                </div>
+                <div class="feedback" aria-live="polite"></div>
+              </div>
+
+              <div class="practice-item" data-answer="Does he work here?">
+                <div class="prompt">4) ¿Él trabaja aquí?</div>
+                <div class="row">
+                  <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
+                  <button class="check-btn btn" type="button">Verificar</button>
+                </div>
+                <div class="feedback" aria-live="polite"></div>
+              </div>
+
+            </div>
+
+            <div class="practice-actions">
+              <button class="btn" id="checkAll" type="button">Verificar todo</button>
+              <button class="btn" id="resetPractice" type="button">Reiniciar</button>
+            </div>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 6 — Mini Reto (multiple-choice) -->
+      <section class="flashcard fc-reto block"
+               data-fc-id="reto"
+               data-fc-title="Mini reto"
+               data-fc-tip="Si el sujeto es he / she, usa Does + verbo SIN -s."
+               data-reto-type="multiple-choice">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Mini reto: ¿cuál es correcto?</strong>
+            <span class="fc-sub">Una sola opción correcta</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-reto-prompt">
+            <p class="fc-reto-question">Traduce: <strong>¿Ella vive aquí?</strong></p>
+            <div class="fc-reto-options" data-reto-options>
+              <button type="button" class="fc-letter" data-reto-correct>Does she live here?</button>
+              <button type="button" class="fc-letter">Does she lives here?</button>
+              <button type="button" class="fc-letter">Do she lives here?</button>
+            </div>
+            <p class="fc-reto-feedback" data-reto-feedback></p>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 7 — Summary -->
+      <section class="flashcard fc-summary block"
+               data-fc-id="resumen"
+               data-fc-title="Resumen"
+               data-fc-summary="true">
+        <div class="fc-head">
+          <div class="fc-num">7</div>
+          <div class="fc-titles">
+            <strong class="fc-title">¡Felicidades!</strong>
+            <span class="fc-sub">Resumen de la Plantilla 002</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-summary-banner">
+            <span class="fc-summary-emoji">✓</span>
+            <div>
+              <div class="fc-summary-headline">¡Terminaste Plantilla 002!</div>
+              <div class="fc-summary-sub">Ahora puedes hacer preguntas con Do / Does.</div>
+            </div>
+          </div>
+
+          <div class="fc-summary-grid">
+            <div class="fc-summary-stat">
+              <div class="fc-summary-stat-label">XP ganado</div>
+              <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
+            </div>
+            <div class="fc-summary-stat">
+              <div class="fc-summary-stat-label">Secciones</div>
+              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 7</span></div>
+            </div>
+          </div>
+
+          <p class="small">En esta lección lograste:</p>
+          <ul class="fc-summary-list">
+            <li>Saber cuándo usar Do y cuándo Does</li>
+            <li>Formar preguntas con el verbo en forma base</li>
+            <li>Dar respuestas cortas naturales</li>
+            <li>Traducir preguntas en presente</li>
+          </ul>
+
+          <div class="fc-summary-next">
+            <span class="label">A continuación</span>
+            <span class="title">Quiz 002 — Preguntas</span>
+          </div>
+        </div>
+        <div class="fc-foot"></div>
+      </section>
+
+      <!-- COMPLETION -->
+      <div class="actions" style="margin-top:18px;">
+        <a class="btn" href="curso.html">← Volver al curso</a>
+        <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
+          Marcar como completada
+        </button>
       </div>
+      <p class="small" id="lessonStatus" style="margin-top:8px;"></p>
 
-      <div class="block">
-        <h2>6) Práctica (responde corto)</h2>
-        <p class="small">Contesta con <strong>Yes, I do</strong> / <strong>No, I don't</strong> o <strong>Yes, she does</strong> / <strong>No, she doesn't</strong>.</p>
-        <ol>
-          <li>Do you work?</li>
-          <li>Does she study?</li>
-          <li>Do they live here?</li>
-          <li>Does he work today?</li>
-        </ol>
-      </div>
-
-      <div class="block">
-        <h2>Audio (pronunciación)</h2>
-        <p class="small">Escucha y repite. (Agrega MP3 después en <code>/audio/template-002/</code>)</p>
-
-        <p><strong>Do you work?</strong></p>
-        <audio controls preload="none">
-          <source src="audio/template-002/do-you-work.mp3" type="audio/mpeg">
-        </audio>
-
-        <p><strong>Does she live here?</strong></p>
-        <audio controls preload="none">
-          <source src="audio/template-002/does-she-live-here.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-
-      <div class="actions">
-        <a class="btn" href="lessons.html">← Volver</a>
-        <a class="btn primary" href="#" title="Próximamente">Siguiente →</a>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
+      <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <!-- RIGHT: ACTIONS -->
     <aside class="panel right">
-      <h3>Acciones</h3>
-      <div style="padding:12px 14px;">
-        <p id="lessonStatus" class="small">Estado: No completada todavía</p>
-
-        <div class="actions">
-          <button id="markComplete" class="btn primary" type="button">
-            Marcar como completada
-          </button>
-
-          <a class="btn" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noreferrer">
-            Hacer el quiz
-          </a>
-        </div>
-
-        <hr />
-
-        <p class="small">
-          Cuando termines, envía el quiz y manda una nota de voz para corregir tu pronunciación.
-        </p>
-
-        <div class="actions">
-          <a class="btn" href="https://wa.me/REPLACE_ME" target="_blank" rel="noreferrer">Enviar nota de voz (WhatsApp)</a>
-        </div>
+      <h3>Tu lección</h3>
+      <div data-lesson-rightpanel style="padding:4px 4px 8px;">
+        <p class="small skeleton-pulse" style="height:1.1em; width:65%; border-radius:6px;">Cargando…</p>
       </div>
     </aside>
-
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="access.js"></script>
+  <script src="progress.js"></script>
+  <script src="sync.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
+  <script src="data/lessons.js"></script>
+  <script src="lesson.js"></script>
   <script src="app.js"></script>
-
-  <!-- PRACTICE VALIDATION (same behavior as lesson-001) -->
+  <!-- Reused for the practice-item widget (global event delegation) -->
+  <script src="lesson-001.js"></script>
   <script>
-    function normalizeAnswer(s) {
-      return (s || "")
-        .toLowerCase()
-        .trim()
-        .replace(/[“”"]/g, '"')
-        .replace(/[’‘]/g, "'")
-        .replace(/\s+/g, " ")
-        .replace(/[.!?]+$/g, ""); // ignore ending punctuation
-    }
-
-    function checkItem(item) {
-      const input = item.querySelector("input.answer");
-      const feedback = item.querySelector(".feedback");
-      const expected = item.getAttribute("data-answer") || "";
-
-      const user = input.value;
-
-      if (!user.trim()) {
-        feedback.className = "feedback bad";
-        feedback.textContent = "Escribe tu respuesta primero.";
-        return false;
-      }
-
-      const ok = normalizeAnswer(user) === normalizeAnswer(expected);
-
-      if (ok) {
-        feedback.className = "feedback ok";
-        feedback.textContent = "✅ Correcto";
-        item.dataset.status = "ok";
-        return true;
-      } else {
-        feedback.className = "feedback bad";
-        feedback.textContent = `❌ Incorrecto. Respuesta: ${expected}`;
-        item.dataset.status = "bad";
-        return false;
-      }
-    }
-
-    function resetItem(item) {
-      item.querySelector("input.answer").value = "";
-      const feedback = item.querySelector(".feedback");
-      feedback.className = "feedback";
-      feedback.textContent = "";
-      delete item.dataset.status;
-    }
-
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".check-btn");
-      if (btn) {
-        const item = btn.closest(".practice-item");
-        checkItem(item);
-        return;
-      }
-
-      const checkAll = e.target.closest("#checkAll");
-      if (checkAll) {
-        const box = checkAll.closest(".practice");
-        const items = box.querySelectorAll(".practice-item");
-        items.forEach(i => checkItem(i));
-        return;
-      }
-
-      const reset = e.target.closest("#resetPractice");
-      if (reset) {
-        const box = reset.closest(".practice");
-        box.querySelectorAll(".practice-item").forEach(resetItem);
-        return;
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") return;
-      const input = e.target.closest("input.answer");
-      if (!input) return;
-      e.preventDefault();
-      const item = input.closest(".practice-item");
-      checkItem(item);
+    document.addEventListener("DOMContentLoaded", () => {
+      (window.Access ? Access.ready() : Promise.resolve()).then(() => {
+        if (window.Access && !Access.hasPremium()) {
+          window.location.href = "pricing.html?from=" + encodeURIComponent(window.location.pathname.split("/").pop());
+        }
+      });
     });
   </script>
 </body>
 </html>
-=======
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Plantilla 002 | Ynoel English</title>
-  <link rel="stylesheet" href="layout.css" />
-  <link rel="stylesheet" href="theme-light.css" />
-</head>
-<body data-lesson-id="template-002">
-
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Ynoel English</div>
-      <a class="pill" href="lessons.html">Lecciones</a>
-    </div>
-  </div>
-
-  <div class="shell">
-
-    <!-- LEFT: NAV -->
-    <aside class="panel sidebar">
-      <h3>Plantillas</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="lessons.html">Lecciones</a>
-        <a href="curso.html">Curso</a>
-        <a href="lesson-001.html">Plantilla 001 — Pronombres + Verbos</a>
-        <a class="active" href="lesson-002.html">Plantilla 002 — Preguntas (Do/Does)</a>
-        <a href="#" title="Próximamente">Plantilla 003 — Negaciones (Don’t/Doesn’t)</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER: CONTENT -->
-    <main class="content">
-      <h1>Plantilla 002</h1>
-      <p class="sub">Preguntas en presente: <strong>Do / Does</strong></p>
-
-      <div class="block">
-        <h2>Objetivo</h2>
-        <p>Formar preguntas simples en inglés usando <strong>Do</strong> y <strong>Does</strong>.</p>
-        <p><strong>No memorices reglas. Sigue el patrón.</strong></p>
-      </div>
-
-      <div class="block">
-        <h2>1) Mapeo rápido</h2>
-        <div class="mapeo">
-  <div class="map-grid">
-    <div class="map-card">
-      <div class="map-badge">DO</div>
-      <div class="map-line"><strong>I</strong> / You / We / They</div>
-      <div class="map-sub">Preguntas en presente</div>
-    </div>
-
-    <div class="map-card">
-      <div class="map-badge does">DOES</div>
-      <div class="map-line">He / <strong>She</strong></div>
-      <div class="map-sub">Él / Ella</div>
-    </div>
-  </div>
-
-  <div class="map-rule">
-    <span class="chip">Regla</span>
-    En preguntas, el verbo va en forma base: <strong>work</strong>
-    <span class="muted">(no <s>works</s>)</span>
-  </div>
-
-  <div class="map-example">
-    <div class="good">✅ Does she work?</div>
-    <div class="bad">❌ Does she works?</div>
-  </div>
-</div>
-
-
-        <p class="small"><strong>Importante:</strong> En preguntas, el verbo va en forma base: <strong>work</strong> (no <s>works</s>).</p>
-        <p class="small">✅ <strong>Does she work?</strong> (no <s>Does she works?</s>)</p>
-      </div>
-
-      <div class="block">
-        <h2>2) Patrón básico</h2>
-        <p>Verbo: <strong>work</strong></p>
-        <pre>¿Tú trabajas?         → Do you work?
-¿Nosotros trabajamos?  → Do we work?
-¿Ellos trabajan?       → Do they work?
-¿Ella trabaja?         → Does she work?
-¿Él trabaja aquí?      → Does he work here?</pre>
-      </div>
-
-      <div class="block">
-        <h2>3) Respuestas cortas (sí / no)</h2>
-        <pre>Do you work?     → Yes, I do. / No, I don't.
-Does she work?   → Yes, she does. / No, she doesn't.</pre>
-
-        <p class="small"><strong>Pista:</strong> Responde con <strong>do/does</strong>, no con el verbo principal.</p>
-      </div>
-
-      <div class="block">
-        <h2>4) Ejemplos (live / study)</h2>
-        <ul>
-          <li>¿Tú vives aquí? → <strong>Do you live here?</strong></li>
-          <li>¿Ella vive aquí? → <strong>Does she live here?</strong></li>
-          <li>¿Ellos estudian? → <strong>Do they study?</strong></li>
-          <li>¿Él estudia inglés? → <strong>Does he study English?</strong></li>
-        </ul>
-      </div>
-
-      <!-- INTERACTIVE PRACTICE -->
-      <div class="block practice" id="practice-002">
-        <h2>5) Práctica (escribe)</h2>
-        <p class="small">Traduce al inglés. Escribe tu respuesta y presiona <strong>Verificar</strong> (o Enter).</p>
-
-        <div class="practice-list">
-
-          <div class="practice-item" data-answer="Do you work?">
-            <div class="prompt">1) ¿Tú trabajas?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Does she live here?">
-            <div class="prompt">2) ¿Ella vive aquí?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Do they study?">
-            <div class="prompt">3) ¿Ellos estudian?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Does he work here?">
-            <div class="prompt">4) ¿Él trabaja aquí?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-          <div class="practice-item" data-answer="Do we work today?">
-            <div class="prompt">5) ¿Nosotros trabajamos hoy?</div>
-            <div class="row">
-              <input class="answer" type="text" placeholder="Type in English..." autocomplete="off" />
-              <button class="check-btn btn" type="button">Verificar</button>
-            </div>
-            <div class="feedback" aria-live="polite"></div>
-          </div>
-
-        </div>
-
-        <div class="practice-actions">
-          <button class="btn" id="checkAll" type="button">Verificar todo</button>
-          <button class="btn" id="resetPractice" type="button">Reiniciar</button>
-        </div>
-      </div>
-
-      <div class="block">
-        <h2>6) Práctica (responde corto)</h2>
-        <p class="small">Contesta con <strong>Yes, I do</strong> / <strong>No, I don't</strong> o <strong>Yes, she does</strong> / <strong>No, she doesn't</strong>.</p>
-        <ol>
-          <li>Do you work?</li>
-          <li>Does she study?</li>
-          <li>Do they live here?</li>
-          <li>Does he work today?</li>
-        </ol>
-      </div>
-
-      <div class="block">
-        <h2>Audio (pronunciación)</h2>
-        <p class="small">Escucha y repite. (Agrega MP3 después en <code>/audio/template-002/</code>)</p>
-
-        <p><strong>Do you work?</strong></p>
-        <audio controls preload="none">
-          <source src="audio/template-002/do-you-work.mp3" type="audio/mpeg">
-        </audio>
-
-        <p><strong>Does she live here?</strong></p>
-        <audio controls preload="none">
-          <source src="audio/template-002/does-she-live-here.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-
-      <div class="actions">
-        <a class="btn" href="lessons.html">← Volver</a>
-        <a class="btn primary" href="#" title="Próximamente">Siguiente →</a>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
-
-    <!-- RIGHT: ACTIONS -->
-    <aside class="panel right">
-      <h3>Acciones</h3>
-      <div style="padding:12px 14px;">
-        <p id="lessonStatus" class="small">Estado: No completada todavía</p>
-
-        <div class="actions">
-          <button id="markComplete" class="btn primary" type="button">
-            Marcar como completada
-          </button>
-
-          <a class="btn" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noreferrer">
-            Hacer el quiz
-          </a>
-        </div>
-
-        <hr />
-
-        <p class="small">
-          Cuando termines, envía el quiz y manda una nota de voz para corregir tu pronunciación.
-        </p>
-
-        <div class="actions">
-          <a class="btn" href="https://wa.me/REPLACE_ME" target="_blank" rel="noreferrer">Enviar nota de voz (WhatsApp)</a>
-        </div>
-      </div>
-    </aside>
-
-  </div>
-
-  <script src="app.js"></script>
-
-  <!-- PRACTICE VALIDATION (same behavior as lesson-001) -->
-  <script>
-    function normalizeAnswer(s) {
-      return (s || "")
-        .toLowerCase()
-        .trim()
-        .replace(/[“”"]/g, '"')
-        .replace(/[’‘]/g, "'")
-        .replace(/\s+/g, " ")
-        .replace(/[.!?]+$/g, ""); // ignore ending punctuation
-    }
-
-    function checkItem(item) {
-      const input = item.querySelector("input.answer");
-      const feedback = item.querySelector(".feedback");
-      const expected = item.getAttribute("data-answer") || "";
-
-      const user = input.value;
-
-      if (!user.trim()) {
-        feedback.className = "feedback bad";
-        feedback.textContent = "Escribe tu respuesta primero.";
-        return false;
-      }
-
-      const ok = normalizeAnswer(user) === normalizeAnswer(expected);
-
-      if (ok) {
-        feedback.className = "feedback ok";
-        feedback.textContent = "✅ Correcto";
-        item.dataset.status = "ok";
-        return true;
-      } else {
-        feedback.className = "feedback bad";
-        feedback.textContent = `❌ Incorrecto. Respuesta: ${expected}`;
-        item.dataset.status = "bad";
-        return false;
-      }
-    }
-
-    function resetItem(item) {
-      item.querySelector("input.answer").value = "";
-      const feedback = item.querySelector(".feedback");
-      feedback.className = "feedback";
-      feedback.textContent = "";
-      delete item.dataset.status;
-    }
-
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".check-btn");
-      if (btn) {
-        const item = btn.closest(".practice-item");
-        checkItem(item);
-        return;
-      }
-
-      const checkAll = e.target.closest("#checkAll");
-      if (checkAll) {
-        const box = checkAll.closest(".practice");
-        const items = box.querySelectorAll(".practice-item");
-        items.forEach(i => checkItem(i));
-        return;
-      }
-
-      const reset = e.target.closest("#resetPractice");
-      if (reset) {
-        const box = reset.closest(".practice");
-        box.querySelectorAll(".practice-item").forEach(resetItem);
-        return;
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") return;
-      const input = e.target.closest("input.answer");
-      if (!input) return;
-      e.preventDefault();
-      const item = input.closest(".practice-item");
-      checkItem(item);
-    });
-  </script>
-</body>
-</html>
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1

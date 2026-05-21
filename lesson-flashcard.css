@@ -1,0 +1,1576 @@
+/* ============================================================
+   lesson-flashcard.css — Reusable flashcard layout for lessons.
+
+   How to use a new lesson page with this pattern:
+     1) <head>: link layout.css, theme-light.css, gamify.css, lesson-flashcard.css
+        (in that order — last one wins on conflicts).
+     2) <body data-lesson-id="lesson-XYZ" data-page="curso">.
+     3) Drop a <div data-lesson-progress></div> at the top of <main class="content">.
+     4) Wrap each lesson section in:
+          <section class="flashcard" data-fc-id="someId" data-fc-title="Display name">
+            <div class="fc-head">
+              <div class="fc-num">N</div>
+              <div class="fc-titles">
+                <strong class="fc-title">Title</strong>
+                <span class="fc-sub">Subtitle (optional)</span>
+              </div>
+              <div class="fc-status"></div>
+            </div>
+            <div class="fc-body">…content…</div>
+            <div class="fc-foot">
+              <button class="btn fc-listo" data-fc-listo>Listo ✓</button>
+            </div>
+          </section>
+     5) For the listening challenge, add class="fc-reto" to the flashcard and use
+        the data attributes documented in lesson.js. The challenge auto-marks
+        the card done on a correct answer.
+     6) End the lesson with the standard #markComplete button. lesson.js will
+        keep it disabled until every flashcard is "Listo".
+     7) Drop a <div data-lesson-rightpanel></div> inside <aside class="panel right">.
+        lesson.js fills it from data/lessons.js metadata.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   TOP PROGRESS BAR
+   ---------------------------------------------------------- */
+.lesson-progress {
+  position: sticky;
+  top: 72px; /* clears the topbar */
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+.lesson-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: rgba(15, 23, 42, 0.72);
+  font-weight: 600;
+}
+.lesson-progress-row .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.lesson-progress-row .pct {
+  color: var(--brand-blue, #4b66f2);
+  font-weight: 700;
+}
+.lesson-progress-bar {
+  position: relative;
+  height: 10px;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.lesson-progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--brand-blue, #4b66f2), var(--accent, #38bdf8));
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(.22,.61,.36,1);
+  box-shadow: 0 0 16px rgba(75, 102, 242, 0.4);
+}
+
+/* ----------------------------------------------------------
+   FLASHCARD — extends .block with a header, foot, and done state
+   ---------------------------------------------------------- */
+.flashcard {
+  /* Inherits the .block gradient + shadow + hover-lift from theme-light.css.
+     We override only what we need to make the card feel like a single unit. */
+  padding: 0;
+  overflow: hidden;
+}
+.flashcard::before { display: none !important; } /* kill the decorative blob */
+
+/* ----------------------------------------------------------
+   STEP MODE — show one card at a time (wizard style).
+   lesson.js toggles .lesson-step-mode on <body> at init.
+   Falls back gracefully when not in step mode (all cards visible).
+   ---------------------------------------------------------- */
+body.lesson-step-mode .flashcard {
+  display: none;
+}
+body.lesson-step-mode .flashcard.is-current {
+  display: block;
+  animation: fcEnter .32s cubic-bezier(.22,.61,.36,1);
+}
+@keyframes fcEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.lesson-step-mode .flashcard.is-current { animation: none; }
+}
+
+/* Hide markComplete (and its surrounding actions row) until the
+   last section is done. lesson.js toggles the class. */
+.lesson-complete-hidden { display: none !important; }
+
+/* ----------------------------------------------------------
+   POLISH — direction-aware card transitions, completion pop,
+   consejo helper, summary card, checklist micro-states,
+   markComplete pulse. All animations gated by reduced-motion.
+   ---------------------------------------------------------- */
+
+/* The default .is-current animation in fcEnter is "slide up + fade".
+   We add explicit directions for forward/back so back-nav feels
+   different from forward-nav. lesson.js applies these classes. */
+body.lesson-step-mode .flashcard.is-current.from-next {
+  animation: fcEnterFromNext .36s cubic-bezier(.22,.61,.36,1);
+}
+body.lesson-step-mode .flashcard.is-current.from-back {
+  animation: fcEnterFromBack .36s cubic-bezier(.22,.61,.36,1);
+}
+@keyframes fcEnterFromNext {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fcEnterFromBack {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Completion pop — fires for ~600ms when a section is marked done */
+.flashcard.fc-just-done {
+  animation: fcJustDone .55s ease-out;
+}
+@keyframes fcJustDone {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.018); box-shadow: 0 16px 44px rgba(16,185,129,.22), inset 0 1px 0 rgba(255,255,255,.7); }
+  100% { transform: scale(1); }
+}
+
+/* ----------------------------------------------------------
+   CONSEJO DE EXPRÉSATE — small helper bubble per card.
+   lesson.js injects this from data-fc-tip="…".
+   Keeps the tone friendly without feeling childish.
+   ---------------------------------------------------------- */
+.fc-tip {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  margin: 14px 0 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fef9c3 0%, #fde68a 100%);
+  border: 1px solid rgba(217, 119, 6, 0.28);
+  color: #78350f;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.fc-tip::before {
+  content: "💡";
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+.fc-tip-label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #92400e;
+  margin-bottom: 2px;
+}
+
+/* ----------------------------------------------------------
+   SUMMARY CARD (.fc-summary) — celebration / recap before
+   "Marcar como completada". Excluded from gating checks.
+   ---------------------------------------------------------- */
+.flashcard.fc-summary {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%) !important;
+  border-color: rgba(16, 185, 129, 0.32) !important;
+  box-shadow: 0 18px 48px rgba(16, 185, 129, 0.16),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+.flashcard.fc-summary .fc-num {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+.fc-summary-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+.fc-summary-banner .fc-summary-emoji {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.fc-summary-banner .fc-summary-headline {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #064e3b;
+  line-height: 1.2;
+}
+.fc-summary-banner .fc-summary-sub {
+  font-size: 0.85rem;
+  color: rgba(6, 78, 59, 0.7);
+  margin-top: 2px;
+}
+
+.fc-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 12px;
+  display: grid;
+  gap: 8px;
+}
+.fc-summary-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(16, 185, 129, 0.18);
+  color: #064e3b;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.fc-summary-list li::before {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: #10b981;
+  color: white;
+  font-weight: 900;
+  font-size: 0.85rem;
+  flex: 0 0 auto;
+}
+
+.fc-summary-xp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.32);
+}
+.fc-summary-xp::before { content: "⭐"; font-size: 1rem; }
+
+.fc-summary-next {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(75, 102, 242, 0.08);
+  border: 1px solid rgba(75, 102, 242, 0.20);
+  color: var(--brand-blue, #4b66f2);
+  font-size: 0.92rem;
+}
+.fc-summary-next .label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.55);
+  margin-bottom: 2px;
+}
+.fc-summary-next .title {
+  font-weight: 800;
+  color: var(--brand-blue, #4b66f2);
+}
+
+/* ----------------------------------------------------------
+   RIGHT-PANEL CHECKLIST — current vs upcoming vs done
+   ---------------------------------------------------------- */
+.lesson-checklist li.is-current {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: white;
+  font-weight: 700;
+}
+.lesson-checklist li.is-current::before {
+  content: "";
+  background: var(--brand-blue, #4b66f2);
+  border-color: rgba(255, 255, 255, 0.6);
+  animation: checklistDotPulse 2s ease-in-out infinite;
+}
+.lesson-checklist li:not(.done):not(.is-current) {
+  opacity: 0.55;
+}
+@keyframes checklistDotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55); }
+  50%      { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+}
+
+/* ----------------------------------------------------------
+   MARK COMPLETE pulse — invites the click once revealed.
+   Removed once the lesson is recorded as done (.lesson-mc-claimed).
+   ---------------------------------------------------------- */
+#markComplete:not(.lesson-complete-hidden):not(.lesson-mc-claimed) {
+  animation: mcPulse 1.9s ease-in-out infinite;
+}
+@keyframes mcPulse {
+  0%, 100% { box-shadow: 0 10px 22px rgba(75, 102, 242, 0.28); }
+  50%      { box-shadow: 0 14px 36px rgba(75, 102, 242, 0.55); }
+}
+
+/* ----------------------------------------------------------
+   prefers-reduced-motion — kill all the polish animations.
+   Cards still toggle visibility; just no movement.
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  body.lesson-step-mode .flashcard.is-current.from-next,
+  body.lesson-step-mode .flashcard.is-current.from-back,
+  .flashcard.fc-just-done,
+  .lesson-checklist li.is-current::before,
+  #markComplete:not(.lesson-complete-hidden):not(.lesson-mc-claimed) {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   MODERN POLISH PASS — quiet the arcade vibe.
+   • Hide the redundant "Listo" status pill (the card border +
+     the right-panel timeline already signal completion).
+   • Soften the done/reto/summary tints to neutral whites with
+     a thin colored left rail.
+   • Replace decorative emoji with text or CSS-drawn icons.
+   • Calmer animations (smaller scale + softer shadows).
+   ============================================================ */
+
+/* Hide the per-card status pill — duplicate signal */
+.fc-status { display: none !important; }
+
+/* Done card — quieter, more premium */
+.flashcard.fc-done {
+  background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(243,249,255,0.85) 100%) !important;
+  border-color: rgba(15,23,42,0.06) !important;
+  border-left: 3px solid #10b981 !important;
+  box-shadow: 0 14px 36px rgba(15,23,42,0.06),
+              inset 0 1px 0 rgba(255,255,255,0.7) !important;
+}
+.flashcard.fc-done .fc-num {
+  background: white !important;
+  color: #10b981 !important;
+  border: 2px solid rgba(16,185,129,0.55) !important;
+}
+
+/* Smaller, calmer pop on completion */
+@keyframes fcJustDone {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.006); }
+  100% { transform: scale(1); }
+}
+
+/* Mini Reto — premium blue tint instead of pink */
+.flashcard.fc-reto {
+  background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(238,246,255,0.92) 100%) !important;
+  border-color: rgba(75,102,242,0.18) !important;
+  border-left: 3px solid var(--brand-blue, #4b66f2) !important;
+}
+.flashcard.fc-reto .fc-num {
+  background: rgba(75,102,242,0.12) !important;
+  color: var(--brand-blue, #4b66f2) !important;
+  border: none !important;
+}
+.fc-reto-play {
+  box-shadow: 0 8px 18px rgba(75,102,242,0.22) !important;
+}
+.fc-reto-options .fc-letter.right {
+  background: linear-gradient(180deg, #f0fdf4, #dcfce7) !important;
+  color: #047857 !important;
+  border-color: rgba(16,185,129,0.32) !important;
+}
+
+/* Consejo bubble — softer yellow + circled italic "i" instead of 💡 */
+.fc-tip {
+  background: linear-gradient(180deg, rgba(255,251,235,0.85) 0%, rgba(254,243,199,0.55) 100%);
+  border: 1px solid rgba(217,119,6,0.18);
+  color: rgba(15,23,42,0.78);
+  grid-template-columns: 28px 1fr;
+}
+.fc-tip::before {
+  content: "i";
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(217,119,6,0.16);
+  color: rgba(146,64,14,0.85);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.fc-tip-label {
+  color: rgba(146,64,14,0.85);
+}
+
+/* Summary card — calmer success */
+.flashcard.fc-summary {
+  background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(236,253,245,0.70) 100%) !important;
+  border-color: rgba(15,23,42,0.06) !important;
+  border-left: 3px solid #10b981 !important;
+  box-shadow: 0 14px 36px rgba(15,23,42,0.06),
+              inset 0 1px 0 rgba(255,255,255,0.7) !important;
+}
+.flashcard.fc-summary .fc-num {
+  background: white !important;
+  color: #10b981 !important;
+  border: 2px solid rgba(16,185,129,0.55) !important;
+}
+.fc-summary-banner {
+  background: rgba(255,255,255,0.78) !important;
+  border: 1px solid rgba(15,23,42,0.05) !important;
+  box-shadow: 0 6px 18px rgba(15,23,42,0.04) !important;
+}
+.fc-summary-banner .fc-summary-emoji {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(16,185,129,0.14);
+  color: #047857;
+  font-size: 1rem;
+  font-weight: 900;
+}
+.fc-summary-banner .fc-summary-headline {
+  color: rgba(15,23,42,0.85) !important;
+}
+.fc-summary-banner .fc-summary-sub {
+  color: rgba(15,23,42,0.55) !important;
+}
+.fc-summary-list li {
+  background: rgba(255,255,255,0.72) !important;
+  border: 1px solid rgba(15,23,42,0.06) !important;
+  color: rgba(15,23,42,0.78) !important;
+}
+.fc-summary-list li::before {
+  width: 16px;
+  height: 16px;
+  background: rgba(16,185,129,0.14) !important;
+  color: #047857 !important;
+  border-radius: 999px;
+  font-size: 0.7rem;
+}
+.fc-summary-xp {
+  background: rgba(245,158,11,0.10) !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(245,158,11,0.30) !important;
+  box-shadow: none !important;
+  font-weight: 700;
+}
+.fc-summary-xp::before { content: "" !important; }
+.fc-summary-next {
+  background: rgba(255,255,255,0.72) !important;
+  border: 1px solid rgba(15,23,42,0.06) !important;
+  color: rgba(15,23,42,0.7) !important;
+}
+.fc-summary-next .label { color: rgba(15,23,42,0.45) !important; }
+.fc-summary-next .title { color: var(--brand-blue, #4b66f2) !important; }
+
+/* MarkComplete pulse — subtler */
+@keyframes mcPulse {
+  0%, 100% { box-shadow: 0 10px 22px rgba(75,102,242,0.20); }
+  50%      { box-shadow: 0 14px 30px rgba(75,102,242,0.36); }
+}
+
+/* Strip 📘 from the top progress bar label */
+.lesson-progress-row .label { font-weight: 700; }
+
+/* ============================================================
+   RIGHT PANEL — modern learning HUD (white-glass).
+   Overrides theme-light's dark-blue .panel.right for lesson
+   step pages only. The left sidebar keeps its blue feel so the
+   two panels don't look identical and heavy.
+   ============================================================ */
+body.lesson-step-mode .panel.right {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(241,247,255,0.92) 100%) !important;
+  border: 1px solid rgba(15,23,42,0.08) !important;
+  color: rgba(15,23,42,0.78) !important;
+  box-shadow: 0 14px 36px rgba(15,23,42,0.06) !important;
+  padding: 20px 22px !important;
+}
+body.lesson-step-mode .panel.right h3 {
+  color: rgba(15,23,42,0.5) !important;
+  border-bottom: none !important;
+  padding: 0 !important;
+  margin: 0 0 16px !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  background: transparent !important;
+}
+body.lesson-step-mode .panel.right p,
+body.lesson-step-mode .panel.right .small,
+body.lesson-step-mode .panel.right li {
+  color: rgba(15,23,42,0.7) !important;
+}
+
+.lesson-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lesson-hud-header { display: flex; flex-direction: column; gap: 2px; }
+.lesson-hud-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(15,23,42,0.5);
+}
+.lesson-hud-title {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: rgba(15,23,42,0.88);
+  line-height: 1.2;
+}
+.lesson-hud-sub {
+  font-size: 0.85rem;
+  color: rgba(15,23,42,0.55);
+}
+.lesson-hud-step {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--brand-blue, #4b66f2);
+  line-height: 1.2;
+  margin-top: 8px;
+}
+.lesson-hud-step .of {
+  color: rgba(15,23,42,0.45);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-left: 2px;
+}
+.lesson-hud-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.08);
+  overflow: hidden;
+  margin-top: 8px;
+}
+.lesson-hud-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--brand-blue, #4b66f2), var(--accent, #38bdf8));
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(.22,.61,.36,1);
+}
+.lesson-hud-divider {
+  height: 1px;
+  background: rgba(15,23,42,0.08);
+  margin: 2px 0;
+}
+
+/* Timeline — slim vertical line with one dot per step */
+.lesson-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 22px;
+}
+.lesson-timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: rgba(15,23,42,0.08);
+  border-radius: 2px;
+}
+.lesson-timeline-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  color: rgba(15,23,42,0.45);
+}
+.lesson-timeline-step::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: white;
+  border: 2px solid rgba(15,23,42,0.18);
+  box-sizing: border-box;
+}
+.lesson-timeline-step.is-done {
+  color: rgba(15,23,42,0.75);
+}
+.lesson-timeline-step.is-done::before {
+  background: #10b981;
+  border-color: #10b981;
+}
+.lesson-timeline-step.is-current {
+  color: var(--brand-blue, #4b66f2);
+  font-weight: 700;
+}
+.lesson-timeline-step.is-current::before {
+  background: var(--brand-blue, #4b66f2);
+  border-color: var(--brand-blue, #4b66f2);
+  box-shadow: 0 0 0 4px rgba(75,102,242,0.18);
+  animation: timelineCurrentPulse 2.2s ease-in-out infinite;
+}
+@keyframes timelineCurrentPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(75,102,242,0.18); }
+  50%      { box-shadow: 0 0 0 7px rgba(75,102,242,0.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lesson-timeline-step.is-current::before { animation: none; }
+}
+
+/* XP reward — typographic, not a saturated pill */
+.lesson-hud-xp {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--brand-blue, #4b66f2);
+  line-height: 1.1;
+}
+.lesson-hud-xp::before {
+  content: "+";
+  margin-right: 2px;
+  color: rgba(15,23,42,0.55);
+  font-weight: 600;
+}
+.lesson-hud-xp::after {
+  content: " XP";
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(15,23,42,0.5);
+  letter-spacing: 0.05em;
+}
+
+/* Next-step CTA — minimal, with a moving arrow */
+.lesson-hud-next {
+  display: block;
+  text-decoration: none !important;
+  color: inherit;
+  padding-top: 2px;
+}
+.lesson-hud-next-title {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--brand-blue, #4b66f2);
+  display: inline-flex;
+  align-items: center;
+}
+.lesson-hud-next-title::after {
+  content: "→";
+  margin-left: 6px;
+  transition: transform 0.15s ease;
+}
+.lesson-hud-next:hover .lesson-hud-next-title::after {
+  transform: translateX(3px);
+}
+.lesson-hud-next-sub {
+  font-size: 0.82rem;
+  color: rgba(15,23,42,0.55);
+  margin-top: 2px;
+}
+.lesson-hud-next.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.lesson-hud-next.locked .lesson-hud-next-title { color: rgba(15,23,42,0.5); }
+.lesson-hud-next.locked .lesson-hud-next-title::after { content: ""; }
+.lesson-hud-next.locked .lesson-hud-next-sub { color: rgba(15,23,42,0.4); }
+
+/* Drop the older lesson-side cards if they appear inside step mode */
+body.lesson-step-mode .lesson-side { display: none; }
+
+/* ============================================================
+   VISUAL UPGRADE PASS — animated bg, card-type accents, header
+   redesign, summary medal + stats, timeline progress, hover/press.
+   Sits on top of the existing modern polish; all overrides are
+   intentional and additive.
+   ============================================================ */
+
+/* ----- Animated ambient background (lesson pages only) ----- */
+body.lesson-step-mode {
+  background-image:
+    radial-gradient(ellipse 900px 600px at 8% 12%,  rgba(75,102,242,0.045), transparent 65%),
+    radial-gradient(ellipse 700px 500px at 92% 82%, rgba(56,189,248,0.05),  transparent 65%),
+    radial-gradient(ellipse 500px 400px at 70% 28%, rgba(167,139,250,0.035), transparent 65%);
+  background-attachment: fixed;
+  background-size: 100% 100%, 100% 100%, 100% 100%;
+  animation: lessonBgShift 36s ease-in-out infinite alternate;
+}
+@keyframes lessonBgShift {
+  0%   { background-position: 0% 0%, 100% 100%, 50% 50%; }
+  100% { background-position: 8% 6%, 92% 94%, 56% 46%; }
+}
+/* Subtle dot grid overlay — adds texture without distraction */
+body.lesson-step-mode::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.022) 1px, transparent 0);
+  background-size: 32px 32px;
+  opacity: 0.55;
+}
+body.lesson-step-mode .shell { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  body.lesson-step-mode { animation: none; }
+}
+
+/* ----- Card meta row: badge + step indicator + xp preview ----- */
+/* In step mode we hide the chunky .fc-num — the meta row carries
+   the step number now and the card title becomes the entry point. */
+body.lesson-step-mode .flashcard .fc-num { display: none; }
+body.lesson-step-mode .flashcard .fc-head { padding-top: 8px; }
+
+.fc-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 16px 20px 0;
+  font-size: 0.7rem;
+}
+.fc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  background: rgba(15,23,42,0.08);
+  color: rgba(15,23,42,0.65);
+}
+.fc-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.95;
+}
+.fc-step-indicator {
+  font-weight: 600;
+  color: rgba(15,23,42,0.45);
+  letter-spacing: 0.04em;
+}
+.fc-xp-preview {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(245,158,11,0.10);
+  color: #b45309;
+  font-weight: 800;
+  font-size: 0.7rem;
+  border: 1px solid rgba(245,158,11,0.22);
+  letter-spacing: 0.02em;
+}
+
+/* ----- Card-type accent colors ----- */
+.flashcard.fc-type-intro .fc-badge      { background: rgba(167,139,250,0.14); color: #6d28d9; }
+.flashcard.fc-type-theory .fc-badge     { background: rgba(56,189,248,0.14);  color: #0369a1; }
+.flashcard.fc-type-practice .fc-badge   { background: rgba(245,158,11,0.14);  color: #b45309; }
+.flashcard.fc-type-reto .fc-badge       { background: rgba(75,102,242,0.14);  color: #4338ca; }
+.flashcard.fc-type-summary .fc-badge    { background: rgba(16,185,129,0.16);  color: #047857; }
+
+/* Type rails — added when the type class lives on the section.
+   .fc-reto / .fc-summary already supply rails; .fc-type-intro and
+   .fc-type-practice get them here. The :not() guards avoid double rails. */
+.flashcard.fc-type-intro:not(.fc-reto):not(.fc-summary):not(.fc-done) {
+  border-left: 3px solid rgba(167,139,250,0.45) !important;
+}
+.flashcard.fc-type-practice:not(.fc-reto):not(.fc-summary):not(.fc-done) {
+  border-left: 3px solid rgba(245,158,11,0.45) !important;
+}
+.flashcard.fc-type-theory:not(.fc-reto):not(.fc-summary):not(.fc-done) {
+  border-left: 3px solid rgba(56,189,248,0.40) !important;
+}
+
+/* ----- Summary card upgrade: medal + stats grid ----- */
+.flashcard.fc-summary .fc-summary-banner {
+  align-items: center;
+  gap: 16px !important;
+  padding: 16px 18px !important;
+}
+.flashcard.fc-summary .fc-summary-emoji {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  display: grid !important;
+  place-items: center !important;
+  color: white !important;
+  font-size: 1.7rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  box-shadow:
+    0 12px 28px rgba(16,185,129,0.30),
+    inset 0 -2px 0 rgba(0,0,0,0.08),
+    inset 0 2px 0 rgba(255,255,255,0.18) !important;
+  position: relative;
+}
+.flashcard.fc-summary .fc-summary-emoji::after {
+  /* Faint ring halo for the "achievement" feel */
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(16,185,129,0.18), transparent 70%);
+  z-index: -1;
+}
+.flashcard.fc-summary .fc-summary-headline {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800 !important;
+  font-size: 1.2rem !important;
+  color: rgba(15,23,42,0.92) !important;
+}
+
+.fc-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 4px 0 14px;
+}
+.fc-summary-stat {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(15,23,42,0.06);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.fc-summary-stat:hover {
+  transform: translateY(-1px);
+  border-color: rgba(75,102,242,0.18);
+  box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+}
+.fc-summary-stat-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: rgba(15,23,42,0.5);
+}
+.fc-summary-stat-value {
+  margin-top: 4px;
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  color: rgba(15,23,42,0.88);
+  line-height: 1.1;
+}
+.fc-summary-stat-value .accent { color: var(--brand-blue, #4b66f2); }
+.fc-summary-stat-value .accent-amber { color: #b45309; }
+
+/* ----- Right HUD: timeline fill + reward/next card wrappers ----- */
+/* Green progress line growing alongside the gray track */
+.lesson-timeline::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  width: 2px;
+  height: var(--timeline-fill, 0%);
+  background: linear-gradient(180deg, #10b981 0%, rgba(16,185,129,0.55) 100%);
+  border-radius: 2px;
+  transition: height 0.5s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Reward card wrapper around +10 XP */
+.lesson-hud-reward {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(245,158,11,0.06);
+  border: 1px solid rgba(245,158,11,0.18);
+}
+.lesson-hud-reward .lesson-hud-label {
+  color: rgba(180,83,9,0.72);
+}
+
+/* Next CTA wrapper — pop-on-hover */
+.lesson-hud-next-card {
+  display: block;
+  text-decoration: none !important;
+  color: inherit !important;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(75,102,242,0.05);
+  border: 1px solid rgba(75,102,242,0.15);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.lesson-hud-next-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(75,102,242,0.35);
+  box-shadow: 0 10px 22px rgba(75,102,242,0.12);
+}
+.lesson-hud-next-card.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.lesson-hud-next-card.locked .lesson-hud-next-title { color: rgba(15,23,42,0.5); }
+.lesson-hud-next-card.locked .lesson-hud-next-title::after { content: ""; }
+.lesson-hud-next-card.locked .lesson-hud-next-sub { color: rgba(15,23,42,0.4); }
+
+/* ----- Press / active states for interactive elements ----- */
+.fc-listo:active,
+.btn.btn-next:active,
+button.fc-letter:active,
+.fc-reto-play:active {
+  transform: translateY(1px) !important;
+  transition: transform 0.08s ease;
+}
+.fc-letter {
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease;
+}
+.fc-back:hover {
+  transform: translateY(-1px);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 720px) {
+  .fc-meta { padding: 14px 16px 0; gap: 8px; }
+  .fc-xp-preview { margin-left: auto; }
+  .fc-summary-grid { grid-template-columns: 1fr; }
+  .fc-summary-banner { gap: 12px !important; padding: 14px !important; }
+  .flashcard.fc-summary .fc-summary-emoji { width: 44px !important; height: 44px !important; font-size: 1.4rem !important; }
+  .flashcard.fc-summary .fc-summary-headline { font-size: 1.05rem !important; }
+}
+@media (max-width: 480px) {
+  .fc-step-indicator { display: none; } /* Save space — the top progress bar already shows position */
+  .fc-meta { padding: 12px 14px 0; }
+}
+
+/* Step-mode footer layout: Atrás on the left, Listo on the right */
+body.lesson-step-mode .fc-foot {
+  justify-content: space-between;
+}
+
+/* Atrás button — soft, secondary look */
+.fc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+  background: white !important;
+  color: rgba(15, 23, 42, 0.65) !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  font-weight: 600;
+}
+.fc-back:hover {
+  background: rgba(15, 23, 42, 0.04) !important;
+  color: rgba(15, 23, 42, 0.85) !important;
+}
+.fc-back[hidden] { display: none !important; }
+
+.fc-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px 12px;
+}
+.fc-num {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(75, 102, 242, 0.12);
+  color: var(--brand-blue, #4b66f2);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+.fc-titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.fc-title {
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+.fc-sub {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: rgba(15, 23, 42, 0.6);
+  font-weight: 500;
+}
+.fc-status {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(15, 23, 42, 0.06);
+  color: rgba(15, 23, 42, 0.5);
+}
+.fc-body {
+  padding: 4px 20px 14px;
+  color: rgba(15, 23, 42, 0.84);
+}
+.fc-body p { margin: 0 0 10px; }
+.fc-body ul,
+.fc-body ol { margin: 8px 0 12px; padding-left: 22px; }
+.fc-body li { margin: 4px 0; }
+.fc-body pre { margin: 12px 0; }
+.fc-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 20px 18px;
+}
+.fc-listo {
+  min-width: 110px;
+  background: white !important;
+  color: var(--brand-blue, #4b66f2) !important;
+  border: 1px solid rgba(75, 102, 242, 0.35) !important;
+  font-weight: 700;
+}
+.fc-listo:hover {
+  background: rgba(75, 102, 242, 0.06) !important;
+  border-color: rgba(75, 102, 242, 0.55) !important;
+}
+
+/* DONE state — celebrate completion */
+.flashcard.fc-done {
+  background: linear-gradient(180deg, rgba(236, 253, 245, 0.92) 0%, rgba(220, 252, 231, 0.85) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.30) !important;
+  box-shadow: 0 14px 36px rgba(16, 185, 129, 0.10),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.flashcard.fc-done .fc-num {
+  background: #10b981;
+  color: white;
+}
+.flashcard.fc-done .fc-status {
+  background: rgba(16, 185, 129, 0.16);
+  color: #047857;
+}
+.flashcard.fc-done .fc-status::before { content: "✓ "; font-weight: 900; }
+.flashcard.fc-done .fc-listo {
+  background: #10b981 !important;
+  color: white !important;
+  border-color: #10b981 !important;
+  cursor: default;
+}
+.flashcard.fc-done .fc-listo::after { content: " ✓"; }
+.flashcard.fc-done .fc-listo:hover { background: #10b981 !important; }
+
+/* ----------------------------------------------------------
+   ALPHABET / LETTER GRID
+   ---------------------------------------------------------- */
+.fc-letter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 10px;
+  margin: 12px 0 6px;
+}
+.fc-letter {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: linear-gradient(180deg, #ffffff, #f5f9ff);
+  border-radius: 14px;
+  padding: 14px 6px;
+  font-family: var(--font-title, system-ui), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 rgba(15, 23, 42, 0.08),
+    0 8px 18px rgba(15, 23, 42, 0.06);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.fc-letter:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #ffffff, #eef4ff);
+  box-shadow:
+    0 6px 0 rgba(75, 102, 242, 0.18),
+    0 12px 22px rgba(75, 102, 242, 0.12);
+}
+.fc-letter:active {
+  transform: translateY(0);
+  box-shadow:
+    0 2px 0 rgba(15, 23, 42, 0.08),
+    0 4px 10px rgba(15, 23, 42, 0.06);
+}
+.fc-letter.vowel {
+  background: linear-gradient(180deg, #fef3c7, #fde68a);
+  border-color: rgba(217, 119, 6, 0.30);
+  color: #92400e;
+}
+.fc-letter.vowel:hover {
+  background: linear-gradient(180deg, #fde68a, #fcd34d);
+}
+.fc-letter.was-clicked {
+  outline: 2px solid rgba(75, 102, 242, 0.35);
+  outline-offset: 1px;
+}
+
+/* Vowel row — larger tiles for the 5 vowels */
+.fc-vowel-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 10px 0;
+}
+.fc-vowel-row .fc-letter {
+  padding: 22px 6px;
+  font-size: 2rem;
+}
+.fc-vowel-row .fc-letter .fc-vowel-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(146, 64, 14, 0.85);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  .fc-vowel-row { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .fc-vowel-row .fc-letter { font-size: 1.4rem; padding: 16px 2px; }
+  .fc-vowel-row .fc-letter .fc-vowel-sub { font-size: 0.6rem; }
+}
+
+/* ----------------------------------------------------------
+   MINI RETO — listening challenge card
+   ---------------------------------------------------------- */
+.flashcard.fc-reto {
+  background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%) !important;
+  border-color: rgba(244, 63, 94, 0.22) !important;
+}
+.flashcard.fc-reto .fc-num {
+  background: rgba(244, 63, 94, 0.15);
+  color: #be123c;
+}
+.flashcard.fc-reto.fc-done {
+  background: linear-gradient(180deg, rgba(236, 253, 245, 0.92) 0%, rgba(220, 252, 231, 0.85) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.30) !important;
+}
+.fc-reto-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0;
+}
+.fc-reto-play {
+  appearance: none;
+  border: none;
+  background: linear-gradient(180deg, #4b66f2, #3f58e0);
+  color: white;
+  border-radius: 999px;
+  padding: 14px 26px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(75, 102, 242, 0.35);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.fc-reto-play:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(75, 102, 242, 0.42); }
+.fc-reto-play:active { transform: translateY(0); }
+.fc-reto-play::before { content: "🔊 "; margin-right: 4px; }
+.fc-reto-question {
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+.fc-reto-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 6px 0;
+}
+.fc-reto-options .fc-letter {
+  font-size: 1.6rem;
+  padding: 18px 6px;
+}
+.fc-reto-options .fc-letter.right {
+  background: linear-gradient(180deg, #d1fae5, #a7f3d0) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.40) !important;
+}
+
+/* Multiple-choice retos (text answers — used by plantilla lessons).
+   Stacks options vertically with normal button typography instead of
+   the 3-column letter-tile grid. */
+.flashcard.fc-reto[data-reto-type="multiple-choice"] .fc-reto-options {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.flashcard.fc-reto[data-reto-type="multiple-choice"] .fc-reto-options .fc-letter {
+  font-size: 1rem;
+  padding: 14px 16px;
+  text-align: left;
+  justify-content: flex-start;
+  font-weight: 600;
+  font-family: var(--font-body), system-ui, sans-serif;
+  letter-spacing: 0;
+}
+.fc-reto-options .fc-letter.wrong {
+  background: linear-gradient(180deg, #fee2e2, #fecaca) !important;
+  color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.40) !important;
+  animation: shake .35s ease-in-out;
+}
+.fc-reto-options .fc-letter.disabled {
+  opacity: .55;
+  pointer-events: none;
+}
+.fc-reto-feedback {
+  text-align: center;
+  font-weight: 700;
+  min-height: 22px;
+}
+.fc-reto-feedback.ok { color: #047857; }
+.fc-reto-feedback.bad { color: #b91c1c; }
+
+/* Running attempts / correct counter — shown after the first answer */
+.fc-reto-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.58);
+  letter-spacing: 0.01em;
+}
+.fc-reto-score [data-reto-correct-count] {
+  color: #047857;
+  font-weight: 800;
+}
+.fc-reto-score [data-reto-attempts] {
+  color: rgba(15, 23, 42, 0.70);
+  font-weight: 700;
+}
+
+.fc-reto-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #4b66f2;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.fc-reto-retry:hover { text-decoration: underline; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fc-reto-options .fc-letter.wrong { animation: none; }
+}
+
+/* ----------------------------------------------------------
+   RIGHT PANEL (gamified per-lesson)
+   ---------------------------------------------------------- */
+.lesson-side {
+  display: grid;
+  gap: 12px;
+}
+.lesson-side-card {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: white;
+}
+.lesson-side-card .label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.78);
+}
+.lesson-side-card .value {
+  margin-top: 4px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+}
+.lesson-side-card.lesson-xp-pill .value::before {
+  content: "+";
+  color: #fbbf24;
+  margin-right: 2px;
+}
+.lesson-side-card.lesson-xp-pill .value::after {
+  content: " XP";
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.lesson-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+.lesson-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: background .2s ease;
+}
+.lesson-checklist li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+}
+.lesson-checklist li.done {
+  background: rgba(16, 185, 129, 0.20);
+  border-color: rgba(16, 185, 129, 0.40);
+  color: white;
+}
+.lesson-checklist li.done::before {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+  font-weight: 900;
+  font-size: 0.8rem;
+}
+.lesson-checklist li .text { flex: 1; min-width: 0; }
+
+.lesson-next {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 14px;
+  background: white;
+  color: var(--brand-blue, #4b66f2);
+  text-decoration: none !important;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.lesson-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22);
+}
+.lesson-next .label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(15, 23, 42, 0.55);
+}
+.lesson-next .title {
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--brand-blue, #4b66f2);
+}
+.lesson-next .sub {
+  font-size: 0.82rem;
+  color: rgba(15, 23, 42, 0.55);
+  font-weight: 500;
+}
+.lesson-next.lesson-next-locked {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.lesson-next.lesson-next-locked .title,
+.lesson-next.lesson-next-locked .label,
+.lesson-next.lesson-next-locked .sub {
+  color: rgba(255, 255, 255, 0.65);
+}
+.lesson-next.lesson-next-locked::after {
+  content: "🔒 Completa esta lección primero";
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ----------------------------------------------------------
+   MARK COMPLETE — gated until all sections are Listo
+   ---------------------------------------------------------- */
+#markComplete[aria-disabled="true"] {
+  opacity: 0.45;
+  filter: saturate(0.7);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+#lessonStatus.lesson-hint {
+  margin-top: 10px;
+  color: rgba(15, 23, 42, 0.55);
+  font-style: italic;
+}
+
+/* ----------------------------------------------------------
+   MOBILE
+   ---------------------------------------------------------- */
+@media (max-width: 560px) {
+  .lesson-progress { padding: 12px 12px; top: 60px; }
+  .fc-head { padding: 14px 14px 8px; }
+  .fc-body { padding: 4px 14px 12px; }
+  .fc-foot { padding: 0 14px 14px; }
+  .fc-title { font-size: 1rem; }
+  .fc-letter-grid { grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); }
+  .fc-letter { font-size: 1.2rem; padding: 12px 4px; }
+  .fc-reto-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ============================================================
+   RESPONSIVE / ZOOM HARDENING
+   The lesson cards should behave well when zoom turns a desktop
+   into a narrow viewport.
+   ============================================================ */
+.flashcard {
+  max-width: 100%;
+}
+
+.lesson-progress {
+  top: clamp(3.75rem, 8vw, 4.5rem);
+}
+
+.fc-head,
+.fc-body,
+.fc-foot {
+  padding-inline: clamp(0.875rem, 2vw, 1.25rem);
+}
+
+.fc-title {
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+}
+
+.fc-letter-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(4.25rem, 100%), 1fr));
+}
+
+.fc-vowel-row {
+  grid-template-columns: repeat(auto-fit, minmax(min(4.5rem, 100%), 1fr));
+}
+
+.fc-reto-options {
+  grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+}
+
+.fc-summary-banner,
+.fc-foot,
+.lesson-progress-row {
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .fc-head {
+    align-items: flex-start;
+  }
+
+  .fc-status {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .lesson-progress {
+    position: relative;
+    top: auto;
+  }
+
+  .fc-head {
+    flex-wrap: wrap;
+  }
+
+  .fc-status {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  body.lesson-step-mode .fc-foot,
+  .fc-foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .fc-foot .btn,
+  .fc-back,
+  .fc-listo,
+  .fc-reto-play {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .fc-vowel-row,
+  .fc-reto-options {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,1394 +1,1055 @@
-<<<<<<< HEAD
-/* ================================
-   HOME.CSS — “OPEN + MODERN” (Duolingo-ish)
-   Works as an override on top of layout.css
-   Add AFTER layout.css in index.html:
-   <link rel="stylesheet" href="layout.css" />
-   <link rel="stylesheet" href="home.css" />
-   ================================ */
-
-   html, body {
-    overscroll-behavior: none;
-    touch-action: pan-x pan-y;
-   }
-
-/* Softer background + subtle depth */
-body {
-  background:
-    radial-gradient(1200px 600px at 12% 8%, rgba(79, 106, 119, 0.22), transparent 60%),
-    radial-gradient(900px 500px at 88% 18%, rgba(96,165,250,0.18), transparent 55%),
-    radial-gradient(700px 400px at 50% 90%, rgba(147,197,253,0.14), transparent 60%),
-    var(--bg);
-}
-
-/* Soft floating blobs behind the layout */
-body::before,
-body::after{
-  content:"";
-  position: fixed;
-  inset: auto;
-  width: 520px;
-  height: 520px;
-  border-radius: 999px;
-  filter: blur(50px);
-  opacity: 0.35;
-  z-index: -1;
-  pointer-events: none;
-}
-
-body::before{
-  left: -140px;
-  top: 120px;
-  background: radial-gradient(circle, rgba(155, 179, 190, 0.55), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-body::after{
-  right: -160px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.45), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  body::before, body::after{ animation:none; }
-}
-
-/* Smooth scroll reveal (works with JS below) */
-.reveal{
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 500ms ease, transform 500ms ease;
-}
-.reveal.is-visible{
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce){
-  .reveal{ transition:none; opacity:1; transform:none; }
-}
-
-
-/* Make the home page feel more open:
-   - reduce “panel-box” heaviness
-   - introduce airy hero spacing
-*/
-.content {
-  padding: 22px;
-  background: linear-gradient(
-    180deg,
-    rgba(71, 82, 109, 0.85),
-    rgba(107, 120, 151, 0.95)
-  );
-}
-
-/* Hero treatment (targets your existing H1 + sub on home) */
-.content h1 {
-  font-size: 2.1rem;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
-}
-
-.content h1::after {
-   content: "";
-  display: block;
-  width: 64px;
-  height: 4px;
-  margin-top: 12px;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--accent),
-    rgba(66, 79, 85, 0.4)
-  ); 
-}
-
-.sub {
-  font-size: 1.05rem;
-  max-width: 62ch;
-  margin-bottom: 18px;
-}
-
-/* Softer cards on home */
-.block {
-  border-radius: 18px;
-  padding: 18px;
-  margin: 16px 0;
-  background:
-    linear-gradient(180deg, rgba(20, 30, 55, 0.95),
-    rgba(10, 16, 32, 0.95));
-  box-shadow: 0 10px 30px rgba(0,0,0,0.20);
-}
-
-/* Headings inside blocks look “app-like” */
-.block h2 {
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-}
-
-/* Buttons: more playful + modern */
-.btn {
-  border-radius: 14px;
-  padding: 11px 16px;
-  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
-  will-change: transform;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-/* Primary CTA: brighter accent ring */
-.btn.primary {
-  border-color: rgba(172, 198, 209, 0.9);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-}
-
-/* Pills in topbar: feel more “chip-like” */
-.pill {
-  background: rgba(112, 124, 156, 0.5);
-  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
-}
-
-.pill:hover {
-  text-decoration: none;
-  background: rgba(15, 23, 42, 0.75);
-  transform: translateY(-1px);
-}
-
-/* Sidebar items: slightly more breathable */
-.sidebar a {
-  padding: 11px 14px;
-}
-
-/* Right panel copy spacing (home feels less “dense”) */
-.panel.right .small,
-.panel.sidebar .small {
-  line-height: 1.6;
-}
-
-/* Make lists feel “friendly” */
-.content ul,
-.content ol {
-  padding-left: 20px;
-}
-
-.content li {
-  margin: 6px 0;
-}
-
-/* Add a “feature grid” feel on larger screens:
-   This reflows your blocks into a nicer layout WITHOUT changing HTML.
-   It only affects the center content area. */
-@media (min-width: 1000px) {
-  /* Keep your 3-column shell, but make center content breathe */
-  .shell {
-    gap: 18px;
-  }
-
-  .content {
-    padding: 26px;
-  }
-
-  /* Turn blocks into a responsive grid */
-  .content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    align-content: start;
-  }
-
-  /* Keep the title/sub full width */
-  .content > h1,
-  .content > .sub {
-    grid-column: 1 / -1;
-  }
-
-  /* Keep footer full width */
-  .content > p.small:last-child {
-    grid-column: 1 / -1;
-  }
-
-  /* Make your “Empieza ahora” block stand out if it exists */
-  .content .block:nth-of-type(3) {
-    grid-column: 1 / -1;
-    padding: 22px;
-  }
-}
-
-/* Mobile: keep it stacked and roomy */
-@media (max-width: 999px) {
-  .content {
-    padding: 18px;
-  }
-  .content h1 {
-    font-size: 1.85rem;
-  }
-  .block {
-    border-radius: 16px;
-    padding: 16px;
-  }
-}
-
-/* Optional: nicer focus states for accessibility */
-.btn:focus,
-.pill:focus,
-input:focus,
-a:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.25);
-}
-
-/* Optional: reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  .btn,
-  .pill {
-    transition: none;
-  }
-  .btn:hover,
-  .pill:hover {
-    transform: none;
-  }
-}
-
-/* ================================
-   FINAL POLISH — DUOLINGO-STYLE FEEL
-   Paste at the VERY END of home.css
-   ================================ */
-
-/* 1) Calm the side panels so center is the star */
-.panel.sidebar,
-.panel.right {
-  background: linear-gradient(
-    180deg,
-    rgba(17, 24, 39, 0.92),
-    rgba(10, 16, 32, 0.98)
-  );
-}
-
-.panel.sidebar h3,
-.panel.right h3 {
-  letter-spacing: -0.01em;
-  opacity: 0.95;
-}
-
-/* Sidebar links feel lighter */
-.sidebar a {
-  opacity: 0.82;
-}
-.sidebar a:hover {
-  opacity: 1;
-}
-.sidebar a.active {
-  opacity: 1;
-  background: rgba(147, 197, 253, 0.14);
-}
-
-/* 2) Coach-style right panel (guided feeling) */
-.panel.right h3 {
-  color: var(--accent);
-}
-
-.panel.right hr {
-  border-top: 1px solid rgba(255,255,255,0.10);
-}
-
-.panel.right .btn.primary {
-  box-shadow:
-    0 0 0 3px rgba(56,189,248,0.14),
-    0 10px 22px rgba(56,189,248,0.10);
-}
-
-/* 3) Reduce boxy borders (more app-like) */
-.content,
-.panel,
-.block {
-  border-color: rgba(110, 202, 23, 0.1);
-}
-
-.block {
-  border-color: rgba(160, 190, 23, 0.08);
-}
-
-/* 4) Card hover = playful + interactive */
-.block {
-  transition:
-    transform 140ms ease,
-    box-shadow 200ms ease,
-    border-color 200ms ease;
-}
-
-.block:hover {
-  transform: translateY(-2px);
-  border-color: rgba(112, 169, 194, 0.18);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
-}
-
-/* Respect reduced-motion users */
-@media (prefers-reduced-motion: reduce) {
-  .block {
-    transition: none;
-  }
-  .block:hover {
-    transform: none;
-  }
-}
-
-/* 5) Subtle progress vibe on block titles */
-.block h2 {
-  position: relative;
-  padding-bottom: 6px;
-}
-
-.block h2::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 36px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(56,189,248,0.35);
-}
-
-/* Keep layout responsive (no forced min-width) */
-.shell{
-  min-width: 0;
-  width: min(1100px, 100%);
-}
-
-body{
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-
-/* Floating blobs (reliable) */
-html { position: relative; }
-
-html::before,
-html::after{
-  content:"";
-  position: fixed;
-  width: 520px;
-  height: 520px;
-  border-radius: 999px;
-  filter: blur(60px);
-  opacity: 0.45;
-  pointer-events: none;
-  z-index: 0; /* behind your content (which is naturally above) */
-}
-
-/* left/top blob */
-html::before{
-  left: -180px;
-  top: 110px;
-  background: radial-gradient(circle, rgba(125,211,252,.70), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-/* right/bottom blob */
-html::after{
-  right: -200px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-/* Make sure your app sits above blobs */
-body { position: relative; z-index: 1; }
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  html::before, html::after{ animation:none; }
-}
-
-
-
-/* Less boxy blocks: softer + lighter */
-.block{
-  border: 1px solid rgba(15,23,42,.06);
-  background: rgba(168, 82, 82, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 26px rgba(15,23,42,.06);
-}
-
-/* Optional: reduce border on most blocks */
-.block:not(.featured){
-  border-color: rgba(15,23,42,.04);
-  box-shadow: 0 8px 18px rgba(15,23,42,.05);
-}
-
-/* Ambient blob + dot texture */
-body{
-  position: relative;
-}
-
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  /* dots */
-  background-image:
-    radial-gradient(rgba(187, 164, 33, 0.18) 1px, transparent 1px),
-    radial-gradient(rgba(147,197,253,.14) 1px, transparent 1px);
-  background-size: 26px 26px, 34px 34px;
-  background-position: 0 0, 12px 14px;
-  opacity: .28;
-}
-
-html::before,
-html::after{
-  content:"";
-  position: fixed;
-  width: 560px;
-  height: 560px;
-  border-radius: 999px;
-  filter: blur(70px);
-  opacity: .42;
-  pointer-events: none;
-  z-index: 0;
-}
-
-html::before{
-  left: -220px;
-  top: 120px;
-  background: radial-gradient(circle, rgba(179, 187, 190, 0.7), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-html::after{
-  right: -240px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-body{ z-index: 1; }
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  html::before, html::after{ animation: none; }
-  body::before{ opacity: .18; }
-}
-
-/* Scroll reveal */
-.reveal{
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 520ms ease, transform 520ms ease;
-  will-change: opacity, transform;
-}
-
-.reveal.is-visible{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce){
-  .reveal{ opacity: 1; transform:none; transition:none; }
-}
-
-/* ================================
-   GLOBAL LIGHT THEME — BLUE TINTED
-   ================================ */
-
-/* Page background (keep airy, not white) */
-body{
-  background:
-    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
-    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
-    #f3f9ff;
-}
-
-/* ALL PANELS (sidebar, center, right) */
-.panel,
-.content{
-  background:
-    linear-gradient(
-      180deg,
-      #f0f7ff 0%,
-      #eaf3fb 100%
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  border-radius: 20px;
-  box-shadow:
-    0 20px 50px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,.6);
-}
-
-/* Sidebar slightly darker for hierarchy */
-.panel.sidebar{
-  background:
-    linear-gradient(
-      180deg,
-      #e6f2fb 0%,
-      #ddeaf6 100%
-    );
-}
-
-/* Right panel (today focus) */
-.panel.right{
-  background:
-    linear-gradient(
-      180deg,
-      #eef6fd 0%,
-      #e6f0fa 100%
-    );
-}
-
-/* Cards inside panels */
-.block{
-  background:
-    linear-gradient(
-      180deg,
-      #ffffffcc,
-      #f6fbff
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  border-radius: 18px;
-  box-shadow: 0 14px 35px rgba(15,23,42,.06);
-}
-
-/* Text colors recalibrated for light UI */
-h1, h2, h3{
-  color: #0f172a;
-}
-
-p, li{
-  color: rgba(15,23,42,.78);
-}
-
-.sub,
-.small{
-  color: rgba(15,23,42,.55);
-}
-
-/* Sidebar links */
-.sidebar a{
-  color: rgba(15,23,42,.75);
-}
-
-.sidebar a.active{
-  background: #d7ecff;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-/* Buttons */
-.btn.primary{
-  background: linear-gradient(180deg, #4fc3ff, #2ea8f5);
-  border: none;
-  color: white;
-  box-shadow: 0 10px 25px rgba(46,168,245,.35);
-}
-
-.btn.primary:hover{
-  filter: brightness(1.05);
-}
-
-/* ================================
-   CENTER PANEL — SOFT SKY SURFACE
-   ================================ */
-
-.content{
-  background:
-    linear-gradient(
-      180deg,
-      #f8fbff 0%,
-      #f1f7fd 100%
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  box-shadow:
-    0 24px 60px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-/* Headings look richer on tinted bg */
-.content h1,
-.content h2,
-.content h3{
-  color: #0f172a;
-}
-
-/* Body text */
-.content p,
-.content li{
-  color: rgba(15,23,42,.78);
-}
-
-/* Sub text */
-.content .sub{
-  color: rgba(15,23,42,.55);
-}
-
-/* ===== SECONDARY BUTTONS (STABLE, NO FADE) ===== */
-a.btn:not(.primary),
-button.btn:not(.primary) {
-  background: #ffffff;
-  color: #1f2937;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
-  transition:
-    background-color 140ms ease,
-    box-shadow 140ms ease,
-    transform 120ms ease;
-}
-
-/* Hover: subtle elevation, NO light fade */
-a.btn:not(.primary):hover,
-button.btn:not(.primary):hover {
-  background: #ffffff; /* stays white */
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
-  transform: translateY(-1px);
-}
-
-/* Active: press down */
-a.btn:not(.primary):active,
-button.btn:not(.primary):active {
-  transform: translateY(0);
-  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.10);
-}
-
-/* FIX: Home page must scroll normally */
-body[data-page="home"]{
-  overflow-y: auto !important;
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;600;700;800&display=swap");
+
+/* ================================================================
+   home.css — Guided onboarding landing page for Exprésate
+   Loaded ONLY on index.html (after layout.css + theme-light.css).
+
+   Architecture:
+     • Body: layered radial-gradient background
+     • Topbar: overridden to white; landing nav links from index.html
+     • .guided-flow: full-viewport container for the 5-step flow
+     • .flow-step: display:none by default; .is-active → display:flex
+       Transitions are driven by inline styles set in home.js
+     • .flow-dots: progress indicator, fixed at bottom
+     • .flow-blobs: decorative animated gradient orbs (fixed)
+   ================================================================ */
+
+/* ── 0. Sidebar / right-panel: always hidden on homepage ─────── */
+body[data-page="home"] .panel.sidebar,
+body[data-page="home"] .panel.right {
+  display: none !important;
+}
+
+/* ── 0b. Body scroll ──────────────────────────────────────────── */
+body[data-page="home"] {
+  --home-bg: #eef7ff;
+  --home-lavender: #ede9fe;
+  --home-blue-soft: #dff3ff;
+  --home-blue: #4358f4;
+  --home-blue-2: #2f46d9;
+  --home-cyan: #38bdf8;
+  --home-purple: #8b5cf6;
+  --home-ink: #111827;
+  --home-muted: #475569;
+  --home-line: rgba(67, 88, 244, .18);
+  --home-shadow: rgba(67, 88, 244, .14);
+  font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-y: auto   !important;
   overflow-x: hidden !important;
-  height: auto !important;
-  position: static !important;
+  height:     auto   !important;
 }
 
-body[data-page="home"] .shell{
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-}
-
-body[data-page="home"] .content,
-body[data-page="home"] main{
-  height: auto !important;
-  overflow: visible !important;
-  min-height: 0 !important;
-}
-=======
-/* ================================
-   HOME.CSS — “OPEN + MODERN” (Duolingo-ish)
-   Works as an override on top of layout.css
-   Add AFTER layout.css in index.html:
-   <link rel="stylesheet" href="layout.css" />
-   <link rel="stylesheet" href="home.css" />
-   ================================ */
-
-   /* Allow normal scrolling */
-html { overscroll-behavior-y: auto; }
-body { touch-action: pan-y; }
-
-/* Softer background + subtle depth */
+/* ═══════════════════════════════════════════════════════════════
+   1. BODY BACKGROUND
+   Layered radial gradients: blue glow upper-left, purple glow
+   upper-right, soft cyan bloom lower-centre, on a pale blue base.
+   ═══════════════════════════════════════════════════════════════ */
 body {
   background:
-    radial-gradient(1200px 600px at 12% 8%, rgba(79, 106, 119, 0.22), transparent 60%),
-    radial-gradient(900px 500px at 88% 18%, rgba(96,165,250,0.18), transparent 55%),
-    radial-gradient(700px 400px at 50% 90%, rgba(147,197,253,0.14), transparent 60%),
-    var(--bg);
+    radial-gradient(ellipse 1120px 700px at  8%  14%, rgba(56, 189, 248, .36), transparent 62%),
+    radial-gradient(ellipse  980px 620px at 94%  18%, rgba(139, 92, 246, .28), transparent 60%),
+    radial-gradient(ellipse  780px 520px at 50%  92%, rgba(191, 219, 254, .48), transparent 62%),
+    linear-gradient(135deg, #eef7ff 0%, #f6f3ff 48%, #eaf8ff 100%);
 }
 
-/* Soft floating blobs behind the layout */
-body::before,
-body::after{
-  content:"";
-  position: fixed;
-  inset: auto;
-  width: 520px;
-  height: 520px;
-  border-radius: 999px;
-  filter: blur(50px);
-  opacity: 0.35;
-  z-index: -1;
-  pointer-events: none;
-}
-
-body::before{
-  left: -140px;
-  top: 120px;
-  background: radial-gradient(circle, rgba(155, 179, 190, 0.55), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-body::after{
-  right: -160px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.45), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  body::before, body::after{ animation:none; }
-}
-
-/* Smooth scroll reveal (works with JS below) */
-.reveal{
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 500ms ease, transform 500ms ease;
-}
-.reveal.is-visible{
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce){
-  .reveal{ transition:none; opacity:1; transform:none; }
-}
-
-
-/* Make the home page feel more open:
-   - reduce “panel-box” heaviness
-   - introduce airy hero spacing
-*/
-.content {
-  padding: 22px;
-  background: linear-gradient(
-    180deg,
-    rgba(71, 82, 109, 0.85),
-    rgba(107, 120, 151, 0.95)
-  );
-}
-
-/* Hero treatment (targets your existing H1 + sub on home) */
-.content h1 {
-  font-size: 2.1rem;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
-}
-
-.content h1::after {
-   content: "";
-  display: block;
-  width: 64px;
-  height: 4px;
-  margin-top: 12px;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--accent),
-    rgba(66, 79, 85, 0.4)
-  ); 
-}
-
-.sub {
-  font-size: 1.05rem;
-  max-width: 62ch;
-  margin-bottom: 18px;
-}
-
-/* Softer cards on home */
-.block {
-  border-radius: 18px;
-  padding: 18px;
-  margin: 16px 0;
+/* ═══════════════════════════════════════════════════════════════
+   2. TOPBAR — white landing-page bar, homepage only
+   ═══════════════════════════════════════════════════════════════ */
+body[data-page="home"] .topbar {
   background:
-    linear-gradient(180deg, rgba(20, 30, 55, 0.95),
-    rgba(10, 16, 32, 0.95));
-  box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+    linear-gradient(120deg, rgba(67, 88, 244, .96), rgba(56, 189, 248, .88) 58%, rgba(139, 92, 246, .90)) !important;
+  border-bottom:           1px solid var(--home-line) !important;
+  box-shadow:              0 14px 38px rgba(67, 88, 244, .20) !important;
+  backdrop-filter:         blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+}
+body[data-page="home"] .topbar .brand,
+body[data-page="home"] .topbar .brand:hover {
+  color:           #ffffff !important;
+  text-decoration: none    !important;
+}
+body[data-page="home"] .topbar .topbar-link,
+body[data-page="home"] .topbar #profileBtn {
+  color: rgba(255, 255, 255, .88) !important;
+}
+body[data-page="home"] .topbar .topbar-link:hover,
+body[data-page="home"] .topbar #profileBtn:hover {
+  color:           #ffffff !important;
+  text-decoration: none    !important;
+}
+body[data-page="home"] .topbar-inner {
+  justify-content: flex-start !important;
+  gap:             0          !important;
+  max-width:       1160px     !important;
+  padding:         10px 20px  !important;
+}
+body[data-page="home"] .topbar .topbar-actions {
+  margin-left: auto;
 }
 
-/* Headings inside blocks look “app-like” */
-.block h2 {
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
+/* ── Landing nav links (injected by inline script) ────────────── */
+.landing-nav-links {
+  display:     flex;
+  align-items: center;
+  gap:         2px;
+  margin-left: 20px;
+  flex-shrink: 0;
 }
-
-/* Buttons: more playful + modern */
-.btn {
-  border-radius: 14px;
-  padding: 11px 16px;
-  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
-  will-change: transform;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-/* Primary CTA: brighter accent ring */
-.btn.primary {
-  border-color: rgba(172, 198, 209, 0.9);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-}
-
-/* Pills in topbar: feel more “chip-like” */
-.pill {
-  background: rgba(112, 124, 156, 0.5);
-  transition: transform 120ms ease, background 180ms ease, border-color 180ms ease;
-}
-
-.pill:hover {
+.lnav-link {
+  display:         inline-flex;
+  align-items:     center;
+  padding:         7px 13px;
+  border-radius:   9px;
+  font-size:       0.88rem;
+  font-weight:     600;
+  color:           rgba(255, 255, 255, .84);
   text-decoration: none;
-  background: rgba(15, 23, 42, 0.75);
+  white-space:     nowrap;
+  transition:      background 0.13s ease, color 0.13s ease;
+  border:          1px solid transparent;
+}
+.lnav-link:hover {
+  background:      rgba(255, 255, 255, .14);
+  color:           #ffffff;
+  text-decoration: none;
+}
+.lnav-link.is-active {
+  color:       #ffffff;
+  background:  rgba(255, 255, 255, .18);
+  font-weight: 700;
+}
+.lnav-premium {
+  color:        #ffffff;
+  background:   rgba(255, 255, 255, .16);
+  border-color: rgba(255, 255, 255, .24);
+  font-weight:  700;
+}
+.lnav-premium:hover {
+  background:   rgba(255, 255, 255, .22);
+  border-color: rgba(255, 255, 255, .34);
+  color:        #ffffff;
+}
+@media (max-width: 720px) {
+  .landing-nav-links { margin-left: 10px; gap: 0; }
+  .lnav-link         { font-size: 0.80rem; padding: 6px 8px; }
+}
+@media (max-width: 520px) {
+  .landing-nav-links { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3. DECORATIVE BLOBS — fixed, pointer-events none
+   ═══════════════════════════════════════════════════════════════ */
+.flow-blobs {
+  position:       fixed;
+  inset:          0;
+  pointer-events: none;
+  z-index:        0;
+  overflow:       hidden;
+}
+.blob {
+  position:      absolute;
+  border-radius: 50%;
+  filter:        blur(80px);
+  opacity:       0.42;
+}
+.blob-1 {
+  width:      560px;
+  height:     560px;
+  top:        -140px;
+  left:       -160px;
+  background: radial-gradient(circle, rgba(56, 189, 248, .70) 0%, transparent 70%);
+  animation:  blobDrift1 18s ease-in-out infinite alternate;
+}
+.blob-2 {
+  width:      500px;
+  height:     500px;
+  top:        28%;
+  right:      -130px;
+  background: radial-gradient(circle, rgba(139, 92, 246, .58) 0%, transparent 70%);
+  animation:  blobDrift2 23s ease-in-out infinite alternate;
+}
+.blob-3 {
+  width:      420px;
+  height:     420px;
+  bottom:     8%;
+  left:       18%;
+  background: radial-gradient(circle, rgba(191, 219, 254, .68) 0%, transparent 70%);
+  animation:  blobDrift3 28s ease-in-out infinite alternate;
+}
+@keyframes blobDrift1 {
+  from { transform: translate(  0,   0) scale(1.00); }
+  to   { transform: translate(44px, 62px) scale(1.09); }
+}
+@keyframes blobDrift2 {
+  from { transform: translate(  0,   0) scale(1.00); }
+  to   { transform: translate(-52px, 38px) scale(1.06); }
+}
+@keyframes blobDrift3 {
+  from { transform: translate(  0,   0) scale(1.00); }
+  to   { transform: translate(32px, -44px) scale(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. GUIDED FLOW CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+.guided-flow {
+  position:   relative;
+  min-height: calc(100vh - 58px);
+  isolation:  isolate;
+}
+.guided-flow[hidden],
+.home-hub[hidden] {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5. FLOW STEPS
+   All hidden by default. home.js adds .is-active to show one.
+   Transitions are applied as inline styles by home.js — no CSS
+   transition property here, to avoid conflicts.
+   ═══════════════════════════════════════════════════════════════ */
+.flow-step {
+  box-sizing:     border-box;
+  display:        none;
+  flex-direction: column;
+  align-items:    center;
+  justify-content: center;
+  min-height:     calc(100vh - 58px);
+  padding:        34px 28px 92px;
+  position:       relative;
+  z-index:        1;
+}
+.flow-step.is-active {
+  display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   6. STEP CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.step-card {
+  box-sizing:         border-box;
+  width:              100%;
+  max-width:          1040px;
+  min-height:         min(82vh, 760px);
+  margin:             0 auto;
+  background:
+    radial-gradient(circle at 86% 0%, rgba(139, 92, 246, .10), transparent 34%),
+    linear-gradient(135deg, rgba(223, 243, 255, .94) 0%, rgba(237, 233, 254, .92) 100%);
+  border:             1.5px solid var(--home-line);
+  border-radius:      32px;
+  padding:            68px 74px;
+  box-shadow:
+    0 24px 90px var(--home-shadow),
+    0 4px  24px rgba(56, 189, 248, .18);
+  backdrop-filter:         blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display:            flex;
+  flex-direction:     column;
+  justify-content:    center;
+}
+.step-card--wide {
+  max-width: 1120px;
+}
+
+.flow-skip {
+  position: fixed;
+  right:    28px;
+  bottom:   24px;
+  z-index:  101;
+  border:   1px solid var(--home-line);
+  border-radius: 999px;
+  padding:  10px 16px;
+  background: rgba(255, 255, 255, .84);
+  color:    var(--home-blue);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(67, 88, 244, .12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 140ms ease, background 140ms ease;
+}
+.flow-skip:hover {
+  background: rgba(237, 233, 254, .94);
   transform: translateY(-1px);
 }
 
-/* Sidebar items: slightly more breathable */
-.sidebar a {
-  padding: 11px 14px;
+.flow-step[data-step="0"] .step-card {
+  display:               grid;
+  grid-template-columns:  minmax(0, 1fr) minmax(320px, .82fr);
+  align-items:           center;
+  column-gap:            58px;
 }
 
-/* Right panel copy spacing (home feels less “dense”) */
-.panel.right .small,
-.panel.sidebar .small {
-  line-height: 1.6;
+.flow-step[data-step="0"] .step-preview-card {
+  grid-column: 2;
+  grid-row:    1 / span 6;
 }
 
-/* Make lists feel “friendly” */
-.content ul,
-.content ol {
-  padding-left: 20px;
+.flow-step[data-step="0"] .step-eyebrow,
+.flow-step[data-step="0"] .step-headline,
+.flow-step[data-step="0"] .step-sub,
+.flow-step[data-step="0"] .step-actions,
+.flow-step[data-step="0"] .step-trust {
+  grid-column: 1;
 }
 
-.content li {
-  margin: 6px 0;
+/* ═══════════════════════════════════════════════════════════════
+   7. STEP TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3 { color: var(--home-ink); }
+p, li      { color: var(--home-muted); }
+
+.step-eyebrow {
+  display:        inline-flex;
+  align-items:    center;
+  width:          fit-content;
+  padding:        4px 14px;
+  border-radius:  999px;
+  background:     rgba(255, 255, 255, .58);
+  border:         1.5px solid var(--home-line);
+  font-size:      0.72rem;
+  font-weight:    700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color:          var(--home-blue);
+  margin-bottom:  18px;
 }
 
-/* Add a “feature grid” feel on larger screens:
-   This reflows your blocks into a nicer layout WITHOUT changing HTML.
-   It only affects the center content area. */
-@media (min-width: 1000px) {
-  /* Keep your 3-column shell, but make center content breathe */
-  .shell {
-    gap: 18px;
-  }
+.step-headline {
+  font-family:    var(--font-display, "Ribeye", serif);
+  font-size:      4rem;
+  font-weight:    800;
+  line-height:    .98;
+  letter-spacing: 0;
+  color:          var(--home-ink);
+  margin:         0 0 22px;
+}
+h2.step-headline { font-size: 3.35rem; max-width: 840px; }
 
-  .content {
-    padding: 26px;
-  }
-
-  /* Turn blocks into a responsive grid */
-  .content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    align-content: start;
-  }
-
-  /* Keep the title/sub full width */
-  .content > h1,
-  .content > .sub {
-    grid-column: 1 / -1;
-  }
-
-  /* Keep footer full width */
-  .content > p.small:last-child {
-    grid-column: 1 / -1;
-  }
-
-  /* Make your “Empieza ahora” block stand out if it exists */
-  .content .block:nth-of-type(3) {
-    grid-column: 1 / -1;
-    padding: 22px;
-  }
+.hero-title {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size:   4.18rem;
+  line-height: .98;
+  letter-spacing: .01em;
+  text-shadow: 0 2px 0 rgba(67, 88, 244, .08);
 }
 
-/* Mobile: keep it stacked and roomy */
-@media (max-width: 999px) {
-  .content {
-    padding: 18px;
-  }
-  .content h1 {
-    font-size: 1.85rem;
-  }
-  .block {
-    border-radius: 16px;
-    padding: 16px;
-  }
+.step-sub {
+  font-size:   1.22rem;
+  line-height: 1.62;
+  color:       var(--home-muted);
+  max-width:   650px;
+  margin:      0 0 34px;
 }
 
-/* Optional: nicer focus states for accessibility */
-.btn:focus,
-.pill:focus,
-input:focus,
-a:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.25);
+/* ═══════════════════════════════════════════════════════════════
+   8. BUTTONS
+   ═══════════════════════════════════════════════════════════════ */
+.btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  cursor:          pointer;
+  transition:      transform 140ms ease, box-shadow 160ms ease, filter 140ms ease;
+}
+.btn:hover  { transform: translateY(-1px); text-decoration: none; }
+.btn:active { transform: translateY(0); }
+
+/* Primary (blue gradient) */
+.btn.primary {
+  background:    linear-gradient(180deg, var(--home-blue) 0%, var(--home-blue-2) 100%);
+  border:        none;
+  color:         #ffffff;
+  font-weight:   700;
+  box-shadow:    0 4px 18px rgba(67, 88, 244, .34);
+  padding:       18px 38px;
+  border-radius: 16px;
+  font-size:     1.08rem;
+}
+.btn.primary:hover {
+  filter:     brightness(1.07);
+  box-shadow: 0 8px 26px rgba(67, 88, 244, .44);
+  color:      #ffffff;
 }
 
-/* Optional: reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  .btn,
-  .pill {
-    transition: none;
-  }
-  .btn:hover,
-  .pill:hover {
-    transform: none;
-  }
-}
-
-/* ================================
-   FINAL POLISH — DUOLINGO-STYLE FEEL
-   Paste at the VERY END of home.css
-   ================================ */
-
-/* 1) Calm the side panels so center is the star */
-.panel.sidebar,
-.panel.right {
-  background: linear-gradient(
-    180deg,
-    rgba(17, 24, 39, 0.92),
-    rgba(10, 16, 32, 0.98)
-  );
-}
-
-.panel.sidebar h3,
-.panel.right h3 {
-  letter-spacing: -0.01em;
-  opacity: 0.95;
-}
-
-/* Sidebar links feel lighter */
-.sidebar a {
-  opacity: 0.82;
-}
-.sidebar a:hover {
-  opacity: 1;
-}
-.sidebar a.active {
-  opacity: 1;
-  background: rgba(147, 197, 253, 0.14);
-}
-
-/* 2) Coach-style right panel (guided feeling) */
-.panel.right h3 {
-  color: var(--accent);
-}
-
-.panel.right hr {
-  border-top: 1px solid rgba(255,255,255,0.10);
-}
-
-.panel.right .btn.primary {
-  box-shadow:
-    0 0 0 3px rgba(56,189,248,0.14),
-    0 10px 22px rgba(56,189,248,0.10);
-}
-
-/* 3) Reduce boxy borders (more app-like) */
-.content,
-.panel,
-.block {
-  border-color: rgba(110, 202, 23, 0.1);
-}
-
-.block {
-  border-color: rgba(160, 190, 23, 0.08);
-}
-
-/* 4) Card hover = playful + interactive */
-.block {
-  transition:
-    transform 140ms ease,
-    box-shadow 200ms ease,
-    border-color 200ms ease;
-}
-
-.block:hover {
-  transform: translateY(-2px);
-  border-color: rgba(112, 169, 194, 0.18);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
-}
-
-/* Respect reduced-motion users */
-@media (prefers-reduced-motion: reduce) {
-  .block {
-    transition: none;
-  }
-  .block:hover {
-    transform: none;
-  }
-}
-
-/* 5) Subtle progress vibe on block titles */
-.block h2 {
-  position: relative;
-  padding-bottom: 6px;
-}
-
-.block h2::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 36px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(56,189,248,0.35);
-}
-
-/* Keep layout responsive (no forced min-width) */
-.shell{
-  min-width: 0;
-  width: min(1100px, 100%);
-}
-
-body{
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* Floating blobs (reliable) */
-html { position: relative; }
-
-html::before,
-html::after{
-  content:"";
-  position: fixed;
-  width: 520px;
-  height: 520px;
-  border-radius: 999px;
-  filter: blur(60px);
-  opacity: 0.45;
-  pointer-events: none;
-  z-index: 0; /* behind your content (which is naturally above) */
-}
-
-/* left/top blob */
-html::before{
-  left: -180px;
-  top: 110px;
-  background: radial-gradient(circle, rgba(125,211,252,.70), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-/* right/bottom blob */
-html::after{
-  right: -200px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-/* Make sure your app sits above blobs */
-body { position: relative; z-index: 1; }
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  html::before, html::after{ animation:none; }
-}
-
-
-
-/* Less boxy blocks: softer + lighter */
-.block{
-  border: 1px solid rgba(15,23,42,.06);
-  background: rgba(168, 82, 82, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 26px rgba(15,23,42,.06);
-}
-
-/* Optional: reduce border on most blocks */
-.block:not(.featured){
-  border-color: rgba(15,23,42,.04);
-  box-shadow: 0 8px 18px rgba(15,23,42,.05);
-}
-
-/* Ambient blob + dot texture */
-body{
-  position: relative;
-}
-
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  /* dots */
-  background-image:
-    radial-gradient(rgba(187, 164, 33, 0.18) 1px, transparent 1px),
-    radial-gradient(rgba(147,197,253,.14) 1px, transparent 1px);
-  background-size: 26px 26px, 34px 34px;
-  background-position: 0 0, 12px 14px;
-  opacity: .28;
-}
-
-html::before,
-html::after{
-  content:"";
-  position: fixed;
-  width: 560px;
-  height: 560px;
-  border-radius: 999px;
-  filter: blur(70px);
-  opacity: .42;
-  pointer-events: none;
-  z-index: 0;
-}
-
-html::before{
-  left: -220px;
-  top: 120px;
-  background: radial-gradient(circle, rgba(179, 187, 190, 0.7), transparent 60%);
-  animation: float1 10s ease-in-out infinite;
-}
-
-html::after{
-  right: -240px;
-  bottom: 90px;
-  background: radial-gradient(circle, rgba(96,165,250,.55), transparent 60%);
-  animation: float2 12s ease-in-out infinite;
-}
-
-body{ z-index: 1; }
-
-@keyframes float1{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(18px,-22px); }
-}
-@keyframes float2{
-  0%,100%{ transform: translate(0,0); }
-  50%{ transform: translate(-16px,18px); }
-}
-
-@media (prefers-reduced-motion: reduce){
-  html::before, html::after{ animation: none; }
-  body::before{ opacity: .18; }
-}
-
-/* Scroll reveal */
-.reveal{
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 520ms ease, transform 520ms ease;
-  will-change: opacity, transform;
-}
-
-.reveal.is-visible{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce){
-  .reveal{ opacity: 1; transform:none; transition:none; }
-}
-
-/* ================================
-   GLOBAL LIGHT THEME — BLUE TINTED
-   ================================ */
-
-/* Page background (keep airy, not white) */
-body{
-  background:
-    radial-gradient(900px 500px at 15% 20%, #e6f4ff, transparent 60%),
-    radial-gradient(800px 500px at 85% 30%, #eef8ff, transparent 55%),
-    #f3f9ff;
-}
-
-/* ALL PANELS (sidebar, center, right) */
-.panel,
-.content{
-  background:
-    linear-gradient(
-      180deg,
-      #f0f7ff 0%,
-      #eaf3fb 100%
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  border-radius: 20px;
-  box-shadow:
-    0 20px 50px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,.6);
-}
-
-/* Sidebar slightly darker for hierarchy */
-.panel.sidebar{
-  background:
-    linear-gradient(
-      180deg,
-      #e6f2fb 0%,
-      #ddeaf6 100%
-    );
-}
-
-/* Right panel (today focus) */
-.panel.right{
-  background:
-    linear-gradient(
-      180deg,
-      #eef6fd 0%,
-      #e6f0fa 100%
-    );
-}
-
-/* Cards inside panels */
-.block{
-  background:
-    linear-gradient(
-      180deg,
-      #ffffffcc,
-      #f6fbff
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  border-radius: 18px;
-  box-shadow: 0 14px 35px rgba(15,23,42,.06);
-}
-
-/* Text colors recalibrated for light UI */
-h1, h2, h3{
-  color: #0f172a;
-}
-
-p, li{
-  color: rgba(15,23,42,.78);
-}
-
-.sub,
-.small{
-  color: rgba(15,23,42,.55);
-}
-
-/* Sidebar links */
-.sidebar a{
-  color: rgba(15,23,42,.75);
-}
-
-.sidebar a.active{
-  background: #d7ecff;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-/* Buttons */
-.btn.primary{
-  background: linear-gradient(180deg, #4fc3ff, #2ea8f5);
-  border: none;
-  color: white;
-  box-shadow: 0 10px 25px rgba(46,168,245,.35);
-}
-
-.btn.primary:hover{
-  filter: brightness(1.05);
-}
-
-/* ================================
-   CENTER PANEL — SOFT SKY SURFACE
-   ================================ */
-
-.content{
-  background:
-    linear-gradient(
-      180deg,
-      #f8fbff 0%,
-      #f1f7fd 100%
-    );
-  border: 1px solid rgba(15,23,42,.06);
-  box-shadow:
-    0 24px 60px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-/* Headings look richer on tinted bg */
-.content h1,
-.content h2,
-.content h3{
-  color: #0f172a;
-}
-
-/* Body text */
-.content p,
-.content li{
-  color: rgba(15,23,42,.78);
-}
-
-/* Sub text */
-.content .sub{
-  color: rgba(15,23,42,.55);
-}
-
-/* ===== SECONDARY BUTTONS (STABLE, NO FADE) ===== */
+/* Ghost (white with blue border) */
 a.btn:not(.primary),
 button.btn:not(.primary) {
-  background: #ffffff;
-  color: #1f2937;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
-  transition:
-    background-color 140ms ease,
-    box-shadow 140ms ease,
-    transform 120ms ease;
+  background:    rgba(255, 255, 255, .84);
+  color:         var(--home-ink);
+  border:        1.5px solid var(--home-line);
+  box-shadow:    0 2px 10px rgba(67, 88, 244, .08);
+  padding:       16px 30px;
+  border-radius: 16px;
+  font-size:     1rem;
+  font-weight:   600;
 }
-
-/* Hover: subtle elevation, NO light fade */
 a.btn:not(.primary):hover,
 button.btn:not(.primary):hover {
-  background: #ffffff; /* stays white */
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
-  transform: translateY(-1px);
+  background:   rgba(237, 233, 254, .84);
+  border-color: rgba(67, 88, 244, .30);
+  box-shadow:   0 6px 18px rgba(67, 88, 244, .12);
+  color:        var(--home-ink);
 }
-
-/* Active: press down */
 a.btn:not(.primary):active,
-button.btn:not(.primary):active {
-  transform: translateY(0);
-  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.10);
+button.btn:not(.primary):active { background: #dff3ff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover, .btn:active { transform: none !important; }
 }
 
+/* Step actions row */
+.step-actions {
+  display:     flex;
+  gap:         14px;
+  align-items: center;
+  flex-wrap:   wrap;
+  margin-top:  34px;
+}
+.step-actions--back-only { justify-content: flex-start; }
 
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1
+/* Trust line */
+.step-trust {
+  margin:         14px 0 0;
+  font-size:      0.80rem;
+  font-weight:    600;
+  color:          #94a3b8;
+  letter-spacing: .02em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   9. STEP 0 — Pattern preview card
+   ═══════════════════════════════════════════════════════════════ */
+.step-preview-card {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(255, 255, 255, .38), transparent 42%),
+    linear-gradient(135deg, rgba(207, 237, 255, .96) 0%, rgba(224, 231, 255, .94) 54%, rgba(237, 233, 254, .90) 100%);
+  border:        1.5px solid var(--home-line);
+  border-radius: 28px;
+  padding:       34px 34px;
+  margin-bottom: 8px;
+  box-shadow:    0 18px 54px var(--home-shadow);
+}
+.hc-rows      { display: flex; flex-direction: column; gap: 16px; margin-bottom: 26px; }
+.hc-row       { display: flex; align-items: center; gap: 14px; font-size: 1.08rem; }
+.hc-sp        { min-width: 58px; font-weight: 800; color: var(--home-ink); }
+.hc-arr       { font-size: 1rem; color: #818cf8; flex-shrink: 0; }
+.hc-en        { font-weight: 800; color: var(--home-blue); font-size: 1.28rem; }
+.hc-example   {
+  font-size:   1.1rem;
+  color:       var(--home-ink);
+  font-style:  italic;
+  line-height: 1.5;
+  margin:      0;
+  padding-top: 24px;
+  border-top:  1px solid var(--home-line);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   10. STEP 1 — How-it-works cards
+   ═══════════════════════════════════════════════════════════════ */
+.how-cards {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   18px;
+  margin:                12px 0 8px;
+}
+.how-card {
+  border:        1.5px solid var(--home-line);
+  border-radius: 24px;
+  padding:       38px 26px;
+  text-align:    center;
+  min-height:    260px;
+  display:       flex;
+  flex-direction: column;
+  justify-content: center;
+  transition:    transform 180ms ease, box-shadow 180ms ease;
+}
+.how-card:hover {
+  transform:  translateY(-3px);
+  box-shadow: 0 10px 26px var(--home-shadow);
+}
+.how-card--blue,
+.how-card--purple,
+.how-card--teal {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .82), rgba(223, 243, 255, .70) 54%, rgba(237, 233, 254, .72));
+  border-color: var(--home-line);
+}
+.how-icon  { font-size: 3rem; margin-bottom: 22px; line-height: 1; }
+.how-title {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: var(--home-ink);
+  margin-bottom: 12px;
+}
+.how-body  { font-size: 0.98rem; color: var(--home-muted); line-height: 1.58; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .how-card:hover { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   11. STEP 2 — Goal selection grid
+   ═══════════════════════════════════════════════════════════════ */
+.goal-grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   18px;
+  margin:                12px 0 8px;
+}
+.goal-btn {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            12px;
+  padding:        42px 26px;
+  background:     linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(223, 243, 255, .62));
+  border:         1.5px solid var(--home-line);
+  border-radius:  24px;
+  cursor:         pointer;
+  min-height:     178px;
+  text-align:     center;
+  box-shadow:     0 3px 12px rgba(67, 88, 244, .07);
+  transition:     transform 160ms ease, box-shadow 160ms ease,
+                  border-color 160ms ease, background 160ms ease;
+}
+.goal-btn:hover {
+  transform:    translateY(-4px);
+  box-shadow:   0 12px 30px var(--home-shadow);
+  border-color: rgba(67, 88, 244, .34);
+  background:   linear-gradient(145deg, #eef7ff, #ede9fe);
+}
+.goal-btn.is-selected {
+  border-color: var(--home-blue);
+  background:   linear-gradient(145deg, #dff3ff, #ede9fe);
+  box-shadow:   0 0 0 3px rgba(67, 88, 244, .18), 0 8px 24px rgba(67, 88, 244, .12);
+}
+.goal-icon  { font-size: 3.2rem; line-height: 1; }
+.goal-label { font-size: 1.12rem; font-weight: 800; color: var(--home-ink); line-height: 1.32; }
+
+@media (prefers-reduced-motion: reduce) {
+  .goal-btn:hover { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12. STEP 3 — Recommended path (dynamic)
+   ═══════════════════════════════════════════════════════════════ */
+.path-rec {
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+  margin:         12px 0 10px;
+  max-width:      760px;
+}
+.path-rec-item {
+  display:       flex;
+  align-items:   center;
+  gap:           18px;
+  padding:       22px 24px;
+  background:    linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(223, 243, 255, .64));
+  border:        1.5px solid var(--home-line);
+  border-radius: 20px;
+}
+.path-rec-num {
+  width:           42px;
+  height:          42px;
+  border-radius:   50%;
+  background:      linear-gradient(135deg, var(--home-blue), var(--home-blue-2));
+  color:           #ffffff;
+  font-size:       1rem;
+  font-weight:     800;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  box-shadow:      0 2px 8px rgba(67, 88, 244, .28);
+}
+.path-rec-text { font-size: 1.08rem; font-weight: 700; color: var(--home-ink); }
+.path-rec-cta  { margin-top: 12px; align-self: flex-start; }
+
+/* ═══════════════════════════════════════════════════════════════
+   13. STEP 4 — Final features list
+   ═══════════════════════════════════════════════════════════════ */
+.final-features {
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+  margin:         12px 0 6px;
+  max-width:      760px;
+}
+.final-feat {
+  display:     flex;
+  align-items: center;
+  gap:         18px;
+  padding:     22px 24px;
+  background:  linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(223, 243, 255, .64));
+  border:      1.5px solid var(--home-line);
+  border-radius: 20px;
+  font-size:   1.06rem;
+  color:       var(--home-ink);
+  font-weight: 700;
+}
+.final-feat-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+/* More-links footer line */
+.step-more-links {
+  margin-top:  22px;
+  font-size:   0.82rem;
+  color:       #94a3b8;
+  text-align:  center;
+  line-height: 1.6;
+}
+.step-more-links a {
+  color:                #64748b;
+  text-decoration:      underline;
+  text-underline-offset: 2px;
+}
+.step-more-links a:hover { color: #0369a1; }
+
+/* Footer copyright */
+.home-footer {
+  text-align:  center;
+  color:       #94a3b8;
+  font-size:   0.80rem;
+  margin-top:  20px;
+  margin-bottom: 0;
+}
+.small { color: #6b7280; }
+
+/* ═══════════════════════════════════════════════════════════════
+   14. RETURNING HOME HUB
+   ═══════════════════════════════════════════════════════════════ */
+.home-hub {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 58px);
+  padding: 46px 28px 70px;
+}
+.home-hub::before {
+  content: "";
+  position: fixed;
+  inset: 58px 0 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 880px 520px at 16% 12%, rgba(56, 189, 248, .24), transparent 62%),
+    radial-gradient(ellipse 780px 500px at 90% 20%, rgba(139, 92, 246, .20), transparent 60%),
+    radial-gradient(ellipse 660px 440px at 64% 86%, rgba(191, 219, 254, .34), transparent 62%);
+  z-index: -1;
+}
+.hub-shell {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.hub-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  align-items: stretch;
+  gap: 22px;
+  padding: 46px;
+  border-radius: 32px;
+  color: var(--home-ink);
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255, 255, 255, .36), transparent 34%),
+    linear-gradient(120deg, #dff3ff 0%, #e7f0ff 46%, #ede9fe 100%);
+  box-shadow: 0 24px 80px var(--home-shadow);
+}
+.hub-hero .step-eyebrow {
+  color: var(--home-blue);
+  background: rgba(255, 255, 255, .44);
+  border-color: rgba(67, 88, 244, .18);
+}
+.hub-title {
+  font-family: var(--font-display, "Ribeye", serif);
+  color: var(--home-ink);
+  font-size: 3.65rem;
+  line-height: .98;
+  letter-spacing: 0;
+  margin: 0 0 16px;
+}
+.hub-sub {
+  max-width: 660px;
+  margin: 0;
+  color: var(--home-muted);
+  font-size: 1.18rem;
+  line-height: 1.62;
+}
+.hub-progress {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 190px;
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, .50);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .52),
+    0 16px 40px rgba(67, 88, 244, .10);
+}
+.hub-progress-label,
+.hub-kicker {
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+}
+.hub-progress strong {
+  color: var(--home-ink);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.hub-progress span:last-child {
+  color: var(--home-blue);
+  font-weight: 600;
+}
+.hub-recommendation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 30px;
+  border: 1.5px solid var(--home-line);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(255, 255, 255, .38), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, .86), rgba(223, 243, 255, .70) 58%, rgba(237, 233, 254, .72));
+  box-shadow: 0 18px 48px var(--home-shadow);
+}
+.hub-kicker {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--home-blue);
+}
+.hub-recommendation h2 {
+  font-family: var(--font-display, "Ribeye", serif);
+  margin: 0 0 6px;
+  color: var(--home-ink);
+  font-size: 1.82rem;
+  line-height: 1.05;
+}
+.hub-recommendation p {
+  margin: 0;
+  max-width: 680px;
+  color: var(--home-muted);
+  line-height: 1.55;
+}
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.hub-card {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 26px;
+  border-radius: 26px;
+  border: 1.5px solid var(--home-line);
+  text-decoration: none;
+  color: var(--home-ink);
+  box-shadow: 0 14px 38px rgba(67, 88, 244, .08);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.hub-card:hover {
+  color: var(--home-ink);
+  text-decoration: none;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(67, 88, 244, .13);
+}
+.hub-card--course,
+.hub-card--verbs,
+.hub-card--game {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(223, 243, 255, .66) 58%, rgba(237, 233, 254, .62));
+}
+.hub-card--premium {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .84), rgba(237, 233, 254, .76));
+}
+.hub-card--course .hub-card-icon  { color: var(--home-blue); }
+.hub-card--verbs .hub-card-icon   { color: var(--home-cyan); }
+.hub-card--game .hub-card-icon    { color: var(--home-blue); }
+.hub-card--premium .hub-card-icon { color: var(--home-purple); }
+.hub-card-icon {
+  width: 54px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .60);
+  font-size: 1.8rem;
+}
+.hub-card-title {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: 1.26rem;
+  font-weight: 800;
+}
+.hub-card-copy {
+  color: var(--home-muted);
+  line-height: 1.45;
+  font-weight: 600;
+}
+.hub-repeat {
+  align-self: center;
+  border: none;
+  background: transparent;
+  color: var(--home-blue);
+  font-weight: 800;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+.hub-repeat:hover {
+  color: var(--home-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   14. PROGRESS DOTS — fixed bottom-center
+   ═══════════════════════════════════════════════════════════════ */
+.flow-dots {
+  position:                fixed;
+  bottom:                  22px;
+  left:                    50%;
+  transform:               translateX(-50%);
+  z-index:                 100;
+  display:                 flex;
+  align-items:             center;
+  gap:                     10px;
+  padding:                 9px 18px;
+  background:              rgba(255, 255, 255, .86);
+  border:                  1px solid var(--home-line);
+  border-radius:           999px;
+  backdrop-filter:         blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:              0 4px 20px rgba(67, 88, 244, .12);
+}
+
+.flow-dot {
+  width:         9px;
+  height:        9px;
+  border-radius: 50%;
+  background:    rgba(139, 92, 246, .26);
+  border:        none;
+  cursor:        pointer;
+  padding:       0;
+  flex-shrink:   0;
+  transition:    width 260ms ease, background 260ms ease, border-radius 260ms ease;
+}
+.flow-dot.is-active {
+  width:         28px;
+  border-radius: 999px;
+  background:    linear-gradient(90deg, var(--home-blue), var(--home-purple));
+  cursor:        default;
+}
+.flow-dot.is-visited {
+  background: rgba(67, 88, 244, .54);
+  cursor:     pointer;
+}
+.flow-dot:not(.is-active):hover {
+  background: rgba(67, 88, 244, .62);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-dot { transition: none !important; }
+  .flow-skip,
+  .hub-card {
+    transition: none !important;
+  }
+  .flow-skip:hover,
+  .hub-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   15. RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet / narrow desktop (≤ 700px) ───────────────────────── */
+@media (max-width: 700px) {
+  .flow-step          { padding: 24px 18px 90px; }
+  .step-card          { min-height: min(86vh, 780px); padding: 44px 34px; border-radius: 26px; }
+  .flow-step[data-step="0"] .step-card {
+    display: flex;
+  }
+  .step-headline      { font-size: 2.75rem; }
+  h2.step-headline    { font-size: 2.35rem; }
+  .step-sub           { font-size: 1.08rem; }
+
+  .how-cards          { grid-template-columns: 1fr; gap: 10px; }
+  .how-card           { min-height: auto; text-align: left; padding: 26px; }
+  .how-icon           { font-size: 2rem; margin-bottom: 12px; }
+
+  .goal-grid          { gap: 12px; }
+  .goal-btn           { min-height: 148px; padding: 28px 16px; }
+
+  .flow-skip          { right: 18px; bottom: 20px; }
+  .hub-hero,
+  .hub-recommendation { grid-template-columns: 1fr; }
+  .hub-title          { font-size: 2.75rem; }
+  .hub-grid           { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Phone (≤ 460px) ──────────────────────────────────────────── */
+@media (max-width: 460px) {
+  .flow-step          { padding: 18px 14px 82px; }
+  .step-card          { min-height: calc(100vh - 112px); padding: 30px 22px; border-radius: 22px; }
+  .step-headline      { font-size: 2.18rem; }
+  h2.step-headline    { font-size: 1.95rem; }
+  .step-sub           { font-size: 1rem; margin-bottom: 24px; }
+
+  .step-actions       { flex-direction: column; align-items: stretch; }
+  .btn.primary,
+  a.btn:not(.primary),
+  button.btn:not(.primary) {
+    width:           100% !important;
+    justify-content: center;
+  }
+
+  .step-preview-card  { padding: 24px 20px; border-radius: 22px; }
+  .hc-row             { font-size: 0.98rem; }
+  .hc-en              { font-size: 1.08rem; }
+  .hc-example         { font-size: 0.98rem; }
+
+  .goal-grid          { grid-template-columns: 1fr; gap: 10px; }
+  .goal-btn           { min-height: 112px; padding: 22px 14px; gap: 9px; }
+  .goal-icon          { font-size: 2.1rem; }
+  .goal-label         { font-size: 0.98rem; }
+
+  .flow-skip          { left: 50%; right: auto; transform: translateX(-50%); bottom: 18px; }
+  .flow-skip:hover    { transform: translateX(-50%); }
+  .flow-dots          { bottom: 62px; }
+  .home-hub           { padding: 24px 14px 48px; }
+  .hub-hero           { padding: 30px 22px; border-radius: 24px; }
+  .hub-title          { font-size: 2.2rem; }
+  .hub-sub            { font-size: 1rem; }
+  .hub-progress       { min-height: 0; padding: 22px; }
+  .hub-recommendation { padding: 24px 20px; }
+  .hub-recommendation .btn.primary { width: 100%; }
+  .hub-grid           { grid-template-columns: 1fr; }
+  .hub-card           { min-height: 168px; padding: 22px; border-radius: 22px; }
+}
+
+/* ── Very small (≤ 340px) ─────────────────────────────────────── */
+@media (max-width: 340px) {
+  .goal-grid { grid-template-columns: 1fr; }
+}
+
+/* ================================================================
+   RESPONSIVE / ZOOM HARDENING
+   Keeps the immersive guided flow while preventing fixed cards and
+   four-column hubs from feeling cramped at browser zoom levels.
+   ================================================================ */
+.step-card,
+.hub-shell {
+  max-width: min(70rem, calc(100vw - clamp(1.5rem, 5vw, 3.5rem)));
+}
+
+.step-card {
+  min-height: min(82svh, 48rem);
+  padding: clamp(2rem, 5vw, 4.25rem);
+}
+
+.flow-step[data-step="0"] .step-card {
+  grid-template-columns: minmax(0, 1fr) minmax(min(20rem, 100%), .82fr);
+}
+
+.step-headline {
+  font-size: clamp(2.45rem, 6vw, 4rem);
+}
+
+.hero-title {
+  font-size: clamp(2.7rem, 6.4vw, 4.18rem);
+}
+
+h2.step-headline {
+  font-size: clamp(2.15rem, 5vw, 3.35rem);
+}
+
+.step-sub {
+  font-size: clamp(1rem, 1.5vw, 1.22rem);
+}
+
+.how-cards {
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+}
+
+.goal-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+}
+
+.hub-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(min(16rem, 100%), 16.25rem);
+  padding: clamp(1.75rem, 4.6vw, 2.875rem);
+}
+
+.hub-title {
+  font-size: clamp(2.35rem, 5.4vw, 3.65rem);
+}
+
+.hub-sub {
+  font-size: clamp(1rem, 1.45vw, 1.18rem);
+}
+
+.hub-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(14.5rem, 100%), 1fr));
+}
+
+.hub-card {
+  min-height: clamp(10.5rem, 22vw, 13.75rem);
+}
+
+@media (max-width: 1100px) {
+  .flow-step[data-step="0"] .step-card {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-step[data-step="0"] .step-preview-card {
+    max-width: 32rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .flow-step {
+    padding-inline: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .step-card {
+    min-height: auto;
+    border-radius: 1.75rem;
+  }
+
+  .hub-hero,
+  .hub-recommendation {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-card,
+  .hub-shell {
+    max-width: calc(100vw - 1.5rem);
+  }
+
+  .step-card {
+    padding: 1.55rem;
+  }
+
+  .step-actions {
+    width: 100%;
+  }
+}

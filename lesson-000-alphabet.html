@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="es">
 <head>
@@ -7,309 +6,264 @@
   <title>Lección 000 | Alfabeto | Exprésate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="lesson-flashcard.css" />
 </head>
 
-<body data-lesson-id="lesson-000">
+<body class="lesson-step-mode" data-lesson-id="lesson-000-alphabet" data-page="curso">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Exprésate</div>
-      <a class="pill" href="curso.html">Curso</a>
-    </div>
-  </div>
+  <!-- Topbar and sidebar are rendered by nav.js -->
+  <div class="topbar"></div>
 
   <div class="shell">
+    <aside class="panel sidebar"></aside>
 
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a class="active" href="curso.html">Curso</a>
-        <a href="diccionario.html">Diccionario</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER -->
     <main class="content">
       <h1>Lección 000 — El alfabeto (A–Z)</h1>
-
-      <!-- MINI DECK -->
-      <div id="deck-lesson-001"></div>
-
       <p class="sub">
-        Meta: reconocer las letras en inglés y practicar los sonidos base.
+        Meta: reconocer las 26 letras en inglés y empezar a oír su sonido.
       </p>
 
-      <!-- ALPHABET OVERVIEW -->
-      <div class="block">
-        <h2>1) Alfabeto (rápido)</h2>
-        <p class="small">Consejo: no memorices todo en un día. Aprende por bloques.</p>
+      <!-- Top progress bar, filled by lesson.js -->
+      <div data-lesson-progress></div>
 
-<pre>A B C D E F G
-H I J K L M N
-O P Q R S T U
-V W X Y Z</pre>
-      </div>
-
-      <!-- VOWELS -->
-      <div class="block">
-        <h2>2) Vocales (lo más importante)</h2>
-        <p class="small">
-          Estas 5 letras aparecen en todo. Aquí solo necesitas la idea general.
-          (Luego pulimos pronunciación.)
-        </p>
-
-        <ul>
-          <li><strong>A</strong> suena como “ei”</li>
-          <li><strong>E</strong> suena como “ii”</li>
-          <li><strong>I</strong> suena como “ai”</li>
-          <li><strong>O</strong> suena como “ou”</li>
-          <li><strong>U</strong> suena como “iu / yu”</li>
-        </ul>
-
-        <div class="actions">
-          <button class="btn" data-audio="audio/alphabet/a.mp3">▶️ A</button>
-          <button class="btn" data-audio="audio/alphabet/e.mp3">▶️ E</button>
-          <button class="btn" data-audio="audio/alphabet/i.mp3">▶️ I</button>
-          <button class="btn" data-audio="audio/alphabet/o.mp3">▶️ O</button>
-          <button class="btn" data-audio="audio/alphabet/u.mp3">▶️ U</button>
+      <!-- FLASHCARD 1 — Bienvenida -->
+      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
+               data-fc-tip="Empieza por las vocales — aparecen en todo y cambian el ritmo de cada palabra.">
+        <div class="fc-head">
+          <div class="fc-num">1</div>
+          <div class="fc-titles">
+            <strong class="fc-title">¡Bienvenido(a)!</strong>
+            <span class="fc-sub">Lo que vas a aprender en esta lección</span>
+          </div>
+          <div class="fc-status"></div>
         </div>
-      </div>
-
-      <!-- PRACTICE -->
-      <div class="block">
-        <h2>3) Práctica rápida</h2>
-        <ol>
-          <li>Escribe tu nombre y apellido.</li>
-          <li>Sepáralo por letras (ej: Y-N-O-E-L).</li>
-          <li>Di las letras en voz alta (lento y claro).</li>
-        </ol>
-      </div>
-
-      <!-- OPTIONAL VIDEO -->
-      <div class="block">
-        <h2>4) Video de referencia (opcional)</h2>
-        <p class="small">
-          Si quieres, puedes usar un video unlisted de YouTube aquí.
-        </p>
-
-        <div style="border:1px solid rgba(255,255,255,.12); border-radius:12px; overflow:hidden;">
-          <iframe
-            width="100%"
-            height="315"
-            src="https://www.youtube.com/embed/ChqnN3cKzXQ"
-            title="Alfabeto en inglés"
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
+        <div class="fc-body">
+          <p>En esta lección vas a:</p>
+          <ul>
+            <li>Reconocer las <strong>26 letras</strong> del alfabeto inglés.</li>
+            <li>Escuchar el sonido de las <strong>5 vocales</strong>.</li>
+            <li>Hacer un <strong>mini reto</strong> de escucha al final.</li>
+          </ul>
+          <p class="small">No memorices todo de una. La idea es <em>oír</em> mucho y repetir poco a poco.</p>
         </div>
-      </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
 
-      <!-- NAV ACTIONS -->
-      <div class="actions">
+      <!-- FLASHCARD 2 — Alphabet grid -->
+      <section class="flashcard block" data-fc-id="alphabet" data-fc-title="El alfabeto"
+               data-fc-tip="No tienes que aprender las 26 hoy. Empieza por las letras de tu nombre.">
+        <div class="fc-head">
+          <div class="fc-num">2</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Toca cada letra para oírla</strong>
+            <span class="fc-sub">A–Z · 26 sonidos</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p class="small">Tip: empieza por tu nombre y por las vocales. No tienes que hacer las 26 hoy.</p>
+          <div class="fc-letter-grid">
+            <button class="fc-letter letter-btn vowel" data-letter="a">A</button>
+            <button class="fc-letter letter-btn" data-letter="b">B</button>
+            <button class="fc-letter letter-btn" data-letter="c">C</button>
+            <button class="fc-letter letter-btn" data-letter="d">D</button>
+            <button class="fc-letter letter-btn vowel" data-letter="e">E</button>
+            <button class="fc-letter letter-btn" data-letter="f">F</button>
+            <button class="fc-letter letter-btn" data-letter="g">G</button>
+            <button class="fc-letter letter-btn" data-letter="h">H</button>
+            <button class="fc-letter letter-btn vowel" data-letter="i">I</button>
+            <button class="fc-letter letter-btn" data-letter="j">J</button>
+            <button class="fc-letter letter-btn" data-letter="k">K</button>
+            <button class="fc-letter letter-btn" data-letter="l">L</button>
+            <button class="fc-letter letter-btn" data-letter="m">M</button>
+            <button class="fc-letter letter-btn" data-letter="n">N</button>
+            <button class="fc-letter letter-btn vowel" data-letter="o">O</button>
+            <button class="fc-letter letter-btn" data-letter="p">P</button>
+            <button class="fc-letter letter-btn" data-letter="q">Q</button>
+            <button class="fc-letter letter-btn" data-letter="r">R</button>
+            <button class="fc-letter letter-btn" data-letter="s">S</button>
+            <button class="fc-letter letter-btn" data-letter="t">T</button>
+            <button class="fc-letter letter-btn vowel" data-letter="u">U</button>
+            <button class="fc-letter letter-btn" data-letter="v">V</button>
+            <button class="fc-letter letter-btn" data-letter="w">W</button>
+            <button class="fc-letter letter-btn" data-letter="x">X</button>
+            <button class="fc-letter letter-btn" data-letter="y">Y</button>
+            <button class="fc-letter letter-btn" data-letter="z">Z</button>
+          </div>
+          <p class="small">Las letras <strong>amarillas</strong> son las vocales (A E I O U).</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- FLASHCARD 3 — Vowels -->
+      <section class="flashcard block" data-fc-id="vowels" data-fc-title="Las vocales"
+               data-fc-tip="La &quot;I&quot; en inglés se siente como &quot;ai&quot;. Di &quot;time&quot; (taim) y tu boca recordará la diferencia.">
+        <div class="fc-head">
+          <div class="fc-num">3</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Las 5 vocales</strong>
+            <span class="fc-sub">Estas aparecen en todo</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p class="small">Toca cada vocal y repite el sonido en voz alta.</p>
+          <div class="fc-vowel-row">
+            <button class="fc-letter vowel letter-btn" data-letter="a">A<span class="fc-vowel-sub">ei</span></button>
+            <button class="fc-letter vowel letter-btn" data-letter="e">E<span class="fc-vowel-sub">ii</span></button>
+            <button class="fc-letter vowel letter-btn" data-letter="i">I<span class="fc-vowel-sub">ai</span></button>
+            <button class="fc-letter vowel letter-btn" data-letter="o">O<span class="fc-vowel-sub">ou</span></button>
+            <button class="fc-letter vowel letter-btn" data-letter="u">U<span class="fc-vowel-sub">iu</span></button>
+          </div>
+          <p class="small">Pista: la <strong>I</strong> en inglés se oye “ai”, no “i”. Repite la palabra <em>“time”</em> (taim) para sentirlo.</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- FLASHCARD 4 — Practice -->
+      <section class="flashcard block" data-fc-id="practica" data-fc-title="Practica con tu nombre"
+               data-fc-tip="Decir tu nombre en voz alta entrena el oído y la boca a la vez. Funciona mejor que solo leerlo.">
+        <div class="fc-head">
+          <div class="fc-num">4</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Practica con tu nombre</strong>
+            <span class="fc-sub">2 minutos · en voz alta</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <ol>
+            <li>Escribe tu <strong>nombre y apellido</strong> en una hoja.</li>
+            <li>Sepáralo letra por letra (ej.: <strong>Y-N-O-E-L</strong>).</li>
+            <li>Toca cada letra arriba para oírla, luego dila tú.</li>
+            <li>Dilo seguido, lento y claro: <em>“Y, N, O, E, L”</em>.</li>
+          </ol>
+          <p class="small">No tiene que sonar perfecto. Hoy entrenas el oído.</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- FLASHCARD 5 — Mini Reto -->
+      <section class="flashcard fc-reto block"
+               data-fc-id="reto"
+               data-fc-title="Mini reto: ¿qué letra escuchas?"
+               data-fc-tip="Si fallas, escucha 2–3 veces antes de elegir. Tu oído mejora con cada intento."
+               data-reto-pool="abcdefghijklmnopqrstuvwxyz"
+               data-reto-audio-base="audio/alphabet/">
+        <div class="fc-head">
+          <div class="fc-num">5</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Mini reto: ¿qué letra escuchas?</strong>
+            <span class="fc-sub">Escucha y elige la correcta</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-reto-prompt">
+            <button class="fc-reto-play" type="button" data-reto-play>Reproducir</button>
+            <p class="fc-reto-question">Toca <strong>Reproducir</strong> y luego elige la letra que escuchaste:</p>
+            <div class="fc-reto-options" data-reto-options></div>
+            <p class="fc-reto-feedback" data-reto-feedback></p>
+            <!-- Score counter — hidden until the first answer; never resets across rounds -->
+            <div class="fc-reto-score" data-reto-score hidden>
+              Correctas: <span data-reto-correct-count>0</span> · Intentos: <span data-reto-attempts>0</span>
+            </div>
+            <button class="fc-reto-retry" type="button" data-reto-retry hidden>↻ Otra ronda</button>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- FLASHCARD 6 — Summary (celebration recap before the markComplete CTA) -->
+      <section class="flashcard fc-summary block"
+               data-fc-id="resumen"
+               data-fc-title="Resumen"
+               data-fc-summary="true">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">¡Felicidades!</strong>
+            <span class="fc-sub">Resumen de lo que aprendiste</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-summary-banner">
+            <span class="fc-summary-emoji">✓</span>
+            <div>
+              <div class="fc-summary-headline">¡Terminaste la Lección 000!</div>
+              <div class="fc-summary-sub">Buen trabajo. Sigue así, paso a paso.</div>
+            </div>
+          </div>
+
+          <div class="fc-summary-grid">
+            <div class="fc-summary-stat">
+              <div class="fc-summary-stat-label">XP ganado</div>
+              <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
+            </div>
+            <div class="fc-summary-stat">
+              <div class="fc-summary-stat-label">Secciones</div>
+              <div class="fc-summary-stat-value">6 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 6</span></div>
+            </div>
+          </div>
+
+          <p class="small">En esta lección lograste:</p>
+          <ul class="fc-summary-list">
+            <li>Conocer las 26 letras del alfabeto</li>
+            <li>Identificar las 5 vocales (A E I O U)</li>
+            <li>Practicar tu nombre en voz alta</li>
+            <li>Reconocer letras de oído</li>
+          </ul>
+
+          <div class="fc-summary-next">
+            <span class="label">A continuación</span>
+            <span class="title">Lección 001 — Sonidos clave</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <!-- Listo intentionally omitted on the summary card. lesson.js
+               hides any Continuar here because data-fc-summary="true". -->
+        </div>
+      </section>
+
+      <!-- COMPLETION -->
+      <div class="actions" style="margin-top:18px;">
         <a class="btn" href="curso.html">← Volver al curso</a>
-        <a class="btn primary" href="curso.html">Ir al Quiz 000 →</a>
+        <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
+          Marcar como completada
+        </button>
       </div>
+      <p class="small" id="lessonStatus" style="margin-top:8px;"></p>
 
-      <p class="small">© <span id="year"></span> Ynoel English</p>
+      <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <!-- RIGHT -->
+    <!-- Right panel — filled by lesson.js -->
     <aside class="panel right">
-      <h3>Enfoque</h3>
-      <div style="padding:12px 14px;">
-        <p class="small"><strong>Objetivo:</strong> A–Z + vocales.</p>
-        <hr />
-        <p class="small">✅ Lee 5 minutos</p>
-        <p class="small">✅ Practica tu nombre</p>
-        <p class="small">✅ Haz el Quiz 000</p>
+      <h3>Tu lección</h3>
+      <div data-lesson-rightpanel style="padding:4px 4px 8px;">
+        <p class="small">Cargando…</p>
       </div>
     </aside>
-
   </div>
 
-  <!-- MINI DECK SCRIPT -->
-  <script src="mini-deck.js"></script>
-
-  <script>
-    // Alphabet mini-deck (audio wired per card)
-    const letters = "abcdefghijklmnopqrstuvwxyz".split("");
-
-    const deck001 = letters.map(l => ({
-      letter: l.toUpperCase(),
-      es: l.toUpperCase(),
-      en: "—",
-      audio: `audio/alphabet/${l}.mp3`
-    }));
-
-    createMiniDeck("deck-lesson-001", deck001, {
-      title: "Para esta lección necesitas conocer:"
-    });
-  </script>
-
-  <!-- GLOBAL APP -->
+  <!-- Script load order: progress -> alerts -> nav -> data/lessons -> lesson -> app -->
+  <script src="progress.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
+  <script src="data/lessons.js"></script>
+  <script src="lesson.js"></script>
   <script src="app.js"></script>
-
 </body>
 </html>
-
-=======
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lección 000 | Alfabeto | Ynoel English</title>
-  <link rel="stylesheet" href="layout.css" />
-  <link rel="stylesheet" href="theme-light.css" />
-</head>
-
-<body data-lesson-id="lesson-000">
-
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Ynoel English</div>
-      <a class="pill" href="curso.html">Curso</a>
-    </div>
-  </div>
-
-  <div class="shell">
-
-    <!-- LEFT -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a class="active" href="curso.html">Curso</a>
-        <a href="diccionario.html">Diccionario</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER -->
-    <main class="content">
-      <h1>Lección 000 — El alfabeto (A–Z)</h1>
-
-      <!-- MINI DECK -->
-      <div id="deck-lesson-001"></div>
-
-      <p class="sub">
-        Meta: reconocer las letras en inglés y practicar los sonidos base.
-      </p>
-
-      <!-- ALPHABET OVERVIEW -->
-      <div class="block">
-        <h2>1) Alfabeto (rápido)</h2>
-        <p class="small">Consejo: no memorices todo en un día. Aprende por bloques.</p>
-
-<pre>A B C D E F G
-H I J K L M N
-O P Q R S T U
-V W X Y Z</pre>
-      </div>
-
-      <!-- VOWELS -->
-      <div class="block">
-        <h2>2) Vocales (lo más importante)</h2>
-        <p class="small">
-          Estas 5 letras aparecen en todo. Aquí solo necesitas la idea general.
-          (Luego pulimos pronunciación.)
-        </p>
-
-        <ul>
-          <li><strong>A</strong> suena como “ei”</li>
-          <li><strong>E</strong> suena como “ii”</li>
-          <li><strong>I</strong> suena como “ai”</li>
-          <li><strong>O</strong> suena como “ou”</li>
-          <li><strong>U</strong> suena como “iu / yu”</li>
-        </ul>
-
-        <div class="actions">
-          <button class="btn" data-audio="audio/alphabet/a.mp3">▶️ A</button>
-          <button class="btn" data-audio="audio/alphabet/e.mp3">▶️ E</button>
-          <button class="btn" data-audio="audio/alphabet/i.mp3">▶️ I</button>
-          <button class="btn" data-audio="audio/alphabet/o.mp3">▶️ O</button>
-          <button class="btn" data-audio="audio/alphabet/u.mp3">▶️ U</button>
-        </div>
-      </div>
-
-      <!-- PRACTICE -->
-      <div class="block">
-        <h2>3) Práctica rápida</h2>
-        <ol>
-          <li>Escribe tu nombre y apellido.</li>
-          <li>Sepáralo por letras (ej: Y-N-O-E-L).</li>
-          <li>Di las letras en voz alta (lento y claro).</li>
-        </ol>
-      </div>
-
-      <!-- OPTIONAL VIDEO -->
-      <div class="block">
-        <h2>4) Video de referencia (opcional)</h2>
-        <p class="small">
-          Si quieres, puedes usar un video unlisted de YouTube aquí.
-        </p>
-
-        <div style="border:1px solid rgba(255,255,255,.12); border-radius:12px; overflow:hidden;">
-          <iframe
-            width="100%"
-            height="315"
-            src="https://www.youtube.com/embed/ChqnN3cKzXQ"
-            title="Alfabeto en inglés"
-            frameborder="0"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-      <!-- NAV ACTIONS -->
-      <div class="actions">
-        <a class="btn" href="curso.html">← Volver al curso</a>
-        <a class="btn primary" href="curso.html">Ir al Quiz 000 →</a>
-      </div>
-
-      <p class="small">© <span id="year"></span> Ynoel English</p>
-    </main>
-
-    <!-- RIGHT -->
-    <aside class="panel right">
-      <h3>Enfoque</h3>
-      <div style="padding:12px 14px;">
-        <p class="small"><strong>Objetivo:</strong> A–Z + vocales.</p>
-        <hr />
-        <p class="small">✅ Lee 5 minutos</p>
-        <p class="small">✅ Practica tu nombre</p>
-        <p class="small">✅ Haz el Quiz 000</p>
-      </div>
-    </aside>
-
-  </div>
-
-  <!-- MINI DECK SCRIPT -->
-  <script src="mini-deck.js"></script>
-
-  <script>
-    // Alphabet mini-deck (audio wired per card)
-    const letters = "abcdefghijklmnopqrstuvwxyz".split("");
-
-    const deck001 = letters.map(l => ({
-      letter: l.toUpperCase(),
-      es: l.toUpperCase(),
-      en: "—",
-      audio: `audio/alphabet/${l}.mp3`
-    }));
-
-    createMiniDeck("deck-lesson-001", deck001, {
-      title: "Para esta lección necesitas conocer:"
-    });
-  </script>
-
-  <!-- GLOBAL APP -->
-  <script src="app.js"></script>
-
-</body>
-</html>
-
->>>>>>> 821ef5dec62b7da48cfe3ec27e5dcbfdc73663b1
