@@ -7,59 +7,55 @@
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
   <link rel="stylesheet" href="juego-comida.css" />
 </head>
 
 <body data-page="juego">
 
-  <!-- Topbar and sidebar rendered by nav.js -->
   <div class="topbar"></div>
 
-  <div class="shell">
+  <div class="shell food-game-shell">
     <aside class="panel sidebar"></aside>
 
-    <main class="content">
-      <h1>Flashcards · Comida 🍽️</h1>
-      <p class="sub">Aprender → Practicar → Jugar · domina el vocabulario paso a paso.</p>
+    <main class="content food-game-page">
+      <header class="food-game-hero">
+        <p class="game-kicker">Vocabulario interactivo</p>
+        <h1>Juego de comida</h1>
+        <p class="sub">Aprende, escribe y juega con cartas visuales de comida en inglés.</p>
+      </header>
 
-      <!-- ── MODE SELECTOR ── -->
       <div class="game-mode-row" role="group" aria-label="Seleccionar modo">
         <button class="game-mode-card is-active" id="modeLearn" type="button">
-          <span class="gmc-icon">📖</span>
+          <span class="gmc-icon gmc-icon-learn" aria-hidden="true"></span>
           <strong class="gmc-label">Aprender</strong>
-          <span class="gmc-desc">Mira · revela · repite</span>
+          <span class="gmc-desc">Revela y repite</span>
         </button>
         <button class="game-mode-card" id="modePractice" type="button">
-          <span class="gmc-icon">✏️</span>
+          <span class="gmc-icon gmc-icon-practice" aria-hidden="true"></span>
           <strong class="gmc-label">Practicar</strong>
-          <span class="gmc-desc">Escribe la respuesta</span>
+          <span class="gmc-desc">Escribe la palabra</span>
         </button>
         <button class="game-mode-card" id="modeGame" type="button">
-          <span class="gmc-icon">⚡</span>
+          <span class="gmc-icon gmc-icon-game" aria-hidden="true"></span>
           <strong class="gmc-label">Jugar</strong>
-          <span class="gmc-desc">Elige la correcta · racha</span>
+          <span class="gmc-desc">Elige y suma racha</span>
         </button>
         <button class="game-mode-card gmc-reset" id="resetProgress" type="button">
-          <span class="gmc-icon">↺</span>
+          <span class="gmc-icon gmc-icon-reset" aria-hidden="true"></span>
           <strong class="gmc-label">Reiniciar</strong>
-          <span class="gmc-desc">Borra el progreso</span>
+          <span class="gmc-desc">Borra progreso</span>
         </button>
       </div>
 
       <p class="small game-status-line" id="statusLine"></p>
 
-      <!-- ── MAIN GAME CARD ── -->
-      <div class="game-card" id="cardArea">
-
-        <!-- Visual / emoji zone -->
+      <section class="game-card" id="cardArea" aria-live="polite">
         <div class="gc-visual" id="gcVisual">
-          <img id="cardImg" class="gc-img" alt="" />
-          <div id="cardEmoji" class="gc-emoji">🍽️</div>
-          <!-- Progress dots rendered by JS -->
+          <div id="foodVisual" class="food-visual"></div>
           <div class="gc-progress-dots" id="cardDots" aria-hidden="true"></div>
         </div>
 
-        <!-- Word pair -->
         <div class="gc-content">
           <div class="gc-word-block">
             <span class="gc-lang-label">Español</span>
@@ -74,87 +70,81 @@
           </div>
         </div>
 
-        <!-- ── LEARN ACTIONS ── -->
         <div class="gc-actions" id="learnActions">
           <button class="btn gc-btn-reveal" id="revealBtn" type="button">
-            👁 Mostrar inglés
+            Mostrar inglés
           </button>
           <button class="btn gc-btn-audio" id="audioBtn" type="button" disabled>
-            🔊 Audio
+            Audio
           </button>
           <button class="btn primary gc-btn-next" id="nextBtn" type="button">
-            Siguiente →
+            Siguiente
           </button>
         </div>
 
         <p class="small gc-hint" id="hintLine"></p>
 
-        <!-- ── PRACTICE AREA ── -->
+        <div id="speechPractice" class="gc-speech-practice"></div>
+
         <div class="gc-practice" id="practiceArea" hidden>
           <label class="gc-input-label" for="practiceInput">Escribe en inglés</label>
           <input id="practiceInput" type="text" class="gc-input"
-                 placeholder="Escribe la palabra en inglés…"
+                 placeholder="Ejemplo: apple"
                  autocomplete="off" spellcheck="false" />
           <div class="gc-practice-actions">
-            <button class="btn primary" id="checkBtn" type="button">Verificar ✓</button>
+            <button class="btn primary" id="checkBtn" type="button">Verificar</button>
             <button class="btn" id="showAnswerBtn" type="button">Ver respuesta</button>
             <button class="btn primary gc-btn-next gc-next-practice" id="nextBtnPractice"
-                    type="button" style="margin-left:auto;">Siguiente →</button>
+                    type="button">Siguiente</button>
           </div>
           <p class="gc-result" id="practiceResult" aria-live="polite"></p>
         </div>
 
-        <!-- ── GAME AREA ── -->
         <div class="gc-game" id="gameArea" hidden>
           <p class="gc-game-prompt">Elige la respuesta correcta en inglés:</p>
           <div class="gc-choices" id="choices" role="group"></div>
           <p class="gc-result" id="gameResult" aria-live="polite"></p>
           <div class="gc-game-next" id="gameNextWrap" hidden>
-            <button class="btn primary" id="nextBtnGame" type="button">Siguiente →</button>
+            <button class="btn primary" id="nextBtnGame" type="button">Siguiente</button>
           </div>
         </div>
 
-        <!-- ── CARD FOOTER ── -->
         <div class="gc-card-footer">
           <span class="gc-card-num" id="cardNum">1 / 12</span>
           <div class="gc-card-dots-row" id="cardDotsFooter" aria-hidden="true"></div>
         </div>
-
-      </div><!-- .game-card -->
+      </section>
 
       <p class="small game-page-footer">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <!-- ── RIGHT PANEL HUD ── -->
-    <aside class="panel right">
+    <aside class="panel right food-game-right">
       <h3>Tu progreso</h3>
-      <div id="gameHUD" style="padding:4px 4px 8px;">
-        <p class="small" style="color:rgba(255,255,255,.6);">Cargando…</p>
+      <div id="gameHUD" class="game-hud-loading">
+        <p class="small">Cargando...</p>
       </div>
     </aside>
   </div>
 
-  <!-- Reset confirmation modal (hidden by default) -->
   <div class="reset-modal" id="resetModal" hidden role="dialog"
        aria-modal="true" aria-labelledby="resetModalTitle">
     <div class="reset-modal-box">
-      <div class="reset-modal-icon">↺</div>
+      <div class="reset-modal-icon" aria-hidden="true">↺</div>
       <h3 id="resetModalTitle">¿Reiniciar progreso?</h3>
-      <p>Se borrarán todas las cartas aprendidas, practicadas y el XP ganado. Esta acción no se puede deshacer.</p>
+      <p>Se borrarán las cartas aprendidas, practicadas y el XP ganado. Esta acción no se puede deshacer.</p>
       <div class="reset-modal-actions">
         <button class="btn" id="resetCancel" type="button">Cancelar</button>
-        <button class="btn" id="resetConfirm" type="button"
-                style="background:#ef4444;color:#fff;border-color:#ef4444;">
+        <button class="btn reset-danger" id="resetConfirm" type="button">
           Sí, reiniciar
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Script load order: progress → alerts → nav → game → app -->
   <script src="progress.js"></script>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
+  <script src="speech-practice.js"></script>
   <script src="juego-comida.js"></script>
   <script src="app.js"></script>
 </body>

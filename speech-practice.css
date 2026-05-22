@@ -1,0 +1,131 @@
+/* ============================================================
+   speech-practice.css — reusable Exprésate speech practice UI.
+   ============================================================ */
+
+.speech-practice {
+  padding: 0 clamp(1rem, 4vw, 2rem) 1rem;
+}
+
+.speech-practice-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .85rem;
+  padding: .9rem;
+  border: 1px solid rgba(67, 88, 244, .14);
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(56, 189, 248, .14), transparent 9rem),
+    linear-gradient(135deg, rgba(255, 255, 255, .78), rgba(237, 233, 254, .58));
+  box-shadow: 0 .55rem 1.6rem rgba(67, 88, 244, .08);
+}
+
+.speech-practice-copy {
+  min-width: 0;
+}
+
+.speech-practice-label {
+  display: block;
+  margin-bottom: .18rem;
+  color: rgba(17, 24, 39, .46);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.speech-practice-target {
+  display: block;
+  color: #111827;
+  font-size: clamp(.98rem, 2.4vw, 1.15rem);
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+
+.speech-practice-btn {
+  min-width: 8.5rem;
+  border-color: rgba(67, 88, 244, .28);
+  background: linear-gradient(135deg, rgba(67, 88, 244, .12), rgba(139, 92, 246, .12));
+  color: var(--brand-blue, #4358f4);
+  font-weight: 950;
+}
+
+.speech-practice-btn:hover:not(:disabled) {
+  border-color: rgba(67, 88, 244, .42);
+  background: linear-gradient(135deg, rgba(67, 88, 244, .18), rgba(139, 92, 246, .18));
+}
+
+.speech-practice-btn:disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
+
+.speech-practice-feedback {
+  grid-column: 1 / -1;
+  display: none;
+  gap: .2rem;
+  padding: .7rem .8rem;
+  border-radius: .9rem;
+  font-size: .9rem;
+  line-height: 1.35;
+}
+
+.speech-practice-feedback strong,
+.speech-practice-feedback span {
+  display: block;
+}
+
+.speech-practice-feedback span {
+  color: rgba(17, 24, 39, .60);
+  font-weight: 750;
+}
+
+.speech-practice.is-listening .speech-practice-card {
+  border-color: rgba(67, 88, 244, .38);
+  box-shadow: 0 0 0 .24rem rgba(67, 88, 244, .12), 0 .8rem 2rem rgba(67, 88, 244, .12);
+}
+
+.speech-practice.is-listening .speech-practice-feedback,
+.speech-practice.is-correct .speech-practice-feedback,
+.speech-practice.is-almost .speech-practice-feedback,
+.speech-practice.is-try-again .speech-practice-feedback {
+  display: grid;
+}
+
+.speech-practice.is-listening .speech-practice-feedback {
+  background: rgba(223, 243, 255, .72);
+  color: var(--brand-blue, #4358f4);
+  font-weight: 900;
+}
+
+.speech-practice.is-correct .speech-practice-feedback {
+  background: rgba(240, 253, 244, .92);
+  color: #047857;
+}
+
+.speech-practice.is-almost .speech-practice-feedback {
+  background: rgba(255, 251, 235, .94);
+  color: #a16207;
+}
+
+.speech-practice.is-try-again .speech-practice-feedback {
+  background: rgba(254, 242, 242, .92);
+  color: #dc2626;
+}
+
+@media (max-width: 560px) {
+  .speech-practice-card {
+    grid-template-columns: 1fr;
+  }
+
+  .speech-practice-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speech-practice-card,
+  .speech-practice-btn {
+    transition: none !important;
+  }
+}
