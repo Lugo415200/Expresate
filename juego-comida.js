@@ -1,6 +1,10 @@
 /* ============================================================
-   juego-comida.js — Exprésate food flashcard game.
-   Static, GitHub Pages friendly, no external assets.
+   juego-comida.js — focused Exprésate food speech sandbox.
+   Static, GitHub Pages friendly, no backend or audio storage.
+
+   Future leaderboard note:
+   Keep all scoring writes funneled through awardSpeechSuccess().
+   That is the safest place to later mirror session XP/streak to Supabase.
    ============================================================ */
 
 "use strict";
@@ -24,9 +28,7 @@ var CARDS = [
   { id: "tea", es: "té", en: "tea", category: "bebida", image: "assets/food/tea.jpg", alt: "té / tea", audio: "" },
 ];
 
-var XP_LEARN = 1;
-var XP_PRACTICE = 2;
-var XP_GAME = 1;
+var XP_SPEAK = 10;
 var _lastStreak = 0;
 
 function byId(id) {
@@ -42,7 +44,7 @@ function escapeHtml(value) {
 }
 
 function norm(value) {
-  return (value || "")
+  return String(value || "")
     .toLowerCase()
     .trim()
     .normalize("NFD")
@@ -51,23 +53,13 @@ function norm(value) {
     .replace(/\s+/g, " ");
 }
 
-function shuffle(arr) {
-  var a = arr.slice();
-  for (var i = a.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = a[i];
-    a[i] = a[j];
-    a[j] = tmp;
-  }
-  return a;
-}
-
 function defaultState() {
   return {
-    mode: "learn",
+    mode: "speak",
     index: 0,
     learned: {},
     practice: {},
+    spoken: {},
     game: { streak: 0, best: 0 },
     xp: 0,
   };
@@ -114,9 +106,6 @@ function getState() {
   var saved = loadState() || {};
   var def = defaultState();
 
-  var mode = saved.mode;
-  if (mode !== "learn" && mode !== "practice" && mode !== "game") mode = def.mode;
-
   var index = typeof saved.index === "number" ? saved.index : def.index;
   if (index < 0 || index >= CARDS.length || !isFinite(index)) index = 0;
 
@@ -126,19 +115,28 @@ function getState() {
   var xp = typeof saved.xp === "number" ? saved.xp : 0;
 
   return {
-    mode: mode,
+    mode: "speak",
     index: index,
     learned: validCardMap(saved.learned),
     practice: validCardMap(saved.practice),
+    spoken: validCardMap(saved.spoken),
     game: { streak: Math.max(0, streak), best: Math.max(0, best) },
     xp: Math.max(0, xp),
   };
 }
 
 function setState(patch) {
-  var next = Object.assign({}, getState(), patch);
+  var current = getState();
+  var next = Object.assign({}, current, patch);
+  next.game = Object.assign({}, current.game, patch.game || {});
   saveState(next);
   return next;
+}
+
+function currentCard() {
+  var s = getState();
+  var idx = Math.max(0, Math.min(CARDS.length - 1, s.index));
+  return CARDS[idx] || CARDS[0];
 }
 
 function renderFoodVisual(card, container) {
@@ -149,7 +147,7 @@ function renderFoodVisual(card, container) {
   img.className = "food-photo";
   img.src = card.image || "";
   img.alt = card.alt || (card.es + " / " + card.en);
-  img.loading = "lazy";
+  img.loading = "eager";
   img.decoding = "async";
 
   img.onerror = function() {
@@ -172,181 +170,118 @@ function boot() {
     localStorage.removeItem(STORE_KEY_OLD);
   } catch (e) {}
 
-  var modeLearnBtn = byId("modeLearn");
-  var modePracticeBtn = byId("modePractice");
-  var modeGameBtn = byId("modeGame");
-  var resetBtn = byId("resetProgress");
-  var statusLine = byId("statusLine");
   var cardArea = byId("cardArea");
-  var gcVisual = byId("gcVisual");
   var foodVisual = byId("foodVisual");
-  var cardDots = byId("cardDots");
-  var cardDotsFooter = byId("cardDotsFooter");
+  var gcVisual = byId("gcVisual");
+  var gameHUD = byId("gameHUD");
   var cardNumEl = byId("cardNum");
+  var cardDotsFooter = byId("cardDotsFooter");
   var wordEs = byId("wordEs");
   var wordEn = byId("wordEn");
+  var taskPrompt = byId("taskPrompt");
   var hintLine = byId("hintLine");
   var speechPracticeEl = byId("speechPractice");
-  var learnActions = byId("learnActions");
-  var revealBtn = byId("revealBtn");
   var audioBtn = byId("audioBtn");
+  var skipBtn = byId("skipBtn");
+  var introScreen = byId("introScreen");
+  var startBtn = byId("startBtn");
+  var transitionScreen = byId("transitionScreen");
+  var transitionWord = byId("transitionWord");
+  var resultScreen = byId("resultScreen");
+  var resultCard = byId("resultCard");
+  var resultKicker = byId("resultKicker");
+  var resultTitle = byId("resultTitle");
+  var resultMessage = byId("resultMessage");
+  var rewardPill = byId("rewardPill");
+  var retryBtn = byId("retryBtn");
   var nextBtn = byId("nextBtn");
-  var practiceArea = byId("practiceArea");
-  var practiceInput = byId("practiceInput");
-  var checkBtn = byId("checkBtn");
-  var showAnswerBtn = byId("showAnswerBtn");
-  var nextBtnPractice = byId("nextBtnPractice");
-  var practiceResult = byId("practiceResult");
-  var gameArea = byId("gameArea");
-  var choicesWrap = byId("choices");
-  var gameResult = byId("gameResult");
-  var gameNextWrap = byId("gameNextWrap");
-  var nextBtnGame = byId("nextBtnGame");
-  var gameHUD = byId("gameHUD");
+  var completeScreen = byId("completeScreen");
+  var playAgainBtn = byId("playAgainBtn");
+  var fallbackPractice = byId("fallbackPractice");
+  var fallbackInput = byId("fallbackInput");
+  var fallbackCheck = byId("fallbackCheck");
+  var resetBtn = byId("resetProgress");
   var resetModal = byId("resetModal");
   var resetCancel = byId("resetCancel");
   var resetConfirm = byId("resetConfirm");
   var speechPractice = null;
+  var awaitingAdvance = false;
 
   var critical = {
-    modeLearn: modeLearnBtn,
-    wordEs: wordEs,
-    wordEn: wordEn,
+    cardArea: cardArea,
     foodVisual: foodVisual,
     gameHUD: gameHUD,
+    wordEs: wordEs,
+    wordEn: wordEn,
+    speechPractice: speechPracticeEl,
   };
   var missing = Object.keys(critical).filter(function(k) { return !critical[k]; });
   if (missing.length > 0) {
     console.error("[juego-comida] Missing DOM elements:", missing);
-    showBootError("Error al cargar el juego: faltan elementos (" + missing.join(", ") + ").");
+    if (cardArea) {
+      cardArea.innerHTML =
+        '<div class="game-boot-error">' +
+          '<strong>No se pudo cargar el juego.</strong>' +
+          '<p>Faltan elementos: ' + escapeHtml(missing.join(", ")) + '</p>' +
+        '</div>';
+    }
     return;
   }
 
-  if (speechPracticeEl && window.ExpresateSpeechPractice) {
-    speechPractice = window.ExpresateSpeechPractice.create({
-      root: speechPracticeEl,
-      expected: currentCard().en,
-    });
-  }
-
-  function showBootError(msg) {
-    if (!cardArea) return;
-    cardArea.innerHTML =
-      '<div class="game-boot-error">' +
-        '<strong>No se pudo cargar el juego.</strong>' +
-        '<p>' + escapeHtml(msg) + '</p>' +
-      '</div>';
-  }
-
-  function currentCard() {
-    var s = getState();
-    var idx = Math.max(0, Math.min(CARDS.length - 1, s.index));
-    return CARDS[idx] || CARDS[0];
-  }
-
-  function setResult(el, text, type) {
-    if (!el) return;
-    el.textContent = text || "";
-    el.classList.remove("ok", "bad");
-    if (type) el.classList.add(type);
-  }
-
-  function flashCard(type) {
-    if (!cardArea) return;
-    cardArea.classList.remove("card-correct", "card-wrong");
-    void cardArea.offsetWidth;
-    cardArea.classList.add(type === "correct" ? "card-correct" : "card-wrong");
-  }
-
-  function showXpToast(amount) {
-    if (!gcVisual) return;
-    var old = gcVisual.querySelector(".gc-xp-toast");
-    if (old) old.remove();
-    var toast = document.createElement("span");
-    toast.className = "gc-xp-toast";
-    toast.textContent = "+" + amount + " XP";
-    gcVisual.appendChild(toast);
-    toast.addEventListener("animationend", function() { toast.remove(); }, { once: true });
-  }
-
-  function markLearned(cardId) {
-    var s = getState();
-    var already = s.learned && s.learned[cardId];
-    var learned = Object.assign({}, s.learned || {});
-    learned[cardId] = true;
-    var xp = already ? s.xp : (s.xp || 0) + XP_LEARN;
-    setState({ learned: learned, xp: xp });
-    if (!already) showXpToast(XP_LEARN);
-  }
-
-  function revealEnglish(card) {
-    wordEn.textContent = card.en;
-    wordEn.classList.remove("is-hidden");
-    void wordEn.offsetWidth;
-    wordEn.classList.add("revealing");
-    wordEn.addEventListener("animationend", function() {
-      wordEn.classList.remove("revealing");
-    }, { once: true });
-  }
-
   function renderDots(index, total) {
-    function makeDots(container, cls) {
-      if (!container) return;
-      container.innerHTML = "";
-      for (var i = 0; i < total; i++) {
-        var d = document.createElement("span");
-        d.className = cls + (i < index ? " is-done" : i === index ? " is-current" : "");
-        container.appendChild(d);
-      }
+    if (!cardDotsFooter) return;
+    cardDotsFooter.innerHTML = "";
+    for (var i = 0; i < total; i++) {
+      var d = document.createElement("span");
+      d.className = "gc-dot-f" + (i < index ? " is-done" : i === index ? " is-current" : "");
+      cardDotsFooter.appendChild(d);
     }
-    makeDots(cardDots, "gc-dot");
-    makeDots(cardDotsFooter, "gc-dot-f");
     if (cardNumEl) cardNumEl.textContent = (index + 1) + " / " + total;
   }
 
-  function setModeButtons(mode) {
-    modeLearnBtn.classList.toggle("is-active", mode === "learn");
-    modePracticeBtn.classList.toggle("is-active", mode === "practice");
-    modeGameBtn.classList.toggle("is-active", mode === "game");
+  function progressBar(percent, label) {
+    var safePercent = Math.max(0, Math.min(100, Math.round(percent || 0)));
+    return '' +
+      '<div class="game-stat-progress" aria-label="' + escapeHtml(label || "Progreso") + ': ' + safePercent + '%">' +
+        '<span style="width:' + safePercent + '%"></span>' +
+      '</div>';
   }
 
-  function updateStatusLine(mode) {
-    var msgs = {
-      learn: "Modo Aprender: mira la carta, revela el inglés y repite en voz alta.",
-      practice: "Modo Practicar: escribe la palabra en inglés. Puedes intentar otra vez antes de avanzar.",
-      game: "Modo Jugar: elige la respuesta correcta para subir tu racha y ganar XP.",
-    };
-    statusLine.textContent = msgs[mode] || "";
+  function hudStat(label, value, tone, percent, progressLabel) {
+    return '' +
+      '<div class="game-stat game-stat-' + tone + '">' +
+        '<span class="game-stat-icon" aria-hidden="true"></span>' +
+        '<div>' +
+          '<div class="game-stat-value">' + value + '</div>' +
+          '<div class="game-stat-label">' + label + '</div>' +
+          progressBar(percent, progressLabel || label) +
+        '</div>' +
+      '</div>';
   }
 
   function renderHUD() {
     var s = getState();
-    var learnedCount = Object.keys(s.learned || {}).length;
-    var practicedCount = Object.keys(s.practice || {}).filter(function(id) {
-      return s.practice[id] && s.practice[id].correct;
-    }).length;
+    var spokenCount = Object.keys(s.spoken || {}).length;
     var total = CARDS.length;
     var streak = s.game.streak || 0;
     var best = s.game.best || 0;
     var xp = s.xp || 0;
-
-    var tip;
-    if (learnedCount < total) {
-      tip = "Sigue en Aprender hasta revelar todas las cartas. Después pasa a Practicar.";
-    } else if (practicedCount < total) {
-      tip = "Ya viste todas las cartas. Practica las palabras que faltan escribiendo en inglés.";
-    } else {
-      tip = "Buen trabajo. Ahora intenta una racha larga en modo Jugar.";
-    }
+    var progress = Math.round((spokenCount / total) * 100);
+    var xpGoal = CARDS.length * XP_SPEAK;
+    var xpProgress = Math.min(100, Math.round((Math.min(xp, xpGoal) / xpGoal) * 100));
+    var streakGoal = Math.min(5, total);
+    var streakProgress = Math.min(100, Math.round((Math.min(streak, streakGoal) / streakGoal) * 100));
 
     var streakGrew = streak > _lastStreak;
     gameHUD.innerHTML =
       '<div class="game-hud">' +
-        hudStat("Aprendidas", learnedCount + " / " + total, "learned") +
-        hudStat("Practicadas", practicedCount + " / " + total, "practice") +
-        hudStat("Racha", '<span id="hud-streak-val">' + streak + '</span><small> mejor ' + best + '</small>', "streak") +
-        hudStat("XP", xp, "xp") +
-        '<div class="hud-tip"><strong>Siguiente paso</strong><span>' + escapeHtml(tip) + '</span></div>' +
+        hudStat("XP", xp + '<small> / ' + xpGoal + '</small>', "xp", xpProgress, "Progreso de XP") +
+        hudStat("Racha", '<span id="hud-streak-val">' + streak + '</span><small> meta ' + streakGoal + ' · mejor ' + best + '</small>', "streak", streakProgress, "Progreso de racha") +
+        hudStat("Practicadas", spokenCount + " / " + total, "practice", progress, "Cartas practicadas") +
+        '<div class="hud-tip">' +
+          '<div><strong>Progreso</strong><span>' + progress + '% de la ronda</span></div>' +
+          progressBar(progress, "Progreso de la ronda") +
+        '</div>' +
       '</div>';
 
     if (streakGrew) {
@@ -360,168 +295,236 @@ function boot() {
     _lastStreak = streak;
   }
 
-  function hudStat(label, value, tone) {
-    return '' +
-      '<div class="game-stat game-stat-' + tone + '">' +
-        '<span class="game-stat-icon" aria-hidden="true"></span>' +
-        '<div>' +
-          '<div class="game-stat-value">' + value + '</div>' +
-          '<div class="game-stat-label">' + label + '</div>' +
-        '</div>' +
-      '</div>';
+  function showXpToast(amount) {
+    if (!gcVisual) return;
+    var old = gcVisual.querySelector(".gc-xp-toast");
+    if (old) old.remove();
+    var toast = document.createElement("span");
+    toast.className = "gc-xp-toast";
+    toast.textContent = "+" + amount + " XP";
+    gcVisual.appendChild(toast);
+    toast.addEventListener("animationend", function() { toast.remove(); }, { once: true });
   }
 
-  function setupGameChoices() {
-    var card = currentCard();
-    var others = CARDS.filter(function(c) { return c.id !== card.id; });
-    var distractors = shuffle(others).slice(0, 3).map(function(c) { return c.en; });
-    var options = shuffle([card.en].concat(distractors));
-
-    choicesWrap.innerHTML = "";
-    setResult(gameResult, "");
-    gameNextWrap.hidden = true;
-
-    options.forEach(function(opt) {
-      var btn = document.createElement("button");
-      btn.className = "gc-choice";
-      btn.type = "button";
-      btn.textContent = opt;
-
-      btn.addEventListener("click", function() {
-        var allChoices = choicesWrap.querySelectorAll(".gc-choice");
-        allChoices.forEach(function(b) { b.disabled = true; });
-
-        var picked = norm(opt) === norm(card.en);
-        var fresh = getState();
-        var nextGame = Object.assign({}, fresh.game);
-
-        if (picked) {
-          btn.classList.add("choice-correct");
-          nextGame.streak = (nextGame.streak || 0) + 1;
-          nextGame.best = Math.max(nextGame.best || 0, nextGame.streak);
-          setState({ game: nextGame, xp: (fresh.xp || 0) + XP_GAME });
-          setResult(gameResult, "Correcto. Racha: " + nextGame.streak, "ok");
-          revealEnglish(card);
-          flashCard("correct");
-          markLearned(card.id);
-          showXpToast(XP_GAME);
-          renderHUD();
-          setTimeout(goNext, 750);
-        } else {
-          btn.classList.add("choice-wrong");
-          allChoices.forEach(function(b) {
-            if (norm(b.textContent) === norm(card.en)) b.classList.add("choice-correct");
-          });
-          nextGame.streak = 0;
-          setState({ game: nextGame });
-          setResult(gameResult, "Respuesta correcta: " + card.en + ". Inténtalo en la próxima carta.", "bad");
-          revealEnglish(card);
-          flashCard("wrong");
-          renderHUD();
-          gameNextWrap.hidden = false;
-        }
-      });
-
-      choicesWrap.appendChild(btn);
-    });
-  }
-
-  function showCard(card, mode) {
-    wordEs.textContent = card.es;
-    wordEn.textContent = "—";
-    wordEn.classList.add("is-hidden");
-    wordEn.classList.remove("revealing");
-    renderFoodVisual(card, foodVisual);
-    if (speechPractice) speechPractice.setExpected(card.en);
-
-    if (practiceInput) {
-      practiceInput.value = "";
-      practiceInput.classList.remove("input-correct", "input-wrong");
-    }
-    setResult(practiceResult, "");
-    setResult(gameResult, "");
+  function flashCard(type) {
+    if (!cardArea) return;
     cardArea.classList.remove("card-correct", "card-wrong");
-
-    practiceArea.hidden = mode !== "practice";
-    gameArea.hidden = mode !== "game";
-    learnActions.hidden = mode === "game";
-    gameNextWrap.hidden = true;
-    nextBtnPractice.hidden = true;
-    nextBtn.hidden = mode !== "learn";
-    audioBtn.disabled = !card.audio;
-
-    if (mode === "learn") {
-      revealBtn.textContent = "Mostrar inglés";
-      revealBtn.hidden = false;
-      hintLine.textContent = "Mira la imagen, di la palabra en español y revela el inglés.";
-    } else if (mode === "practice") {
-      revealBtn.textContent = "Ver respuesta";
-      revealBtn.hidden = false;
-      hintLine.textContent = "Escribe en inglés. Si fallas, corrige y vuelve a intentar.";
-      setTimeout(function() { practiceInput.focus(); }, 80);
-    } else {
-      revealBtn.hidden = true;
-      hintLine.textContent = "Elige la opción correcta. La racha sube solo con aciertos.";
-      setupGameChoices();
-    }
+    void cardArea.offsetWidth;
+    cardArea.classList.add(type === "correct" ? "card-correct" : "card-wrong");
   }
 
-  function checkPractice() {
+  function updateActiveCard() {
+    var s = getState();
+    var card = currentCard();
+    awaitingAdvance = false;
+    cardArea.classList.remove("card-correct", "card-wrong", "is-listening", "is-transitioning-out", "is-transitioning-in");
+    if (resultScreen) resultScreen.hidden = true;
+    if (completeScreen) completeScreen.hidden = true;
+    if (fallbackInput) fallbackInput.value = "";
+
+    renderFoodVisual(card, foodVisual);
+    renderDots(s.index, CARDS.length);
+    renderHUD();
+
+    wordEs.textContent = card.es;
+    wordEn.textContent = card.en;
+    if (taskPrompt) taskPrompt.textContent = "Di esta palabra en inglés";
+    if (hintLine) hintLine.textContent = "Presiona Hablar y repite la palabra.";
+    if (speechPractice) speechPractice.setExpected(card.en);
+    if (fallbackInput) fallbackInput.placeholder = "Escribe: " + card.en;
+  }
+
+  function awardSpeechSuccess(result) {
     var card = currentCard();
     var s = getState();
-    var answer = norm(practiceInput ? practiceInput.value : "");
-    var correct = norm(card.en);
+    var spoken = Object.assign({}, s.spoken || {});
+    var learned = Object.assign({}, s.learned || {});
+    var already = !!spoken[card.id];
+    spoken[card.id] = { correct: true, ts: Date.now(), heard: result.transcript || "" };
+    learned[card.id] = true;
 
-    if (!answer) {
-      if (practiceInput) practiceInput.focus();
+    var nextGame = Object.assign({}, s.game || {});
+    nextGame.streak = (nextGame.streak || 0) + 1;
+    nextGame.best = Math.max(nextGame.best || 0, nextGame.streak);
+
+    var xp = already ? s.xp : (s.xp || 0) + XP_SPEAK;
+    setState({ spoken: spoken, learned: learned, game: nextGame, xp: xp });
+    if (!already) showXpToast(XP_SPEAK);
+    renderHUD();
+    flashCard("correct");
+    showResult("success", result.transcript || card.en, already ? 0 : XP_SPEAK);
+  }
+
+  function showResult(kind, heard, xpAmount) {
+    if (!resultScreen || !resultCard) return;
+    var card = currentCard();
+    awaitingAdvance = kind === "success";
+    resultCard.classList.remove("is-success", "is-almost", "is-try-again");
+    resultCard.classList.add("is-" + kind);
+    resultScreen.hidden = false;
+    resultCard.classList.remove("is-animating");
+    void resultCard.offsetWidth;
+    resultCard.classList.add("is-animating");
+
+    if (kind === "success") {
+      resultKicker.textContent = "Correcto";
+      resultTitle.textContent = "¡Excelente!";
+      resultMessage.textContent = 'Escuché: "' + (heard || card.en) + '"';
+      rewardPill.textContent = xpAmount > 0 ? "+" + xpAmount + " XP" : "Ya practicada";
+      rewardPill.hidden = false;
+      retryBtn.hidden = true;
+      nextBtn.hidden = false;
+      nextBtn.focus();
       return;
     }
 
-    var prev = (s.practice || {})[card.id] || { correct: false, attempts: 0 };
-    var attempts = prev.attempts + 1;
-    var isRight = answer === correct;
-    var practice = Object.assign({}, s.practice || {});
-    practice[card.id] = { correct: prev.correct || isRight, attempts: attempts };
-
-    if (isRight) {
-      var alreadyCorrect = prev.correct;
-      var xp = alreadyCorrect ? s.xp : (s.xp || 0) + XP_PRACTICE;
-      setState({ practice: practice, xp: xp });
-      practiceInput.classList.add("input-correct");
-      practiceInput.classList.remove("input-wrong");
-      setResult(practiceResult, "Correcto: " + card.en, "ok");
-      revealEnglish(card);
-      flashCard("correct");
-      markLearned(card.id);
-      if (!alreadyCorrect) showXpToast(XP_PRACTICE);
-      nextBtnPractice.hidden = false;
-      revealBtn.hidden = true;
-    } else {
-      setState({ practice: practice });
-      practiceInput.classList.add("input-wrong");
-      practiceInput.classList.remove("input-correct");
-      setResult(practiceResult, "Todavía no. Corrige y prueba otra vez.", "bad");
-      flashCard("wrong");
-      nextBtnPractice.hidden = true;
+    if (kind === "almost") {
+      resultKicker.textContent = "Casi";
+      resultTitle.textContent = "Casi lo tienes";
+      resultMessage.textContent = heard ? 'Escuché: "' + heard + '"' : "Intenta decirlo una vez más.";
+      rewardPill.hidden = true;
+      retryBtn.hidden = false;
+      nextBtn.hidden = true;
+      retryBtn.focus();
+      return;
     }
 
-    renderHUD();
+    resultKicker.textContent = "Intenta otra vez";
+    resultTitle.textContent = "Inténtalo otra vez";
+    resultMessage.textContent = heard ? 'Escuché: "' + heard + '"' : "No pude escuchar bien.";
+    rewardPill.hidden = true;
+    retryBtn.hidden = false;
+    nextBtn.hidden = true;
+    retryBtn.focus();
+  }
+
+  function handleSpeechResult(result) {
+    if (!result || !result.status) return;
+    if (result.status === "correct") {
+      awardSpeechSuccess(result);
+    } else if (result.status === "almost") {
+      flashCard("wrong");
+      showResult("almost", result.transcript || "", 0);
+    } else {
+      flashCard("wrong");
+      showResult("try-again", result.transcript || "", 0);
+    }
+  }
+
+  if (speechPracticeEl && window.ExpresateSpeechPractice) {
+    speechPractice = window.ExpresateSpeechPractice.create({
+      root: speechPracticeEl,
+      expected: currentCard().en,
+      onResult: handleSpeechResult,
+      formatTarget: function(expected) { return expected; },
+      labels: {
+        correct: "¡Correcto!",
+        almost: "Casi",
+        tryAgain: "Intenta otra vez",
+        heard: "Escuché",
+        unsupported: "La práctica de voz funciona mejor en Chrome o Edge.",
+        unavailable: "Tu navegador no permite práctica de voz aquí.",
+        noMic: "Permite el micrófono para practicar.",
+        unclear: "No pude escuchar bien. Intenta otra vez.",
+        notAvailable: "La práctica de voz no está disponible ahora."
+      }
+    });
+    if (fallbackPractice && speechPractice.isSupported === false) {
+      fallbackPractice.hidden = false;
+      if (hintLine) hintLine.textContent = "Tu navegador no permite voz aquí. Puedes practicar escribiendo.";
+    }
+  } else if (fallbackPractice) {
+    fallbackPractice.hidden = false;
   }
 
   function goNext() {
+    if (!awaitingAdvance) return;
     var s = getState();
-    setState({ index: (s.index + 1) % CARDS.length });
-    render();
+    if (s.index >= CARDS.length - 1) {
+      if (resultScreen) resultScreen.hidden = true;
+      if (completeScreen) completeScreen.hidden = false;
+      return;
+    }
+    var nextIndex = s.index + 1;
+    var nextCard = CARDS[nextIndex];
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (transitionWord && nextCard) transitionWord.textContent = nextCard.es + " → " + nextCard.en;
+    if (cardArea) cardArea.classList.add("is-transitioning-out");
+    if (resultScreen) resultScreen.hidden = true;
+    if (transitionScreen) {
+      transitionScreen.hidden = false;
+      transitionScreen.classList.remove("is-running");
+      void transitionScreen.offsetWidth;
+      transitionScreen.classList.add("is-running");
+    }
+    var delay = reduceMotion ? 0 : 820;
+    setTimeout(function() {
+      setState({ index: nextIndex });
+      if (transitionScreen) transitionScreen.hidden = true;
+      updateActiveCard();
+      if (!reduceMotion && cardArea) {
+        cardArea.classList.add("is-transitioning-in");
+        setTimeout(function() {
+          cardArea.classList.remove("is-transitioning-in");
+        }, 520);
+      }
+    }, delay);
   }
 
-  function render() {
+  function skipCard() {
     var s = getState();
+    var nextGame = Object.assign({}, s.game || {}, { streak: 0 });
+    if (s.index >= CARDS.length - 1) {
+      setState({ game: nextGame });
+      if (completeScreen) completeScreen.hidden = false;
+      return;
+    }
+    setState({ index: s.index + 1, game: nextGame });
+    updateActiveCard();
+  }
+
+  function playAgain() {
+    setState({ index: 0 });
+    if (completeScreen) completeScreen.hidden = true;
+    if (introScreen) introScreen.hidden = true;
+    updateActiveCard();
+  }
+
+  function speakCurrentWord() {
     var card = currentCard();
-    setModeButtons(s.mode);
-    updateStatusLine(s.mode);
-    showCard(card, s.mode);
-    renderDots(s.index, CARDS.length);
-    renderHUD();
+    if (card.audio) {
+      try {
+        var a = new Audio(card.audio);
+        a.currentTime = 0;
+        a.play().catch(function() {});
+        return;
+      } catch (e) {}
+    }
+
+    if ("speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(card.en);
+        utterance.lang = "en-US";
+        utterance.rate = 0.82;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
+    }
+  }
+
+  function checkFallbackAnswer() {
+    var card = currentCard();
+    var answer = norm(fallbackInput && fallbackInput.value);
+    if (!answer) {
+      if (fallbackInput) fallbackInput.focus();
+      return;
+    }
+    if (answer === norm(card.en)) {
+      awardSpeechSuccess({ status: "correct", transcript: fallbackInput.value });
+    } else {
+      showResult("try-again", fallbackInput.value, 0);
+      flashCard("wrong");
+    }
   }
 
   function showResetModal() {
@@ -542,62 +545,55 @@ function boot() {
     _lastStreak = 0;
     hideResetModal();
     if (window.Alerts) Alerts.info("Progreso reiniciado. Empieza de nuevo.");
-    render();
+    if (introScreen) introScreen.hidden = false;
+    updateActiveCard();
   }
 
   document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape" && resetModal && !resetModal.hidden) hideResetModal();
+    if (e.key === "Escape") {
+      if (resetModal && !resetModal.hidden) hideResetModal();
+      if (resultScreen && !resultScreen.hidden && retryBtn && !retryBtn.hidden) {
+        resultScreen.hidden = true;
+      }
+    }
   });
 
-  resetModal.addEventListener("click", function(e) {
-    if (e.target === resetModal) hideResetModal();
+  if (startBtn) startBtn.addEventListener("click", function() {
+    introScreen.hidden = true;
+    updateActiveCard();
   });
-
-  modeLearnBtn.addEventListener("click", function() { setState({ mode: "learn" }); render(); });
-  modePracticeBtn.addEventListener("click", function() { setState({ mode: "practice" }); render(); });
-  modeGameBtn.addEventListener("click", function() { setState({ mode: "game" }); render(); });
-  resetBtn.addEventListener("click", showResetModal);
-  resetCancel.addEventListener("click", hideResetModal);
-  resetConfirm.addEventListener("click", doReset);
-
-  revealBtn.addEventListener("click", function() {
-    var card = currentCard();
-    revealEnglish(card);
-    markLearned(card.id);
-    renderHUD();
+  if (retryBtn) retryBtn.addEventListener("click", function() {
+    if (resultScreen) resultScreen.hidden = true;
+    awaitingAdvance = false;
   });
-
-  audioBtn.addEventListener("click", function() {
-    var card = currentCard();
-    if (!card.audio) return;
-    try {
-      var a = new Audio(card.audio);
-      a.currentTime = 0;
-      a.play().catch(function() {});
-    } catch (e) {}
-  });
-
-  nextBtn.addEventListener("click", goNext);
-  nextBtnPractice.addEventListener("click", goNext);
-  nextBtnGame.addEventListener("click", goNext);
-  checkBtn.addEventListener("click", checkPractice);
-
-  showAnswerBtn.addEventListener("click", function() {
-    var card = currentCard();
-    revealEnglish(card);
-    setResult(practiceResult, "Respuesta: " + card.en, "");
-    practiceInput.classList.remove("input-correct", "input-wrong");
-  });
-
-  practiceInput.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") checkPractice();
-  });
+  if (nextBtn) nextBtn.addEventListener("click", goNext);
+  if (skipBtn) skipBtn.addEventListener("click", skipCard);
+  if (audioBtn) audioBtn.addEventListener("click", speakCurrentWord);
+  if (playAgainBtn) playAgainBtn.addEventListener("click", playAgain);
+  if (fallbackCheck) fallbackCheck.addEventListener("click", checkFallbackAnswer);
+  if (fallbackInput) {
+    fallbackInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") checkFallbackAnswer();
+    });
+  }
+  if (resetBtn) resetBtn.addEventListener("click", showResetModal);
+  if (resetCancel) resetCancel.addEventListener("click", hideResetModal);
+  if (resetConfirm) resetConfirm.addEventListener("click", doReset);
+  if (resetModal) {
+    resetModal.addEventListener("click", function(e) {
+      if (e.target === resetModal) hideResetModal();
+    });
+  }
 
   try {
-    render();
+    updateActiveCard();
   } catch (err) {
     console.error("[juego-comida] render() threw:", err);
-    showBootError("Error al renderizar el juego. Revisa la consola.");
+    cardArea.innerHTML =
+      '<div class="game-boot-error">' +
+        '<strong>No se pudo cargar el juego.</strong>' +
+        '<p>Error al renderizar. Revisa la consola.</p>' +
+      '</div>';
   }
 }
 

@@ -79,6 +79,18 @@
     var root = options.root;
     var expected = options.expected || "";
     var onResult = typeof options.onResult === "function" ? options.onResult : function() {};
+    var formatTarget = typeof options.formatTarget === "function" ? options.formatTarget : null;
+    var labels = Object.assign({
+      correct: "Correct",
+      almost: "Almost",
+      tryAgain: "Try again",
+      heard: "I heard",
+      unsupported: "Speech practice works best in Chrome or Edge.",
+      unavailable: "Tu navegador no permite práctica de voz aquí.",
+      noMic: "Permite el micrófono para practicar.",
+      unclear: "No pude escuchar bien. Intenta otra vez.",
+      notAvailable: "La práctica de voz no está disponible ahora."
+    }, options.labels || {});
 
     if (!root) {
       throw new Error("ExpresateSpeechPractice.create requires a root element.");
@@ -104,7 +116,9 @@
 
     function setExpected(nextExpected) {
       expected = nextExpected || "";
-      targetEl.textContent = expected ? 'Di: "' + expected + '"' : "Elige una palabra";
+      targetEl.textContent = expected
+        ? (formatTarget ? formatTarget(expected) : 'Di: "' + expected + '"')
+        : "Elige una palabra";
       clearFeedback();
     }
 
@@ -118,7 +132,7 @@
       root.classList.add("is-" + kind);
       feedback.innerHTML =
         '<strong>' + message + '</strong>' +
-        (transcript ? '<span>I heard: "' + escapeHtml(transcript) + '"</span>' : "");
+        (transcript ? '<span>' + escapeHtml(labels.heard) + ': "' + escapeHtml(transcript) + '"</span>' : "");
     }
 
     function setListening(nextListening) {
@@ -130,7 +144,7 @@
 
     function start() {
       if (!Recognition) {
-        setFeedback("try-again", "Tu navegador no permite práctica de voz aquí.", "");
+        setFeedback("try-again", labels.unavailable, "");
         button.disabled = true;
         button.textContent = "No disponible";
         return;
@@ -157,19 +171,19 @@
           }
           var result = compareSpeech(transcript, expected);
           if (result.status === "correct") {
-            setFeedback("correct", "Correct", transcript);
+            setFeedback("correct", labels.correct, transcript);
           } else if (result.status === "almost") {
-            setFeedback("almost", "Almost", transcript);
+            setFeedback("almost", labels.almost, transcript);
           } else {
-            setFeedback("try-again", "Try again", transcript);
+            setFeedback("try-again", labels.tryAgain, transcript);
           }
           onResult(Object.assign({ expected: expected }, result));
         };
 
         recognition.onerror = function(event) {
           var message = event && event.error === "not-allowed"
-            ? "Permite el micrófono para practicar."
-            : "No pude escuchar bien. Intenta otra vez.";
+            ? labels.noMic
+            : labels.unclear;
           setFeedback("try-again", message, "");
         };
 
@@ -180,7 +194,7 @@
         recognition.start();
       } catch (err) {
         setListening(false);
-        setFeedback("try-again", "La práctica de voz no está disponible ahora.", "");
+        setFeedback("try-again", labels.notAvailable, "");
       }
     }
 
@@ -194,7 +208,7 @@
     if (!Recognition) {
       button.disabled = true;
       button.textContent = "No disponible";
-      setFeedback("try-again", "Speech practice works best in Chrome or Edge.", "");
+      setFeedback("try-again", labels.unsupported, "");
     } else {
       button.addEventListener("click", start);
     }
