@@ -54,6 +54,9 @@ Current production lessons:
 - `lesson-007-basic-questions.html`: basic questions and help phrases.
 - `lesson-008-numbers-1-20.html`: numbers 1-20, age, quantity, and optional speech practice.
 - `lesson-009-days-of-week.html`: days of the week, today/tomorrow/yesterday, and on + day.
+- `lesson-010-months-dates.html`: months, birthdays, dates, and in/on contrast.
+- `lesson-011-time-basics.html`: asking and saying simple times with at + time.
+- `lesson-012-food-phrases.html`: practical food requests using existing vocabulary.
 
 ### Module 2: Everyday Words
 

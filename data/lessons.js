@@ -189,6 +189,33 @@ window.ExpresateLessons = {
           subtitle: "Today is... · on Monday · class days",
           href: "lesson-009-days-of-week.html",
           requires: "lesson-008-numbers-1-20"
+        },
+        {
+          id: "lesson-010-months-dates",
+          type: "lesson",
+          premium: true,
+          title: "Lección 010 — Months & Dates",
+          subtitle: "in January · on May 5 · birthdays",
+          href: "lesson-010-months-dates.html",
+          requires: "lesson-009-days-of-week"
+        },
+        {
+          id: "lesson-011-time-basics",
+          type: "lesson",
+          premium: true,
+          title: "Lección 011 — Time Basics",
+          subtitle: "What time is it? · at 8:00 · morning/evening",
+          href: "lesson-011-time-basics.html",
+          requires: "lesson-010-months-dates"
+        },
+        {
+          id: "lesson-012-food-phrases",
+          type: "lesson",
+          premium: true,
+          title: "Lección 012 — Food Phrases",
+          subtitle: "I want... · I like... · Can I have...?",
+          href: "lesson-012-food-phrases.html",
+          requires: "lesson-011-time-basics"
         }
       ]
     }
