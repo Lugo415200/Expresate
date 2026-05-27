@@ -268,8 +268,8 @@ body[data-page="juego"] {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-rows: auto auto minmax(10rem, 1fr) auto auto auto auto;
-  gap: clamp(.48rem, 1.25vw, .76rem);
+  grid-template-rows: auto auto auto auto auto auto auto;
+  gap: clamp(.52rem, 1.25vw, .82rem);
   width: min(100%, 46rem);
   min-height: 0;
   margin: 0 auto;
@@ -345,10 +345,13 @@ body[data-page="juego"] {
 
 .sandbox-image-wrap {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   min-height: 0;
-  height: clamp(13.5rem, 33svh, 22rem);
+  height: clamp(11.5rem, 27svh, 18rem);
+  max-height: 18rem;
+  margin-bottom: .2rem;
   padding: clamp(.45rem, 1.2vw, .75rem);
   border: 1px solid rgba(255, 255, 255, .62);
   border-radius: clamp(1.2rem, 3.5vw, 2rem);
@@ -363,8 +366,8 @@ body[data-page="juego"] {
 
 .food-visual {
   position: relative;
-  width: min(92%, clamp(16rem, 42vw, 28rem));
-  max-height: clamp(12rem, 30svh, 20rem);
+  width: min(88%, clamp(14rem, 38vw, 24rem));
+  max-height: clamp(10rem, 24svh, 16.5rem);
   aspect-ratio: 3 / 2;
   padding: clamp(.42rem, 1.15vw, .75rem);
   border: 1px solid rgba(255, 255, 255, .78);
@@ -485,6 +488,8 @@ body[data-page="juego"] {
 }
 
 .sandbox-word-row {
+  position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .6rem;
@@ -494,7 +499,9 @@ body[data-page="juego"] {
   padding: .62rem .78rem;
   border: 1px solid rgba(67, 88, 244, .12);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, .62);
+  background: rgba(255, 255, 255, .84);
+  box-shadow: 0 .55rem 1.4rem rgba(67, 88, 244, .08);
+  backdrop-filter: blur(.75rem);
 }
 
 .gc-lang-label {
