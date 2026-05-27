@@ -43,9 +43,16 @@ Add:
 - Greetings and introductions
 - Saying your name
 - Where are you from?
-- Numbers
+- Numbers 1-20
 - Days, months, and time
 - Basic classroom questions
+
+Current production lessons:
+- `lesson-004-greetings.html`: greetings, names, introductions, and first speaking practice.
+- `lesson-005-classroom-phrases.html`: classroom/app survival phrases.
+- `lesson-006-identity-place.html`: origin, city, language, and learning status.
+- `lesson-007-basic-questions.html`: basic questions and help phrases.
+- `lesson-008-numbers-1-20.html`: numbers 1-20, age, quantity, and optional speech practice.
 
 ### Module 2: Everyday Words
 

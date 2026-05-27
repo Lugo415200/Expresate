@@ -171,6 +171,15 @@ window.ExpresateLessons = {
           subtitle: "What is this? · What does this mean? · I need help",
           href: "lesson-007-basic-questions.html",
           requires: "lesson-006-identity-place"
+        },
+        {
+          id: "lesson-008-numbers-1-20",
+          type: "lesson",
+          premium: true,
+          title: "Lección 008 — Numbers 1–20",
+          subtitle: "Age · phone numbers · teen sounds",
+          href: "lesson-008-numbers-1-20.html",
+          requires: "lesson-007-basic-questions"
         }
       ]
     }
