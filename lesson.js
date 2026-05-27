@@ -693,6 +693,44 @@
   }
 
   // ---------------------------------------------------------------
+  // NAME SPELLER
+  // Turns a typed name into clickable letter tiles. Each generated tile
+  // reuses the global .letter-btn + data-letter audio handler in app.js.
+  // ---------------------------------------------------------------
+  function setupNameSpellers() {
+    $$("[data-name-speller]").forEach((wrap) => {
+      const input = wrap.querySelector("[data-name-input]");
+      const output = wrap.querySelector("[data-name-output]");
+      const clear = wrap.querySelector("[data-name-clear]");
+      if (!input || !output) return;
+
+      const render = () => {
+        const raw = input.value || "";
+        const letters = Array.from(raw.toUpperCase()).filter((ch) => /[A-Z]/.test(ch));
+
+        if (letters.length === 0) {
+          output.innerHTML = `<span class="small">Escribe arriba para ver tus letras.</span>`;
+          return;
+        }
+
+        output.innerHTML = letters.map((letter) => `
+          <button class="fc-letter letter-btn name-letter" type="button" data-letter="${esc(letter.toLowerCase())}" aria-label="Escuchar letra ${esc(letter)}">
+            ${esc(letter)}
+          </button>
+        `).join("");
+      };
+
+      input.addEventListener("input", render);
+      clear?.addEventListener("click", () => {
+        input.value = "";
+        input.focus();
+        render();
+      });
+      render();
+    });
+  }
+
+  // ---------------------------------------------------------------
   // INIT
   // ---------------------------------------------------------------
   function init() {
@@ -701,6 +739,7 @@
     renderProgressBar();
     renderRightPanel();
     setupListoButtons();
+    setupNameSpellers();
     setupMiniReto();
     installCompleteGate();
     setupStepMode();

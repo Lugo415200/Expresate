@@ -16,8 +16,6 @@
   <div class="topbar"></div>
 
   <div class="shell food-game-shell">
-    <aside class="panel sidebar"></aside>
-
     <main class="content food-game-page">
       <header class="food-game-hero">
         <p class="game-kicker">Vocabulario interactivo</p>
@@ -49,6 +47,12 @@
       </div>
 
       <p class="small game-status-line" id="statusLine"></p>
+
+      <section class="game-progress-strip" aria-label="Tu progreso">
+        <div id="gameHUD" class="game-hud-loading">
+          <p class="small">Cargando...</p>
+        </div>
+      </section>
 
       <section class="game-card" id="cardArea" aria-live="polite">
         <div class="gc-visual" id="gcVisual">
@@ -118,12 +122,6 @@
       <p class="small game-page-footer">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <aside class="panel right food-game-right">
-      <h3>Tu progreso</h3>
-      <div id="gameHUD" class="game-hud-loading">
-        <p class="small">Cargando...</p>
-      </div>
-    </aside>
   </div>
 
   <div class="reset-modal" id="resetModal" hidden role="dialog"

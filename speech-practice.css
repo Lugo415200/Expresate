@@ -36,10 +36,15 @@
 
 .speech-practice-target {
   display: block;
+  width: 100%;
+  max-width: 100%;
   color: #111827;
   font-size: clamp(.98rem, 2.4vw, 1.15rem);
   font-weight: 950;
-  overflow-wrap: anywhere;
+  line-height: 1.15;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .speech-practice-btn {

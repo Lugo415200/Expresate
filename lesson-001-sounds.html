@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
 </head>
 <body class="lesson-step-mode" data-lesson-id="lesson-001-sounds" data-page="curso">
 
@@ -35,6 +36,20 @@
         </div>
         <div class="fc-body">
           <p>En esta lección vas a entrenar los sonidos que <strong>cambian el significado</strong> en inglés.</p>
+          <div class="fc-mini-grid">
+            <div class="fc-mini-card">
+              <strong>Meta</strong>
+              <span>Sonar claro, no perfecto.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Por qué importa</strong>
+              <span>Un sonido pequeño puede cambiar la palabra.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Para hispanohablantes</strong>
+              <span>No leas todo como se escribe en español.</span>
+            </div>
+          </div>
           <ol>
             <li>Escucha el audio (1–2 segundos).</li>
             <li>Repite <strong>5 veces lento</strong>.</li>
@@ -201,14 +216,55 @@ B — los labios se cierran y se abren (sin dientes)</pre>
         </div>
       </section>
 
-      <!-- 6 — Mini Reto (multiple-choice) -->
+      <!-- 6 — Speech practice -->
+      <section class="flashcard block" data-fc-id="speech-practice" data-fc-title="Práctica de voz"
+               data-fc-type="practice"
+               data-fc-tip="La práctica de voz es opcional. Si tu navegador no la permite, puedes leer las frases en voz alta y continuar normal.">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Práctica de voz: claridad primero</strong>
+            <span class="fc-sub">Di palabras cortas y una frase completa</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p>Ahora junta oído, boca y significado. Presiona <strong>Hablar</strong> y di la palabra o frase en inglés.</p>
+          <div class="speech-drill-grid">
+            <div class="speech-drill-card">
+              <span class="phrase-label">SH largo</span>
+              <div data-speech-expected="she"></div>
+              <p class="small">Piensa en el sonido “shhh”, no en la sí del español.</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">TH sin vibración</span>
+              <div data-speech-expected="think"></div>
+              <p class="small">Lengua suave entre los dientes. La garganta no vibra.</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">Frase corta</span>
+              <div data-speech-expected="I think this is very good"></div>
+              <p class="small">Lento primero. Luego repite con ritmo natural.</p>
+            </div>
+          </div>
+          <div class="fc-note-card">
+            <strong>Nota:</strong>
+            <span>Si ves “No disponible”, tu navegador no soporta SpeechRecognition aquí. La lección sigue funcionando: lee en voz alta y continúa.</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 7 — Mini Reto (multiple-choice) -->
       <section class="flashcard fc-reto block"
                data-fc-id="reto"
                data-fc-title="Mini reto"
                data-fc-tip="Repasa los pares mínimos: sheep / ship, very / berry, think / this. Esos cambios pequeños son los que la otra persona oye."
                data-reto-type="multiple-choice">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
             <strong class="fc-title">Mini reto: ¿cuál es correcto?</strong>
             <span class="fc-sub">Una sola opción correcta</span>
@@ -231,13 +287,13 @@ B — los labios se cierran y se abren (sin dientes)</pre>
         </div>
       </section>
 
-      <!-- 7 — Summary -->
+      <!-- 8 — Summary -->
       <section class="flashcard fc-summary block"
                data-fc-id="resumen"
                data-fc-title="Resumen"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">7</div>
+          <div class="fc-num">8</div>
           <div class="fc-titles">
             <strong class="fc-title">¡Felicidades!</strong>
             <span class="fc-sub">Resumen de la Lección 001</span>
@@ -260,7 +316,7 @@ B — los labios se cierran y se abren (sin dientes)</pre>
             </div>
             <div class="fc-summary-stat">
               <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 7</span></div>
+              <div class="fc-summary-stat-value">8 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 8</span></div>
             </div>
           </div>
 
@@ -269,6 +325,7 @@ B — los labios se cierran y se abren (sin dientes)</pre>
             <li>Reconocer los digraphs SH · CH · TH</li>
             <li>Distinguir "ee" largo vs "i" corto</li>
             <li>Pronunciar V con dientes en el labio</li>
+            <li>Practicar palabras y una frase con el micrófono</li>
             <li>Identificar las 3 trampas más comunes</li>
           </ul>
 
@@ -304,7 +361,19 @@ B — los labios se cierran y se abren (sin dientes)</pre>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
+  <script src="speech-practice.js"></script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.ExpresateSpeechPractice) return;
+      document.querySelectorAll("[data-speech-expected]").forEach(function (root) {
+        window.ExpresateSpeechPractice.create({
+          root: root,
+          expected: root.getAttribute("data-speech-expected") || ""
+        });
+      });
+    });
+  </script>
 </body>
 </html>

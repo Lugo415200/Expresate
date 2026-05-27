@@ -14,6 +14,16 @@
   let _session  = null;
   let _profile  = null;
   const _listeners = new Set();
+  const _devPremiumBypass = isLocalDevOrigin();
+
+  function isLocalDevOrigin() {
+    const host = window.location.hostname;
+    return host === "localhost" || host === "127.0.0.1" || host === "::1";
+  }
+
+  if (_devPremiumBypass) {
+    console.info("[Access] Local developer premium bypass active. This only works on localhost/127.0.0.1/::1.");
+  }
 
   // Resolves once the initial session check is done.
   // Guaranteed to resolve even if Supabase is unreachable.
@@ -90,21 +100,12 @@
     // Premium requires BOTH subscription_status === "active" AND a non-expired
     // current_period_end. The plan column is never used alone as authority.
     getUserPlan: function () {
+      if (_devPremiumBypass) return "premium";
+
       if (!_session?.user) return "guest";
       const status    = _profile?.subscription_status;
       const periodEnd = _profile?.current_period_end;
       const isActive  = status === "active" && periodEnd && new Date(periodEnd) > new Date();
-
-      // --- Temporary debug log (remove before production) ---
-      console.log("[Access] getUserPlan debug:", {
-        session_user_id : _session?.user?.id,
-        profile         : _profile,
-        subscription_status : status,
-        current_period_end  : periodEnd,
-        isActive,
-        result          : isActive ? "premium" : "free_account"
-      });
-      // -------------------------------------------------------
 
       if (isActive) return "premium";
       // Always return free_account for logged-in non-premium users.

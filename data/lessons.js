@@ -126,6 +126,53 @@ window.ExpresateLessons = {
           requires: "lesson-003-negaciones"
         }
       ]
+    },
+    {
+      id: "module-2",
+      title: "Módulo 2 — Survival English",
+      style: "numbered",
+      open: false,
+      lockOnQuiz: "quiz-003",
+      hint: "Conversaciones prácticas",
+      lockedHint: "Completa el Quiz 003 para desbloquear Survival English.",
+      steps: [
+        {
+          id: "lesson-004-greetings",
+          type: "lesson",
+          premium: true,
+          title: "Lección 004 — Greetings & Introductions",
+          subtitle: "Hello, my name is..., nice to meet you",
+          href: "lesson-004-greetings.html",
+          requires: "quiz-003"
+        },
+        {
+          id: "lesson-005-classroom-phrases",
+          type: "lesson",
+          premium: true,
+          title: "Lección 005 — Classroom & App Phrases",
+          subtitle: "Repeat, please · I don’t understand · How do you say...?",
+          href: "lesson-005-classroom-phrases.html",
+          requires: "lesson-004-greetings"
+        },
+        {
+          id: "lesson-006-identity-place",
+          type: "lesson",
+          premium: true,
+          title: "Lección 006 — Where are you from?",
+          subtitle: "I am from... · I live in... · I speak Spanish",
+          href: "lesson-006-identity-place.html",
+          requires: "lesson-005-classroom-phrases"
+        },
+        {
+          id: "lesson-007-basic-questions",
+          type: "lesson",
+          premium: true,
+          title: "Lección 007 — Basic Questions",
+          subtitle: "What is this? · What does this mean? · I need help",
+          href: "lesson-007-basic-questions.html",
+          requires: "lesson-006-identity-place"
+        }
+      ]
     }
   ]
 };

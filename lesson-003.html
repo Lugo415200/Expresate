@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
 </head>
 <body class="lesson-step-mode" data-lesson-id="lesson-003-negaciones" data-page="curso">
 
@@ -35,6 +36,20 @@
         </div>
         <div class="fc-body">
           <p>En esta plantilla vas a:</p>
+          <div class="fc-mini-grid">
+            <div class="fc-mini-card">
+              <strong>Objetivo</strong>
+              <span>Negar ideas simples sin traducir palabra por palabra.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Por qué importa</strong>
+              <span>Las negaciones aparecen todo el tiempo: horarios, gustos, trabajo y planes.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Error común</strong>
+              <span>Después de doesn’t, el verbo vuelve a su forma base: no lleva -s.</span>
+            </div>
+          </div>
           <ul>
             <li>Aprender cuándo usar <strong>don’t</strong> y cuándo <strong>doesn’t</strong>.</li>
             <li>Negar oraciones simples en presente.</li>
@@ -213,14 +228,55 @@ Ellos no trabajan aquí.   → They don’t work here.</pre>
         </div>
       </section>
 
-      <!-- 6 — Mini Reto -->
+      <!-- 6 — Speech practice -->
+      <section class="flashcard block" data-fc-id="speech-practice" data-fc-title="Práctica de voz"
+               data-fc-type="practice"
+               data-fc-tip="Las contracciones don’t y doesn’t suenan más naturales que do not y does not en conversación diaria.">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Niega en voz alta</strong>
+            <span class="fc-sub">Contracciones útiles: don’t / doesn’t</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p>Di cada frase con calma. La meta es que <strong>don’t</strong> y <strong>doesn’t</strong> salgan como una sola unidad.</p>
+          <div class="speech-drill-grid">
+            <div class="speech-drill-card">
+              <span class="phrase-label">I</span>
+              <div data-speech-expected="I don't work."></div>
+              <p class="small">Don’t = do not. En conversación, usa la contracción.</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">She</span>
+              <div data-speech-expected="She doesn't live here."></div>
+              <p class="small">Doesn’t + live. No “lives”.</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">He</span>
+              <div data-speech-expected="He doesn't study English."></div>
+              <p class="small">La -s vive en doesn’t, no en el verbo principal.</p>
+            </div>
+          </div>
+          <div class="fc-note-card">
+            <strong>Pronunciación:</strong>
+            <span>No tienes que exagerar la <em>t</em> final. Lo importante es que la negación se entienda claramente.</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- 7 — Mini Reto -->
       <section class="flashcard fc-reto block"
                data-fc-id="reto"
                data-fc-title="Mini reto"
                data-fc-tip="Si el sujeto es he / she, usa doesn’t + verbo SIN -s."
                data-reto-type="multiple-choice">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
             <strong class="fc-title">Mini reto: ¿cuál es correcto?</strong>
             <span class="fc-sub">Una sola opción correcta</span>
@@ -243,13 +299,13 @@ Ellos no trabajan aquí.   → They don’t work here.</pre>
         </div>
       </section>
 
-      <!-- 7 — Summary -->
+      <!-- 8 — Summary -->
       <section class="flashcard fc-summary block"
                data-fc-id="resumen"
                data-fc-title="Resumen"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">7</div>
+          <div class="fc-num">8</div>
           <div class="fc-titles">
             <strong class="fc-title">¡Felicidades!</strong>
             <span class="fc-sub">Resumen de la Plantilla 003</span>
@@ -272,7 +328,7 @@ Ellos no trabajan aquí.   → They don’t work here.</pre>
             </div>
             <div class="fc-summary-stat">
               <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 7</span></div>
+              <div class="fc-summary-stat-value">8 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 8</span></div>
             </div>
           </div>
 
@@ -281,6 +337,7 @@ Ellos no trabajan aquí.   → They don’t work here.</pre>
             <li>Saber cuándo usar don’t y cuándo doesn’t</li>
             <li>Negar oraciones con el verbo en forma base</li>
             <li>Aplicar el patrón a múltiples verbos</li>
+            <li>Practicar don’t y doesn’t en voz alta</li>
             <li>Traducir negaciones en presente</li>
           </ul>
 
@@ -320,10 +377,22 @@ Ellos no trabajan aquí.   → They don’t work here.</pre>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
+  <script src="speech-practice.js"></script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
   <!-- Reused for the practice-item widget (global event delegation) -->
   <script src="lesson-001.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.ExpresateSpeechPractice) return;
+      document.querySelectorAll("[data-speech-expected]").forEach(function (root) {
+        window.ExpresateSpeechPractice.create({
+          root: root,
+          expected: root.getAttribute("data-speech-expected") || ""
+        });
+      });
+    });
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       (window.Access ? Access.ready() : Promise.resolve()).then(() => {

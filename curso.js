@@ -80,6 +80,9 @@ function renderStep(step, isFirst, numbered, displayNumber) {
     const subtitle = step.subtitle
       ? `<span class="stepSub">${escText(step.subtitle)}</span>`
       : "";
+    const hrefAttr = step.type === "lesson" && step.href
+      ? ` data-href="${escAttr(step.href)}"`
+      : "";
     const inner = `
       <span class="stepLeft">
         <span class="stepNum">${displayNumber}</span>
@@ -91,7 +94,7 @@ function renderStep(step, isFirst, numbered, displayNumber) {
       <span class="stepStatus" data-status-for="${escAttr(step.id)}"></span>
     `;
     if (step.type === "lesson") {
-      return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${inner}</a>`;
+      return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${hrefAttr}>${inner}</a>`;
     }
     if (step.type === "quiz") {
       return `<button class="btn${primary} courseStep" type="button" data-open-quiz="${escAttr(step.id)}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${inner}</button>`;
@@ -101,7 +104,8 @@ function renderStep(step, isFirst, numbered, displayNumber) {
 
   // Plain style: simple labeled button, no step number
   if (step.type === "lesson") {
-    return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${escText(step.title)}</a>`;
+    const hrefAttr = step.href ? ` data-href="${escAttr(step.href)}"` : "";
+    return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${hrefAttr}>${escText(step.title)}</a>`;
   }
   if (step.type === "quiz") {
     return `<button class="btn${primary} courseStep" type="button" data-open-quiz="${escAttr(step.id)}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${escText(step.title)}</button>`;
@@ -330,10 +334,15 @@ function applyLocks() {
     if (!unlocked) {
       el.classList.add("isLocked");
       el.setAttribute("aria-disabled", "true");
+      if (el.tagName === "A") el.removeAttribute("href");
       if (el.tagName === "BUTTON") el.disabled = true;
     } else {
       el.classList.remove("isLocked");
       el.removeAttribute("aria-disabled");
+      if (el.tagName === "A" && (!isPremiumStep || userIsPremium)) {
+        const href = el.getAttribute("data-href");
+        if (href) el.setAttribute("href", href);
+      }
       if (el.tagName === "BUTTON") el.disabled = false;
     }
   });
@@ -370,6 +379,10 @@ function applyLocks() {
       overlay.className = "premium-lock-overlay";
       overlay.innerHTML = `<span class="lock-icon">🔒</span> Premium · <a class="btn small" href="pricing.html">Ver planes</a>`;
       el.appendChild(overlay);
+    } else if (!el.classList.contains("isLocked")) {
+      const href = el.getAttribute("data-href");
+      if (el.tagName === "A" && href) el.setAttribute("href", href);
+      if (el.tagName === "BUTTON") el.disabled = false;
     }
   });
 }

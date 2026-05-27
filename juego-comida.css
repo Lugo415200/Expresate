@@ -10,11 +10,15 @@ body[data-page="juego"] {
 }
 
 .food-game-shell {
-  align-items: start;
+  display: block;
+  width: min(60rem, calc(100% - 2rem));
+  max-width: 60rem !important;
+  margin-inline: auto;
+  padding-block: clamp(1rem, 3vw, 2rem) clamp(2rem, 5vw, 4rem);
 }
 
 .food-game-page {
-  max-width: min(100%, 58rem);
+  max-width: min(100%, 56rem);
   margin-inline: auto;
 }
 
@@ -665,22 +669,20 @@ body[data-page="juego"] {
   gap: .32rem;
 }
 
-.food-game-right {
+.game-progress-strip {
+  margin: 0 0 clamp(1rem, 2.5vw, 1.35rem);
+  padding: clamp(.75rem, 2.5vw, 1rem);
+  border: 1px solid rgba(67, 88, 244, .13);
+  border-radius: clamp(1.1rem, 3vw, 1.45rem);
   background:
-    radial-gradient(circle at 15% 0%, rgba(56, 189, 248, .16), transparent 12rem),
-    linear-gradient(180deg, rgba(255, 255, 255, .80), rgba(237, 233, 254, .68));
-  border-color: rgba(67, 88, 244, .13);
-  color: #111827;
-}
-
-.food-game-right h3 {
-  font-family: var(--font-display, "Ribeye", serif);
-  font-weight: 400;
-  color: #111827;
+    radial-gradient(circle at 12% 0%, rgba(56, 189, 248, .15), transparent 16rem),
+    linear-gradient(135deg, rgba(255, 255, 255, .76), rgba(237, 233, 254, .62));
+  box-shadow: 0 1rem 2.4rem rgba(67, 88, 244, .10);
+  backdrop-filter: blur(14px);
 }
 
 .game-hud-loading {
-  padding: .25rem .25rem .5rem;
+  padding: .1rem;
 }
 
 .game-hud-loading p {
@@ -690,6 +692,15 @@ body[data-page="juego"] {
 .game-hud {
   display: grid;
   gap: .75rem;
+}
+
+.game-progress-strip .game-hud {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.game-progress-strip .hud-tip {
+  grid-column: 1 / -1;
 }
 
 .game-stat {
@@ -853,6 +864,10 @@ body[data-page="juego"] {
   .food-game-page {
     max-width: 100%;
   }
+
+  .game-progress-strip .game-hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 700px) {
@@ -878,7 +893,8 @@ body[data-page="juego"] {
 
 @media (max-width: 480px) {
   .game-mode-row,
-  .gc-choices {
+  .gc-choices,
+  .game-progress-strip .game-hud {
     grid-template-columns: 1fr;
   }
 

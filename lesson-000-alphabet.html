@@ -12,60 +12,106 @@
 
 <body class="lesson-step-mode" data-lesson-id="lesson-000-alphabet" data-page="curso">
 
-  <!-- Topbar and sidebar are rendered by nav.js -->
   <div class="topbar"></div>
 
   <div class="shell">
     <aside class="panel sidebar"></aside>
 
-    <main class="content">
-      <h1>Lección 000 — El alfabeto (A–Z)</h1>
-      <p class="sub">
-        Meta: reconocer las 26 letras en inglés y empezar a oír su sonido.
-      </p>
+    <main class="content lesson-stage lesson-000-stage">
+      <div class="lesson-stage-bubbles" aria-hidden="true">
+        <span>A</span>
+        <span>E</span>
+        <span>Y</span>
+        <span>Z</span>
+      </div>
 
-      <!-- Top progress bar, filled by lesson.js -->
+      <header class="lesson-stage-hero">
+        <p class="lesson-stage-kicker">Onboarding · Lección 000</p>
+        <h1>El alfabeto</h1>
+        <p class="sub">
+          Reconoce A-Z, escucha vocales, deletrea tu nombre y responde una pregunta sencilla.
+        </p>
+      </header>
+
       <div data-lesson-progress></div>
 
-      <!-- FLASHCARD 1 — Bienvenida -->
+      <!-- CARD 1 — Welcome -->
       <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
-               data-fc-tip="Empieza por las vocales — aparecen en todo y cambian el ritmo de cada palabra.">
+               data-fc-tip="Esta lección es pequeña, pero muy útil: deletrear es una habilidad real para clases, formularios, llamadas y presentaciones.">
         <div class="fc-head">
           <div class="fc-num">1</div>
           <div class="fc-titles">
-            <strong class="fc-title">¡Bienvenido(a)!</strong>
-            <span class="fc-sub">Lo que vas a aprender en esta lección</span>
+            <strong class="fc-title">Bienvenido a tu primera base</strong>
+            <span class="fc-sub">Lo que vas a practicar hoy</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p>En esta lección vas a:</p>
+          <div class="alphabet-stage-preview" aria-hidden="true">
+            <span>A</span><span>B</span><span>C</span><span class="vowel">E</span><span>Z</span>
+          </div>
+          <p>Hoy vas a aprender el alfabeto como una herramienta práctica, no como una lista para memorizar.</p>
           <ul>
-            <li>Reconocer las <strong>26 letras</strong> del alfabeto inglés.</li>
-            <li>Escuchar el sonido de las <strong>5 vocales</strong>.</li>
-            <li>Hacer un <strong>mini reto</strong> de escucha al final.</li>
+            <li>Reconocerás las <strong>26 letras</strong> en inglés.</li>
+            <li>Practicarás las vocales <strong>A E I O U</strong>.</li>
+            <li>Deletrearás tu nombre con audio letra por letra.</li>
+            <li>Usarás frases reales de clase.</li>
           </ul>
-          <p class="small">No memorices todo de una. La idea es <em>oír</em> mucho y repetir poco a poco.</p>
+          <p class="small">Trabaja lento. Escucha, repite y avanza cuando la tarjeta se sienta clara.</p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- FLASHCARD 2 — Alphabet grid -->
-      <section class="flashcard block" data-fc-id="alphabet" data-fc-title="El alfabeto"
-               data-fc-tip="No tienes que aprender las 26 hoy. Empieza por las letras de tu nombre.">
+      <!-- CARD 2 — Why alphabet matters -->
+      <section class="flashcard block" data-fc-id="why" data-fc-title="Por qué importa"
+               data-fc-tip="En inglés vas a escuchar deletreos mucho antes de entender conversaciones largas. Es una victoria rápida para principiantes.">
         <div class="fc-head">
           <div class="fc-num">2</div>
           <div class="fc-titles">
-            <strong class="fc-title">Toca cada letra para oírla</strong>
-            <span class="fc-sub">A–Z · 26 sonidos</span>
+            <strong class="fc-title">¿Por qué importa el alfabeto?</strong>
+            <span class="fc-sub">Sirve para comunicar datos con claridad</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p class="small">Tip: empieza por tu nombre y por las vocales. No tienes que hacer las 26 hoy.</p>
-          <div class="fc-letter-grid">
+          <p>El alfabeto te ayuda cuando alguien necesita información exacta:</p>
+          <div class="fc-mini-grid">
+            <div class="fc-mini-card">
+              <strong>Nombres</strong>
+              <span>Y-N-O-E-L</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Correos</strong>
+              <span>gmail, yahoo, outlook</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Direcciones</strong>
+              <span>calle, ciudad, código</span>
+            </div>
+          </div>
+          <p class="small">En la vida real, deletrear evita errores. Por eso empezamos aquí.</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- CARD 3 — Alphabet grid -->
+      <section class="flashcard block" data-fc-id="alphabet" data-fc-title="A-Z"
+               data-fc-tip="No tienes que dominar las 26 en una pasada. Toca varias, escucha y repite. Luego vuelve a esta tarjeta cuando quieras.">
+        <div class="fc-head">
+          <div class="fc-num">3</div>
+          <div class="fc-titles">
+            <strong class="fc-title">A-Z: toca y escucha</strong>
+            <span class="fc-sub">Las 26 letras del inglés</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p>Primero reconoce la forma de cada letra. Después escucha su nombre en inglés.</p>
+          <div class="fc-letter-grid" aria-label="Alfabeto A-Z">
             <button class="fc-letter letter-btn vowel" data-letter="a">A</button>
             <button class="fc-letter letter-btn" data-letter="b">B</button>
             <button class="fc-letter letter-btn" data-letter="c">C</button>
@@ -93,26 +139,26 @@
             <button class="fc-letter letter-btn" data-letter="y">Y</button>
             <button class="fc-letter letter-btn" data-letter="z">Z</button>
           </div>
-          <p class="small">Las letras <strong>amarillas</strong> son las vocales (A E I O U).</p>
+          <p class="small">Las letras amarillas son vocales. En la siguiente tarjeta las practicamos mejor.</p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- FLASHCARD 3 — Vowels -->
-      <section class="flashcard block" data-fc-id="vowels" data-fc-title="Las vocales"
-               data-fc-tip="La &quot;I&quot; en inglés se siente como &quot;ai&quot;. Di &quot;time&quot; (taim) y tu boca recordará la diferencia.">
+      <!-- CARD 4 — Vowels -->
+      <section class="flashcard block" data-fc-id="vowels" data-fc-title="Vocales"
+               data-fc-tip="La vocal I en inglés se oye como “ai” cuando dices el nombre de la letra. No es la i del español.">
         <div class="fc-head">
-          <div class="fc-num">3</div>
+          <div class="fc-num">4</div>
           <div class="fc-titles">
-            <strong class="fc-title">Las 5 vocales</strong>
-            <span class="fc-sub">Estas aparecen en todo</span>
+            <strong class="fc-title">Las vocales: A E I O U</strong>
+            <span class="fc-sub">Pequeñas letras, muchísimo peso</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p class="small">Toca cada vocal y repite el sonido en voz alta.</p>
+          <p>Toca cada vocal, escucha y repite en voz alta.</p>
           <div class="fc-vowel-row">
             <button class="fc-letter vowel letter-btn" data-letter="a">A<span class="fc-vowel-sub">ei</span></button>
             <button class="fc-letter vowel letter-btn" data-letter="e">E<span class="fc-vowel-sub">ii</span></button>
@@ -120,60 +166,114 @@
             <button class="fc-letter vowel letter-btn" data-letter="o">O<span class="fc-vowel-sub">ou</span></button>
             <button class="fc-letter vowel letter-btn" data-letter="u">U<span class="fc-vowel-sub">iu</span></button>
           </div>
-          <p class="small">Pista: la <strong>I</strong> en inglés se oye “ai”, no “i”. Repite la palabra <em>“time”</em> (taim) para sentirlo.</p>
+          <div class="fc-note-card">
+            <strong>Importante:</strong>
+            <span>El nombre de una letra no siempre es el sonido que hace dentro de una palabra. Por ejemplo, la letra A puede sonar diferente en <em>name</em>, <em>cat</em> y <em>about</em>.</span>
+          </div>
+          <div class="sound-shift-row" aria-label="Ejemplos de sonidos variables">
+            <span><strong>A</strong> in <em>name</em></span>
+            <span><strong>A</strong> in <em>cat</em></span>
+            <span><strong>A</strong> in <em>about</em></span>
+          </div>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- FLASHCARD 4 — Practice -->
-      <section class="flashcard block" data-fc-id="practica" data-fc-title="Practica con tu nombre"
-               data-fc-tip="Decir tu nombre en voz alta entrena el oído y la boca a la vez. Funciona mejor que solo leerlo.">
+      <!-- CARD 5 — Name spelling -->
+      <section class="flashcard block" data-fc-id="name-spelling" data-fc-title="Tu nombre"
+               data-fc-type="practice"
+               data-fc-tip="Si tu nombre tiene acento o ñ, escribe una versión simple para deletrear en inglés. Ejemplo: José → JOSE.">
         <div class="fc-head">
-          <div class="fc-num">4</div>
+          <div class="fc-num">5</div>
           <div class="fc-titles">
-            <strong class="fc-title">Practica con tu nombre</strong>
-            <span class="fc-sub">2 minutos · en voz alta</span>
+            <strong class="fc-title">Deletrea tu nombre</strong>
+            <span class="fc-sub">Escribe, separa y escucha letra por letra</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <ol>
-            <li>Escribe tu <strong>nombre y apellido</strong> en una hoja.</li>
-            <li>Sepáralo letra por letra (ej.: <strong>Y-N-O-E-L</strong>).</li>
-            <li>Toca cada letra arriba para oírla, luego dila tú.</li>
-            <li>Dilo seguido, lento y claro: <em>“Y, N, O, E, L”</em>.</li>
-          </ol>
-          <p class="small">No tiene que sonar perfecto. Hoy entrenas el oído.</p>
+          <p>Escribe tu nombre. La página lo separa en letras para que puedas escucharlas y repetirlas.</p>
+          <div class="name-speller" data-name-speller>
+            <label for="learnerName">Tu nombre</label>
+            <div class="name-speller-row">
+              <input id="learnerName" class="input" type="text" autocomplete="name" placeholder="Ejemplo: Ynoel" data-name-input />
+              <button class="btn" type="button" data-name-clear>Limpiar</button>
+            </div>
+            <div class="name-output" data-name-output aria-live="polite">
+              <span class="small">Escribe arriba para ver tus letras.</span>
+            </div>
+          </div>
+          <div class="name-script-card">
+            <span class="phrase-label">Modelo</span>
+            <strong>My name is Ynoel.</strong>
+            <span>It is spelled Y-N-O-E-L.</span>
+          </div>
+          <p class="small">Práctica oral: di “My name is…” y luego deletrea lento.</p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- FLASHCARD 5 — Mini Reto -->
+      <!-- CARD 6 — Useful phrases -->
+      <section class="flashcard block" data-fc-id="phrases" data-fc-title="Frases útiles"
+               data-fc-tip="No necesitas gramática complicada aquí. Memoriza estas frases como bloques completos.">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Frases útiles de clase</strong>
+            <span class="fc-sub">Pregunta, responde y deletrea</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="phrase-grid">
+            <article class="phrase-card">
+              <span class="phrase-label">Pregunta</span>
+              <strong>How do you spell your name?</strong>
+              <span>¿Cómo se deletrea tu nombre?</span>
+            </article>
+            <article class="phrase-card">
+              <span class="phrase-label">Respuesta</span>
+              <strong>My name is Ynoel.</strong>
+              <span>Mi nombre es Ynoel.</span>
+            </article>
+            <article class="phrase-card">
+              <span class="phrase-label">Deletreo</span>
+              <strong>It is spelled Y-N-O-E-L.</strong>
+              <span>Se deletrea Y-N-O-E-L.</span>
+            </article>
+          </div>
+          <p class="small">Di las tres frases en voz alta. Cambia “Ynoel” por tu nombre.</p>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- CARD 7 — Mini challenge -->
       <section class="flashcard fc-reto block"
                data-fc-id="reto"
-               data-fc-title="Mini reto: ¿qué letra escuchas?"
-               data-fc-tip="Si fallas, escucha 2–3 veces antes de elegir. Tu oído mejora con cada intento."
+               data-fc-title="Mini reto"
+               data-fc-tip="Haz varias rondas si quieres. La primera respuesta correcta desbloquea Continuar, pero repetir fortalece el oído."
                data-reto-pool="abcdefghijklmnopqrstuvwxyz"
                data-reto-audio-base="audio/alphabet/">
         <div class="fc-head">
-          <div class="fc-num">5</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
-            <strong class="fc-title">Mini reto: ¿qué letra escuchas?</strong>
-            <span class="fc-sub">Escucha y elige la correcta</span>
+            <strong class="fc-title">Mini reto: escucha y elige</strong>
+            <span class="fc-sub">Entrena reconocimiento auditivo</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <div class="fc-reto-prompt">
             <button class="fc-reto-play" type="button" data-reto-play>Reproducir</button>
-            <p class="fc-reto-question">Toca <strong>Reproducir</strong> y luego elige la letra que escuchaste:</p>
+            <p class="fc-reto-question">Escucha la letra. Luego elige la opción correcta.</p>
             <div class="fc-reto-options" data-reto-options></div>
             <p class="fc-reto-feedback" data-reto-feedback></p>
-            <!-- Score counter — hidden until the first answer; never resets across rounds -->
             <div class="fc-reto-score" data-reto-score hidden>
               Correctas: <span data-reto-correct-count>0</span> · Intentos: <span data-reto-attempts>0</span>
             </div>
@@ -185,16 +285,16 @@
         </div>
       </section>
 
-      <!-- FLASHCARD 6 — Summary (celebration recap before the markComplete CTA) -->
+      <!-- CARD 8 — Summary -->
       <section class="flashcard fc-summary block"
                data-fc-id="resumen"
                data-fc-title="Resumen"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">8</div>
           <div class="fc-titles">
-            <strong class="fc-title">¡Felicidades!</strong>
-            <span class="fc-sub">Resumen de lo que aprendiste</span>
+            <strong class="fc-title">Resumen de la lección</strong>
+            <span class="fc-sub">Lo que ya puedes hacer</span>
           </div>
           <div class="fc-status"></div>
         </div>
@@ -202,8 +302,8 @@
           <div class="fc-summary-banner">
             <span class="fc-summary-emoji">✓</span>
             <div>
-              <div class="fc-summary-headline">¡Terminaste la Lección 000!</div>
-              <div class="fc-summary-sub">Buen trabajo. Sigue así, paso a paso.</div>
+              <div class="fc-summary-headline">Terminaste una base real del inglés</div>
+              <div class="fc-summary-sub">Ahora puedes reconocer letras, practicar vocales y deletrear información básica.</div>
             </div>
           </div>
 
@@ -213,17 +313,19 @@
               <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
             </div>
             <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">6 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 6</span></div>
+              <div class="fc-summary-stat-label">Prácticas</div>
+              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">pasos</span></div>
             </div>
           </div>
 
-          <p class="small">En esta lección lograste:</p>
+          <p class="small">Hoy practicaste:</p>
           <ul class="fc-summary-list">
-            <li>Conocer las 26 letras del alfabeto</li>
-            <li>Identificar las 5 vocales (A E I O U)</li>
-            <li>Practicar tu nombre en voz alta</li>
-            <li>Reconocer letras de oído</li>
+            <li>Por qué el alfabeto importa en situaciones reales</li>
+            <li>Reconocimiento de A-Z</li>
+            <li>Vocales A E I O U</li>
+            <li>Cómo deletrear tu nombre</li>
+            <li>Frases: “How do you spell your name?”, “My name is…”, “It is spelled…”</li>
+            <li>Un mini reto auditivo repetible</li>
           </ul>
 
           <div class="fc-summary-next">
@@ -231,13 +333,9 @@
             <span class="title">Lección 001 — Sonidos clave</span>
           </div>
         </div>
-        <div class="fc-foot">
-          <!-- Listo intentionally omitted on the summary card. lesson.js
-               hides any Continuar here because data-fc-summary="true". -->
-        </div>
+        <div class="fc-foot"></div>
       </section>
 
-      <!-- COMPLETION -->
       <div class="actions" style="margin-top:18px;">
         <a class="btn" href="curso.html">← Volver al curso</a>
         <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
@@ -249,7 +347,6 @@
       <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <!-- Right panel — filled by lesson.js -->
     <aside class="panel right">
       <h3>Tu lección</h3>
       <div data-lesson-rightpanel style="padding:4px 4px 8px;">
@@ -258,7 +355,6 @@
     </aside>
   </div>
 
-  <!-- Script load order: progress -> alerts -> nav -> data/lessons -> lesson -> app -->
   <script src="progress.js"></script>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
