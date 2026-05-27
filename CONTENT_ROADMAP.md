@@ -53,6 +53,7 @@ Current production lessons:
 - `lesson-006-identity-place.html`: origin, city, language, and learning status.
 - `lesson-007-basic-questions.html`: basic questions and help phrases.
 - `lesson-008-numbers-1-20.html`: numbers 1-20, age, quantity, and optional speech practice.
+- `lesson-009-days-of-week.html`: days of the week, today/tomorrow/yesterday, and on + day.
 
 ### Module 2: Everyday Words
 

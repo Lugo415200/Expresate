@@ -180,6 +180,15 @@ window.ExpresateLessons = {
           subtitle: "Age · phone numbers · teen sounds",
           href: "lesson-008-numbers-1-20.html",
           requires: "lesson-007-basic-questions"
+        },
+        {
+          id: "lesson-009-days-of-week",
+          type: "lesson",
+          premium: true,
+          title: "Lección 009 — Days of the Week",
+          subtitle: "Today is... · on Monday · class days",
+          href: "lesson-009-days-of-week.html",
+          requires: "lesson-008-numbers-1-20"
         }
       ]
     }
