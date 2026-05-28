@@ -22,10 +22,7 @@
           <h1 id="gameTitle">Juego de comida</h1>
         </div>
         <nav class="sandbox-nav" aria-label="Navegación del juego">
-          <a href="index.html">Inicio</a>
-          <a href="curso.html">Curso</a>
-          <a href="diccionario.html">Diccionario</a>
-          <a href="curso.html">Salir del juego</a>
+          <a class="sandbox-exit" href="curso.html">Salir</a>
           <button class="btn sandbox-reset" id="resetProgress" type="button">Reiniciar</button>
         </nav>
       </header>
@@ -36,11 +33,6 @@
         </div>
 
         <div class="sandbox-card">
-          <div class="sandbox-progress">
-            <span id="cardNum">1 / 12</span>
-            <div class="gc-card-dots-row" id="cardDotsFooter" aria-hidden="true"></div>
-          </div>
-
           <div class="sandbox-prompt">
             <span class="sandbox-label">Di esta palabra en inglés</span>
             <strong id="taskPrompt">Di esta palabra en inglés</strong>
@@ -52,12 +44,12 @@
             <span class="gc-xp-anchor" aria-hidden="true"></span>
           </div>
 
-          <div class="sandbox-word-row">
+          <div class="sandbox-word-row" aria-label="Palabra de práctica">
             <div>
               <span class="gc-lang-label">Español</span>
               <div class="gc-word-es" id="wordEs">—</div>
             </div>
-            <div>
+            <div class="target-word-panel">
               <span class="gc-lang-label">Objetivo</span>
               <div class="gc-word-en" id="wordEn">—</div>
             </div>
@@ -100,7 +92,7 @@
           </div>
         </div>
 
-        <div class="sandbox-overlay" id="resultScreen" hidden>
+        <div class="sandbox-overlay feedback-screen" id="resultScreen" hidden>
           <div class="sandbox-overlay-card result-card" id="resultCard">
             <span class="overlay-kicker" id="resultKicker">Resultado</span>
             <h2 id="resultTitle">¡Excelente!</h2>
@@ -112,7 +104,7 @@
             </div>
             <div class="result-actions">
               <button class="btn" id="retryBtn" type="button">Intentar otra vez</button>
-              <button class="btn primary" id="nextBtn" type="button">Siguiente</button>
+              <button class="btn primary" id="nextBtn" type="button">Continuar</button>
             </div>
           </div>
         </div>

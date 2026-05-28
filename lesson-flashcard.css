@@ -2060,3 +2060,541 @@ body[data-lesson-id="lesson-000-alphabet"] .fc-summary-banner {
     font-size: clamp(2.45rem, 15vw, 3.6rem);
   }
 }
+
+/* ============================================================
+   LESSON 000 — FOCUSED EXERCISE SESSION
+   An opt-in treatment inspired by the food game flow: one centered
+   task, thin progress, minimal chrome, and a quick feedback sheet.
+   ============================================================ */
+body[data-lesson-id="lesson-000-alphabet"] .shell {
+  width: min(100%, 72rem);
+  max-width: 72rem;
+  min-height: calc(100svh - 4.5rem);
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: center;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .panel.sidebar,
+body[data-lesson-id="lesson-000-alphabet"] .panel.right {
+  display: none !important;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .content.lesson-stage {
+  width: min(100%, 58rem);
+  min-height: min(54rem, calc(100svh - 6rem));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.7rem, 1.6vw, 1rem);
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero {
+  margin-bottom: 0;
+  padding: clamp(0.95rem, 2vw, 1.35rem) clamp(1rem, 3vw, 1.6rem);
+  border-radius: 1.35rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-kicker {
+  margin-bottom: 0.4rem;
+  font-size: 0.68rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero h1 {
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.98;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero .sub {
+  max-width: 42rem;
+  margin-top: 0.45rem;
+  font-size: clamp(0.9rem, 1.4vw, 1.02rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-progress {
+  position: relative;
+  top: auto;
+  z-index: 2;
+  margin: 0;
+  padding: 0.58rem 0.75rem;
+  border-radius: 999px;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-progress-row {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-progress-bar {
+  height: 0.42rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"].lesson-step-mode .flashcard.is-current {
+  width: min(100%, 48rem);
+  margin: 0 auto;
+  animation-duration: 0.42s;
+}
+
+body[data-lesson-id="lesson-000-alphabet"].lesson-step-mode .flashcard.is-current:hover {
+  transform: none !important;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .flashcard {
+  border-radius: 1.5rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-meta {
+  padding: 1rem clamp(1rem, 3vw, 1.35rem) 0;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-head {
+  padding: 0.8rem clamp(1rem, 3vw, 1.35rem) 0.55rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-title {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: clamp(1.3rem, 3vw, 1.95rem);
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-sub {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-body {
+  padding: 0.3rem clamp(1rem, 3vw, 1.35rem) 0.9rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-body > p:first-child {
+  font-size: clamp(1rem, 1.7vw, 1.12rem);
+  color: rgba(15, 23, 42, 0.76);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-foot {
+  position: relative;
+  align-items: center;
+  padding: 0.85rem clamp(1rem, 3vw, 1.35rem) 1rem;
+  border-top: 1px solid rgba(67, 88, 244, 0.10);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(236, 244, 255, 0.82));
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-listo {
+  min-width: min(100%, 11rem);
+  background: linear-gradient(135deg, var(--brand-blue, #4b66f2), #6d5dfc) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  box-shadow: 0 0.85rem 1.6rem rgba(67, 88, 244, 0.24);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-listo:hover {
+  background: linear-gradient(135deg, #5267ff, #7c67ff) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-listo:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-back {
+  background: rgba(255, 255, 255, 0.76) !important;
+  border-color: rgba(67, 88, 244, 0.18) !important;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .alphabet-stage-preview {
+  justify-content: center;
+  margin-bottom: clamp(0.8rem, 2vw, 1rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-letter-grid {
+  grid-template-columns: repeat(auto-fit, minmax(3.2rem, 1fr));
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-letter {
+  min-height: clamp(3.35rem, 8vw, 4.35rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-vowel-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .fc-reto-options {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .actions {
+  width: min(100%, 48rem);
+  margin: 0.25rem auto 0 !important;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.85rem clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid rgba(67, 88, 244, 0.12);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 1rem 2.4rem rgba(67, 88, 244, 0.10);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] #lessonStatus {
+  width: min(100%, 48rem);
+  margin: 0 auto !important;
+  text-align: right;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .content.lesson-stage > p.small:last-child {
+  display: none;
+}
+
+@media (min-width: 761px) {
+  body[data-lesson-id="lesson-000-alphabet"] {
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .shell {
+    height: calc(100svh - 4.5rem);
+    min-height: calc(100svh - 4.5rem);
+    overflow: hidden;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .content.lesson-stage {
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+    padding: clamp(0.65rem, 1.4vw, 1rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero,
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-progress,
+  body[data-lesson-id="lesson-000-alphabet"] .actions,
+  body[data-lesson-id="lesson-000-alphabet"] #lessonStatus {
+    flex: 0 0 auto;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero {
+    padding-block: clamp(0.65rem, 1.4vw, 1rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero h1 {
+    font-size: clamp(2rem, 5svh, 3.2rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero .sub {
+    font-size: clamp(0.82rem, 1.6svh, 0.98rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"].lesson-step-mode .flashcard.is-current {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard::after {
+    height: 0.25rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-meta {
+    flex: 0 0 auto;
+    padding-top: 0.75rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-head {
+    flex: 0 0 auto;
+    padding-top: 0.55rem;
+    padding-bottom: 0.4rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-title {
+    font-size: clamp(1.15rem, 2.7svh, 1.65rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-top: 0.2rem;
+    padding-bottom: 0.65rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-foot {
+    flex: 0 0 auto;
+    padding-top: 0.65rem;
+    padding-bottom: 0.75rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .alphabet-stage-preview span {
+    width: clamp(2.35rem, 6svh, 3.35rem);
+    font-size: clamp(1.15rem, 3svh, 1.65rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-letter-grid {
+    gap: clamp(0.3rem, 0.9svh, 0.55rem);
+    padding: clamp(0.45rem, 1.2svh, 0.65rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-letter {
+    min-height: clamp(2.75rem, 6.4svh, 3.8rem);
+    border-radius: clamp(0.8rem, 1.6svh, 1.05rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-vowel-row .fc-letter {
+    min-height: clamp(4.25rem, 12svh, 6.5rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-mini-grid,
+  body[data-lesson-id="lesson-000-alphabet"] .phrase-grid {
+    margin-block: 0.65rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-mini-card,
+  body[data-lesson-id="lesson-000-alphabet"] .phrase-card,
+  body[data-lesson-id="lesson-000-alphabet"] .fc-note-card,
+  body[data-lesson-id="lesson-000-alphabet"] .name-speller {
+    padding: clamp(0.75rem, 1.7svh, 0.95rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-reto-prompt {
+    padding: clamp(0.8rem, 1.8svh, 1.1rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .actions {
+    padding-block: 0.65rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip {
+    position: fixed;
+    top: calc(4.5rem + clamp(14rem, 35svh, 20rem));
+    left: calc(50vw + 30rem);
+    z-index: 12;
+    width: clamp(18rem, 19vw, 22rem);
+    max-height: none;
+    overflow: visible;
+    isolation: isolate;
+    margin: 0;
+    padding: 1rem 1.1rem;
+    grid-template-columns: 1.6rem minmax(0, 1fr);
+    gap: 0.65rem;
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.52), transparent 38%),
+      linear-gradient(180deg, rgba(254, 249, 195, 0.94), rgba(253, 230, 138, 0.88));
+    border-color: rgba(217, 119, 6, 0.22);
+    box-shadow:
+      0 1rem 2.4rem rgba(67, 88, 244, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    transform: none !important;
+    animation: lesson000TipBoot 1.45s steps(8, end) both;
+    transition: box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip:hover {
+    border-color: rgba(217, 119, 6, 0.30);
+    box-shadow:
+      0 1rem 2.4rem rgba(67, 88, 244, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    transform: none !important;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip::before {
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.34) 48%, transparent 54%),
+      repeating-linear-gradient(
+        180deg,
+        rgba(120, 53, 15, 0.08) 0,
+        rgba(120, 53, 15, 0.08) 1px,
+        transparent 1px,
+        transparent 5px
+      );
+    opacity: 0;
+    mix-blend-mode: soft-light;
+    animation: lesson000TipScan 1.45s steps(6, end) both;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip > div {
+    position: relative;
+    z-index: 1;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip-label {
+    margin-bottom: 0.18rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.07em;
+  }
+}
+
+@keyframes lesson000TipBoot {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    filter: contrast(1.08);
+  }
+  18% {
+    opacity: 0.45;
+    clip-path: inset(0 72% 0 0);
+  }
+  38% {
+    opacity: 0.72;
+    clip-path: inset(0 46% 0 0);
+  }
+  62% {
+    opacity: 0.9;
+    clip-path: inset(0 18% 0 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: none;
+  }
+}
+
+@keyframes lesson000TipScan {
+  0% {
+    opacity: 0;
+    transform: translateY(-80%);
+  }
+  18% {
+    opacity: 0.55;
+  }
+  72% {
+    opacity: 0.18;
+    transform: translateY(70%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(120%);
+  }
+}
+
+.lesson-session-feedback {
+  position: fixed;
+  inset: auto 0 clamp(1rem, 3vw, 2rem);
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding-inline: 1rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.lesson-session-feedback.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lesson-session-feedback-card {
+  width: min(100%, 30rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.85rem;
+  row-gap: 0.15rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  border-radius: 1.25rem;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.18), transparent 40%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(237, 233, 254, 0.94));
+  border: 1px solid rgba(67, 88, 244, 0.18);
+  box-shadow: 0 1.5rem 4rem rgba(67, 88, 244, 0.24);
+}
+
+.lesson-session-feedback-card strong {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+.lesson-session-feedback-card span:last-child {
+  color: rgba(15, 23, 42, 0.62);
+  font-weight: 700;
+}
+
+.lesson-session-feedback-mark {
+  grid-row: span 2;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #10b981, #38bdf8);
+  box-shadow: 0 0.8rem 1.8rem rgba(16, 185, 129, 0.24);
+  font-weight: 900;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-lesson-id="lesson-000-alphabet"].lesson-step-mode .flashcard.is-current {
+    animation: none;
+  }
+
+  .lesson-session-feedback {
+    transition: none;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip {
+    animation: none;
+    filter: none;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard.is-current .fc-tip::after {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-lesson-id="lesson-000-alphabet"] .shell {
+    min-height: auto;
+    padding: 0.75rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .content.lesson-stage {
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 0.9rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-stage-hero {
+    padding: 1rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-vowel-row,
+  body[data-lesson-id="lesson-000-alphabet"] .fc-reto-options {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-foot,
+  body[data-lesson-id="lesson-000-alphabet"] .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .fc-foot .btn,
+  body[data-lesson-id="lesson-000-alphabet"] .actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

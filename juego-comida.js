@@ -28,6 +28,21 @@ var CARDS = [
   { id: "tea", es: "té", en: "tea", category: "bebida", image: "assets/food/tea.jpg", alt: "té / tea", audio: "" },
 ];
 
+var SPEECH_ALIASES = {
+  apple: ["apple"],
+  banana: ["banana"],
+  bread: ["bread"],
+  milk: ["milk"],
+  water: ["water"],
+  rice: ["rice"],
+  egg: ["egg"],
+  chicken: ["chicken"],
+  fish: ["fish"],
+  cheese: ["cheese"],
+  coffee: ["coffee"],
+  tea: ["tea", "t", "tee"],
+};
+
 var XP_SPEAK = 10;
 var _lastStreak = 0;
 
@@ -51,6 +66,11 @@ function norm(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\w\s']/g, "")
     .replace(/\s+/g, " ");
+}
+
+function getSpeechAliases(card) {
+  if (!card) return [];
+  return SPEECH_ALIASES[card.id] || [card.en];
 }
 
 function defaultState() {
@@ -267,21 +287,16 @@ function boot() {
     var best = s.game.best || 0;
     var xp = s.xp || 0;
     var progress = Math.round((spokenCount / total) * 100);
-    var xpGoal = CARDS.length * XP_SPEAK;
-    var xpProgress = Math.min(100, Math.round((Math.min(xp, xpGoal) / xpGoal) * 100));
-    var streakGoal = Math.min(5, total);
-    var streakProgress = Math.min(100, Math.round((Math.min(streak, streakGoal) / streakGoal) * 100));
+    var positionProgress = Math.round((s.index / total) * 100);
 
     var streakGrew = streak > _lastStreak;
     gameHUD.innerHTML =
-      '<div class="game-hud">' +
-        hudStat("XP", xp + '<small> / ' + xpGoal + '</small>', "xp", xpProgress, "Progreso de XP") +
-        hudStat("Racha", '<span id="hud-streak-val">' + streak + '</span><small> meta ' + streakGoal + ' · mejor ' + best + '</small>', "streak", streakProgress, "Progreso de racha") +
-        hudStat("Practicadas", spokenCount + " / " + total, "practice", progress, "Cartas practicadas") +
-        '<div class="hud-tip">' +
-          '<div><strong>Progreso</strong><span>' + progress + '% de la ronda</span></div>' +
-          progressBar(progress, "Progreso de la ronda") +
+      '<div class="exercise-progress">' +
+        '<span class="exercise-count">' + (s.index + 1) + ' / ' + total + '</span>' +
+        '<div class="exercise-progress-track" aria-label="Progreso de la ronda: ' + positionProgress + '%">' +
+          '<span style="width:' + positionProgress + '%"></span>' +
         '</div>' +
+        '<span class="exercise-streak" title="Racha actual">Racha ' + '<span id="hud-streak-val">' + streak + '</span></span>' +
       '</div>';
 
     if (streakGrew) {
@@ -330,7 +345,7 @@ function boot() {
     wordEn.textContent = card.en;
     if (taskPrompt) taskPrompt.textContent = "Di esta palabra en inglés";
     if (hintLine) hintLine.textContent = "Presiona Hablar y repite la palabra.";
-    if (speechPractice) speechPractice.setExpected(card.en);
+    if (speechPractice) speechPractice.setExpected(card.en, getSpeechAliases(card));
     if (fallbackInput) fallbackInput.placeholder = "Escribe: " + card.en;
   }
 
@@ -415,6 +430,7 @@ function boot() {
     speechPractice = window.ExpresateSpeechPractice.create({
       root: speechPracticeEl,
       expected: currentCard().en,
+      aliases: getSpeechAliases(currentCard()),
       onResult: handleSpeechResult,
       formatTarget: function(expected) { return expected; },
       labels: {
@@ -519,7 +535,7 @@ function boot() {
       if (fallbackInput) fallbackInput.focus();
       return;
     }
-    if (answer === norm(card.en)) {
+    if (getSpeechAliases(card).map(norm).indexOf(answer) !== -1) {
       awardSpeechSuccess({ status: "correct", transcript: fallbackInput.value });
     } else {
       showResult("try-again", fallbackInput.value, 0);

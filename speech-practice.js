@@ -51,16 +51,39 @@
     return dp[a.length][b.length];
   }
 
-  function compareSpeech(transcript, expected) {
+  function normalizeAliases(expected, aliases) {
+    var seen = {};
+    var values = [expected].concat(Array.isArray(aliases) ? aliases : []);
+    return values
+      .map(normalize)
+      .filter(function(value) {
+        if (!value || seen[value]) return false;
+        seen[value] = true;
+        return true;
+      });
+  }
+
+  function transcriptMatchesAlias(heard, alias) {
+    if (heard === alias) return true;
+    if (alias.indexOf(" ") === -1) {
+      return heard.split(" ").indexOf(alias) !== -1;
+    }
+    return heard.indexOf(alias) !== -1;
+  }
+
+  function compareSpeech(transcript, expected, aliases) {
     var heard = normalize(transcript);
     var target = normalize(expected);
+    var accepted = normalizeAliases(expected, aliases);
 
     if (!heard || !target) {
       return { status: "try-again", score: 0, transcript: transcript || "" };
     }
 
-    if (heard === target || heard.split(" ").indexOf(target) !== -1) {
-      return { status: "correct", score: 1, transcript: transcript };
+    for (var i = 0; i < accepted.length; i++) {
+      if (transcriptMatchesAlias(heard, accepted[i])) {
+        return { status: "correct", score: 1, transcript: transcript, matched: accepted[i] };
+      }
     }
 
     var distance = levenshtein(heard, target);
@@ -78,6 +101,7 @@
     options = options || {};
     var root = options.root;
     var expected = options.expected || "";
+    var acceptedAliases = Array.isArray(options.aliases) ? options.aliases.slice() : [];
     var onResult = typeof options.onResult === "function" ? options.onResult : function() {};
     var formatTarget = typeof options.formatTarget === "function" ? options.formatTarget : null;
     var labels = Object.assign({
@@ -114,8 +138,9 @@
     var button = root.querySelector("[data-speech-start]");
     var feedback = root.querySelector("[data-speech-feedback]");
 
-    function setExpected(nextExpected) {
+    function setExpected(nextExpected, nextAliases) {
       expected = nextExpected || "";
+      acceptedAliases = Array.isArray(nextAliases) ? nextAliases.slice() : [];
       targetEl.textContent = expected
         ? (formatTarget ? formatTarget(expected) : 'Di: "' + expected + '"')
         : "Elige una palabra";
@@ -169,7 +194,7 @@
           if (event.results && event.results[0] && event.results[0][0]) {
             transcript = event.results[0][0].transcript || "";
           }
-          var result = compareSpeech(transcript, expected);
+          var result = compareSpeech(transcript, expected, acceptedAliases);
           if (result.status === "correct") {
             setFeedback("correct", labels.correct, transcript);
           } else if (result.status === "almost") {
@@ -177,7 +202,7 @@
           } else {
             setFeedback("try-again", labels.tryAgain, transcript);
           }
-          onResult(Object.assign({ expected: expected }, result));
+          onResult(Object.assign({ expected: expected, aliases: acceptedAliases.slice() }, result));
         };
 
         recognition.onerror = function(event) {

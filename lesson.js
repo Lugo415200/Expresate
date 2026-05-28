@@ -267,7 +267,7 @@
   }
 
   function setupListoButtons() {
-    document.addEventListener("click", (e) => {
+    document.addEventListener("click", async (e) => {
       const btn = e.target.closest("[data-fc-listo]");
       if (!btn) return;
       const sec = btn.closest(".flashcard[data-fc-id]");
@@ -277,7 +277,10 @@
       if (stepModeEnabled) {
         // Step mode: mark this card done, then move to the next one.
         // (showCard handles the scroll; no scrollNext nudge needed.)
+        btn.disabled = true;
         markSectionDone(id);
+        await showLesson000Feedback(sec);
+        btn.disabled = false;
         advanceCard();
       } else {
         // Stacked mode: keep the old "scroll to next undone" nudge.
@@ -392,6 +395,10 @@
     // Bring the new card under the topbar so it feels like a real "step".
     const active = cards[currentIndex];
     if (active) {
+      const fixedLesson000 = lessonId === "lesson-000-alphabet" &&
+        window.matchMedia &&
+        window.matchMedia("(min-width: 761px)").matches;
+      if (fixedLesson000) return;
       const top = active.getBoundingClientRect().top + window.scrollY - 120;
       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
     }
@@ -401,6 +408,42 @@
   }
   function goBack() {
     if (currentIndex > 0) showCard(currentIndex - 1, "back");
+  }
+
+  function showLesson000Feedback(sec) {
+    if (lessonId !== "lesson-000-alphabet") return Promise.resolve();
+    if (!sec || sec.getAttribute("data-fc-summary") === "true") return Promise.resolve();
+
+    let sheet = document.querySelector("[data-lesson-session-feedback]");
+    if (!sheet) {
+      sheet = document.createElement("div");
+      sheet.className = "lesson-session-feedback";
+      sheet.setAttribute("data-lesson-session-feedback", "");
+      sheet.setAttribute("role", "status");
+      sheet.setAttribute("aria-live", "polite");
+      document.body.appendChild(sheet);
+    }
+
+    const isReto = sec.classList.contains("fc-reto");
+    sheet.innerHTML = `
+      <div class="lesson-session-feedback-card">
+        <span class="lesson-session-feedback-mark">✓</span>
+        <strong>${isReto ? "¡Bien hecho!" : "¡Buen paso!"}</strong>
+        <span>${isReto ? "Escuchaste la letra y elegiste la respuesta." : "Sigue con la siguiente parte de la lección."}</span>
+      </div>
+    `;
+    sheet.classList.add("is-visible");
+
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const delay = reduceMotion ? 120 : 650;
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        sheet.classList.remove("is-visible");
+        resolve();
+      }, delay);
+    });
   }
 
   // ---------------------------------------------------------------
