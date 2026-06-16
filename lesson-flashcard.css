@@ -1661,6 +1661,95 @@ body.lesson-step-mode .fc-foot {
   line-height: 1.2;
 }
 
+.pronunciation-word-card {
+  position: relative;
+  min-height: 4.25rem;
+  display: grid !important;
+  align-content: center;
+  justify-items: center;
+  gap: .22rem;
+  padding: .78rem 1rem !important;
+  border: 1px solid rgba(67, 88, 244, .16) !important;
+  border-radius: 1rem !important;
+  color: #111827 !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, .86), rgba(223, 243, 255, .68)) !important;
+  box-shadow: 0 .38rem 0 rgba(67, 88, 244, .10);
+  text-align: center;
+  white-space: normal;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+.pronunciation-word-card strong {
+  color: var(--brand-blue, #4b66f2);
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.pronunciation-word-card span {
+  color: rgba(15, 23, 42, .62);
+  font-size: .78rem;
+  font-weight: 850;
+}
+
+.pronunciation-word-card::before {
+  content: "🔊";
+  position: absolute;
+  top: .42rem;
+  left: .48rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--brand-blue, #4b66f2);
+  background: rgba(255, 255, 255, .86);
+  border: 1px solid rgba(67, 88, 244, .16);
+  box-shadow: 0 .45rem 1rem rgba(67, 88, 244, .10);
+  font-family: system-ui, sans-serif;
+  font-size: .72rem;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(.18rem) scale(.9);
+  transition: opacity .16s ease, transform .16s ease;
+}
+
+.pronunciation-word-card:hover,
+.pronunciation-word-card:focus-visible {
+  transform: translateY(-.12rem);
+  border-color: rgba(67, 88, 244, .36) !important;
+  box-shadow: 0 .56rem 0 rgba(67, 88, 244, .13), 0 1rem 2.3rem rgba(67, 88, 244, .12);
+  outline: none;
+}
+
+.pronunciation-word-card:hover::before,
+.pronunciation-word-card:focus-visible::before,
+.pronunciation-word-card.is-playing::before {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pronunciation-word-card.is-playing {
+  border-color: rgba(56, 189, 248, .72) !important;
+  box-shadow:
+    0 0 0 .22rem rgba(56, 189, 248, .18),
+    0 1rem 2.4rem rgba(67, 88, 244, .18) !important;
+  animation: lessonAudioGlow 1.15s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pronunciation-word-card,
+  .pronunciation-word-card::before,
+  .pronunciation-word-card.is-playing {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 .phrase-label {
   width: fit-content;
   padding: 0.22rem 0.55rem;
