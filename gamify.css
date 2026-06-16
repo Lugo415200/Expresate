@@ -33,7 +33,7 @@
 .stepStatus {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.35rem;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
@@ -316,6 +316,17 @@ details.module-is-locked .module-locked-hint { display: block; }
   display: inline-block;
   transform-origin: center bottom;
   animation: lock-wiggle 1.6s ease-in-out 0.15s 1 both;
+}
+.lock-icon-img {
+  width: 1.15rem;
+  height: 1.15rem;
+  object-fit: contain;
+  flex: 0 0 auto;
+  image-rendering: crisp-edges;
+}
+.stepStatus .lock-icon-img {
+  width: 0.92rem;
+  height: 0.92rem;
 }
 @media (prefers-reduced-motion: reduce) {
   .lock-icon { animation: none; }

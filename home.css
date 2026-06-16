@@ -863,6 +863,105 @@ button.btn:not(.primary):active { background: #dff3ff; }
   background: rgba(67, 88, 244, .62);
 }
 
+/* Homepage exit transition: blue/purple app-style route handoff. */
+body[data-page="home"].home-transitioning .guided-flow,
+body[data-page="home"].home-transitioning .home-hub {
+  transform-origin: center;
+  animation: homePageContentCollapse 3.2s ease-in-out both;
+}
+
+body[data-page="home"].home-transitioning .topbar {
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+.home-page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 0;
+  min-height: 100svh;
+  pointer-events: none;
+  overflow: hidden;
+  transition: width 0s 1.35s ease;
+}
+
+.home-page-loader__brand {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  color: #fff;
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: clamp(2.3rem, 8vw, 5.6rem);
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.96);
+  text-shadow: 0 .35rem 1.4rem rgba(17, 24, 39, .24);
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+.home-page-loader.animate_content {
+  width: 100%;
+  transition-delay: 0s;
+}
+
+.home-page-loader__surface {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(56, 189, 248, .28), transparent 34%),
+    radial-gradient(circle at 84% 28%, rgba(139, 92, 246, .34), transparent 36%),
+    linear-gradient(135deg, #4358f4 0%, #6d5dfc 48%, #8b5cf6 100%);
+}
+
+.home-page-loader.fadeIn .home-page-loader__surface {
+  animation: homePageFadeIn .9s ease-out both;
+}
+
+.home-page-loader.animate_content .home-page-loader__brand {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition-delay: 1.55s;
+}
+
+@keyframes homePageContentCollapse {
+  0% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1, .002);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(.2, .002);
+  }
+  60% {
+    opacity: 0;
+    transform: scale(.2, .002);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(.2, .002);
+  }
+}
+
+@keyframes homePageFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flow-dot { transition: none !important; }
   .flow-skip,
@@ -872,6 +971,17 @@ button.btn:not(.primary):active { background: #dff3ff; }
   .flow-skip:hover,
   .hub-card:hover {
     transform: none !important;
+  }
+
+  body[data-page="home"].home-transitioning .guided-flow,
+  body[data-page="home"].home-transitioning .home-hub,
+  body[data-page="home"].home-transitioning .topbar {
+    opacity: 1;
+    transform: none;
+  }
+
+  .home-page-loader {
+    display: none;
   }
 }
 

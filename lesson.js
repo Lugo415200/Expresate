@@ -281,7 +281,7 @@
         markSectionDone(id);
         await showLesson000Feedback(sec);
         btn.disabled = false;
-        advanceCard();
+        runLesson000PageTransition(advanceCard);
       } else {
         // Stacked mode: keep the old "scroll to next undone" nudge.
         markSectionDone(id, { scrollNext: true });
@@ -305,6 +305,7 @@
     document.body.classList.add("lesson-step-mode");
 
     cards.forEach((sec, i) => {
+      sec.classList.add("lesson-window");
       const foot = sec.querySelector(".fc-foot");
       if (!foot) return;
       // Idempotent: don't double-inject if setupStepMode runs twice.
@@ -321,7 +322,10 @@
 
       // Rename the Listo button to "Continuar →" everywhere for a friendlier flow.
       const listo = foot.querySelector("[data-fc-listo]");
-      if (listo) listo.innerHTML = "Continuar →";
+      if (listo) {
+        listo.innerHTML = "Continuar →";
+        listo.classList.add("floating-continue");
+      }
 
       // Mini Reto: hide Continuar initially — the reto handler reveals it
       // only after the user's first correct answer.  No auto-advance; the
@@ -366,7 +370,7 @@
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-fc-back]");
       if (!btn) return;
-      goBack();
+      runLesson000PageTransition(goBack, "back");
     });
 
     showCard(0);
@@ -381,6 +385,7 @@
     cards.forEach((sec, idx) => {
       const isCurrent = idx === currentIndex;
       sec.classList.toggle("is-current", isCurrent);
+      sec.classList.toggle("is-active", isCurrent);
       // Reset direction classes so the animation re-fires reliably
       sec.classList.remove("from-next", "from-back");
       if (isCurrent) {
@@ -392,8 +397,8 @@
     });
     updateProgressBar();
     updateRightPanel();
-    // Bring the new card under the topbar so it feels like a real "step".
     const active = cards[currentIndex];
+    // Bring the new card under the topbar so it feels like a real "step".
     if (active) {
       const fixedLesson000 = lessonId === "lesson-000-alphabet" &&
         window.matchMedia &&
@@ -408,6 +413,45 @@
   }
   function goBack() {
     if (currentIndex > 0) showCard(currentIndex - 1, "back");
+  }
+
+  function getLesson000Loader() {
+    let loader = document.querySelector("[data-lesson-page-loader]");
+    if (loader) return loader;
+    loader = document.createElement("div");
+    loader.className = "lesson-page-loader";
+    loader.setAttribute("data-lesson-page-loader", "");
+    loader.setAttribute("aria-hidden", "true");
+    loader.innerHTML = `
+      <div class="lesson-page-loader__tile"></div>
+      <div class="lesson-page-loader__tile"></div>
+      <div class="lesson-page-loader__tile"></div>
+      <div class="lesson-page-loader__tile"></div>
+      <div class="lesson-page-loader__tile"></div>
+      <div class="lesson-page-loader__mark">Exprésate</div>
+    `;
+    document.body.appendChild(loader);
+    return loader;
+  }
+
+  function runLesson000PageTransition(changeStep, direction) {
+    if (lessonId !== "lesson-000-alphabet") {
+      changeStep();
+      return;
+    }
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      changeStep();
+      return;
+    }
+    const loader = getLesson000Loader();
+    loader.classList.toggle("is-back", direction === "back");
+    loader.classList.add("loader--active");
+    window.setTimeout(changeStep, 620);
+    window.setTimeout(() => {
+      loader.classList.remove("loader--active", "is-back");
+    }, 1120);
   }
 
   function showLesson000Feedback(sec) {
@@ -750,8 +794,15 @@
       const render = () => {
         const raw = input.value || "";
         const letters = Array.from(raw.toUpperCase()).filter((ch) => /[A-Z]/.test(ch));
+        const card = wrap.closest(".flashcard");
+        const instruction = wrap.querySelector("[data-name-listen-instruction]");
+        const hasName = letters.length > 0;
 
-        if (letters.length === 0) {
+        wrap.classList.toggle("has-name", hasName);
+        card?.classList.toggle("has-name", hasName);
+        if (instruction) instruction.hidden = !hasName;
+
+        if (!hasName) {
           output.innerHTML = `<span class="small">Escribe arriba para ver tus letras.</span>`;
           return;
         }

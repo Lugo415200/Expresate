@@ -71,6 +71,8 @@ Add:
 ### Module 3: Core Grammar
 
 Current:
+- -ando / -endo = -ing: bridge lesson for recognizing actions in progress.
+- I am / Yo estoy: feelings, current states, and actions happening now.
 - Pronouns + present verbs
 - Do/Does questions
 - Don’t/Doesn’t negatives

@@ -90,6 +90,7 @@
 
     showStepInstant(0);
     wireEvents();
+    wireHomePageTransitions();
     updateHub();
     chooseInitialView();
   }
@@ -180,6 +181,68 @@
     }
 
     watchAuthChanges();
+  }
+
+  function wireHomePageTransitions() {
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest("a[href]");
+      if (!link || !document.body || document.body.dataset.page !== "home") return;
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target && link.target !== "_self") return;
+      if (link.hasAttribute("download")) return;
+
+      var href = link.getAttribute("href") || "";
+      if (!href || href.charAt(0) === "#" || href.indexOf("javascript:") === 0) return;
+
+      var url;
+      try {
+        url = new URL(href, window.location.href);
+      } catch (_) {
+        return;
+      }
+
+      if (url.origin !== window.location.origin) return;
+      if (!/\.html$/.test(url.pathname) && !/\/$/.test(url.pathname)) return;
+
+      e.preventDefault();
+      runHomeExitTransition(function () {
+        window.location.href = url.href;
+      });
+    });
+  }
+
+  function getHomeTransitionLoader() {
+    var loader = document.querySelector("[data-home-page-loader]");
+    if (loader) return loader;
+
+    loader = document.createElement("div");
+    loader.className = "home-page-loader";
+    loader.setAttribute("data-home-page-loader", "");
+    loader.setAttribute("aria-hidden", "true");
+    loader.innerHTML =
+      "<div class=\"home-page-loader__surface\">" +
+        "<span class=\"home-page-loader__brand\">Exprésate</span>" +
+      "</div>";
+    document.body.appendChild(loader);
+    return loader;
+  }
+
+  function runHomeExitTransition(done) {
+    if (noMotion) {
+      done();
+      return;
+    }
+    var loader = getHomeTransitionLoader();
+    document.body.classList.add("home-transitioning");
+    loader.classList.add("animate_content");
+    window.setTimeout(function () {
+      loader.classList.add("fadeIn");
+    }, 1500);
+    window.setTimeout(done, 2700);
+    window.setTimeout(function () {
+      loader.classList.remove("animate_content");
+    }, 3600);
   }
 
   function chooseInitialView() {

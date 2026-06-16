@@ -75,13 +75,31 @@ window.ExpresateLessons = {
       lockedHint: "Completa el Quiz 000 para desbloquear este módulo.",
       steps: [
         {
+          id: "lesson-014-ing-pattern",
+          type: "lesson",
+          premium: true,
+          title: "Lección 014 — -ando / -endo = -ing",
+          subtitle: "Reconoce acciones en progreso",
+          href: "lesson-014-ing-pattern.html",
+          requires: "quiz-000"
+        },
+        {
+          id: "lesson-013-i-am",
+          type: "lesson",
+          premium: true,
+          title: "Lección 013 — I am / Yo estoy",
+          subtitle: "Sentimientos · estados · acciones ahora",
+          href: "lesson-013-i-am.html",
+          requires: "lesson-014-ing-pattern"
+        },
+        {
           id: "lesson-001-pronombres",
           type: "lesson",
           premium: true,
           title: "Plantilla 001 — Pronombres + Verbos",
           subtitle: "Yo, tú, él / ella, nosotros, ellos",
           href: "lesson-001.html",
-          requires: "quiz-000"
+          requires: "lesson-013-i-am"
         },
         {
           id: "quiz-001",

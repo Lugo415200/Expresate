@@ -293,7 +293,9 @@ function applyLocks() {
       const statusEl = document.querySelector(`[data-status-for="${stepId}"]`);
       if (statusEl) {
         if (isPremiumStep && !userIsPremium) {
-          statusEl.textContent = "Premium";
+          statusEl.innerHTML = `<img class="lock-icon lock-icon-img" src="assets/icons/unlock.png" alt="" aria-hidden="true" /> <span>Premium</span>`;
+        } else if (isPremiumStep && userIsPremium && !done) {
+          statusEl.innerHTML = `<img class="lock-icon lock-icon-img" src="assets/icons/unlock.png" alt="" aria-hidden="true" /> <span>Desbloqueado</span>`;
         } else if (done) {
           statusEl.textContent = "Completado";
         } else if (!unlocked) {
@@ -377,7 +379,7 @@ function applyLocks() {
 
       const overlay = document.createElement("span");
       overlay.className = "premium-lock-overlay";
-      overlay.innerHTML = `<span class="lock-icon">🔒</span> Premium · <a class="btn small" href="pricing.html">Ver planes</a>`;
+      overlay.innerHTML = `<img class="lock-icon lock-icon-img" src="assets/icons/unlock.png" alt="" aria-hidden="true" /> Premium · <a class="btn small" href="pricing.html">Ver planes</a>`;
       el.appendChild(overlay);
     } else if (!el.classList.contains("isLocked")) {
       const href = el.getAttribute("data-href");
