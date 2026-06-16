@@ -99,8 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================
   // Audio buttons (alphabet + custom)
   // =========================
+  // Existing alphabet audio lives in audio/alphabet/*.mp3.
+  // Future lesson audio can be placed in:
+  // - assets/audio/letters/
+  // - assets/audio/words/
+  // - assets/audio/phrases/
+  // - assets/audio/lesson-intros/
   const player = new Audio();
   player.preload = "auto";
+  const audioAvailability = new Map();
 
   // Tracks the button that triggered the current audio so we can apply
   // the .is-playing ripple class and remove it when playback ends.
@@ -124,22 +131,123 @@ document.addEventListener("DOMContentLoaded", () => {
   player.addEventListener("pause",  _clearPlayingBtn);
   player.addEventListener("error",  _clearPlayingBtn);
 
+  function _cleanAudioSrc(src) {
+    return String(src || "").trim();
+  }
+
+  function _audioFallbackSpeech(text, trigger) {
+    const phrase = String(text || "").trim();
+    if (!phrase || !("speechSynthesis" in window)) return false;
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(phrase);
+      utterance.lang = "en-US";
+      utterance.rate = 0.9;
+      utterance.onend = _clearPlayingBtn;
+      utterance.onerror = _clearPlayingBtn;
+      if (trigger) _setPlayingBtn(trigger);
+      window.speechSynthesis.speak(utterance);
+      return true;
+    } catch {
+      _clearPlayingBtn();
+      return false;
+    }
+  }
+
+  function _shouldVerifyAudioSrc(src) {
+    return /^assets\/audio\//i.test(src) || /\/assets\/audio\//i.test(src);
+  }
+
+  async function _audioExists(src) {
+    if (!_shouldVerifyAudioSrc(src)) return true;
+    if (audioAvailability.has(src)) return audioAvailability.get(src);
+
+    try {
+      const response = await fetch(src, { method: "HEAD", cache: "force-cache" });
+      const ok = response.ok;
+      audioAvailability.set(src, ok);
+      return ok;
+    } catch {
+      audioAvailability.set(src, false);
+      return false;
+    }
+  }
+
+  function playLessonAudio(options = {}) {
+    const src = _cleanAudioSrc(options.src);
+    const trigger = options.trigger || null;
+
+    if (!src) {
+      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger) : false;
+    }
+
+    const playExistingSrc = () => {
+      player.pause();
+      player.removeAttribute("src");
+      player.currentTime = 0;
+      player.src = src;
+      if (trigger) _setPlayingBtn(trigger);
+      player.play().catch(() => {
+        _clearPlayingBtn();
+        if (options.fallbackText) _audioFallbackSpeech(options.fallbackText, trigger);
+      });
+    };
+
+    try {
+      if (_shouldVerifyAudioSrc(src)) {
+        _audioExists(src).then((exists) => {
+          if (exists) {
+            playExistingSrc();
+          } else if (options.fallbackText) {
+            _audioFallbackSpeech(options.fallbackText, trigger);
+          }
+        });
+        return true;
+      }
+
+      playExistingSrc();
+      return true;
+    } catch {
+      _clearPlayingBtn();
+      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger) : false;
+    }
+  }
+
+  window.ExpresateAudio = {
+    play: (src, options = {}) => playLessonAudio({ ...options, src }),
+    speak: _audioFallbackSpeech,
+    stop: () => {
+      try {
+        player.pause();
+        player.currentTime = 0;
+        window.speechSynthesis?.cancel?.();
+      } catch {}
+      _clearPlayingBtn();
+    }
+  };
+
   // Optional: stop any current audio when leaving page
   window.addEventListener("beforeunload", () => {
     try {
       player.pause();
       player.currentTime = 0;
+      window.speechSynthesis?.cancel?.();
     } catch {}
   });
 
   document.addEventListener("click", (e) => {
-    // 0) Works for vowel buttons and any button with data-audio
-    const anyAudio = e.target.closest("[data-audio]");
+    // 0) Works for vowel buttons and any clickable item with audio data.
+    // Add data-audio-fallback="word or phrase" when a missing local file
+    // should fall back to browser speech synthesis.
+    const anyAudio = e.target.closest("[data-audio], [data-audio-fallback]");
     if (anyAudio) {
       const src = (anyAudio.getAttribute("data-audio") || "").trim();
-      if (!src) return;
-      playSrc(src);
-      _setPlayingBtn(anyAudio);
+      playLessonAudio({
+        src,
+        trigger: anyAudio,
+        fallbackText: anyAudio.getAttribute("data-audio-fallback")
+      });
       return;
     }
     // 1) Alphabet letters: <button class="letter-btn" data-letter="a">A</button>
@@ -149,8 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!letter) return;
 
       const src = `audio/alphabet/${letter}.mp3`;
-      playSrc(src);
-      _setPlayingBtn(letterBtn);
+      playLessonAudio({ src, trigger: letterBtn, fallbackText: letter.toUpperCase() });
       return;
     }
 
@@ -160,25 +267,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const src = (audioBtn.dataset.audio || "").trim();
       if (!src) return;
 
-      playSrc(src);
-      _setPlayingBtn(audioBtn);
+      playLessonAudio({
+        src,
+        trigger: audioBtn,
+        fallbackText: audioBtn.getAttribute("data-audio-fallback")
+      });
       return;
     }
   });
-
-  function playSrc(src) {
-    // reset and play new source
-    try {
-      player.pause();
-      player.currentTime = 0;
-      player.src = src;
-      player.play().catch((err) => {
-        console.error("Audio play blocked or failed:", src, err);
-      });
-    } catch (err) {
-      console.error("Audio error:", src, err);
-    }
-  }
 
   // Lesson page: wire up completion button.
   // Requires: <body data-lesson-id="..."> using a canonical ID.

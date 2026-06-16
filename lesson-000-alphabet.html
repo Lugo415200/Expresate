@@ -29,80 +29,64 @@
         <p class="lesson-stage-kicker">Onboarding · Lección 000</p>
         <h1>El alfabeto</h1>
         <p class="sub">
-          Reconoce A-Z, escucha vocales, deletrea tu nombre y responde una pregunta sencilla.
+          Usa letras para decir información exacta, practicar vocales y deletrear tu nombre.
         </p>
       </header>
 
       <div data-lesson-progress></div>
 
-      <!-- CARD 1 — Welcome -->
-      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
-               data-fc-tip="Esta lección es pequeña, pero muy útil: deletrear es una habilidad real para clases, formularios, llamadas y presentaciones.">
+      <!-- CARD 1 — Alphabet intro -->
+      <section class="flashcard block" data-fc-id="intro" data-fc-title="Alfabeto"
+               data-focus-mode="true"
+               data-fc-tip="Deletrear no es solo decir letras: es poder dar información exacta cuando alguien la necesita.">
         <div class="fc-head">
           <div class="fc-num">1</div>
           <div class="fc-titles">
-            <strong class="fc-title">Bienvenido a tu primera base</strong>
-            <span class="fc-sub">Lo que vas a practicar hoy</span>
+            <strong class="fc-title">El alfabeto te ayuda a decir información exacta</strong>
+            <span class="fc-sub">Nombres, correos y direcciones</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <div class="alphabet-stage-preview" aria-hidden="true">
-            <span>A</span><span>B</span><span>C</span><span class="vowel">E</span><span>Z</span>
+          <div class="alphabet-stage-preview alphabet-focus-strip" aria-hidden="true">
+            <span>A</span><span>B</span><span>C</span><span>D</span>
           </div>
-          <p>Hoy vas a aprender el alfabeto como una herramienta práctica, no como una lista para memorizar.</p>
-          <ul>
-            <li>Reconocerás las <strong>26 letras</strong> en inglés.</li>
-            <li>Practicarás las vocales <strong>A E I O U</strong>.</li>
-            <li>Deletrearás tu nombre con audio letra por letra.</li>
-            <li>Usarás frases reales de clase.</li>
-          </ul>
-          <p class="small">Trabaja lento. Escucha, repite y avanza cuando la tarjeta se sienta clara.</p>
+          <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o dirección puede quedar mal.</p>
+          <p class="alphabet-tap-hint">Toca una tarjeta para ver cómo cambia el ejemplo.</p>
+          <div class="alphabet-use-cases" data-alpha-examples>
+            <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true"
+                    data-audio="assets/audio/phrases/name-example.mp3" data-audio-fallback="D A N I E L">
+              <strong>Nombre</strong>
+              <span>D-A-N-I-E-L</span>
+            </button>
+            <button type="button" data-alpha-example="email" aria-pressed="false"
+                    data-audio="assets/audio/phrases/email-example.mp3" data-audio-fallback="G M A I L dot com">
+              <strong>Correo</strong>
+              <span>G-M-A-I-L</span>
+            </button>
+            <button type="button" data-alpha-example="address" aria-pressed="false"
+                    data-audio="assets/audio/phrases/address-example.mp3" data-audio-fallback="12th Street">
+              <strong>Dirección</strong>
+              <span>calle / código</span>
+            </button>
+          </div>
+          <button class="alphabet-example-panel" type="button" aria-live="polite" data-alpha-example-panel
+                  data-audio="assets/audio/phrases/name-example.mp3" data-audio-fallback="D A N I E L"
+                  aria-label="Escuchar ejemplo">
+            <strong>D-A-N-I-E-L</strong>
+            <p>Deletrear evita que escriban tu nombre como otra palabra.</p>
+          </button>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- CARD 2 — Why alphabet matters -->
-      <section class="flashcard block" data-fc-id="why" data-fc-title="Por qué importa"
-               data-fc-tip="En inglés vas a escuchar deletreos mucho antes de entender conversaciones largas. Es una victoria rápida para principiantes.">
+      <!-- CARD 2 — Alphabet grid -->
+      <section class="flashcard block" data-fc-id="alphabet-grid" data-fc-title="A-Z"
+               data-fc-tip="No tienes que memorizar todo hoy. Toca varias letras, escucha y repite. Vuelve a esta pantalla cuando quieras practicar.">
         <div class="fc-head">
           <div class="fc-num">2</div>
-          <div class="fc-titles">
-            <strong class="fc-title">¿Por qué importa el alfabeto?</strong>
-            <span class="fc-sub">Sirve para comunicar datos con claridad</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p>El alfabeto te ayuda cuando alguien necesita información exacta:</p>
-          <div class="fc-mini-grid">
-            <div class="fc-mini-card">
-              <strong>Nombres</strong>
-              <span>Y-N-O-E-L</span>
-            </div>
-            <div class="fc-mini-card">
-              <strong>Correos</strong>
-              <span>gmail, yahoo, outlook</span>
-            </div>
-            <div class="fc-mini-card">
-              <strong>Direcciones</strong>
-              <span>calle, ciudad, código</span>
-            </div>
-          </div>
-          <p class="small">En la vida real, deletrear evita errores. Por eso empezamos aquí.</p>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
-        </div>
-      </section>
-
-      <!-- CARD 3 — Alphabet grid -->
-      <section class="flashcard block" data-fc-id="alphabet" data-fc-title="A-Z"
-               data-fc-tip="No tienes que dominar las 26 en una pasada. Toca varias, escucha y repite. Luego vuelve a esta tarjeta cuando quieras.">
-        <div class="fc-head">
-          <div class="fc-num">3</div>
           <div class="fc-titles">
             <strong class="fc-title">A-Z: toca y escucha</strong>
             <span class="fc-sub">Las 26 letras del inglés</span>
@@ -110,70 +94,67 @@
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p>Primero reconoce la forma de cada letra. Después escucha su nombre en inglés.</p>
-          <div class="fc-letter-grid" aria-label="Alfabeto A-Z">
-            <button class="fc-letter letter-btn vowel" data-letter="a">A</button>
-            <button class="fc-letter letter-btn" data-letter="b">B</button>
-            <button class="fc-letter letter-btn" data-letter="c">C</button>
-            <button class="fc-letter letter-btn" data-letter="d">D</button>
-            <button class="fc-letter letter-btn vowel" data-letter="e">E</button>
-            <button class="fc-letter letter-btn" data-letter="f">F</button>
-            <button class="fc-letter letter-btn" data-letter="g">G</button>
-            <button class="fc-letter letter-btn" data-letter="h">H</button>
-            <button class="fc-letter letter-btn vowel" data-letter="i">I</button>
-            <button class="fc-letter letter-btn" data-letter="j">J</button>
-            <button class="fc-letter letter-btn" data-letter="k">K</button>
-            <button class="fc-letter letter-btn" data-letter="l">L</button>
-            <button class="fc-letter letter-btn" data-letter="m">M</button>
-            <button class="fc-letter letter-btn" data-letter="n">N</button>
-            <button class="fc-letter letter-btn vowel" data-letter="o">O</button>
-            <button class="fc-letter letter-btn" data-letter="p">P</button>
-            <button class="fc-letter letter-btn" data-letter="q">Q</button>
-            <button class="fc-letter letter-btn" data-letter="r">R</button>
-            <button class="fc-letter letter-btn" data-letter="s">S</button>
-            <button class="fc-letter letter-btn" data-letter="t">T</button>
-            <button class="fc-letter letter-btn vowel" data-letter="u">U</button>
-            <button class="fc-letter letter-btn" data-letter="v">V</button>
-            <button class="fc-letter letter-btn" data-letter="w">W</button>
-            <button class="fc-letter letter-btn" data-letter="x">X</button>
-            <button class="fc-letter letter-btn" data-letter="y">Y</button>
-            <button class="fc-letter letter-btn" data-letter="z">Z</button>
+          <p class="alphabet-big-idea">Toca una letra. Escucha su nombre en inglés y repítelo en voz alta.</p>
+          <div class="fc-letter-grid alphabet-grid-compact" aria-label="Alfabeto A-Z">
+            <button class="fc-letter letter-btn vowel" type="button" data-letter="a">A</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="b">B</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="c">C</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="d">D</button>
+            <button class="fc-letter letter-btn vowel" type="button" data-letter="e">E</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="f">F</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="g">G</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="h">H</button>
+            <button class="fc-letter letter-btn vowel" type="button" data-letter="i">I</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="j">J</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="k">K</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="l">L</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="m">M</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="n">N</button>
+            <button class="fc-letter letter-btn vowel" type="button" data-letter="o">O</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="p">P</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="q">Q</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="r">R</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="s">S</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="t">T</button>
+            <button class="fc-letter letter-btn vowel" type="button" data-letter="u">U</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="v">V</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="w">W</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="x">X</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="y">Y</button>
+            <button class="fc-letter letter-btn" type="button" data-letter="z">Z</button>
           </div>
-          <p class="small">Las letras amarillas son vocales. En la siguiente tarjeta las practicamos mejor.</p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- CARD 4 — Vowels -->
+      <!-- CARD 3 — Vowels -->
       <section class="flashcard block" data-fc-id="vowels" data-fc-title="Vocales"
                data-fc-tip="La vocal I en inglés se oye como “ai” cuando dices el nombre de la letra. No es la i del español.">
         <div class="fc-head">
-          <div class="fc-num">4</div>
+          <div class="fc-num">3</div>
           <div class="fc-titles">
             <strong class="fc-title">Las vocales: A E I O U</strong>
-            <span class="fc-sub">Pequeñas letras, muchísimo peso</span>
+            <span class="fc-sub">Toca, escucha y repite</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <p>Toca cada vocal, escucha y repite en voz alta.</p>
           <div class="fc-vowel-row">
-            <button class="fc-letter vowel letter-btn" data-letter="a">A<span class="fc-vowel-sub">ei</span></button>
-            <button class="fc-letter vowel letter-btn" data-letter="e">E<span class="fc-vowel-sub">ii</span></button>
-            <button class="fc-letter vowel letter-btn" data-letter="i">I<span class="fc-vowel-sub">ai</span></button>
-            <button class="fc-letter vowel letter-btn" data-letter="o">O<span class="fc-vowel-sub">ou</span></button>
-            <button class="fc-letter vowel letter-btn" data-letter="u">U<span class="fc-vowel-sub">iu</span></button>
+            <button class="fc-letter vowel letter-btn" type="button" data-letter="a">A<span class="fc-vowel-sub">ei</span></button>
+            <button class="fc-letter vowel letter-btn" type="button" data-letter="e">E<span class="fc-vowel-sub">ii</span></button>
+            <button class="fc-letter vowel letter-btn" type="button" data-letter="i">I<span class="fc-vowel-sub">ai</span></button>
+            <button class="fc-letter vowel letter-btn" type="button" data-letter="o">O<span class="fc-vowel-sub">ou</span></button>
+            <button class="fc-letter vowel letter-btn" type="button" data-letter="u">U<span class="fc-vowel-sub">iu</span></button>
           </div>
-          <div class="fc-note-card">
-            <strong>Importante:</strong>
-            <span>El nombre de una letra no siempre es el sonido que hace dentro de una palabra. Por ejemplo, la letra A puede sonar diferente en <em>name</em>, <em>cat</em> y <em>about</em>.</span>
-          </div>
-          <div class="sound-shift-row" aria-label="Ejemplos de sonidos variables">
-            <span><strong>A</strong> in <em>name</em></span>
-            <span><strong>A</strong> in <em>cat</em></span>
-            <span><strong>A</strong> in <em>about</em></span>
+          <div class="vowel-hint-grid">
+            <span><strong>A</strong> suena como “ei”</span>
+            <span><strong>E</strong> suena como “ii”</span>
+            <span><strong>I</strong> suena como “ai”</span>
+            <span><strong>O</strong> suena como “ou”</span>
+            <span><strong>U</strong> suena como “iu”</span>
           </div>
         </div>
         <div class="fc-foot">
@@ -181,12 +162,13 @@
         </div>
       </section>
 
-      <!-- CARD 5 — Name spelling -->
+      <!-- CARD 4 — Name spelling -->
       <section class="flashcard block" data-fc-id="name-spelling" data-fc-title="Tu nombre"
                data-fc-type="practice"
+               data-focus-mode="true"
                data-fc-tip="Si tu nombre tiene acento o ñ, escribe una versión simple para deletrear en inglés. Ejemplo: José → JOSE.">
         <div class="fc-head">
-          <div class="fc-num">5</div>
+          <div class="fc-num">4</div>
           <div class="fc-titles">
             <strong class="fc-title">Deletrea tu nombre</strong>
             <span class="fc-sub">Escribe, separa y escucha letra por letra</span>
@@ -194,107 +176,87 @@
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p>Escribe tu nombre. La página lo separa en letras para que puedas escucharlas y repetirlas.</p>
-          <div class="name-speller" data-name-speller>
-            <label for="learnerName">Tu nombre</label>
+          <div class="name-flow-intro">
+            <span class="phrase-label">Practica</span>
+            <p>Después escucha cómo se deletrea en inglés, letra por letra.</p>
+          </div>
+          <div class="name-speller lesson-flow-task" data-name-speller>
+            <label for="learnerName">Escribe tu nombre</label>
             <div class="name-speller-row">
-              <input id="learnerName" class="input" type="text" autocomplete="name" placeholder="Ejemplo: Ynoel" data-name-input />
+              <input id="learnerName" class="input" type="text" autocomplete="name" placeholder="Nombre" data-name-input />
               <button class="btn" type="button" data-name-clear>Limpiar</button>
             </div>
+            <p class="name-listen-instruction floating-instruction" data-name-listen-instruction hidden>
+              Ahora escucha cómo se deletrea tu nombre.
+            </p>
             <div class="name-output" data-name-output aria-live="polite">
               <span class="small">Escribe arriba para ver tus letras.</span>
             </div>
           </div>
-          <div class="name-script-card">
+          <div class="name-script-card name-flow-model muted-context">
             <span class="phrase-label">Modelo</span>
-            <strong>My name is Ynoel.</strong>
-            <span>It is spelled Y-N-O-E-L.</span>
+            <strong>My name is Erika.</strong>
+            <span>It is spelled E-r-i-k-a.</span>
           </div>
-          <p class="small">Práctica oral: di “My name is…” y luego deletrea lento.</p>
+          <p class="small name-flow-note muted-context">Toca cada letra grande. Escucha y repite despacio.</p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- CARD 6 — Useful phrases -->
-      <section class="flashcard block" data-fc-id="phrases" data-fc-title="Frases útiles"
-               data-fc-tip="No necesitas gramática complicada aquí. Memoriza estas frases como bloques completos.">
+      <!-- CARD 5 — Phonetics preview -->
+      <section class="flashcard block" data-fc-id="phonetics-preview" data-fc-title="Sonidos dentro de palabras"
+               data-fc-tip="Esta es la gran diferencia: una letra tiene nombre, pero dentro de una palabra puede sonar diferente. La siguiente lección trabaja eso con calma.">
+        <div class="fc-head">
+          <div class="fc-num">5</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Las letras pueden cambiar de sonido</strong>
+            <span class="fc-sub">La letra A no siempre suena igual</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p class="alphabet-big-idea">Hoy aprendiste nombres de letras. Ahora mira cómo una letra puede cambiar dentro de palabras.</p>
+          <div class="sound-shift-row sound-shift-focus" aria-label="Ejemplos de sonidos variables">
+            <!-- Future local word audio should live in assets/audio/words/. -->
+            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/name.mp3" data-audio-fallback="name" aria-label="Escuchar name">
+              <span class="phrase-label">A en</span>
+              <strong>name</strong>
+              <em>suena como “ei”</em>
+            </button>
+            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/cat.mp3" data-audio-fallback="cat" aria-label="Escuchar cat">
+              <span class="phrase-label">A en</span>
+              <strong>cat</strong>
+              <em>suena más abierta</em>
+            </button>
+            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/about.mp3" data-audio-fallback="about" aria-label="Escuchar about">
+              <span class="phrase-label">A en</span>
+              <strong>about</strong>
+              <em>suena muy suave</em>
+            </button>
+          </div>
+          <div class="fc-note-card">
+            <strong>Idea simple:</strong>
+            <span>Primero reconoces letras. Después entrenas sonidos reales dentro de palabras.</span>
+          </div>
+          <!-- TODO: Restore phonetics YouTube video URL here -->
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- CARD 6 — Transition -->
+      <section class="flashcard fc-summary block"
+               data-fc-id="transition"
+               data-fc-title="Siguiente"
+               data-fc-summary="true">
         <div class="fc-head">
           <div class="fc-num">6</div>
           <div class="fc-titles">
-            <strong class="fc-title">Frases útiles de clase</strong>
-            <span class="fc-sub">Pregunta, responde y deletrea</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <div class="phrase-grid">
-            <article class="phrase-card">
-              <span class="phrase-label">Pregunta</span>
-              <strong>How do you spell your name?</strong>
-              <span>¿Cómo se deletrea tu nombre?</span>
-            </article>
-            <article class="phrase-card">
-              <span class="phrase-label">Respuesta</span>
-              <strong>My name is Ynoel.</strong>
-              <span>Mi nombre es Ynoel.</span>
-            </article>
-            <article class="phrase-card">
-              <span class="phrase-label">Deletreo</span>
-              <strong>It is spelled Y-N-O-E-L.</strong>
-              <span>Se deletrea Y-N-O-E-L.</span>
-            </article>
-          </div>
-          <p class="small">Di las tres frases en voz alta. Cambia “Ynoel” por tu nombre.</p>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
-        </div>
-      </section>
-
-      <!-- CARD 7 — Mini challenge -->
-      <section class="flashcard fc-reto block"
-               data-fc-id="reto"
-               data-fc-title="Mini reto"
-               data-fc-tip="Haz varias rondas si quieres. La primera respuesta correcta desbloquea Continuar, pero repetir fortalece el oído."
-               data-reto-pool="abcdefghijklmnopqrstuvwxyz"
-               data-reto-audio-base="audio/alphabet/">
-        <div class="fc-head">
-          <div class="fc-num">7</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Mini reto: escucha y elige</strong>
-            <span class="fc-sub">Entrena reconocimiento auditivo</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <div class="fc-reto-prompt">
-            <button class="fc-reto-play" type="button" data-reto-play>Reproducir</button>
-            <p class="fc-reto-question">Escucha la letra. Luego elige la opción correcta.</p>
-            <div class="fc-reto-options" data-reto-options></div>
-            <p class="fc-reto-feedback" data-reto-feedback></p>
-            <div class="fc-reto-score" data-reto-score hidden>
-              Correctas: <span data-reto-correct-count>0</span> · Intentos: <span data-reto-attempts>0</span>
-            </div>
-            <button class="fc-reto-retry" type="button" data-reto-retry hidden>↻ Otra ronda</button>
-          </div>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
-        </div>
-      </section>
-
-      <!-- CARD 8 — Summary -->
-      <section class="flashcard fc-summary block"
-               data-fc-id="resumen"
-               data-fc-title="Resumen"
-               data-fc-summary="true">
-        <div class="fc-head">
-          <div class="fc-num">8</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Resumen de la lección</strong>
-            <span class="fc-sub">Lo que ya puedes hacer</span>
+            <strong class="fc-title">Ya conoces las letras</strong>
+            <span class="fc-sub">Ahora vamos a escuchar sonidos clave</span>
           </div>
           <div class="fc-status"></div>
         </div>
@@ -302,36 +264,14 @@
           <div class="fc-summary-banner">
             <span class="fc-summary-emoji">✓</span>
             <div>
-              <div class="fc-summary-headline">Terminaste una base real del inglés</div>
-              <div class="fc-summary-sub">Ahora puedes reconocer letras, practicar vocales y deletrear información básica.</div>
+              <div class="fc-summary-headline">Ya puedes reconocer letras, vocales y deletrear tu nombre.</div>
+              <div class="fc-summary-sub">La siguiente lección convierte esas letras en sonidos reales.</div>
             </div>
           </div>
-
-          <div class="fc-summary-grid">
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">XP ganado</div>
-              <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
-            </div>
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">Prácticas</div>
-              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">pasos</span></div>
-            </div>
-          </div>
-
-          <p class="small">Hoy practicaste:</p>
-          <ul class="fc-summary-list">
-            <li>Por qué el alfabeto importa en situaciones reales</li>
-            <li>Reconocimiento de A-Z</li>
-            <li>Vocales A E I O U</li>
-            <li>Cómo deletrear tu nombre</li>
-            <li>Frases: “How do you spell your name?”, “My name is…”, “It is spelled…”</li>
-            <li>Un mini reto auditivo repetible</li>
-          </ul>
-
-          <div class="fc-summary-next">
+          <a class="fc-summary-next lesson-next-cta" href="lesson-001-sounds.html">
             <span class="label">A continuación</span>
-            <span class="title">Lección 001 — Sonidos clave</span>
-          </div>
+            <span class="title">Ir a Sonidos clave</span>
+          </a>
         </div>
         <div class="fc-foot"></div>
       </section>
@@ -361,5 +301,117 @@
   <script src="data/lessons.js"></script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
+  <script>
+    (function () {
+      var wrap = document.querySelector("[data-alpha-examples]");
+      var panel = document.querySelector("[data-alpha-example-panel]");
+      if (!wrap || !panel) return;
+      var typeTimer = null;
+      var loadTimer = null;
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      var examples = {
+        name: {
+          label: "Ejemplo",
+          value: "D-A-N-I-E-L",
+          audio: "assets/audio/phrases/name-example.mp3",
+          fallback: "D A N I E L",
+          note: "Deletrear evita que escriban tu nombre como otra palabra."
+        },
+        email: {
+          label: "Correo",
+          value: "d.a.n.i.e.l @ gmail.com",
+          audio: "assets/audio/phrases/email-example.mp3",
+          fallback: "D A N I E L at G M A I L dot com",
+          note: "Una letra o punto incorrecto puede mandar el correo a otra persona."
+        },
+        address: {
+          label: "Dirección",
+          value: "12th S-t-r-e-e-t",
+          audio: "assets/audio/phrases/address-example.mp3",
+          fallback: "12th Street",
+          note: "En direcciones y códigos, cada letra ayuda a confirmar el dato exacto."
+        }
+      };
+
+      function render(key) {
+        var item = examples[key] || examples.name;
+        panel.classList.remove("loaded");
+        if (loadTimer) {
+          clearTimeout(loadTimer);
+          loadTimer = null;
+        }
+        panel.setAttribute("data-audio", item.audio || "");
+        panel.setAttribute("data-audio-fallback", item.fallback || item.value);
+        panel.setAttribute("aria-label", "Escuchar " + (item.fallback || item.value));
+        panel.innerHTML = '<span class="phrase-label">' + item.label + '</span><strong data-alpha-example-text></strong><p>' + item.note + '</p>';
+        typeExampleText(item.value);
+        loadTimer = setTimeout(function () {
+          panel.classList.add("loaded");
+        }, reduceMotion ? 0 : 500);
+      }
+
+      function typeExampleText(text) {
+        var target = panel.querySelector("[data-alpha-example-text]");
+        if (!target) return;
+        if (typeTimer) {
+          clearTimeout(typeTimer);
+          typeTimer = null;
+        }
+        if (reduceMotion) {
+          target.textContent = text;
+          return;
+        }
+        var offset = 0;
+        var forwards = true;
+        var pause = 0;
+        var pauseDelay = 26;
+        var speed = 95;
+        target.textContent = "";
+
+        function tick() {
+          target.textContent = text.substr(0, offset);
+
+          if (forwards && offset >= text.length) {
+            pause += 1;
+            if (pause >= pauseDelay) {
+              forwards = false;
+              pause = 0;
+            }
+          } else if (!forwards && offset <= 0) {
+            pause += 1;
+            if (pause >= 4) {
+              forwards = true;
+              pause = 0;
+            }
+          }
+
+          if (pause === 0) {
+            offset += forwards ? 1 : -1;
+            offset = Math.max(0, Math.min(text.length, offset));
+          }
+
+          var nextDelay = forwards ? speed : 58;
+          if (pause > 0) nextDelay = 95;
+          typeTimer = setTimeout(tick, nextDelay);
+        }
+
+        tick();
+      }
+
+      wrap.querySelectorAll("[data-alpha-example]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          wrap.querySelectorAll("[data-alpha-example]").forEach(function (el) {
+            el.classList.remove("is-selected");
+            el.setAttribute("aria-pressed", "false");
+          });
+          btn.classList.add("is-selected");
+          btn.setAttribute("aria-pressed", "true");
+          render(btn.getAttribute("data-alpha-example"));
+        });
+      });
+      render("name");
+    })();
+  </script>
 </body>
 </html>
