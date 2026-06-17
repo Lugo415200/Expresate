@@ -156,7 +156,8 @@
 
     var audioSrc = entry.audio || ("audio/verbs/" + key + ".mp3");
     var audioBtn = '<button class="btn verb-audio-btn" type="button" data-audio="'
-      + esc(audioSrc) + '" title="Escuchar pronunciación" aria-label="Escuchar pronunciación">🔊</button>';
+      + esc(audioSrc) + '" data-audio-fallback="' + esc(entry.base || key)
+      + '" title="Escuchar pronunciación" aria-label="Escuchar pronunciación">🔊</button>';
 
     // Forms grid
     var forms = [

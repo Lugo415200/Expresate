@@ -47,7 +47,16 @@
   overflow-wrap: normal;
 }
 
-.speech-practice-btn {
+.speech-practice-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .55rem;
+  flex-wrap: wrap;
+}
+
+.speech-practice-btn,
+.speech-practice-listen {
   min-width: 8.5rem;
   border-color: rgba(67, 88, 244, .28);
   background: linear-gradient(135deg, rgba(67, 88, 244, .12), rgba(139, 92, 246, .12));
@@ -55,7 +64,13 @@
   font-weight: 950;
 }
 
-.speech-practice-btn:hover:not(:disabled) {
+.speech-practice-listen {
+  min-width: 7.25rem;
+  background: rgba(255, 255, 255, .74);
+}
+
+.speech-practice-btn:hover:not(:disabled),
+.speech-practice-listen:hover:not(:disabled) {
   border-color: rgba(67, 88, 244, .42);
   background: linear-gradient(135deg, rgba(67, 88, 244, .18), rgba(139, 92, 246, .18));
 }
@@ -63,6 +78,11 @@
 .speech-practice-btn:disabled {
   cursor: not-allowed;
   opacity: .65;
+}
+
+.speech-practice-listen.is-playing {
+  border-color: rgba(56, 189, 248, .55);
+  box-shadow: 0 0 0 .22rem rgba(56, 189, 248, .14), 0 .65rem 1.45rem rgba(67, 88, 244, .13);
 }
 
 .speech-practice-feedback {
@@ -123,14 +143,17 @@
     grid-template-columns: 1fr;
   }
 
-  .speech-practice-btn {
+  .speech-practice-actions,
+  .speech-practice-btn,
+  .speech-practice-listen {
     width: 100%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .speech-practice-card,
-  .speech-practice-btn {
+  .speech-practice-btn,
+  .speech-practice-listen {
     transition: none !important;
   }
 }

@@ -1661,6 +1661,70 @@ body.lesson-step-mode .fc-foot {
   line-height: 1.2;
 }
 
+.phrase-card[data-audio-fallback],
+.name-script-card[data-audio-fallback],
+.name-output[role="button"] {
+  position: relative;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.phrase-card[data-audio-fallback]::before,
+.name-script-card[data-audio-fallback]::before,
+.name-output[role="button"]::before {
+  content: "🔊";
+  position: absolute;
+  top: .5rem;
+  right: .55rem;
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  background: rgba(67, 88, 244, .12);
+  color: var(--brand-blue, #4b66f2);
+  font-size: .86rem;
+  opacity: 0;
+  transform: translateY(.18rem) scale(.96);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;
+}
+
+.phrase-card[data-audio-fallback]:hover,
+.phrase-card[data-audio-fallback]:focus-visible,
+.name-script-card[data-audio-fallback]:hover,
+.name-script-card[data-audio-fallback]:focus-visible,
+.name-output[role="button"]:hover,
+.name-output[role="button"]:focus-visible {
+  transform: translateY(-.1rem);
+  border-color: rgba(67, 88, 244, .32);
+  box-shadow: 0 .75rem 1.8rem rgba(67, 88, 244, .11);
+  outline: none;
+}
+
+.phrase-card[data-audio-fallback]:hover::before,
+.phrase-card[data-audio-fallback]:focus-visible::before,
+.phrase-card[data-audio-fallback].is-playing::before,
+.name-script-card[data-audio-fallback]:hover::before,
+.name-script-card[data-audio-fallback]:focus-visible::before,
+.name-script-card[data-audio-fallback].is-playing::before,
+.name-output[role="button"]:hover::before,
+.name-output[role="button"]:focus-visible::before,
+.name-output[role="button"].is-playing::before {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.phrase-card[data-audio-fallback].is-playing,
+.name-script-card[data-audio-fallback].is-playing,
+.name-output[role="button"].is-playing {
+  border-color: rgba(56, 189, 248, .64);
+  box-shadow:
+    0 0 0 .2rem rgba(56, 189, 248, .16),
+    0 .9rem 2rem rgba(67, 88, 244, .13);
+  animation: lessonAudioGlow 1.15s ease-in-out infinite;
+}
+
 .pronunciation-word-card {
   position: relative;
   min-height: 4.25rem;
@@ -1742,6 +1806,15 @@ body.lesson-step-mode .fc-foot {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .phrase-card[data-audio-fallback],
+  .phrase-card[data-audio-fallback]::before,
+  .phrase-card[data-audio-fallback].is-playing,
+  .name-script-card[data-audio-fallback],
+  .name-script-card[data-audio-fallback]::before,
+  .name-script-card[data-audio-fallback].is-playing,
+  .name-output[role="button"],
+  .name-output[role="button"]::before,
+  .name-output[role="button"].is-playing,
   .pronunciation-word-card,
   .pronunciation-word-card::before,
   .pronunciation-word-card.is-playing {

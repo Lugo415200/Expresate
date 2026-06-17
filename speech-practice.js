@@ -63,6 +63,19 @@
       });
   }
 
+  function audioSlug(value) {
+    return normalize(value)
+      .replace(/'/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function audioPathForExpected(value) {
+    var slug = audioSlug(value);
+    if (!slug) return "";
+    return "assets/audio/" + (slug.indexOf("-") === -1 ? "words/" : "phrases/") + slug + ".mp3";
+  }
+
   function transcriptMatchesAlias(heard, alias) {
     if (heard === alias) return true;
     if (alias.indexOf(" ") === -1) {
@@ -105,10 +118,10 @@
     var onResult = typeof options.onResult === "function" ? options.onResult : function() {};
     var formatTarget = typeof options.formatTarget === "function" ? options.formatTarget : null;
     var labels = Object.assign({
-      correct: "Correct",
-      almost: "Almost",
-      tryAgain: "Try again",
-      heard: "I heard",
+      correct: "¡Correcto!",
+      almost: "Casi",
+      tryAgain: "Intenta otra vez",
+      heard: "Escuché",
       unsupported: "Speech practice works best in Chrome or Edge.",
       unavailable: "Tu navegador no permite práctica de voz aquí.",
       noMic: "Permite el micrófono para practicar.",
@@ -130,12 +143,16 @@
           '<span class="speech-practice-label">Pronunciación</span>' +
           '<strong class="speech-practice-target" data-speech-target></strong>' +
         '</div>' +
-        '<button class="btn speech-practice-btn" type="button" data-speech-start>Hablar</button>' +
+        '<div class="speech-practice-actions">' +
+          '<button class="btn speech-practice-listen" type="button" data-speech-listen>Escuchar</button>' +
+          '<button class="btn speech-practice-btn" type="button" data-speech-start>Hablar</button>' +
+        '</div>' +
         '<div class="speech-practice-feedback" data-speech-feedback aria-live="polite"></div>' +
       '</div>';
 
     var targetEl = root.querySelector("[data-speech-target]");
     var button = root.querySelector("[data-speech-start]");
+    var listenButton = root.querySelector("[data-speech-listen]");
     var feedback = root.querySelector("[data-speech-feedback]");
 
     function setExpected(nextExpected, nextAliases) {
@@ -165,6 +182,28 @@
       root.classList.toggle("is-listening", listening);
       button.disabled = listening;
       button.textContent = listening ? "Escuchando..." : "Hablar";
+    }
+
+    function listen() {
+      if (!expected) return;
+
+      if (global.ExpresateAudio) {
+        global.ExpresateAudio.play(audioPathForExpected(expected), {
+          trigger: listenButton,
+          fallbackText: expected
+        });
+        return;
+      }
+
+      if ("speechSynthesis" in global) {
+        try {
+          global.speechSynthesis.cancel();
+          var utterance = new SpeechSynthesisUtterance(expected);
+          utterance.lang = "en-US";
+          utterance.rate = 0.9;
+          global.speechSynthesis.speak(utterance);
+        } catch (err) {}
+      }
     }
 
     function start() {
@@ -237,9 +276,11 @@
     } else {
       button.addEventListener("click", start);
     }
+    listenButton.addEventListener("click", listen);
 
     return {
       start: start,
+      listen: listen,
       setExpected: setExpected,
       reset: clearFeedback,
       destroy: destroy,

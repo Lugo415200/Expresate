@@ -227,6 +227,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  function _audioSlug(value) {
+    return String(value || "")
+      .toLowerCase()
+      .trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, " and ")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function _audioPathForText(text) {
+    const slug = _audioSlug(text);
+    if (!slug) return "";
+    const folder = slug.includes("-") ? "phrases" : "words";
+    return `assets/audio/${folder}/${slug}.mp3`;
+  }
+
+  function _primaryAudioText(el) {
+    const strong = el.querySelector("strong");
+    return (strong ? strong.textContent : el.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function _isLikelyAudioText(text) {
+    return /[a-z]/i.test(text) && !/[¿¡]/.test(text) && text.length <= 90;
+  }
+
+  function enhanceLessonAudioTargets() {
+    document.querySelectorAll(".phrase-card, .name-script-card").forEach((el) => {
+      if (el.hasAttribute("data-audio") || el.hasAttribute("data-audio-fallback")) return;
+
+      const text = _primaryAudioText(el);
+      if (!_isLikelyAudioText(text)) return;
+
+      el.setAttribute("data-audio", _audioPathForText(text));
+      el.setAttribute("data-audio-fallback", text);
+      el.setAttribute("aria-label", `Escuchar ${text}`);
+      if (!/^(button|a)$/i.test(el.tagName)) {
+        el.setAttribute("role", "button");
+        el.setAttribute("tabindex", "0");
+      }
+    });
+
+    document.querySelectorAll(".name-output").forEach((el) => {
+      el.setAttribute("role", "button");
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("aria-label", "Escuchar frase");
+    });
+  }
+
+  enhanceLessonAudioTargets();
+
   // Optional: stop any current audio when leaving page
   window.addEventListener("beforeunload", () => {
     try {
@@ -237,6 +289,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("click", (e) => {
+    const dynamicOutput = e.target.closest(".name-output");
+    if (dynamicOutput && !e.target.closest("button, a, input, textarea, select")) {
+      const text = _primaryAudioText(dynamicOutput);
+      if (text) {
+        playLessonAudio({
+          src: _audioPathForText(text),
+          trigger: dynamicOutput,
+          fallbackText: text
+        });
+      }
+      return;
+    }
+
     // 0) Works for vowel buttons and any clickable item with audio data.
     // Add data-audio-fallback="word or phrase" when a missing local file
     // should fall back to browser speech synthesis.
@@ -274,6 +339,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       return;
     }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const dynamicOutput = e.target.closest(".name-output");
+    if (dynamicOutput) {
+      e.preventDefault();
+      dynamicOutput.click();
+      return;
+    }
+    const anyAudio = e.target.closest("[data-audio], [data-audio-fallback]");
+    if (!anyAudio || /^(button|a|input|textarea|select)$/i.test(anyAudio.tagName)) return;
+    e.preventDefault();
+    anyAudio.click();
   });
 
   // Lesson page: wire up completion button.
