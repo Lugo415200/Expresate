@@ -6,75 +6,63 @@
   <title>Lecciones | Exprésate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="lesson-flashcard.css" />
 </head>
-<body data-page="lessons">
+<body data-page="curso">
 
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Exprésate</div>
-      <a class="pill" href="index.html">Inicio</a>
-    </div>
-  </div>
+  <div class="topbar"></div>
 
   <div class="shell">
+    <aside class="panel sidebar"></aside>
 
-    <!-- LEFT: NAV -->
-    <aside class="panel sidebar">
-      <h3>Navegación</h3>
-      <nav class="sidebar">
-        <a href="index.html">Inicio</a>
-        <a href="diccionario.html">Diccionario</a>
-        <a href="curso.html">Curso</a>
-      </nav>
-    </aside>
-
-    <!-- CENTER: CONTENT -->
     <main class="content">
-      <h1>Lecciones</h1>
-      <p class="sub">Plantillas paso a paso (español → inglés).</p>
+      <h1>Lecciones de Exprésate</h1>
+      <p class="sub">La ruta completa ahora vive en el curso para que siempre sepas qué sigue.</p>
 
-      <div class="block">
-        <h2>Plantillas disponibles</h2>
-
-        <ul>
-          <li data-progress-id="lesson-001-pronombres">
-            <a href="lesson-001.html"><strong>Plantilla 001</strong> — Pronombres + Verbos básicos</a>
-            <div class="small">Empieza aquí</div>
-          </li>
-
-          <li>
-            <strong>Plantilla 002</strong> — Preguntas (Do / Does)
-            <span class="doneBadge">Próximamente</span>
-          </li>
-
-          <li>
-            <strong>Plantilla 003</strong> — Negaciones (Don’t / Doesn’t)
-            <span class="doneBadge">Próximamente</span>
-          </li>
-        </ul>
-
-        <p class="small">
-          Consejo: completa una plantilla por día o por semana, pero sé constante.
+      <section class="block">
+        <h2>Continúa desde la ruta principal</h2>
+        <p>
+          Para evitar páginas duplicadas y lecciones desactualizadas, usa el panel de curso.
+          Ahí verás módulos, candados premium, progreso, quizzes y el siguiente paso recomendado.
         </p>
-      </div>
+        <div class="actions">
+          <a class="btn primary" href="curso.html">Abrir curso</a>
+          <a class="btn" href="index.html">Volver al inicio</a>
+        </div>
+      </section>
 
-      <p class="small">© <span id="year"></span> Ynoel English</p>
+      <section class="block">
+        <h2>Fundación actual</h2>
+        <div class="phrase-grid">
+          <article class="phrase-card">
+            <span class="phrase-label">Módulo 0</span>
+            <strong>Pronunciación</strong>
+            <span>Alfabeto, sonidos clave, sílabas y acento.</span>
+          </article>
+          <article class="phrase-card">
+            <span class="phrase-label">Módulo 1</span>
+            <strong>Plantillas</strong>
+            <span>-ing, I am, pronombres, preguntas y negaciones.</span>
+          </article>
+          <article class="phrase-card">
+            <span class="phrase-label">Módulo 2</span>
+            <strong>Survival English</strong>
+            <span>Saludos, identidad, preguntas básicas, números, fechas, hora y comida.</span>
+          </article>
+        </div>
+      </section>
+
+      <p class="small">© <span id="year"></span> Exprésate</p>
     </main>
 
-    <!-- RIGHT: ACTIONS -->
     <aside class="panel right">
-      <h3>Acciones</h3>
-      <div style="padding:12px 14px;">
-        <p class="small">¿Quieres acceso + seguimiento?</p>
-        <div class="actions">
-          <a class="btn primary" href="https://forms.gle/REPLACE_ME" target="_blank" rel="noreferrer">Pedir acceso</a>
-          <a class="btn" href="https://wa.me/REPLACE_ME" target="_blank" rel="noreferrer">WhatsApp</a>
-        </div>
-        <hr />
-        <p class="small">Empieza por Plantilla 001 y luego haz el quiz.</p>
+      <h3>Siguiente paso</h3>
+      <div class="block">
+        <p class="small">Empieza o continúa desde la ruta. Es la fuente de verdad para desbloqueos y progreso.</p>
+        <a class="btn primary" href="curso.html">Ir al curso</a>
       </div>
     </aside>
-
   </div>
 
   <script src="progress.js"></script>
@@ -82,3 +70,4 @@
   <script src="nav.js"></script>
   <script src="app.js"></script>
 </body>
+</html>

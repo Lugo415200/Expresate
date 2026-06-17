@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
 </head>
 <body class="lesson-step-mode" data-lesson-id="lesson-001-pronombres" data-page="curso">
 
@@ -207,13 +208,53 @@ They work       (Ellos trabajan)</pre>
       </section>
 
       <!-- 6 — Mini Reto (multiple-choice) -->
+      <section class="flashcard block" data-fc-id="speech-practice" data-fc-title="PrÃ¡ctica de voz"
+               data-fc-type="practice"
+               data-fc-tip="Primero escucha la frase. Luego repite sin traducir palabra por palabra. La meta es que sujeto + verbo salgan juntos.">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Di frases completas</strong>
+            <span class="fc-sub">Sujeto + verbo + complemento</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <p>En inglÃ©s, el sujeto no se esconde. Practica la frase completa como una unidad.</p>
+          <div class="speech-drill-grid">
+            <div class="speech-drill-card">
+              <span class="phrase-label">I</span>
+              <div data-speech-expected="I work here."></div>
+              <p class="small">I + work. No digas solo "work" para "trabajo".</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">She</span>
+              <div data-speech-expected="She lives here."></div>
+              <p class="small">Con she, agrega -s al verbo: lives.</p>
+            </div>
+            <div class="speech-drill-card">
+              <span class="phrase-label">They</span>
+              <div data-speech-expected="They study English."></div>
+              <p class="small">They no lleva -s: study.</p>
+            </div>
+          </div>
+          <div class="fc-note-card">
+            <strong>Para hispanohablantes:</strong>
+            <span>En espaÃ±ol puedes decir "trabajo" sin decir "yo". En inglÃ©s di <strong>I work</strong>. Ese sujeto hace que la frase suene completa.</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar â†’</button>
+        </div>
+      </section>
+
       <section class="flashcard fc-reto block"
                data-fc-id="reto"
                data-fc-title="Mini reto"
                data-fc-tip="Mira el sujeto primero. Si es he / she, ¿lleva -s el verbo?"
                data-reto-type="multiple-choice">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
             <strong class="fc-title">Mini reto: ¿cuál es correcto?</strong>
             <span class="fc-sub">Una sola opción correcta</span>
@@ -242,7 +283,7 @@ They work       (Ellos trabajan)</pre>
                data-fc-title="Resumen"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">7</div>
+          <div class="fc-num">8</div>
           <div class="fc-titles">
             <strong class="fc-title">¡Felicidades!</strong>
             <span class="fc-sub">Resumen de la Plantilla 001</span>
@@ -265,7 +306,7 @@ They work       (Ellos trabajan)</pre>
             </div>
             <div class="fc-summary-stat">
               <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">7 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 7</span></div>
+              <div class="fc-summary-stat-value">8 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 8</span></div>
             </div>
           </div>
 
@@ -275,6 +316,7 @@ They work       (Ellos trabajan)</pre>
             <li>Aplicar el patrón del verbo en presente</li>
             <li>Armar una oración correctamente</li>
             <li>Traducir oraciones cortas</li>
+            <li>Decir frases completas en voz alta</li>
           </ul>
 
           <div class="fc-summary-next">
@@ -313,10 +355,22 @@ They work       (Ellos trabajan)</pre>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
+  <script src="speech-practice.js"></script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
   <!-- Preserves the dnd-chip sentence builder + practice-item logic -->
   <script src="lesson-001.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.ExpresateSpeechPractice) return;
+      document.querySelectorAll("[data-speech-expected]").forEach(function (root) {
+        window.ExpresateSpeechPractice.create({
+          root: root,
+          expected: root.getAttribute("data-speech-expected") || ""
+        });
+      });
+    });
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       (window.Access ? Access.ready() : Promise.resolve()).then(() => {

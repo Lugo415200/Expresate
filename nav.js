@@ -43,10 +43,21 @@
       .replace(/"/g, "&quot;");
   }
 
-  function renderTopbar(target) {
+  function renderTopbar(target, currentPage) {
+    const topLinks = NAV_ITEMS.map((item) => {
+      const isActive = item.id === currentPage;
+      const classes = ["topbar-nav-link"];
+      if (isActive) classes.push("active");
+      if (item.premium) classes.push("is-premium");
+      return `<a class="${classes.join(" ")}" href="${esc(item.href)}">${esc(item.label)}</a>`;
+    }).join("");
+
     target.innerHTML = `
       <div class="topbar-inner">
         <a class="brand" href="index.html"><strong>${esc(BRAND)}</strong></a>
+        <nav class="topbar-nav" aria-label="Navegación principal">
+          ${topLinks}
+        </nav>
         <div class="topbar-actions">
           <a id="profileBtn" class="topbar-link" type="button" style="display:none;">Perfil ▾</a>
           <div id="profileMenu" class="panel" style="
@@ -101,7 +112,9 @@
     if (document.body && document.body.dataset.skipSharedNav === "true") return;
     const currentPage = (document.body && document.body.dataset.page) || "";
 
-    document.querySelectorAll("div.topbar").forEach(renderTopbar);
+    document.querySelectorAll("div.topbar").forEach((el) => {
+      renderTopbar(el, currentPage);
+    });
     // Match only the generic sidebar — leave .panel.auth-side etc. alone.
     document.querySelectorAll("aside.panel.sidebar").forEach((el) => {
       renderSidebar(el, currentPage);
