@@ -47,6 +47,96 @@
   --font-title:   var(--font-display);
 }
 
+/* ----------------------------------------------------------
+   PWA install prompt - rendered only after beforeinstallprompt
+   ---------------------------------------------------------- */
+.pwa-install-banner {
+  position: fixed;
+  z-index: 1200;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  width: min(42rem, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, .7);
+  border-radius: 1rem;
+  color: #172033;
+  background: linear-gradient(135deg, rgba(238, 247, 255, .97), rgba(237, 233, 254, .97));
+  box-shadow: 0 1.25rem 3.5rem rgba(67, 88, 244, .22);
+  animation: pwaInstallEnter .28s ease-out both;
+}
+
+.pwa-install-mark {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  aspect-ratio: 1;
+  border-radius: .85rem;
+  color: #fff;
+  background: linear-gradient(135deg, #4358f4, #7c3aed);
+  box-shadow: 0 .65rem 1.4rem rgba(67, 88, 244, .2);
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: 1.65rem;
+}
+
+.pwa-install-copy {
+  display: grid;
+  gap: .2rem;
+  min-width: 0;
+}
+
+.pwa-install-copy strong {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.pwa-install-copy span {
+  color: rgba(23, 32, 51, .68);
+  font-size: .9rem;
+  line-height: 1.35;
+}
+
+.pwa-install-actions {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.pwa-install-actions .btn {
+  margin: 0;
+  white-space: nowrap;
+}
+
+@keyframes pwaInstallEnter {
+  from { opacity: 0; transform: translateY(.75rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 680px) {
+  .pwa-install-banner {
+    right: 1rem;
+    left: 1rem;
+    bottom: 1rem;
+    grid-template-columns: auto minmax(0, 1fr);
+    width: auto;
+  }
+
+  .pwa-install-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-banner {
+    animation: none;
+  }
+}
+
 /* =========================
    2) GLOBAL / BACKGROUND
    ========================= */

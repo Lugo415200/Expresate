@@ -408,3 +408,81 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+/* ------------------------------------------------------------
+   Progressive Web App support
+
+   Registration is intentionally shared here because every main
+   page already loads app.js. The service worker itself only caches
+   an explicit list of same-origin static files and never handles
+   Supabase or other external requests.
+   ------------------------------------------------------------ */
+(() => {
+  if (!("serviceWorker" in navigator)) return;
+  if (!window.isSecureContext && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
+
+  window.addEventListener("load", () => {
+    const serviceWorkerUrl = new URL("service-worker.js", window.location.href);
+    const scopeUrl = new URL("./", serviceWorkerUrl);
+
+    navigator.serviceWorker.register(serviceWorkerUrl.pathname, { scope: scopeUrl.pathname })
+      .catch((error) => console.warn("PWA service worker registration failed:", error));
+  });
+})();
+
+(() => {
+  let deferredInstallPrompt = null;
+  let installBanner = null;
+
+  function removeInstallBanner() {
+    installBanner?.remove();
+    installBanner = null;
+  }
+
+  function renderInstallBanner() {
+    if (installBanner || !deferredInstallPrompt) return;
+    if (sessionStorage.getItem("expresate_pwa_install_dismissed") === "1") return;
+
+    installBanner = document.createElement("aside");
+    installBanner.className = "pwa-install-banner";
+    installBanner.setAttribute("role", "dialog");
+    installBanner.setAttribute("aria-label", "Instalar Exprésate");
+    installBanner.innerHTML = `
+      <div class="pwa-install-mark" aria-hidden="true">E</div>
+      <div class="pwa-install-copy">
+        <strong>Instala Exprésate</strong>
+        <span>Abre tus lecciones como una app desde tu dispositivo.</span>
+      </div>
+      <div class="pwa-install-actions">
+        <button class="btn pwa-install-dismiss" type="button">Ahora no</button>
+        <button class="btn primary pwa-install-confirm" type="button">Instalar</button>
+      </div>
+    `;
+
+    installBanner.querySelector(".pwa-install-dismiss")?.addEventListener("click", () => {
+      sessionStorage.setItem("expresate_pwa_install_dismissed", "1");
+      removeInstallBanner();
+    });
+
+    installBanner.querySelector(".pwa-install-confirm")?.addEventListener("click", async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      removeInstallBanner();
+    });
+
+    document.body.appendChild(installBanner);
+  }
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    renderInstallBanner();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    removeInstallBanner();
+  });
+})();

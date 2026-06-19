@@ -14,7 +14,7 @@ Exprésate is a Spanish-first English learning site for hispanohablantes. The le
 ### Functional But Needs More Educational Weight
 
 - `lesson-001-sounds.html`: useful content, but it should become the pronunciation flagship for Spanish speakers. Needs clearer objectives, stronger “why this matters,” common Spanish-speaker mistakes, and optional speech practice.
-- `Syllables.html`: good topic and examples, but it still feels more like a draft. It needs less inline styling, clearer objective/review cards, more guided listening, and speech practice for stress patterns.
+- `Syllables.html`: upgraded into a clearer guided stress lesson with listenable word cards, syllable reveal, optional speech practice, a personal rhythm exercise, and a short review. It can still evolve visually later, but the educational structure is now solid.
 - `lesson-001.html`: good grammar template, but needs more context, more real-life examples, common mistakes, and speaking output.
 - `lesson-002.html`: functional Do/Does lesson. Needs more contrast between Spanish question order and English helper-verb structure, more short-answer practice, and speaking practice.
 - `lesson-003.html`: functional negation lesson. Needs more natural contractions, common mistakes, and conversational examples.
@@ -100,7 +100,7 @@ Use `speech-practice.js` where speaking is the task, not as decoration.
 
 Best early targets:
 - `lesson-001-sounds.html`: repeat key sounds and a short sentence.
-- `Syllables.html`: say stress-pattern words such as `comfortable`, `family`, and `camera`.
+- `Syllables.html`: integrated for stress-pattern words such as `comfortable`, `family`, and `camera`.
 - `lesson-001.html`: say simple present sentences like `I work here` and `She studies English`.
 - `lesson-002.html`: say questions like `Do you work?` and `Does she live here?`.
 - `lesson-003.html`: say contractions like `I don't work` and `She doesn't live here`.

@@ -3,291 +3,272 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lección 000 | Sílabas y Acento (Stress) | Exprésate</title>
+  <meta name="theme-color" content="#4358f4" />
+  <meta name="application-name" content="Exprésate" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <title>Leccion 002 | Silabas y Acento | Expresate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
 </head>
 
 <body class="lesson-step-mode" data-lesson-id="lesson-000-syllables" data-page="curso">
-
-  <!-- Topbar and sidebar are rendered by nav.js -->
   <div class="topbar"></div>
 
   <div class="shell">
     <aside class="panel sidebar"></aside>
 
     <main class="content">
-      <h1>Lección 000 — Sílabas y Acento en Inglés</h1>
+      <h1>Leccion 002 - Silabas y acento</h1>
       <p class="sub">
-        Meta: entender por qué en inglés una sílaba suena más fuerte (stress) y las demás se reducen.
+        Aprende a sentir el ritmo del ingles: una silaba fuerte y las demas mas suaves.
       </p>
 
-      <!-- Top progress bar, filled by lesson.js -->
       <div data-lesson-progress></div>
 
-      <!-- FLASHCARD 1 — Intro -->
-      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
-               data-fc-tip="No hay que memorizar reglas complicadas. Solo escucha el patrón: FUERTE + suave + suave.">
+      <section class="flashcard block" data-fc-id="intro" data-fc-title="Objetivo"
+               data-fc-tip="No necesitas sonar perfecto. Necesitas que una silaba se sienta mas fuerte que las otras.">
         <div class="fc-head">
           <div class="fc-num">1</div>
           <div class="fc-titles">
-            <strong class="fc-title">¡Bienvenido(a)!</strong>
-            <span class="fc-sub">Lo que vas a aprender en esta lección</span>
+            <strong class="fc-title">El ingles tiene ritmo</strong>
+            <span class="fc-sub">Fuerte + suave + suave</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p>En esta lección vas a:</p>
-          <ul>
-            <li>Entender qué es el <strong>stress</strong> (acento fuerte) en inglés.</li>
-            <li>Escuchar 3 palabras reales y practicar su ritmo.</li>
-            <li>Aplicar el patrón a tu <strong>nombre y apellido</strong>.</li>
-          </ul>
-          <div class="block" style="margin-top:12px;">
-            <p class="small" style="margin:0;">
-              💡 La clave: en español todas las sílabas suenan claras.
-              En inglés el ritmo es <strong>FUERTE + suave + suave</strong>.
-              No "fuerte + fuerte + fuerte".
-            </p>
+          <p>
+            En espanol muchas silabas suenan claras. En ingles, una silaba suele recibir mas fuerza.
+            Esa fuerza se llama <strong>stress</strong>.
+          </p>
+          <div class="fc-mini-grid">
+            <div class="fc-mini-card">
+              <strong>Vas a escuchar</strong>
+              <span>Palabras reales con stress.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Vas a comparar</strong>
+              <span>Silaba fuerte vs. silabas suaves.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>Vas a practicar</strong>
+              <span>Con tu voz y tu nombre.</span>
+            </div>
           </div>
+          <p class="small">Piensa en una palabra como una cancion pequena: no todas las partes suenan igual.</p>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
         </div>
       </section>
 
-      <!-- FLASHCARD 2 — ¿Qué es el stress? -->
-      <section class="flashcard block" data-fc-id="stress" data-fc-title="¿Qué es el stress?"
-               data-fc-tip="Prueba este truco: da un golpecito en la mesa en la sílaba fuerte mientras dices la palabra. Eso te ayuda a sentir el ritmo.">
+      <section class="flashcard block" data-fc-id="stress" data-fc-title="Stress"
+               data-fc-tip="Un truco fisico: toca la mesa justo en la silaba fuerte mientras dices la palabra.">
         <div class="fc-head">
           <div class="fc-num">2</div>
           <div class="fc-titles">
-            <strong class="fc-title">¿Qué es el "stress"?</strong>
-            <span class="fc-sub">La sílaba "estrella" de cada palabra</span>
+            <strong class="fc-title">Stress = la silaba estrella</strong>
+            <span class="fc-sub">Mas fuerte, mas larga, mas clara</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p class="small">
-            El <strong>stress</strong> es la sílaba que suena más fuerte, más larga y con un tono más marcado.
-            Si cambias el stress, la palabra puede sonar incorrecta aunque digas las letras "bien".
+          <div class="stress-compare">
+            <div class="stress-chip is-strong">FUERTE</div>
+            <div class="stress-chip">suave</div>
+            <div class="stress-chip">suave</div>
+          </div>
+          <p>
+            La silaba con <strong>stress</strong> se escucha primero en tu oido. Las otras silabas
+            suelen sonar mas cortas, rapidas o reducidas.
           </p>
-          <ul>
-            <li><strong>Stress</strong> = la sílaba "estrella" (fuerte y larga)</li>
-            <li>Las sílabas sin stress se <strong>reducen</strong> (suave y rápido)</li>
-            <li>Palabras más largas → más reducción</li>
-          </ul>
-          <p class="small">
-            <strong>Comparación:</strong> en español decimos "cá-ma-ra" con tres sílabas casi iguales.
-            En inglés es <strong>CAM</strong>-ruh — la primera es fuerte, la segunda casi desaparece.
-          </p>
+          <div class="fc-note-card">
+            <strong>Error comun:</strong>
+            <span>Decir todas las silabas igual de fuertes, como si el ingles se leyera exactamente como espanol.</span>
+          </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
         </div>
       </section>
 
-      <!-- FLASHCARD 3 — Práctica con palabras -->
-      <section class="flashcard block" data-fc-id="practica" data-fc-title="Práctica con palabras"
-               data-fc-tip="Escucha 2–3 veces antes de abrir 'Ver sílabas'. Tu oído aprende más si primero adivina.">
+      <section class="flashcard block" data-fc-id="word-practice" data-fc-title="Escucha"
+               data-fc-tip="Primero escucha sin mirar la respuesta. Luego abre las silabas y copia el ritmo.">
         <div class="fc-head">
           <div class="fc-num">3</div>
           <div class="fc-titles">
-            <strong class="fc-title">Práctica: 3 palabras reales</strong>
-            <span class="fc-sub">Escucha · abre las sílabas · repite</span>
+            <strong class="fc-title">Escucha tres palabras reales</strong>
+            <span class="fc-sub">Toca una tarjeta para oirla</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p class="small">
-            Presiona 🔊 para escuchar. Luego abre <strong>Ver sílabas</strong> y copia el ritmo en voz alta.
-          </p>
+          <div class="syllable-word-grid">
+            <article class="syllable-word-card phrase-card" tabindex="0"
+                     data-audio="assets/audio/words/comfortable.mp3"
+                     data-audio-fallback="comfortable">
+              <span class="stress-label">COMF fuerte</span>
+              <strong>comfortable</strong>
+              <em>comodo / comoda</em>
+              <button class="btn btn-toggle" type="button" aria-expanded="false" aria-controls="syllables-comfortable">Ver silabas</button>
+              <div id="syllables-comfortable" class="syllable-breakdown" hidden>
+                <b>COMF</b> - ter - ble
+                <small>No es "com-for-ta-ble" con cuatro golpes iguales.</small>
+              </div>
+            </article>
 
-          <!-- WORD CARD: comfortable -->
-          <div class="block word-card" data-word="comfortable" style="margin-top:16px;">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <h3 style="margin:0;">comfortable</h3>
-                <p class="small" style="margin:6px 0 0 0;">cómodo / cómoda</p>
+            <article class="syllable-word-card phrase-card" tabindex="0"
+                     data-audio="assets/audio/words/family.mp3"
+                     data-audio-fallback="family">
+              <span class="stress-label">FAM fuerte</span>
+              <strong>family</strong>
+              <em>familia</em>
+              <button class="btn btn-toggle" type="button" aria-expanded="false" aria-controls="syllables-family">Ver silabas</button>
+              <div id="syllables-family" class="syllable-breakdown" hidden>
+                <b>FAM</b> - uh - lee
+                <small>No es "fa-MI-lia". La primera parte manda.</small>
               </div>
-              <div class="actions" style="margin:0; flex-wrap:wrap;">
-                <button class="btn" type="button"
-                        data-audio="audio/module-000/comfortable.mp3"
-                        data-audio-fallback="comfortable"
-                        aria-label="Escuchar pronunciación normal">
-                  🔊 Normal
-                </button>
-                <button class="btn" type="button"
-                        data-audio="audio/module-000/comfortable_slow.mp3"
-                        data-audio-fallback="comfortable"
-                        aria-label="Escuchar pronunciación lenta">
-                  🐢 Lento
-                </button>
-                <button class="btn btn-toggle" type="button"
-                        aria-expanded="false"
-                        aria-controls="syllables-comfortable">
-                  Ver sílabas
-                </button>
+            </article>
+
+            <article class="syllable-word-card phrase-card" tabindex="0"
+                     data-audio="assets/audio/words/camera.mp3"
+                     data-audio-fallback="camera">
+              <span class="stress-label">CAM fuerte</span>
+              <strong>camera</strong>
+              <em>camara</em>
+              <button class="btn btn-toggle" type="button" aria-expanded="false" aria-controls="syllables-camera">Ver silabas</button>
+              <div id="syllables-camera" class="syllable-breakdown" hidden>
+                <b>CAM</b> - ruh
+                <small>En ingles natural suele sentirse como dos partes.</small>
               </div>
-            </div>
-            <p class="small" style="margin:10px 0 0 0;">
-              <strong>IPA:</strong> /ˈkʌmf.tɚ.bəl/ &nbsp;·&nbsp; <strong>Stress:</strong> <strong>COMF</strong>
-            </p>
-            <div id="syllables-comfortable" hidden style="margin-top:10px;">
-              <p class="small" style="margin:0 0 8px 0;"><strong>Sílabas:</strong> <strong>COMF</strong> · ter · ble</p>
-              <p class="small" style="margin:0;">
-                👉 No es "com-for-ta-ble" (4 sílabas iguales). En la vida real suena más corto: <strong>COMF-ter-bəl</strong>.
-              </p>
-            </div>
+            </article>
           </div>
-
-          <!-- WORD CARD: family -->
-          <div class="block word-card" data-word="family" style="margin-top:12px;">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <h3 style="margin:0;">family</h3>
-                <p class="small" style="margin:6px 0 0 0;">familia</p>
-              </div>
-              <div class="actions" style="margin:0; flex-wrap:wrap;">
-                <button class="btn" type="button"
-                        data-audio="audio/module-000/family.mp3"
-                        data-audio-fallback="family"
-                        aria-label="Escuchar pronunciación normal">
-                  🔊 Normal
-                </button>
-                <button class="btn btn-toggle" type="button"
-                        aria-expanded="false"
-                        aria-controls="syllables-family">
-                  Ver sílabas
-                </button>
-              </div>
-            </div>
-            <p class="small" style="margin:10px 0 0 0;">
-              <strong>IPA:</strong> /ˈfæm.ə.li/ &nbsp;·&nbsp; <strong>Stress:</strong> <strong>FAM</strong>
-            </p>
-            <div id="syllables-family" hidden style="margin-top:10px;">
-              <p class="small" style="margin:0 0 8px 0;"><strong>Sílabas:</strong> <strong>FAM</strong> · uh · lee</p>
-              <p class="small" style="margin:0;">
-                👉 No es "fa-MI-lia". Es más como <strong>FAM-uh-lee</strong>.
-              </p>
-            </div>
-          </div>
-
-          <!-- WORD CARD: camera -->
-          <div class="block word-card" data-word="camera" style="margin-top:12px;">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-              <div>
-                <h3 style="margin:0;">camera</h3>
-                <p class="small" style="margin:6px 0 0 0;">cámara</p>
-              </div>
-              <div class="actions" style="margin:0; flex-wrap:wrap;">
-                <button class="btn" type="button"
-                        data-audio="audio/module-000/camera.mp3"
-                        data-audio-fallback="camera"
-                        aria-label="Escuchar pronunciación normal">
-                  🔊 Normal
-                </button>
-                <button class="btn btn-toggle" type="button"
-                        aria-expanded="false"
-                        aria-controls="syllables-camera">
-                  Ver sílabas
-                </button>
-              </div>
-            </div>
-            <p class="small" style="margin:10px 0 0 0;">
-              <strong>IPA:</strong> /ˈkæm.rə/ &nbsp;·&nbsp; <strong>Stress:</strong> <strong>CAM</strong>
-            </p>
-            <div id="syllables-camera" hidden style="margin-top:10px;">
-              <p class="small" style="margin:0 0 8px 0;"><strong>Sílabas:</strong> <strong>CAM</strong> · ruh</p>
-              <p class="small" style="margin:0;">
-                👉 Muchos dicen "CA-me-ra" (❌). Lo correcto es: <strong>CAM-ruh</strong> (✅ — solo 2 sílabas reales).
-              </p>
-            </div>
-          </div>
-
+          <p class="small">Despues de escuchar, repite cada palabra tres veces: lento, normal, normal.</p>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
         </div>
       </section>
 
-      <!-- FLASHCARD 4 — Tu práctica personal -->
-      <section class="flashcard block" data-fc-id="practica-personal" data-fc-title="Tu práctica"
-               data-fc-tip="Grabarte 10 segundos con el celular y escucharte es el ejercicio que más mejora el oído. No tienes que sonar perfecto.">
+      <section class="flashcard block" data-fc-id="speech" data-fc-title="Práctica de voz" data-fc-type="practice"
+               data-fc-tip="Speech es opcional. Si tu navegador no lo permite, lee las palabras en voz alta y continua.">
         <div class="fc-head">
           <div class="fc-num">4</div>
           <div class="fc-titles">
-            <strong class="fc-title">Tu práctica personal</strong>
-            <span class="fc-sub">2 minutos · en voz alta</span>
+            <strong class="fc-title">Di el ritmo en voz alta</strong>
+            <span class="fc-sub">Escucha, habla y repite</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <ol>
-            <li>Escribe tu <strong>nombre y apellido</strong> en una hoja.</li>
-            <li>Identifica qué sílaba dirías con más fuerza (stress).</li>
-            <li>Di el nombre: pon esa sílaba más fuerte y las demás más suave y rápido.</li>
-            <li>Opcional: grábate 10 segundos con tu celular y escúchate.</li>
-          </ol>
-          <p class="small">
-            Consejo: no busques sonar perfecto. La meta de hoy es <em>sentir</em> la diferencia entre fuerte y suave.
-          </p>
+          <p>Ahora practica las palabras completas. No corras: marca la primera silaba con un poco mas de fuerza.</p>
+          <div class="speech-practice-grid" data-speech-practice-list>
+            <article class="speech-practice-card" data-speech-expected="comfortable" data-speech-audio="assets/audio/words/comfortable.mp3">
+              <span class="speech-practice-label">Repite</span>
+              <strong class="speech-practice-target">comfortable</strong>
+              <small>COMF - ter - ble</small>
+            </article>
+            <article class="speech-practice-card" data-speech-expected="family" data-speech-audio="assets/audio/words/family.mp3">
+              <span class="speech-practice-label">Repite</span>
+              <strong class="speech-practice-target">family</strong>
+              <small>FAM - uh - lee</small>
+            </article>
+            <article class="speech-practice-card" data-speech-expected="camera" data-speech-audio="assets/audio/words/camera.mp3">
+              <span class="speech-practice-label">Repite</span>
+              <strong class="speech-practice-target">camera</strong>
+              <small>CAM - ruh</small>
+            </article>
+          </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
         </div>
       </section>
 
-      <!-- FLASHCARD 5 — Mini reto (multiple-choice) -->
-      <section class="flashcard fc-reto block"
-               data-fc-id="reto"
-               data-fc-title="Mini reto"
-               data-fc-tip="Piensa en las palabras que practicaste. ¿Qué pasaba con las sílabas sin stress?"
-               data-reto-type="multiple-choice">
+      <section class="flashcard block" data-fc-id="personal" data-fc-title="Tu nombre"
+               data-fc-tip="La meta no es saber la regla perfecta. La meta es oir donde cae la fuerza.">
         <div class="fc-head">
           <div class="fc-num">5</div>
           <div class="fc-titles">
-            <strong class="fc-title">Mini reto: pon a prueba tu oído</strong>
-            <span class="fc-sub">Una sola opción correcta</span>
+            <strong class="fc-title">Aplicalo a tu nombre</strong>
+            <span class="fc-sub">Un ejercicio corto y real</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="fc-mini-grid">
+            <div class="fc-mini-card">
+              <strong>1. Di tu nombre</strong>
+              <span>Normal, como lo dices siempre.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>2. Marca una parte</strong>
+              <span>Haz una silaba un poco mas fuerte.</span>
+            </div>
+            <div class="fc-mini-card">
+              <strong>3. Repite</strong>
+              <span>Fuerte + suave. No todo igual.</span>
+            </div>
+          </div>
+          <div class="fc-note-card">
+            <strong>Para hispanohablantes:</strong>
+            <span>Si tu nombre tiene acento escrito, ese acento te da una pista. En ingles, escucha como la otra persona lo pronuncia y copia el ritmo.</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
+        </div>
+      </section>
+
+      <section class="flashcard fc-reto block"
+               data-fc-id="reto"
+               data-fc-title="Mini reto"
+               data-fc-tip="Recuerda: las silabas sin stress no desaparecen siempre, pero si bajan de fuerza."
+               data-reto-type="multiple-choice">
+        <div class="fc-head">
+          <div class="fc-num">6</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Mini reto</strong>
+            <span class="fc-sub">Elige la mejor respuesta</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <div class="fc-reto-prompt">
             <p class="fc-reto-question">
-              En inglés, ¿qué le pasa a las sílabas que <strong>no</strong> reciben el stress?
+              En ingles, ¿que le pasa normalmente a las silabas que <strong>no</strong> reciben stress?
             </p>
             <div class="fc-reto-options" data-reto-options>
               <button type="button" class="fc-letter" data-reto-correct>
-                Se dicen más suave y rápido (se reducen).
+                Suenan mas suaves, rapidas o reducidas.
               </button>
               <button type="button" class="fc-letter">
-                Se dicen igual de fuerte que la sílaba principal.
+                Siempre suenan igual de fuertes.
               </button>
               <button type="button" class="fc-letter">
-                Se omiten por completo — no se pronuncian.
+                Siempre se eliminan por completo.
               </button>
             </div>
             <p class="fc-reto-feedback" data-reto-feedback></p>
           </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Continuar -></button>
         </div>
       </section>
 
-      <!-- FLASHCARD 6 — Resumen -->
       <section class="flashcard fc-summary block"
                data-fc-id="resumen"
                data-fc-title="Resumen"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
-            <strong class="fc-title">¡Felicidades!</strong>
-            <span class="fc-sub">Resumen de lo que aprendiste</span>
+            <strong class="fc-title">Leccion completada</strong>
+            <span class="fc-sub">Ya tienes una base de ritmo</span>
           </div>
           <div class="fc-status"></div>
         </div>
@@ -295,41 +276,24 @@
           <div class="fc-summary-banner">
             <span class="fc-summary-emoji">✓</span>
             <div>
-              <div class="fc-summary-headline">¡Terminaste Sílabas y Acento!</div>
-              <div class="fc-summary-sub">Ya entiendes el ritmo que hace el inglés sonar natural.</div>
+              <div class="fc-summary-headline">Terminaste silabas y acento</div>
+              <div class="fc-summary-sub">Ahora sabes que el ingles no se pronuncia todo plano.</div>
             </div>
           </div>
-
-          <div class="fc-summary-grid">
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">XP ganado</div>
-              <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
-            </div>
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">6 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 6</span></div>
-            </div>
-          </div>
-
-          <p class="small">En esta lección lograste:</p>
           <ul class="fc-summary-list">
-            <li>Entender qué es el stress (acento fuerte)</li>
-            <li>Escuchar cómo se reducen las sílabas sin stress</li>
-            <li>Practicar 3 palabras reales: comfortable, family, camera</li>
-            <li>Aplicar el patrón FUERTE + suave a tu nombre</li>
+            <li>Reconociste que una silaba puede sonar mas fuerte.</li>
+            <li>Escuchaste comfortable, family y camera.</li>
+            <li>Practicaste el patron FUERTE + suave.</li>
+            <li>Preparaste tu oido para frases mas naturales.</li>
           </ul>
-
           <div class="fc-summary-next">
-            <span class="label">A continuación</span>
-            <span class="title">Lección 001 — Frases del día a día</span>
+            <span class="label">A continuacion</span>
+            <span class="title">Quiz 000 - Fundamentos</span>
           </div>
         </div>
-        <div class="fc-foot">
-          <!-- Listo omitted on summary card — lesson.js hides Continuar here. -->
-        </div>
+        <div class="fc-foot"></div>
       </section>
 
-      <!-- COMPLETION -->
       <div class="actions" style="margin-top:18px;">
         <a class="btn" href="curso.html">← Volver al curso</a>
         <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
@@ -338,46 +302,46 @@
       </div>
       <p class="small" id="lessonStatus" style="margin-top:8px;"></p>
 
-      <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
+      <p class="small" style="margin-top:18px;">© <span id="year"></span> Expresate</p>
     </main>
 
-    <!-- Right panel — filled by lesson.js -->
     <aside class="panel right">
-      <h3>Tu lección</h3>
+      <h3>Tu leccion</h3>
       <div data-lesson-rightpanel style="padding:4px 4px 8px;">
-        <p class="small">Cargando…</p>
+        <p class="small">Cargando...</p>
       </div>
     </aside>
   </div>
 
-  <!-- Script load order: progress -> alerts -> nav -> data/lessons -> lesson -> app -->
   <script src="progress.js"></script>
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
   <script src="lesson.js"></script>
+  <script src="speech-practice.js"></script>
   <script src="app.js"></script>
 
-  <!-- Syllable toggle — page-specific behavior for .btn-toggle buttons -->
   <script>
-    document.addEventListener("click", function (e) {
-      var t = e.target.closest(".btn-toggle");
-      if (!t) return;
-      var id = t.getAttribute("aria-controls");
-      if (!id) return;
-      var panel = document.getElementById(id);
+    document.addEventListener("click", function (event) {
+      var toggle = event.target.closest(".btn-toggle");
+      if (!toggle) return;
+      event.stopPropagation();
+
+      var id = toggle.getAttribute("aria-controls");
+      var panel = id ? document.getElementById(id) : null;
       if (!panel) return;
+
       var isOpen = !panel.hasAttribute("hidden");
       if (isOpen) {
         panel.setAttribute("hidden", "");
-        t.setAttribute("aria-expanded", "false");
-        t.textContent = "Ver sílabas";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.textContent = "Ver silabas";
       } else {
         panel.removeAttribute("hidden");
-        t.setAttribute("aria-expanded", "true");
-        t.textContent = "Ocultar sílabas";
+        toggle.setAttribute("aria-expanded", "true");
+        toggle.textContent = "Ocultar silabas";
       }
-    });
+    }, true);
   </script>
 </body>
 </html>

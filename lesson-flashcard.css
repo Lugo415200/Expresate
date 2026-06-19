@@ -4186,3 +4186,147 @@ body[data-lesson-id="lesson-014-ing-pattern"] .fc-listo {
     transform: rotate(90deg);
   }
 }
+
+/* ----------------------------------------------------------
+   SYLLABLES LESSON - stress rhythm cards and listenable words
+   ---------------------------------------------------------- */
+.stress-compare {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(.65rem, 2vw, 1rem);
+  flex-wrap: wrap;
+  margin: .4rem 0 1.1rem;
+}
+
+.stress-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7.5rem;
+  min-height: 3.6rem;
+  padding: .65rem 1rem;
+  border: 1px solid rgba(67, 88, 244, .16);
+  border-radius: 1.1rem;
+  color: rgba(15, 23, 42, .62);
+  background: rgba(255, 255, 255, .72);
+  box-shadow: 0 .55rem 1.2rem rgba(67, 88, 244, .08);
+  font-weight: 950;
+}
+
+.stress-chip.is-strong {
+  min-width: 9rem;
+  min-height: 4.25rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-blue, #4358f4), #7c3aed);
+  box-shadow: 0 .9rem 2rem rgba(67, 88, 244, .22);
+  transform: translateY(-.12rem);
+}
+
+.syllable-word-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(.85rem, 2vw, 1rem);
+}
+
+.syllable-word-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: .55rem;
+  min-height: 14rem;
+  padding: 1rem;
+  border: 1px solid rgba(67, 88, 244, .16);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, .16), transparent 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(237, 233, 254, .62));
+  box-shadow: 0 .8rem 1.8rem rgba(67, 88, 244, .08);
+  cursor: pointer;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+.syllable-word-card:hover,
+.syllable-word-card:focus-visible {
+  transform: translateY(-.12rem);
+  border-color: rgba(67, 88, 244, .36);
+  box-shadow: 0 1rem 2rem rgba(67, 88, 244, .14);
+  outline: none;
+}
+
+.syllable-word-card strong {
+  color: #111827;
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.syllable-word-card em {
+  color: rgba(15, 23, 42, .62);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.stress-label {
+  justify-self: start;
+  padding: .3rem .55rem;
+  border-radius: 999px;
+  color: var(--brand-blue, #4358f4);
+  background: rgba(67, 88, 244, .1);
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.syllable-word-card .btn-toggle {
+  justify-self: start;
+  min-height: 2.3rem;
+  padding: .45rem .8rem;
+  border-radius: .8rem !important;
+  font-size: .82rem;
+}
+
+.syllable-breakdown {
+  display: grid;
+  gap: .35rem;
+  padding: .7rem .8rem;
+  border: 1px dashed rgba(67, 88, 244, .25);
+  border-radius: .9rem;
+  background: rgba(255, 255, 255, .72);
+  color: rgba(15, 23, 42, .74);
+  font-weight: 850;
+}
+
+.syllable-breakdown b {
+  color: var(--brand-blue, #4358f4);
+}
+
+.syllable-breakdown small {
+  color: rgba(15, 23, 42, .58);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .syllable-word-card {
+    transition: none;
+  }
+
+  .syllable-word-card:hover,
+  .syllable-word-card:focus-visible,
+  .stress-chip.is-strong {
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .syllable-word-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .syllable-word-card {
+    min-height: auto;
+  }
+}
