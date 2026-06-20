@@ -108,6 +108,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const player = new Audio();
   player.preload = "auto";
   const audioAvailability = new Map();
+  const speechSynth = "speechSynthesis" in window ? window.speechSynthesis : null;
+
+  // Speech synthesis quality is controlled by the device/browser. This
+  // ranking selects the best installed English voice we can find, but real
+  // recorded audio remains the preferred and most consistent option.
+  const preferredVoiceNames = [
+    "microsoft aria",
+    "microsoft jenny",
+    "microsoft ava",
+    "google us english",
+    "samantha",
+    "allison",
+    "ava",
+    "susan",
+    "tom"
+  ];
+  let rankedEnglishVoices = [];
+  let selectedEnglishVoice = null;
+  let playbackRequestId = 0;
+  let currentMediaRequestId = 0;
+  let activeUtterance = null;
 
   // Tracks the button that triggered the current audio so we can apply
   // the .is-playing ripple class and remove it when playback ends.
@@ -127,30 +148,157 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  player.addEventListener("ended",  _clearPlayingBtn);
-  player.addEventListener("pause",  _clearPlayingBtn);
-  player.addEventListener("error",  _clearPlayingBtn);
+  function _clearMediaPlayingState() {
+    if (currentMediaRequestId && currentMediaRequestId === playbackRequestId) {
+      _clearPlayingBtn();
+    }
+  }
+
+  player.addEventListener("ended", _clearMediaPlayingState);
+  player.addEventListener("error", _clearMediaPlayingState);
 
   function _cleanAudioSrc(src) {
     return String(src || "").trim();
   }
 
-  function _audioFallbackSpeech(text, trigger) {
+  function _voiceScore(voice) {
+    const name = String(voice?.name || "").toLowerCase();
+    const lang = String(voice?.lang || "").toLowerCase();
+    let score = 0;
+
+    if (lang === "en-us") score += 120;
+    else if (lang.startsWith("en-us")) score += 110;
+    else if (lang.startsWith("en-")) score += 45;
+    else return -1000;
+
+    if (/natural|neural|premium|enhanced|online/.test(name)) score += 45;
+    if (/google|microsoft|apple/.test(name)) score += 12;
+    if (voice.localService) score += 6;
+    if (voice.default) score += 3;
+    if (/compact|espeak|festival|mbrola/.test(name)) score -= 60;
+
+    const preferredIndex = preferredVoiceNames.findIndex((candidate) => name.includes(candidate));
+    if (preferredIndex >= 0) score += 35 - preferredIndex;
+    return score;
+  }
+
+  function _refreshSpeechVoices() {
+    if (!speechSynth) return [];
+    rankedEnglishVoices = speechSynth.getVoices()
+      .filter((voice) => String(voice.lang || "").toLowerCase().startsWith("en"))
+      .sort((a, b) => _voiceScore(b) - _voiceScore(a));
+    selectedEnglishVoice = rankedEnglishVoices[0] || null;
+    return rankedEnglishVoices;
+  }
+
+  if (speechSynth) {
+    _refreshSpeechVoices();
+    speechSynth.addEventListener?.("voiceschanged", _refreshSpeechVoices);
+    // Safari and some Chromium builds populate voices after page startup.
+    window.setTimeout(_refreshSpeechVoices, 250);
+    window.setTimeout(_refreshSpeechVoices, 1000);
+  }
+
+  function _speechKind(text, options = {}) {
+    if (["letter", "word", "phrase"].includes(options.speechType)) return options.speechType;
+
+    const src = String(options.src || "").toLowerCase();
     const phrase = String(text || "").trim();
-    if (!phrase || !("speechSynthesis" in window)) return false;
+    if (/\/letters\/|\/alphabet\//.test(src)) return "letter";
+    if (/^[a-z]$/i.test(phrase) || /^(?:[a-z]\s*-\s*)+[a-z]$/i.test(phrase)) return "letter";
+
+    const words = phrase.match(/[a-z]+(?:'[a-z]+)?/gi) || [];
+    return words.length <= 1 ? "word" : "phrase";
+  }
+
+  function _prepareSpeechText(text, kind) {
+    let phrase = String(text || "")
+      .replace(/\s*[|→]\s*/g, ", ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    // A hyphenated letter sequence sounds clearer as short spoken units.
+    if (kind === "letter" && /^(?:[a-z]\s*-\s*)+[a-z]$/i.test(phrase)) {
+      phrase = phrase.replace(/\s*-\s*/g, ", ");
+    }
+
+    // Normal punctuation creates reliable pauses across browsers. SSML tags
+    // are intentionally avoided because several Web Speech engines read them.
+    if (kind === "phrase" && !/[.!?]$/.test(phrase)) phrase += ".";
+    return phrase;
+  }
+
+  function _clampSpeechValue(value, fallback, min, max) {
+    const number = Number(value);
+    return Number.isFinite(number) ? Math.min(max, Math.max(min, number)) : fallback;
+  }
+
+  function _speechProfile(text, options = {}) {
+    const kind = _speechKind(text, options);
+    const profiles = {
+      letter: { rate: 0.82, pitch: 1.03, volume: 1 },
+      word: { rate: 0.86, pitch: 1.0, volume: 1 },
+      phrase: { rate: 0.92, pitch: 0.98, volume: 1 }
+    };
+    const defaults = profiles[kind];
+
+    return {
+      kind,
+      rate: _clampSpeechValue(options.rate, defaults.rate, 0.5, 1.5),
+      pitch: _clampSpeechValue(options.pitch, defaults.pitch, 0.5, 1.5),
+      volume: _clampSpeechValue(options.volume, defaults.volume, 0, 1)
+    };
+  }
+
+  function _cancelCurrentPlayback(invalidateRequest = true) {
+    if (invalidateRequest) playbackRequestId += 1;
+    currentMediaRequestId = 0;
+    activeUtterance = null;
+    try {
+      player.pause();
+      player.removeAttribute("src");
+      player.currentTime = 0;
+      speechSynth?.cancel();
+    } catch {}
+    _clearPlayingBtn();
+  }
+
+  function _audioFallbackSpeech(text, trigger, options = {}) {
+    const rawText = String(text || "").trim();
+    if (!rawText || !speechSynth || !("SpeechSynthesisUtterance" in window)) return false;
+
+    const requestId = options.requestId || ++playbackRequestId;
+    if (requestId !== playbackRequestId) return false;
 
     try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(phrase);
-      utterance.lang = "en-US";
-      utterance.rate = 0.9;
-      utterance.onend = _clearPlayingBtn;
-      utterance.onerror = _clearPlayingBtn;
+      _cancelCurrentPlayback(false);
+      _refreshSpeechVoices();
+
+      const profile = _speechProfile(rawText, options);
+      const utterance = new SpeechSynthesisUtterance(_prepareSpeechText(rawText, profile.kind));
+      const requestedVoice = options.voice || selectedEnglishVoice;
+      if (requestedVoice) utterance.voice = requestedVoice;
+      utterance.lang = requestedVoice?.lang || "en-US";
+      utterance.rate = profile.rate;
+      utterance.pitch = profile.pitch;
+      utterance.volume = profile.volume;
+      utterance.onend = () => {
+        if (requestId !== playbackRequestId) return;
+        activeUtterance = null;
+        _clearPlayingBtn();
+      };
+      utterance.onerror = () => {
+        if (requestId !== playbackRequestId) return;
+        activeUtterance = null;
+        _clearPlayingBtn();
+      };
+
+      activeUtterance = utterance;
       if (trigger) _setPlayingBtn(trigger);
-      window.speechSynthesis.speak(utterance);
+      speechSynth.speak(utterance);
       return true;
     } catch {
-      _clearPlayingBtn();
+      if (requestId === playbackRequestId) _clearPlayingBtn();
       return false;
     }
   }
@@ -177,30 +325,37 @@ document.addEventListener("DOMContentLoaded", () => {
   function playLessonAudio(options = {}) {
     const src = _cleanAudioSrc(options.src);
     const trigger = options.trigger || null;
+    const requestId = ++playbackRequestId;
+
+    // One tap owns playback. This also invalidates older async HEAD checks.
+    _cancelCurrentPlayback(false);
+    const fallbackOptions = { ...options, src, requestId };
 
     if (!src) {
-      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger) : false;
+      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions) : false;
     }
 
     const playExistingSrc = () => {
-      player.pause();
-      player.removeAttribute("src");
-      player.currentTime = 0;
+      if (requestId !== playbackRequestId) return;
       player.src = src;
+      currentMediaRequestId = requestId;
       if (trigger) _setPlayingBtn(trigger);
       player.play().catch(() => {
+        if (requestId !== playbackRequestId) return;
+        currentMediaRequestId = 0;
         _clearPlayingBtn();
-        if (options.fallbackText) _audioFallbackSpeech(options.fallbackText, trigger);
+        if (options.fallbackText) _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
       });
     };
 
     try {
       if (_shouldVerifyAudioSrc(src)) {
         _audioExists(src).then((exists) => {
+          if (requestId !== playbackRequestId) return;
           if (exists) {
             playExistingSrc();
           } else if (options.fallbackText) {
-            _audioFallbackSpeech(options.fallbackText, trigger);
+            _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
           }
         });
         return true;
@@ -209,21 +364,38 @@ document.addEventListener("DOMContentLoaded", () => {
       playExistingSrc();
       return true;
     } catch {
-      _clearPlayingBtn();
-      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger) : false;
+      if (requestId === playbackRequestId) _clearPlayingBtn();
+      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions) : false;
     }
   }
 
   window.ExpresateAudio = {
     play: (src, options = {}) => playLessonAudio({ ...options, src }),
     speak: _audioFallbackSpeech,
-    stop: () => {
-      try {
-        player.pause();
-        player.currentTime = 0;
-        window.speechSynthesis?.cancel?.();
-      } catch {}
-      _clearPlayingBtn();
+    stop: () => _cancelCurrentPlayback(true),
+    // Developer helpers:
+    //   ExpresateAudio.debugVoices()
+    //   ExpresateAudio.previewVoice(0, "I am learning English.")
+    debugVoices: () => {
+      const rows = _refreshSpeechVoices().map((voice, index) => ({
+        index,
+        selected: voice === selectedEnglishVoice,
+        name: voice.name,
+        lang: voice.lang,
+        local: voice.localService,
+        default: voice.default,
+        score: _voiceScore(voice)
+      }));
+      console.table(rows);
+      return rows;
+    },
+    previewVoice: (voiceNameOrIndex = 0, text = "I am learning English.") => {
+      const voices = _refreshSpeechVoices();
+      const voice = typeof voiceNameOrIndex === "number"
+        ? voices[voiceNameOrIndex]
+        : voices.find((item) => item.name.toLowerCase().includes(String(voiceNameOrIndex).toLowerCase()));
+      if (!voice) return false;
+      return _audioFallbackSpeech(text, null, { voice, speechType: "phrase" });
     }
   };
 
@@ -304,14 +476,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 0) Works for vowel buttons and any clickable item with audio data.
     // Add data-audio-fallback="word or phrase" when a missing local file
-    // should fall back to browser speech synthesis.
+    // should fall back to browser speech synthesis. Optional fine-tuning:
+    // data-speech-type="letter|word|phrase", data-speech-rate="0.88",
+    // and data-speech-pitch="1.0".
     const anyAudio = e.target.closest("[data-audio], [data-audio-fallback]");
     if (anyAudio) {
       const src = (anyAudio.getAttribute("data-audio") || "").trim();
       playLessonAudio({
         src,
         trigger: anyAudio,
-        fallbackText: anyAudio.getAttribute("data-audio-fallback")
+        fallbackText: anyAudio.getAttribute("data-audio-fallback"),
+        speechType: anyAudio.getAttribute("data-speech-type") || undefined,
+        rate: anyAudio.getAttribute("data-speech-rate") || undefined,
+        pitch: anyAudio.getAttribute("data-speech-pitch") || undefined
       });
       return;
     }
@@ -322,7 +499,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!letter) return;
 
       const src = `audio/alphabet/${letter}.mp3`;
-      playLessonAudio({ src, trigger: letterBtn, fallbackText: letter.toUpperCase() });
+      playLessonAudio({
+        src,
+        trigger: letterBtn,
+        fallbackText: letter.toUpperCase(),
+        speechType: "letter"
+      });
       return;
     }
 
@@ -335,7 +517,10 @@ document.addEventListener("DOMContentLoaded", () => {
       playLessonAudio({
         src,
         trigger: audioBtn,
-        fallbackText: audioBtn.getAttribute("data-audio-fallback")
+        fallbackText: audioBtn.getAttribute("data-audio-fallback"),
+        speechType: audioBtn.getAttribute("data-speech-type") || undefined,
+        rate: audioBtn.getAttribute("data-speech-rate") || undefined,
+        pitch: audioBtn.getAttribute("data-speech-pitch") || undefined
       });
       return;
     }
