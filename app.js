@@ -108,12 +108,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const player = new Audio();
   player.preload = "auto";
   const audioAvailability = new Map();
-  const audioManifestReady = fetch(new URL("assets/audio/audio-manifest.json", window.location.href), {
+  const appScriptUrl = Array.from(document.scripts)
+    .map((script) => script.src)
+    .find((src) => /\/app\.js(?:[?#]|$)/.test(src));
+  const siteBaseUrl = new URL("./", appScriptUrl || window.location.href);
+  const audioManifestUrl = new URL("assets/audio/audio-manifest.json", siteBaseUrl).href;
+  const audioManifestState = {
+    status: "loading",
+    url: audioManifestUrl,
+    manifest: null,
+    error: null
+  };
+  const audioDebugState = {
+    lastRequest: null,
+    lastLookup: null,
+    lastSelection: null
+  };
+  let audioDebugEnabled = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname);
+  try {
+    audioDebugEnabled ||= window.localStorage.getItem("expresate_audio_debug") === "1";
+  } catch {}
+
+  function _audioDebug(event, details = {}) {
+    if (!audioDebugEnabled) return;
+    console.debug(`[ExpresateAudio] ${event}`, details);
+  }
+
+  const audioManifestReady = fetch(audioManifestUrl, {
     cache: "no-cache"
   })
-    .then((response) => response.ok ? response.json() : null)
-    .then((manifest) => manifest?.byText || {})
-    .catch(() => ({}));
+    .then((response) => {
+      if (!response.ok) throw new Error(`Audio manifest request failed (${response.status})`);
+      return response.json();
+    })
+    .then((manifest) => {
+      audioManifestState.status = "ready";
+      audioManifestState.manifest = manifest;
+      _audioDebug("manifest ready", {
+        url: audioManifestUrl,
+        entries: Object.keys(manifest?.entries || {}).length
+      });
+      return manifest;
+    })
+    .catch((error) => {
+      audioManifestState.status = "failed";
+      audioManifestState.error = error;
+      _audioDebug("manifest failed", { url: audioManifestUrl, error: error.message });
+      return { entries: {}, byText: {} };
+    });
   const speechSynth = "speechSynthesis" in window ? window.speechSynthesis : null;
 
   // Speech synthesis quality is controlled by the device/browser. This
@@ -176,10 +218,39 @@ document.addEventListener("DOMContentLoaded", () => {
       .toLowerCase();
   }
 
-  async function _manifestAudioSrc(text) {
-    if (!text) return "";
-    const byText = await audioManifestReady;
-    return _cleanAudioSrc(byText[_normalizeAudioManifestText(text)]);
+  function _resolveAudioUrl(src) {
+    const cleanSrc = _cleanAudioSrc(src);
+    if (!cleanSrc) return "";
+    try {
+      return new URL(cleanSrc, siteBaseUrl).href;
+    } catch {
+      return cleanSrc;
+    }
+  }
+
+  async function _manifestAudioMatch(text) {
+    const normalizedText = _normalizeAudioManifestText(text);
+    if (!normalizedText) return { id: "", path: "", url: "" };
+
+    // Always await the manifest before trying legacy audio or synthesis. This
+    // prevents a fast tap during startup from bypassing generated MP3 audio.
+    const manifest = await audioManifestReady;
+    const path = _cleanAudioSrc(manifest?.byText?.[normalizedText]);
+    const entryMatch = Object.entries(manifest?.entries || {})
+      .find(([, entry]) => _cleanAudioSrc(entry?.path) === path);
+    const match = {
+      id: entryMatch?.[0] || "",
+      path,
+      url: _resolveAudioUrl(path)
+    };
+    audioDebugState.lastLookup = {
+      requestedText: text,
+      normalizedText,
+      found: Boolean(path),
+      ...match
+    };
+    _audioDebug("manifest lookup", audioDebugState.lastLookup);
+    return match;
   }
 
   function _voiceScore(voice) {
@@ -316,6 +387,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       activeUtterance = utterance;
       if (trigger) _setPlayingBtn(trigger);
+      audioDebugState.lastSelection = {
+        requestedText: rawText,
+        sourceType: "speech synthesis",
+        voice: requestedVoice?.name || "browser default",
+        resolvedUrl: null
+      };
+      _audioDebug("selected source", audioDebugState.lastSelection);
       speechSynth.speak(utterance);
       return true;
     } catch {
@@ -329,30 +407,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function _audioExists(src) {
-    if (!_shouldVerifyAudioSrc(src)) return true;
-    if (audioAvailability.has(src)) return audioAvailability.get(src);
+    const resolvedSrc = _resolveAudioUrl(src);
+    if (!_shouldVerifyAudioSrc(resolvedSrc)) return true;
+    if (audioAvailability.has(resolvedSrc)) return audioAvailability.get(resolvedSrc);
 
     try {
-      const response = await fetch(src, { method: "HEAD", cache: "force-cache" });
+      const response = await fetch(resolvedSrc, { method: "HEAD", cache: "no-cache" });
       const ok = response.ok;
-      audioAvailability.set(src, ok);
+      audioAvailability.set(resolvedSrc, ok);
       return ok;
     } catch {
-      audioAvailability.set(src, false);
+      audioAvailability.set(resolvedSrc, false);
       return false;
     }
   }
 
-  async function _tryAudioSource(src, requestId, trigger) {
+  async function _tryAudioSource(src, requestId, trigger, sourceType, requestedText) {
     if (!src || requestId !== playbackRequestId) return false;
     if (_shouldVerifyAudioSrc(src) && !(await _audioExists(src))) return false;
     if (requestId !== playbackRequestId) return false;
 
     try {
-      player.src = src;
+      const resolvedUrl = _resolveAudioUrl(src);
+      player.src = resolvedUrl;
       currentMediaRequestId = requestId;
       if (trigger) _setPlayingBtn(trigger);
       await player.play();
+      audioDebugState.lastSelection = {
+        requestedText,
+        sourceType,
+        resolvedUrl
+      };
+      _audioDebug("selected source", audioDebugState.lastSelection);
       return true;
     } catch {
       if (requestId === playbackRequestId) {
@@ -367,20 +453,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const legacySrc = _cleanAudioSrc(options.src);
     const trigger = options.trigger || null;
     const requestId = ++playbackRequestId;
+    audioDebugState.lastRequest = {
+      requestId,
+      requestedText: options.fallbackText || "",
+      requestedId: options.audioId || "",
+      explicitSource: legacySrc || null
+    };
+    audioDebugState.lastSelection = null;
+    _audioDebug("play requested", audioDebugState.lastRequest);
 
     // One tap owns playback. This invalidates older manifest/HEAD checks.
     _cancelCurrentPlayback(false);
     const fallbackOptions = { ...options, src: legacySrc, requestId };
 
     (async () => {
-      const manifestSrc = await _manifestAudioSrc(options.fallbackText);
+      const manifestMatch = await _manifestAudioMatch(options.fallbackText);
       if (requestId !== playbackRequestId) return;
 
       // Generated ElevenLabs audio is first priority. Existing explicit paths
       // remain the second priority for legacy recordings and custom assets.
-      const candidates = [...new Set([manifestSrc, legacySrc].filter(Boolean))];
+      const candidates = [
+        { src: manifestMatch.path, type: "ElevenLabs MP3" },
+        { src: legacySrc, type: "legacy MP3" }
+      ].filter((candidate, index, all) => candidate.src && all.findIndex((item) => item.src === candidate.src) === index);
       for (const candidate of candidates) {
-        if (await _tryAudioSource(candidate, requestId, trigger)) return;
+        if (await _tryAudioSource(candidate.src, requestId, trigger, candidate.type, options.fallbackText)) return;
       }
 
       if (requestId === playbackRequestId && options.fallbackText) {
@@ -400,8 +497,56 @@ document.addEventListener("DOMContentLoaded", () => {
     speak: _audioFallbackSpeech,
     stop: () => _cancelCurrentPlayback(true),
     // Developer helpers:
+    //   await ExpresateAudio.debugManifest()
+    //   ExpresateAudio.testAudio("words-apple")
+    //   await ExpresateAudio.clearAudioCache()
     //   ExpresateAudio.debugVoices()
     //   ExpresateAudio.previewVoice(0, "I am learning English.")
+    debugManifest: async () => {
+      audioDebugEnabled = true;
+      try { window.localStorage.setItem("expresate_audio_debug", "1"); } catch {}
+      const manifest = await audioManifestReady;
+      const summary = {
+        status: audioManifestState.status,
+        url: audioManifestState.url,
+        entryCount: Object.keys(manifest?.entries || {}).length,
+        cacheVersionExpected: "v5",
+        error: audioManifestState.error?.message || null,
+        lastRequest: audioDebugState.lastRequest,
+        lastLookup: audioDebugState.lastLookup,
+        lastSelection: audioDebugState.lastSelection
+      };
+      console.info("[ExpresateAudio] manifest", summary);
+      return summary;
+    },
+    testAudio: async (id) => {
+      audioDebugEnabled = true;
+      const manifest = await audioManifestReady;
+      const entry = manifest?.entries?.[String(id || "")];
+      if (!entry) {
+        console.warn(`[ExpresateAudio] Unknown manifest audio id: ${id}`);
+        return false;
+      }
+      return playLessonAudio({
+        src: entry.path,
+        fallbackText: entry.text,
+        audioId: id
+      });
+    },
+    clearAudioCache: async () => {
+      audioAvailability.clear();
+      const deleted = [];
+      if ("caches" in window) {
+        const names = await window.caches.keys();
+        for (const name of names.filter((item) => item.startsWith("expresate-static-"))) {
+          if (await window.caches.delete(name)) deleted.push(name);
+        }
+      }
+      const registration = await navigator.serviceWorker?.getRegistration();
+      await registration?.update();
+      console.info("[ExpresateAudio] cleared PWA static caches", deleted);
+      return { deleted, reloadRequired: true };
+    },
     debugVoices: () => {
       const rows = _refreshSpeechVoices().map((voice, index) => ({
         index,
