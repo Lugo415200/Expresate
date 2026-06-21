@@ -108,6 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const player = new Audio();
   player.preload = "auto";
   const audioAvailability = new Map();
+  const audioManifestReady = fetch(new URL("assets/audio/audio-manifest.json", window.location.href), {
+    cache: "no-cache"
+  })
+    .then((response) => response.ok ? response.json() : null)
+    .then((manifest) => manifest?.byText || {})
+    .catch(() => ({}));
   const speechSynth = "speechSynthesis" in window ? window.speechSynthesis : null;
 
   // Speech synthesis quality is controlled by the device/browser. This
@@ -159,6 +165,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function _cleanAudioSrc(src) {
     return String(src || "").trim();
+  }
+
+  function _normalizeAudioManifestText(value) {
+    return String(value || "")
+      .replace(/[’‘]/g, "'")
+      .replace(/[.,!?]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  async function _manifestAudioSrc(text) {
+    if (!text) return "";
+    const byText = await audioManifestReady;
+    return _cleanAudioSrc(byText[_normalizeAudioManifestText(text)]);
   }
 
   function _voiceScore(voice) {
@@ -322,51 +343,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function playLessonAudio(options = {}) {
-    const src = _cleanAudioSrc(options.src);
-    const trigger = options.trigger || null;
-    const requestId = ++playbackRequestId;
+  async function _tryAudioSource(src, requestId, trigger) {
+    if (!src || requestId !== playbackRequestId) return false;
+    if (_shouldVerifyAudioSrc(src) && !(await _audioExists(src))) return false;
+    if (requestId !== playbackRequestId) return false;
 
-    // One tap owns playback. This also invalidates older async HEAD checks.
-    _cancelCurrentPlayback(false);
-    const fallbackOptions = { ...options, src, requestId };
-
-    if (!src) {
-      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions) : false;
-    }
-
-    const playExistingSrc = () => {
-      if (requestId !== playbackRequestId) return;
+    try {
       player.src = src;
       currentMediaRequestId = requestId;
       if (trigger) _setPlayingBtn(trigger);
-      player.play().catch(() => {
-        if (requestId !== playbackRequestId) return;
-        currentMediaRequestId = 0;
-        _clearPlayingBtn();
-        if (options.fallbackText) _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
-      });
-    };
-
-    try {
-      if (_shouldVerifyAudioSrc(src)) {
-        _audioExists(src).then((exists) => {
-          if (requestId !== playbackRequestId) return;
-          if (exists) {
-            playExistingSrc();
-          } else if (options.fallbackText) {
-            _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
-          }
-        });
-        return true;
-      }
-
-      playExistingSrc();
+      await player.play();
       return true;
     } catch {
-      if (requestId === playbackRequestId) _clearPlayingBtn();
-      return options.fallbackText ? _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions) : false;
+      if (requestId === playbackRequestId) {
+        currentMediaRequestId = 0;
+        _clearPlayingBtn();
+      }
+      return false;
     }
+  }
+
+  function playLessonAudio(options = {}) {
+    const legacySrc = _cleanAudioSrc(options.src);
+    const trigger = options.trigger || null;
+    const requestId = ++playbackRequestId;
+
+    // One tap owns playback. This invalidates older manifest/HEAD checks.
+    _cancelCurrentPlayback(false);
+    const fallbackOptions = { ...options, src: legacySrc, requestId };
+
+    (async () => {
+      const manifestSrc = await _manifestAudioSrc(options.fallbackText);
+      if (requestId !== playbackRequestId) return;
+
+      // Generated ElevenLabs audio is first priority. Existing explicit paths
+      // remain the second priority for legacy recordings and custom assets.
+      const candidates = [...new Set([manifestSrc, legacySrc].filter(Boolean))];
+      for (const candidate of candidates) {
+        if (await _tryAudioSource(candidate, requestId, trigger)) return;
+      }
+
+      if (requestId === playbackRequestId && options.fallbackText) {
+        _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
+      }
+    })().catch(() => {
+      if (requestId === playbackRequestId && options.fallbackText) {
+        _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
+      }
+    });
+
+    return Boolean(legacySrc || options.fallbackText);
   }
 
   window.ExpresateAudio = {

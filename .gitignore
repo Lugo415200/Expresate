@@ -8,3 +8,9 @@ Thumbs.db
 # Editor artifacts
 *.swp
 *.swo
+
+# Local credentials - never commit
+.env
+.env/
+.env.*
+!.env.example

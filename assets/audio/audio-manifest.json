@@ -1,0 +1,1605 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-21T04:40:42.577Z",
+  "entryCount": 266,
+  "entries": {
+    "letters-a": {
+      "text": "A",
+      "language": "en-US",
+      "path": "assets/audio/letters/a.mp3"
+    },
+    "letters-b": {
+      "text": "B",
+      "language": "en-US",
+      "path": "assets/audio/letters/b.mp3"
+    },
+    "letters-c": {
+      "text": "C",
+      "language": "en-US",
+      "path": "assets/audio/letters/c.mp3"
+    },
+    "letters-d": {
+      "text": "D",
+      "language": "en-US",
+      "path": "assets/audio/letters/d.mp3"
+    },
+    "letters-e": {
+      "text": "E",
+      "language": "en-US",
+      "path": "assets/audio/letters/e.mp3"
+    },
+    "letters-f": {
+      "text": "F",
+      "language": "en-US",
+      "path": "assets/audio/letters/f.mp3"
+    },
+    "letters-g": {
+      "text": "G",
+      "language": "en-US",
+      "path": "assets/audio/letters/g.mp3"
+    },
+    "letters-h": {
+      "text": "H",
+      "language": "en-US",
+      "path": "assets/audio/letters/h.mp3"
+    },
+    "letters-i": {
+      "text": "I",
+      "language": "en-US",
+      "path": "assets/audio/letters/i.mp3"
+    },
+    "letters-j": {
+      "text": "J",
+      "language": "en-US",
+      "path": "assets/audio/letters/j.mp3"
+    },
+    "letters-k": {
+      "text": "K",
+      "language": "en-US",
+      "path": "assets/audio/letters/k.mp3"
+    },
+    "letters-l": {
+      "text": "L",
+      "language": "en-US",
+      "path": "assets/audio/letters/l.mp3"
+    },
+    "letters-m": {
+      "text": "M",
+      "language": "en-US",
+      "path": "assets/audio/letters/m.mp3"
+    },
+    "letters-n": {
+      "text": "N",
+      "language": "en-US",
+      "path": "assets/audio/letters/n.mp3"
+    },
+    "letters-o": {
+      "text": "O",
+      "language": "en-US",
+      "path": "assets/audio/letters/o.mp3"
+    },
+    "letters-p": {
+      "text": "P",
+      "language": "en-US",
+      "path": "assets/audio/letters/p.mp3"
+    },
+    "letters-q": {
+      "text": "Q",
+      "language": "en-US",
+      "path": "assets/audio/letters/q.mp3"
+    },
+    "letters-r": {
+      "text": "R",
+      "language": "en-US",
+      "path": "assets/audio/letters/r.mp3"
+    },
+    "letters-s": {
+      "text": "S",
+      "language": "en-US",
+      "path": "assets/audio/letters/s.mp3"
+    },
+    "letters-t": {
+      "text": "T",
+      "language": "en-US",
+      "path": "assets/audio/letters/t.mp3"
+    },
+    "letters-u": {
+      "text": "U",
+      "language": "en-US",
+      "path": "assets/audio/letters/u.mp3"
+    },
+    "letters-v": {
+      "text": "V",
+      "language": "en-US",
+      "path": "assets/audio/letters/v.mp3"
+    },
+    "letters-w": {
+      "text": "W",
+      "language": "en-US",
+      "path": "assets/audio/letters/w.mp3"
+    },
+    "letters-x": {
+      "text": "X",
+      "language": "en-US",
+      "path": "assets/audio/letters/x.mp3"
+    },
+    "letters-y": {
+      "text": "Y",
+      "language": "en-US",
+      "path": "assets/audio/letters/y.mp3"
+    },
+    "letters-z": {
+      "text": "Z",
+      "language": "en-US",
+      "path": "assets/audio/letters/z.mp3"
+    },
+    "words-about": {
+      "text": "about",
+      "language": "en-US",
+      "path": "assets/audio/words/about.mp3"
+    },
+    "words-afternoon": {
+      "text": "afternoon",
+      "language": "en-US",
+      "path": "assets/audio/words/afternoon.mp3"
+    },
+    "words-apple": {
+      "text": "apple",
+      "language": "en-US",
+      "path": "assets/audio/words/apple.mp3"
+    },
+    "words-april": {
+      "text": "April",
+      "language": "en-US",
+      "path": "assets/audio/words/april.mp3"
+    },
+    "words-august": {
+      "text": "August",
+      "language": "en-US",
+      "path": "assets/audio/words/august.mp3"
+    },
+    "words-banana": {
+      "text": "banana",
+      "language": "en-US",
+      "path": "assets/audio/words/banana.mp3"
+    },
+    "words-beginner": {
+      "text": "beginner",
+      "language": "en-US",
+      "path": "assets/audio/words/beginner.mp3"
+    },
+    "words-berry": {
+      "text": "berry",
+      "language": "en-US",
+      "path": "assets/audio/words/berry.mp3"
+    },
+    "words-birthday": {
+      "text": "birthday",
+      "language": "en-US",
+      "path": "assets/audio/words/birthday.mp3"
+    },
+    "words-book": {
+      "text": "book",
+      "language": "en-US",
+      "path": "assets/audio/words/book.mp3"
+    },
+    "words-bread": {
+      "text": "bread",
+      "language": "en-US",
+      "path": "assets/audio/words/bread.mp3"
+    },
+    "words-camera": {
+      "text": "camera",
+      "language": "en-US",
+      "path": "assets/audio/words/camera.mp3"
+    },
+    "words-cat": {
+      "text": "cat",
+      "language": "en-US",
+      "path": "assets/audio/words/cat.mp3"
+    },
+    "words-chair": {
+      "text": "chair",
+      "language": "en-US",
+      "path": "assets/audio/words/chair.mp3"
+    },
+    "words-check": {
+      "text": "check",
+      "language": "en-US",
+      "path": "assets/audio/words/check.mp3"
+    },
+    "words-cheese": {
+      "text": "cheese",
+      "language": "en-US",
+      "path": "assets/audio/words/cheese.mp3"
+    },
+    "words-chicken": {
+      "text": "chicken",
+      "language": "en-US",
+      "path": "assets/audio/words/chicken.mp3"
+    },
+    "words-coffee": {
+      "text": "coffee",
+      "language": "en-US",
+      "path": "assets/audio/words/coffee.mp3"
+    },
+    "words-comfortable": {
+      "text": "comfortable",
+      "language": "en-US",
+      "path": "assets/audio/words/comfortable.mp3"
+    },
+    "words-dancing": {
+      "text": "dancing",
+      "language": "en-US",
+      "path": "assets/audio/words/dancing.mp3"
+    },
+    "words-december": {
+      "text": "December",
+      "language": "en-US",
+      "path": "assets/audio/words/december.mp3"
+    },
+    "words-driving": {
+      "text": "driving",
+      "language": "en-US",
+      "path": "assets/audio/words/driving.mp3"
+    },
+    "words-eating": {
+      "text": "eating",
+      "language": "en-US",
+      "path": "assets/audio/words/eating.mp3"
+    },
+    "words-egg": {
+      "text": "egg",
+      "language": "en-US",
+      "path": "assets/audio/words/egg.mp3"
+    },
+    "words-eight": {
+      "text": "eight",
+      "language": "en-US",
+      "path": "assets/audio/words/eight.mp3"
+    },
+    "words-eighteen": {
+      "text": "eighteen",
+      "language": "en-US",
+      "path": "assets/audio/words/eighteen.mp3"
+    },
+    "words-eleven": {
+      "text": "eleven",
+      "language": "en-US",
+      "path": "assets/audio/words/eleven.mp3"
+    },
+    "words-english": {
+      "text": "English",
+      "language": "en-US",
+      "path": "assets/audio/words/english.mp3"
+    },
+    "words-evening": {
+      "text": "evening",
+      "language": "en-US",
+      "path": "assets/audio/words/evening.mp3"
+    },
+    "words-family": {
+      "text": "family",
+      "language": "en-US",
+      "path": "assets/audio/words/family.mp3"
+    },
+    "words-february": {
+      "text": "February",
+      "language": "en-US",
+      "path": "assets/audio/words/february.mp3"
+    },
+    "words-fifteen": {
+      "text": "fifteen",
+      "language": "en-US",
+      "path": "assets/audio/words/fifteen.mp3"
+    },
+    "words-fish": {
+      "text": "fish",
+      "language": "en-US",
+      "path": "assets/audio/words/fish.mp3"
+    },
+    "words-five": {
+      "text": "five",
+      "language": "en-US",
+      "path": "assets/audio/words/five.mp3"
+    },
+    "words-four": {
+      "text": "four",
+      "language": "en-US",
+      "path": "assets/audio/words/four.mp3"
+    },
+    "words-fourteen": {
+      "text": "fourteen",
+      "language": "en-US",
+      "path": "assets/audio/words/fourteen.mp3"
+    },
+    "words-friday": {
+      "text": "Friday",
+      "language": "en-US",
+      "path": "assets/audio/words/friday.mp3"
+    },
+    "words-happy": {
+      "text": "happy",
+      "language": "en-US",
+      "path": "assets/audio/words/happy.mp3"
+    },
+    "words-hello": {
+      "text": "hello",
+      "language": "en-US",
+      "path": "assets/audio/words/hello.mp3"
+    },
+    "words-help": {
+      "text": "help",
+      "language": "en-US",
+      "path": "assets/audio/words/help.mp3"
+    },
+    "words-hi": {
+      "text": "hi",
+      "language": "en-US",
+      "path": "assets/audio/words/hi.mp3"
+    },
+    "words-home": {
+      "text": "home",
+      "language": "en-US",
+      "path": "assets/audio/words/home.mp3"
+    },
+    "words-hungry": {
+      "text": "hungry",
+      "language": "en-US",
+      "path": "assets/audio/words/hungry.mp3"
+    },
+    "words-january": {
+      "text": "January",
+      "language": "en-US",
+      "path": "assets/audio/words/january.mp3"
+    },
+    "words-july": {
+      "text": "July",
+      "language": "en-US",
+      "path": "assets/audio/words/july.mp3"
+    },
+    "words-jumping": {
+      "text": "jumping",
+      "language": "en-US",
+      "path": "assets/audio/words/jumping.mp3"
+    },
+    "words-june": {
+      "text": "June",
+      "language": "en-US",
+      "path": "assets/audio/words/june.mp3"
+    },
+    "words-live": {
+      "text": "live",
+      "language": "en-US",
+      "path": "assets/audio/words/live.mp3"
+    },
+    "words-march": {
+      "text": "March",
+      "language": "en-US",
+      "path": "assets/audio/words/march.mp3"
+    },
+    "words-may": {
+      "text": "May",
+      "language": "en-US",
+      "path": "assets/audio/words/may.mp3"
+    },
+    "words-milk": {
+      "text": "milk",
+      "language": "en-US",
+      "path": "assets/audio/words/milk.mp3"
+    },
+    "words-monday": {
+      "text": "Monday",
+      "language": "en-US",
+      "path": "assets/audio/words/monday.mp3"
+    },
+    "words-morning": {
+      "text": "morning",
+      "language": "en-US",
+      "path": "assets/audio/words/morning.mp3"
+    },
+    "words-name": {
+      "text": "name",
+      "language": "en-US",
+      "path": "assets/audio/words/name.mp3"
+    },
+    "words-night": {
+      "text": "night",
+      "language": "en-US",
+      "path": "assets/audio/words/night.mp3"
+    },
+    "words-nine": {
+      "text": "nine",
+      "language": "en-US",
+      "path": "assets/audio/words/nine.mp3"
+    },
+    "words-nineteen": {
+      "text": "nineteen",
+      "language": "en-US",
+      "path": "assets/audio/words/nineteen.mp3"
+    },
+    "words-noon": {
+      "text": "noon",
+      "language": "en-US",
+      "path": "assets/audio/words/noon.mp3"
+    },
+    "words-november": {
+      "text": "November",
+      "language": "en-US",
+      "path": "assets/audio/words/november.mp3"
+    },
+    "words-october": {
+      "text": "October",
+      "language": "en-US",
+      "path": "assets/audio/words/october.mp3"
+    },
+    "words-one": {
+      "text": "one",
+      "language": "en-US",
+      "path": "assets/audio/words/one.mp3"
+    },
+    "words-pen": {
+      "text": "pen",
+      "language": "en-US",
+      "path": "assets/audio/words/pen.mp3"
+    },
+    "words-please": {
+      "text": "please",
+      "language": "en-US",
+      "path": "assets/audio/words/please.mp3"
+    },
+    "words-repeat": {
+      "text": "repeat",
+      "language": "en-US",
+      "path": "assets/audio/words/repeat.mp3"
+    },
+    "words-rice": {
+      "text": "rice",
+      "language": "en-US",
+      "path": "assets/audio/words/rice.mp3"
+    },
+    "words-run": {
+      "text": "run",
+      "language": "en-US",
+      "path": "assets/audio/words/run.mp3"
+    },
+    "words-running": {
+      "text": "running",
+      "language": "en-US",
+      "path": "assets/audio/words/running.mp3"
+    },
+    "words-sad": {
+      "text": "sad",
+      "language": "en-US",
+      "path": "assets/audio/words/sad.mp3"
+    },
+    "words-saturday": {
+      "text": "Saturday",
+      "language": "en-US",
+      "path": "assets/audio/words/saturday.mp3"
+    },
+    "words-september": {
+      "text": "September",
+      "language": "en-US",
+      "path": "assets/audio/words/september.mp3"
+    },
+    "words-seven": {
+      "text": "seven",
+      "language": "en-US",
+      "path": "assets/audio/words/seven.mp3"
+    },
+    "words-seventeen": {
+      "text": "seventeen",
+      "language": "en-US",
+      "path": "assets/audio/words/seventeen.mp3"
+    },
+    "words-she": {
+      "text": "she",
+      "language": "en-US",
+      "path": "assets/audio/words/she.mp3"
+    },
+    "words-sheep": {
+      "text": "sheep",
+      "language": "en-US",
+      "path": "assets/audio/words/sheep.mp3"
+    },
+    "words-ship": {
+      "text": "ship",
+      "language": "en-US",
+      "path": "assets/audio/words/ship.mp3"
+    },
+    "words-shop": {
+      "text": "shop",
+      "language": "en-US",
+      "path": "assets/audio/words/shop.mp3"
+    },
+    "words-six": {
+      "text": "six",
+      "language": "en-US",
+      "path": "assets/audio/words/six.mp3"
+    },
+    "words-sixteen": {
+      "text": "sixteen",
+      "language": "en-US",
+      "path": "assets/audio/words/sixteen.mp3"
+    },
+    "words-sleeping": {
+      "text": "sleeping",
+      "language": "en-US",
+      "path": "assets/audio/words/sleeping.mp3"
+    },
+    "words-speaking": {
+      "text": "speaking",
+      "language": "en-US",
+      "path": "assets/audio/words/speaking.mp3"
+    },
+    "words-study": {
+      "text": "study",
+      "language": "en-US",
+      "path": "assets/audio/words/study.mp3"
+    },
+    "words-studying": {
+      "text": "studying",
+      "language": "en-US",
+      "path": "assets/audio/words/studying.mp3"
+    },
+    "words-sunday": {
+      "text": "Sunday",
+      "language": "en-US",
+      "path": "assets/audio/words/sunday.mp3"
+    },
+    "words-swimming": {
+      "text": "swimming",
+      "language": "en-US",
+      "path": "assets/audio/words/swimming.mp3"
+    },
+    "words-talking": {
+      "text": "talking",
+      "language": "en-US",
+      "path": "assets/audio/words/talking.mp3"
+    },
+    "words-tea": {
+      "text": "tea",
+      "language": "en-US",
+      "path": "assets/audio/words/tea.mp3"
+    },
+    "words-teacher": {
+      "text": "teacher",
+      "language": "en-US",
+      "path": "assets/audio/words/teacher.mp3"
+    },
+    "words-ten": {
+      "text": "ten",
+      "language": "en-US",
+      "path": "assets/audio/words/ten.mp3"
+    },
+    "words-think": {
+      "text": "think",
+      "language": "en-US",
+      "path": "assets/audio/words/think.mp3"
+    },
+    "words-thirteen": {
+      "text": "thirteen",
+      "language": "en-US",
+      "path": "assets/audio/words/thirteen.mp3"
+    },
+    "words-thirty": {
+      "text": "thirty",
+      "language": "en-US",
+      "path": "assets/audio/words/thirty.mp3"
+    },
+    "words-this": {
+      "text": "this",
+      "language": "en-US",
+      "path": "assets/audio/words/this.mp3"
+    },
+    "words-three": {
+      "text": "three",
+      "language": "en-US",
+      "path": "assets/audio/words/three.mp3"
+    },
+    "words-thursday": {
+      "text": "Thursday",
+      "language": "en-US",
+      "path": "assets/audio/words/thursday.mp3"
+    },
+    "words-tired": {
+      "text": "tired",
+      "language": "en-US",
+      "path": "assets/audio/words/tired.mp3"
+    },
+    "words-today": {
+      "text": "today",
+      "language": "en-US",
+      "path": "assets/audio/words/today.mp3"
+    },
+    "words-tomorrow": {
+      "text": "tomorrow",
+      "language": "en-US",
+      "path": "assets/audio/words/tomorrow.mp3"
+    },
+    "words-tuesday": {
+      "text": "Tuesday",
+      "language": "en-US",
+      "path": "assets/audio/words/tuesday.mp3"
+    },
+    "words-twelve": {
+      "text": "twelve",
+      "language": "en-US",
+      "path": "assets/audio/words/twelve.mp3"
+    },
+    "words-twenty": {
+      "text": "twenty",
+      "language": "en-US",
+      "path": "assets/audio/words/twenty.mp3"
+    },
+    "words-two": {
+      "text": "two",
+      "language": "en-US",
+      "path": "assets/audio/words/two.mp3"
+    },
+    "words-understand": {
+      "text": "understand",
+      "language": "en-US",
+      "path": "assets/audio/words/understand.mp3"
+    },
+    "words-upset": {
+      "text": "upset",
+      "language": "en-US",
+      "path": "assets/audio/words/upset.mp3"
+    },
+    "words-very": {
+      "text": "very",
+      "language": "en-US",
+      "path": "assets/audio/words/very.mp3"
+    },
+    "words-water": {
+      "text": "water",
+      "language": "en-US",
+      "path": "assets/audio/words/water.mp3"
+    },
+    "words-wednesday": {
+      "text": "Wednesday",
+      "language": "en-US",
+      "path": "assets/audio/words/wednesday.mp3"
+    },
+    "words-work": {
+      "text": "work",
+      "language": "en-US",
+      "path": "assets/audio/words/work.mp3"
+    },
+    "words-yesterday": {
+      "text": "yesterday",
+      "language": "en-US",
+      "path": "assets/audio/words/yesterday.mp3"
+    },
+    "phrases-12th-street": {
+      "text": "12th Street",
+      "language": "en-US",
+      "path": "assets/audio/phrases/12th-street.mp3"
+    },
+    "phrases-ahora-escucha-como-se-deletrea-tu-nombre": {
+      "text": "Ahora escucha cómo se deletrea tu nombre.",
+      "language": "es",
+      "path": "assets/audio/phrases/ahora-escucha-como-se-deletrea-tu-nombre.mp3"
+    },
+    "phrases-at-night": {
+      "text": "at night",
+      "language": "en-US",
+      "path": "assets/audio/phrases/at-night.mp3"
+    },
+    "phrases-can-i-have-bread-please": {
+      "text": "Can I have bread, please?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-i-have-bread-please.mp3"
+    },
+    "phrases-can-i-have-bread": {
+      "text": "Can I have bread?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-i-have-bread.mp3"
+    },
+    "phrases-can-i-have-coffee-please": {
+      "text": "Can I have coffee, please?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-i-have-coffee-please.mp3"
+    },
+    "phrases-can-i-have-tea-please": {
+      "text": "Can I have tea, please?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-i-have-tea-please.mp3"
+    },
+    "phrases-can-i-have-water": {
+      "text": "Can I have water?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-i-have-water.mp3"
+    },
+    "phrases-can-you-repeat-please": {
+      "text": "Can you repeat, please?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-you-repeat-please.mp3"
+    },
+    "phrases-can-you-say-that-again": {
+      "text": "Can you say that again?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/can-you-say-that-again.mp3"
+    },
+    "phrases-class-is-at-eight": {
+      "text": "Class is at eight.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/class-is-at-eight.mp3"
+    },
+    "phrases-d-a-n-i-e-l": {
+      "text": "D A N I E L",
+      "language": "en-US",
+      "path": "assets/audio/phrases/d-a-n-i-e-l.mp3"
+    },
+    "phrases-di-esta-palabra-en-ingles": {
+      "text": "Di esta palabra en inglés.",
+      "language": "es",
+      "path": "assets/audio/phrases/di-esta-palabra-en-ingles.mp3"
+    },
+    "phrases-do-they-study": {
+      "text": "Do they study?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/do-they-study.mp3"
+    },
+    "phrases-do-you-work": {
+      "text": "Do you work?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/do-you-work.mp3"
+    },
+    "phrases-does-she-live-here": {
+      "text": "Does she live here?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/does-she-live-here.mp3"
+    },
+    "phrases-does-she-work": {
+      "text": "Does she work?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/does-she-work.mp3"
+    },
+    "phrases-elige-una-palabra-luego-lee-la-frase-completa": {
+      "text": "Elige una palabra. Luego lee la frase completa.",
+      "language": "es",
+      "path": "assets/audio/phrases/elige-una-palabra-luego-lee-la-frase-completa.mp3"
+    },
+    "phrases-escribe-tu-nombre": {
+      "text": "Escribe tu nombre.",
+      "language": "es",
+      "path": "assets/audio/phrases/escribe-tu-nombre.mp3"
+    },
+    "phrases-escucha-y-repite": {
+      "text": "Escucha y repite.",
+      "language": "es",
+      "path": "assets/audio/phrases/escucha-y-repite.mp3"
+    },
+    "phrases-excelente-continua": {
+      "text": "Excelente. Continúa.",
+      "language": "es",
+      "path": "assets/audio/phrases/excelente-continua.mp3"
+    },
+    "phrases-g-m-a-i-l-dot-com": {
+      "text": "G M A I L dot com",
+      "language": "en-US",
+      "path": "assets/audio/phrases/g-m-a-i-l-dot-com.mp3"
+    },
+    "phrases-good-afternoon": {
+      "text": "Good afternoon.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/good-afternoon.mp3"
+    },
+    "phrases-good-evening": {
+      "text": "Good evening.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/good-evening.mp3"
+    },
+    "phrases-good-morning": {
+      "text": "Good morning.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/good-morning.mp3"
+    },
+    "phrases-he-doesnt-study-english": {
+      "text": "He doesn't study English.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/he-doesnt-study-english.mp3"
+    },
+    "phrases-he-works": {
+      "text": "He works.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/he-works.mp3"
+    },
+    "phrases-hello-my-name-is-ana": {
+      "text": "Hello. My name is Ana.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/hello-my-name-is-ana.mp3"
+    },
+    "phrases-hello-whats-your-name": {
+      "text": "Hello. What's your name?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/hello-whats-your-name.mp3"
+    },
+    "phrases-how-do-you-say-biblioteca-in-english": {
+      "text": "How do you say biblioteca in English?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/how-do-you-say-biblioteca-in-english.mp3"
+    },
+    "phrases-how-do-you-say-cuaderno-in-english": {
+      "text": "How do you say cuaderno in English?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/how-do-you-say-cuaderno-in-english.mp3"
+    },
+    "phrases-i-am-ana": {
+      "text": "I am Ana.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-ana.mp3"
+    },
+    "phrases-i-am-driving": {
+      "text": "I am driving.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-driving.mp3"
+    },
+    "phrases-i-am-from-mexico": {
+      "text": "I am from Mexico.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-from-mexico.mp3"
+    },
+    "phrases-i-am-happy": {
+      "text": "I am happy.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-happy.mp3"
+    },
+    "phrases-i-am-hungry": {
+      "text": "I am hungry.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-hungry.mp3"
+    },
+    "phrases-i-am-running": {
+      "text": "I am running.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-running.mp3"
+    },
+    "phrases-i-am-sad": {
+      "text": "I am sad.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-sad.mp3"
+    },
+    "phrases-i-am-sleeping": {
+      "text": "I am sleeping.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-sleeping.mp3"
+    },
+    "phrases-i-am-tired": {
+      "text": "I am tired.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-tired.mp3"
+    },
+    "phrases-i-am-twenty-years-old": {
+      "text": "I am twenty years old.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-twenty-years-old.mp3"
+    },
+    "phrases-i-am-twenty": {
+      "text": "I am twenty.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-twenty.mp3"
+    },
+    "phrases-i-am-upset": {
+      "text": "I am upset.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-am-upset.mp3"
+    },
+    "phrases-i-dont-live-here": {
+      "text": "I don't live here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-dont-live-here.mp3"
+    },
+    "phrases-i-dont-understand-yet": {
+      "text": "I don't understand yet.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-dont-understand-yet.mp3"
+    },
+    "phrases-i-dont-understand": {
+      "text": "I don't understand.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-dont-understand.mp3"
+    },
+    "phrases-i-dont-work": {
+      "text": "I don't work.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-dont-work.mp3"
+    },
+    "phrases-i-have-class-on-monday": {
+      "text": "I have class on Monday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-have-class-on-monday.mp3"
+    },
+    "phrases-i-like-cheese": {
+      "text": "I like cheese.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-like-cheese.mp3"
+    },
+    "phrases-i-like-coffee": {
+      "text": "I like coffee.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-like-coffee.mp3"
+    },
+    "phrases-i-live-here": {
+      "text": "I live here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-live-here.mp3"
+    },
+    "phrases-i-live-in-miami": {
+      "text": "I live in Miami.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-live-in-miami.mp3"
+    },
+    "phrases-i-live-in-the-united-states": {
+      "text": "I live in the United States.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-live-in-the-united-states.mp3"
+    },
+    "phrases-i-need-help": {
+      "text": "I need help.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-need-help.mp3"
+    },
+    "phrases-i-need-two": {
+      "text": "I need two.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-need-two.mp3"
+    },
+    "phrases-i-practice-at-six": {
+      "text": "I practice at six.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-practice-at-six.mp3"
+    },
+    "phrases-i-practice-on-sunday": {
+      "text": "I practice on Sunday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-practice-on-sunday.mp3"
+    },
+    "phrases-i-run-every-day": {
+      "text": "I run every day.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-run-every-day.mp3"
+    },
+    "phrases-i-speak-spanish": {
+      "text": "I speak Spanish.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-speak-spanish.mp3"
+    },
+    "phrases-i-think-this-is-very-good": {
+      "text": "I think this is very good.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-think-this-is-very-good.mp3"
+    },
+    "phrases-i-understand": {
+      "text": "I understand.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-understand.mp3"
+    },
+    "phrases-i-want-rice": {
+      "text": "I want rice.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-want-rice.mp3"
+    },
+    "phrases-i-want-water": {
+      "text": "I want water.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-want-water.mp3"
+    },
+    "phrases-i-work-at-nine": {
+      "text": "I work at nine.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-work-at-nine.mp3"
+    },
+    "phrases-i-work-here": {
+      "text": "I work here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-work-here.mp3"
+    },
+    "phrases-i-work-on-friday": {
+      "text": "I work on Friday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-work-on-friday.mp3"
+    },
+    "phrases-i-work": {
+      "text": "I work.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/i-work.mp3"
+    },
+    "phrases-im-a-beginner": {
+      "text": "I'm a beginner.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-a-beginner.mp3"
+    },
+    "phrases-im-ana": {
+      "text": "I'm Ana.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-ana.mp3"
+    },
+    "phrases-im-from-colombia": {
+      "text": "I'm from Colombia.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-from-colombia.mp3"
+    },
+    "phrases-im-from-here": {
+      "text": "I'm from here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-from-here.mp3"
+    },
+    "phrases-im-from-mexico": {
+      "text": "I'm from Mexico.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-from-mexico.mp3"
+    },
+    "phrases-im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english": {
+      "text": "I'm from Mexico. I live in New York. I speak Spanish. I'm learning English.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english.mp3"
+    },
+    "phrases-im-learning-english": {
+      "text": "I'm learning English.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/im-learning-english.mp3"
+    },
+    "phrases-in-the-afternoon": {
+      "text": "in the afternoon",
+      "language": "en-US",
+      "path": "assets/audio/phrases/in-the-afternoon.mp3"
+    },
+    "phrases-in-the-morning": {
+      "text": "in the morning",
+      "language": "en-US",
+      "path": "assets/audio/phrases/in-the-morning.mp3"
+    },
+    "phrases-intenta-otra-vez": {
+      "text": "Intenta otra vez.",
+      "language": "es",
+      "path": "assets/audio/phrases/intenta-otra-vez.mp3"
+    },
+    "phrases-it-is-eight-oclock": {
+      "text": "It is eight o'clock.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/it-is-eight-oclock.mp3"
+    },
+    "phrases-it-is-eight": {
+      "text": "It is eight.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/it-is-eight.mp3"
+    },
+    "phrases-it-is-noon": {
+      "text": "It is noon.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/it-is-noon.mp3"
+    },
+    "phrases-it-is-spelled-e-r-i-k-a": {
+      "text": "It is spelled E-R-I-K-A.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/it-is-spelled-e-r-i-k-a.mp3"
+    },
+    "phrases-my-birthday-is-in-may": {
+      "text": "My birthday is in May.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/my-birthday-is-in-may.mp3"
+    },
+    "phrases-my-birthday-is-on-may-5": {
+      "text": "My birthday is on May 5.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/my-birthday-is-on-may-5.mp3"
+    },
+    "phrases-my-name-is-ana": {
+      "text": "My name is Ana.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/my-name-is-ana.mp3"
+    },
+    "phrases-my-name-is-erika": {
+      "text": "My name is Erika.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/my-name-is-erika.mp3"
+    },
+    "phrases-nice-to-meet-you": {
+      "text": "Nice to meet you.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/nice-to-meet-you.mp3"
+    },
+    "phrases-no-i-dont": {
+      "text": "No, I don't.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/no-i-dont.mp3"
+    },
+    "phrases-presiona-hablar-y-repite-la-palabra": {
+      "text": "Presiona Hablar y repite la palabra.",
+      "language": "es",
+      "path": "assets/audio/phrases/presiona-hablar-y-repite-la-palabra.mp3"
+    },
+    "phrases-repeat-please": {
+      "text": "Repeat, please.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/repeat-please.mp3"
+    },
+    "phrases-she-doesnt-live-here": {
+      "text": "She doesn't live here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/she-doesnt-live-here.mp3"
+    },
+    "phrases-she-doesnt-work-here": {
+      "text": "She doesn't work here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/she-doesnt-work-here.mp3"
+    },
+    "phrases-she-lives-here": {
+      "text": "She lives here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/she-lives-here.mp3"
+    },
+    "phrases-she-works-here": {
+      "text": "She works here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/she-works-here.mp3"
+    },
+    "phrases-they-dont-work-here": {
+      "text": "They don't work here.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/they-dont-work-here.mp3"
+    },
+    "phrases-they-study-english": {
+      "text": "They study English.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/they-study-english.mp3"
+    },
+    "phrases-this-is-a-pen": {
+      "text": "This is a pen.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/this-is-a-pen.mp3"
+    },
+    "phrases-this-is-my-book": {
+      "text": "This is my book.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/this-is-my-book.mp3"
+    },
+    "phrases-toca-una-letra-para-escucharla": {
+      "text": "Toca una letra para escucharla.",
+      "language": "es",
+      "path": "assets/audio/phrases/toca-una-letra-para-escucharla.mp3"
+    },
+    "phrases-toca-una-tarjeta-para-escuchar": {
+      "text": "Toca una tarjeta para escuchar.",
+      "language": "es",
+      "path": "assets/audio/phrases/toca-una-tarjeta-para-escuchar.mp3"
+    },
+    "phrases-toca-una-tarjeta-para-ver-como-cambia-el-ejemplo": {
+      "text": "Toca una tarjeta para ver cómo cambia el ejemplo.",
+      "language": "es",
+      "path": "assets/audio/phrases/toca-una-tarjeta-para-ver-como-cambia-el-ejemplo.mp3"
+    },
+    "phrases-today-is-monday": {
+      "text": "Today is Monday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/today-is-monday.mp3"
+    },
+    "phrases-today-is-monday-i-practice-on-friday": {
+      "text": "Today is Monday. I practice on Friday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/today-is-monday-i-practice-on-friday.mp3"
+    },
+    "phrases-tomorrow-is-tuesday": {
+      "text": "Tomorrow is Tuesday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/tomorrow-is-tuesday.mp3"
+    },
+    "phrases-we-dont-study-today": {
+      "text": "We don't study today.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/we-dont-study-today.mp3"
+    },
+    "phrases-what-does-home-mean": {
+      "text": "What does home mean?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/what-does-home-mean.mp3"
+    },
+    "phrases-what-does-it-mean": {
+      "text": "What does it mean?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/what-does-it-mean.mp3"
+    },
+    "phrases-what-does-this-mean": {
+      "text": "What does this mean?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/what-does-this-mean.mp3"
+    },
+    "phrases-what-is-this": {
+      "text": "What is this?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/what-is-this.mp3"
+    },
+    "phrases-what-time-is-it": {
+      "text": "What time is it?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/what-time-is-it.mp3"
+    },
+    "phrases-when-is-your-birthday": {
+      "text": "When is your birthday?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/when-is-your-birthday.mp3"
+    },
+    "phrases-where-are-you-from": {
+      "text": "Where are you from?",
+      "language": "en-US",
+      "path": "assets/audio/phrases/where-are-you-from.mp3"
+    },
+    "phrases-yes-i-do": {
+      "text": "Yes, I do.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/yes-i-do.mp3"
+    },
+    "phrases-yes-she-does": {
+      "text": "Yes, she does.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/yes-she-does.mp3"
+    },
+    "phrases-yesterday-was-sunday": {
+      "text": "Yesterday was Sunday.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/yesterday-was-sunday.mp3"
+    },
+    "phrases-you-work": {
+      "text": "You work.",
+      "language": "en-US",
+      "path": "assets/audio/phrases/you-work.mp3"
+    },
+    "lesson-intros-lesson-009-days": {
+      "text": "Días de la semana. Habla de clases, trabajo, planes y rutinas.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-009-days.mp3"
+    },
+    "lesson-intros-lesson-000-alphabet": {
+      "text": "El alfabeto. Usa letras para decir información exacta, practicar vocales y deletrear tu nombre.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-000-alphabet.mp3"
+    },
+    "lesson-intros-lesson-012-food": {
+      "text": "Frases de comida. Pide alimentos y habla de lo que quieres y te gusta.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-012-food.mp3"
+    },
+    "lesson-intros-lesson-005-classroom-phrases": {
+      "text": "Frases para clase. Pide ayuda, solicita repetición y sigue aprendiendo en inglés.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-005-classroom-phrases.mp3"
+    },
+    "lesson-intros-lesson-013-i-am": {
+      "text": "I am. Aprende una frase pequeña que te permite hablar de ti ahora mismo.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-013-i-am.mp3"
+    },
+    "lesson-intros-lesson-006-identity-place": {
+      "text": "Identidad y lugar. Di de dónde eres, dónde vives y qué idiomas hablas.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-006-identity-place.mp3"
+    },
+    "lesson-intros-lesson-011-time": {
+      "text": "La hora. Pregunta y di horas simples para clases, trabajo y rutinas.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-011-time.mp3"
+    },
+    "lesson-intros-lesson-014-ing-pattern": {
+      "text": "Menos ando y menos endo se conectan con ing. Reconoce acciones en progreso.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-014-ing-pattern.mp3"
+    },
+    "lesson-intros-lesson-010-months-dates": {
+      "text": "Meses y fechas. Habla de cumpleaños y eventos simples.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-010-months-dates.mp3"
+    },
+    "lesson-intros-lesson-003-negaciones": {
+      "text": "Negaciones con don't y doesn't. Niega oraciones en presente con la estructura correcta.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-003-negaciones.mp3"
+    },
+    "lesson-intros-lesson-008-numbers": {
+      "text": "Números del uno al veinte. Habla de edad, teléfono y cantidades simples.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-008-numbers.mp3"
+    },
+    "lesson-intros-lesson-007-basic-questions": {
+      "text": "Preguntas básicas. Pide claridad y ayuda dentro de una conversación real.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-007-basic-questions.mp3"
+    },
+    "lesson-intros-lesson-002-preguntas": {
+      "text": "Preguntas con do y does. Formula preguntas en presente sin pensar palabra por palabra.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-002-preguntas.mp3"
+    },
+    "lesson-intros-lesson-001-pronombres": {
+      "text": "Pronombres y verbos. Aprende quién hace la acción y cómo cambia el verbo en presente.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-001-pronombres.mp3"
+    },
+    "lesson-intros-lesson-004-greetings": {
+      "text": "Saludos e introducciones. Saluda, di tu nombre y empieza una conversación corta.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-004-greetings.mp3"
+    },
+    "lesson-intros-lesson-000-syllables": {
+      "text": "Sílabas y acento. Aprende a sentir el ritmo del inglés: una sílaba fuerte y las demás más suaves.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-000-syllables.mp3"
+    },
+    "lesson-intros-lesson-001-sounds": {
+      "text": "Sonidos clave. Mejora tu pronunciación con los sonidos que más cambian el significado.",
+      "language": "es",
+      "path": "assets/audio/lesson-intros/lesson-001-sounds.mp3"
+    }
+  },
+  "byText": {
+    "a": "assets/audio/letters/a.mp3",
+    "b": "assets/audio/letters/b.mp3",
+    "c": "assets/audio/letters/c.mp3",
+    "d": "assets/audio/letters/d.mp3",
+    "e": "assets/audio/letters/e.mp3",
+    "f": "assets/audio/letters/f.mp3",
+    "g": "assets/audio/letters/g.mp3",
+    "h": "assets/audio/letters/h.mp3",
+    "i": "assets/audio/letters/i.mp3",
+    "j": "assets/audio/letters/j.mp3",
+    "k": "assets/audio/letters/k.mp3",
+    "l": "assets/audio/letters/l.mp3",
+    "m": "assets/audio/letters/m.mp3",
+    "n": "assets/audio/letters/n.mp3",
+    "o": "assets/audio/letters/o.mp3",
+    "p": "assets/audio/letters/p.mp3",
+    "q": "assets/audio/letters/q.mp3",
+    "r": "assets/audio/letters/r.mp3",
+    "s": "assets/audio/letters/s.mp3",
+    "t": "assets/audio/letters/t.mp3",
+    "u": "assets/audio/letters/u.mp3",
+    "v": "assets/audio/letters/v.mp3",
+    "w": "assets/audio/letters/w.mp3",
+    "x": "assets/audio/letters/x.mp3",
+    "y": "assets/audio/letters/y.mp3",
+    "z": "assets/audio/letters/z.mp3",
+    "about": "assets/audio/words/about.mp3",
+    "afternoon": "assets/audio/words/afternoon.mp3",
+    "apple": "assets/audio/words/apple.mp3",
+    "april": "assets/audio/words/april.mp3",
+    "august": "assets/audio/words/august.mp3",
+    "banana": "assets/audio/words/banana.mp3",
+    "beginner": "assets/audio/words/beginner.mp3",
+    "berry": "assets/audio/words/berry.mp3",
+    "birthday": "assets/audio/words/birthday.mp3",
+    "book": "assets/audio/words/book.mp3",
+    "bread": "assets/audio/words/bread.mp3",
+    "camera": "assets/audio/words/camera.mp3",
+    "cat": "assets/audio/words/cat.mp3",
+    "chair": "assets/audio/words/chair.mp3",
+    "check": "assets/audio/words/check.mp3",
+    "cheese": "assets/audio/words/cheese.mp3",
+    "chicken": "assets/audio/words/chicken.mp3",
+    "coffee": "assets/audio/words/coffee.mp3",
+    "comfortable": "assets/audio/words/comfortable.mp3",
+    "dancing": "assets/audio/words/dancing.mp3",
+    "december": "assets/audio/words/december.mp3",
+    "driving": "assets/audio/words/driving.mp3",
+    "eating": "assets/audio/words/eating.mp3",
+    "egg": "assets/audio/words/egg.mp3",
+    "eight": "assets/audio/words/eight.mp3",
+    "eighteen": "assets/audio/words/eighteen.mp3",
+    "eleven": "assets/audio/words/eleven.mp3",
+    "english": "assets/audio/words/english.mp3",
+    "evening": "assets/audio/words/evening.mp3",
+    "family": "assets/audio/words/family.mp3",
+    "february": "assets/audio/words/february.mp3",
+    "fifteen": "assets/audio/words/fifteen.mp3",
+    "fish": "assets/audio/words/fish.mp3",
+    "five": "assets/audio/words/five.mp3",
+    "four": "assets/audio/words/four.mp3",
+    "fourteen": "assets/audio/words/fourteen.mp3",
+    "friday": "assets/audio/words/friday.mp3",
+    "happy": "assets/audio/words/happy.mp3",
+    "hello": "assets/audio/words/hello.mp3",
+    "help": "assets/audio/words/help.mp3",
+    "hi": "assets/audio/words/hi.mp3",
+    "home": "assets/audio/words/home.mp3",
+    "hungry": "assets/audio/words/hungry.mp3",
+    "january": "assets/audio/words/january.mp3",
+    "july": "assets/audio/words/july.mp3",
+    "jumping": "assets/audio/words/jumping.mp3",
+    "june": "assets/audio/words/june.mp3",
+    "live": "assets/audio/words/live.mp3",
+    "march": "assets/audio/words/march.mp3",
+    "may": "assets/audio/words/may.mp3",
+    "milk": "assets/audio/words/milk.mp3",
+    "monday": "assets/audio/words/monday.mp3",
+    "morning": "assets/audio/words/morning.mp3",
+    "name": "assets/audio/words/name.mp3",
+    "night": "assets/audio/words/night.mp3",
+    "nine": "assets/audio/words/nine.mp3",
+    "nineteen": "assets/audio/words/nineteen.mp3",
+    "noon": "assets/audio/words/noon.mp3",
+    "november": "assets/audio/words/november.mp3",
+    "october": "assets/audio/words/october.mp3",
+    "one": "assets/audio/words/one.mp3",
+    "pen": "assets/audio/words/pen.mp3",
+    "please": "assets/audio/words/please.mp3",
+    "repeat": "assets/audio/words/repeat.mp3",
+    "rice": "assets/audio/words/rice.mp3",
+    "run": "assets/audio/words/run.mp3",
+    "running": "assets/audio/words/running.mp3",
+    "sad": "assets/audio/words/sad.mp3",
+    "saturday": "assets/audio/words/saturday.mp3",
+    "september": "assets/audio/words/september.mp3",
+    "seven": "assets/audio/words/seven.mp3",
+    "seventeen": "assets/audio/words/seventeen.mp3",
+    "she": "assets/audio/words/she.mp3",
+    "sheep": "assets/audio/words/sheep.mp3",
+    "ship": "assets/audio/words/ship.mp3",
+    "shop": "assets/audio/words/shop.mp3",
+    "six": "assets/audio/words/six.mp3",
+    "sixteen": "assets/audio/words/sixteen.mp3",
+    "sleeping": "assets/audio/words/sleeping.mp3",
+    "speaking": "assets/audio/words/speaking.mp3",
+    "study": "assets/audio/words/study.mp3",
+    "studying": "assets/audio/words/studying.mp3",
+    "sunday": "assets/audio/words/sunday.mp3",
+    "swimming": "assets/audio/words/swimming.mp3",
+    "talking": "assets/audio/words/talking.mp3",
+    "tea": "assets/audio/words/tea.mp3",
+    "teacher": "assets/audio/words/teacher.mp3",
+    "ten": "assets/audio/words/ten.mp3",
+    "think": "assets/audio/words/think.mp3",
+    "thirteen": "assets/audio/words/thirteen.mp3",
+    "thirty": "assets/audio/words/thirty.mp3",
+    "this": "assets/audio/words/this.mp3",
+    "three": "assets/audio/words/three.mp3",
+    "thursday": "assets/audio/words/thursday.mp3",
+    "tired": "assets/audio/words/tired.mp3",
+    "today": "assets/audio/words/today.mp3",
+    "tomorrow": "assets/audio/words/tomorrow.mp3",
+    "tuesday": "assets/audio/words/tuesday.mp3",
+    "twelve": "assets/audio/words/twelve.mp3",
+    "twenty": "assets/audio/words/twenty.mp3",
+    "two": "assets/audio/words/two.mp3",
+    "understand": "assets/audio/words/understand.mp3",
+    "upset": "assets/audio/words/upset.mp3",
+    "very": "assets/audio/words/very.mp3",
+    "water": "assets/audio/words/water.mp3",
+    "wednesday": "assets/audio/words/wednesday.mp3",
+    "work": "assets/audio/words/work.mp3",
+    "yesterday": "assets/audio/words/yesterday.mp3",
+    "12th street": "assets/audio/phrases/12th-street.mp3",
+    "ahora escucha cómo se deletrea tu nombre": "assets/audio/phrases/ahora-escucha-como-se-deletrea-tu-nombre.mp3",
+    "at night": "assets/audio/phrases/at-night.mp3",
+    "can i have bread please": "assets/audio/phrases/can-i-have-bread-please.mp3",
+    "can i have bread": "assets/audio/phrases/can-i-have-bread.mp3",
+    "can i have coffee please": "assets/audio/phrases/can-i-have-coffee-please.mp3",
+    "can i have tea please": "assets/audio/phrases/can-i-have-tea-please.mp3",
+    "can i have water": "assets/audio/phrases/can-i-have-water.mp3",
+    "can you repeat please": "assets/audio/phrases/can-you-repeat-please.mp3",
+    "can you say that again": "assets/audio/phrases/can-you-say-that-again.mp3",
+    "class is at eight": "assets/audio/phrases/class-is-at-eight.mp3",
+    "d a n i e l": "assets/audio/phrases/d-a-n-i-e-l.mp3",
+    "di esta palabra en inglés": "assets/audio/phrases/di-esta-palabra-en-ingles.mp3",
+    "do they study": "assets/audio/phrases/do-they-study.mp3",
+    "do you work": "assets/audio/phrases/do-you-work.mp3",
+    "does she live here": "assets/audio/phrases/does-she-live-here.mp3",
+    "does she work": "assets/audio/phrases/does-she-work.mp3",
+    "elige una palabra luego lee la frase completa": "assets/audio/phrases/elige-una-palabra-luego-lee-la-frase-completa.mp3",
+    "escribe tu nombre": "assets/audio/phrases/escribe-tu-nombre.mp3",
+    "escucha y repite": "assets/audio/phrases/escucha-y-repite.mp3",
+    "excelente continúa": "assets/audio/phrases/excelente-continua.mp3",
+    "g m a i l dot com": "assets/audio/phrases/g-m-a-i-l-dot-com.mp3",
+    "good afternoon": "assets/audio/phrases/good-afternoon.mp3",
+    "good evening": "assets/audio/phrases/good-evening.mp3",
+    "good morning": "assets/audio/phrases/good-morning.mp3",
+    "he doesn't study english": "assets/audio/phrases/he-doesnt-study-english.mp3",
+    "he works": "assets/audio/phrases/he-works.mp3",
+    "hello my name is ana": "assets/audio/phrases/hello-my-name-is-ana.mp3",
+    "hello what's your name": "assets/audio/phrases/hello-whats-your-name.mp3",
+    "how do you say biblioteca in english": "assets/audio/phrases/how-do-you-say-biblioteca-in-english.mp3",
+    "how do you say cuaderno in english": "assets/audio/phrases/how-do-you-say-cuaderno-in-english.mp3",
+    "i am ana": "assets/audio/phrases/i-am-ana.mp3",
+    "i am driving": "assets/audio/phrases/i-am-driving.mp3",
+    "i am from mexico": "assets/audio/phrases/i-am-from-mexico.mp3",
+    "i am happy": "assets/audio/phrases/i-am-happy.mp3",
+    "i am hungry": "assets/audio/phrases/i-am-hungry.mp3",
+    "i am running": "assets/audio/phrases/i-am-running.mp3",
+    "i am sad": "assets/audio/phrases/i-am-sad.mp3",
+    "i am sleeping": "assets/audio/phrases/i-am-sleeping.mp3",
+    "i am tired": "assets/audio/phrases/i-am-tired.mp3",
+    "i am twenty years old": "assets/audio/phrases/i-am-twenty-years-old.mp3",
+    "i am twenty": "assets/audio/phrases/i-am-twenty.mp3",
+    "i am upset": "assets/audio/phrases/i-am-upset.mp3",
+    "i don't live here": "assets/audio/phrases/i-dont-live-here.mp3",
+    "i don't understand yet": "assets/audio/phrases/i-dont-understand-yet.mp3",
+    "i don't understand": "assets/audio/phrases/i-dont-understand.mp3",
+    "i don't work": "assets/audio/phrases/i-dont-work.mp3",
+    "i have class on monday": "assets/audio/phrases/i-have-class-on-monday.mp3",
+    "i like cheese": "assets/audio/phrases/i-like-cheese.mp3",
+    "i like coffee": "assets/audio/phrases/i-like-coffee.mp3",
+    "i live here": "assets/audio/phrases/i-live-here.mp3",
+    "i live in miami": "assets/audio/phrases/i-live-in-miami.mp3",
+    "i live in the united states": "assets/audio/phrases/i-live-in-the-united-states.mp3",
+    "i need help": "assets/audio/phrases/i-need-help.mp3",
+    "i need two": "assets/audio/phrases/i-need-two.mp3",
+    "i practice at six": "assets/audio/phrases/i-practice-at-six.mp3",
+    "i practice on sunday": "assets/audio/phrases/i-practice-on-sunday.mp3",
+    "i run every day": "assets/audio/phrases/i-run-every-day.mp3",
+    "i speak spanish": "assets/audio/phrases/i-speak-spanish.mp3",
+    "i think this is very good": "assets/audio/phrases/i-think-this-is-very-good.mp3",
+    "i understand": "assets/audio/phrases/i-understand.mp3",
+    "i want rice": "assets/audio/phrases/i-want-rice.mp3",
+    "i want water": "assets/audio/phrases/i-want-water.mp3",
+    "i work at nine": "assets/audio/phrases/i-work-at-nine.mp3",
+    "i work here": "assets/audio/phrases/i-work-here.mp3",
+    "i work on friday": "assets/audio/phrases/i-work-on-friday.mp3",
+    "i work": "assets/audio/phrases/i-work.mp3",
+    "i'm a beginner": "assets/audio/phrases/im-a-beginner.mp3",
+    "i'm ana": "assets/audio/phrases/im-ana.mp3",
+    "i'm from colombia": "assets/audio/phrases/im-from-colombia.mp3",
+    "i'm from here": "assets/audio/phrases/im-from-here.mp3",
+    "i'm from mexico": "assets/audio/phrases/im-from-mexico.mp3",
+    "i'm from mexico i live in new york i speak spanish i'm learning english": "assets/audio/phrases/im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english.mp3",
+    "i'm learning english": "assets/audio/phrases/im-learning-english.mp3",
+    "in the afternoon": "assets/audio/phrases/in-the-afternoon.mp3",
+    "in the morning": "assets/audio/phrases/in-the-morning.mp3",
+    "intenta otra vez": "assets/audio/phrases/intenta-otra-vez.mp3",
+    "it is eight o'clock": "assets/audio/phrases/it-is-eight-oclock.mp3",
+    "it is eight": "assets/audio/phrases/it-is-eight.mp3",
+    "it is noon": "assets/audio/phrases/it-is-noon.mp3",
+    "it is spelled e-r-i-k-a": "assets/audio/phrases/it-is-spelled-e-r-i-k-a.mp3",
+    "my birthday is in may": "assets/audio/phrases/my-birthday-is-in-may.mp3",
+    "my birthday is on may 5": "assets/audio/phrases/my-birthday-is-on-may-5.mp3",
+    "my name is ana": "assets/audio/phrases/my-name-is-ana.mp3",
+    "my name is erika": "assets/audio/phrases/my-name-is-erika.mp3",
+    "nice to meet you": "assets/audio/phrases/nice-to-meet-you.mp3",
+    "no i don't": "assets/audio/phrases/no-i-dont.mp3",
+    "presiona hablar y repite la palabra": "assets/audio/phrases/presiona-hablar-y-repite-la-palabra.mp3",
+    "repeat please": "assets/audio/phrases/repeat-please.mp3",
+    "she doesn't live here": "assets/audio/phrases/she-doesnt-live-here.mp3",
+    "she doesn't work here": "assets/audio/phrases/she-doesnt-work-here.mp3",
+    "she lives here": "assets/audio/phrases/she-lives-here.mp3",
+    "she works here": "assets/audio/phrases/she-works-here.mp3",
+    "they don't work here": "assets/audio/phrases/they-dont-work-here.mp3",
+    "they study english": "assets/audio/phrases/they-study-english.mp3",
+    "this is a pen": "assets/audio/phrases/this-is-a-pen.mp3",
+    "this is my book": "assets/audio/phrases/this-is-my-book.mp3",
+    "toca una letra para escucharla": "assets/audio/phrases/toca-una-letra-para-escucharla.mp3",
+    "toca una tarjeta para escuchar": "assets/audio/phrases/toca-una-tarjeta-para-escuchar.mp3",
+    "toca una tarjeta para ver cómo cambia el ejemplo": "assets/audio/phrases/toca-una-tarjeta-para-ver-como-cambia-el-ejemplo.mp3",
+    "today is monday": "assets/audio/phrases/today-is-monday.mp3",
+    "today is monday i practice on friday": "assets/audio/phrases/today-is-monday-i-practice-on-friday.mp3",
+    "tomorrow is tuesday": "assets/audio/phrases/tomorrow-is-tuesday.mp3",
+    "we don't study today": "assets/audio/phrases/we-dont-study-today.mp3",
+    "what does home mean": "assets/audio/phrases/what-does-home-mean.mp3",
+    "what does it mean": "assets/audio/phrases/what-does-it-mean.mp3",
+    "what does this mean": "assets/audio/phrases/what-does-this-mean.mp3",
+    "what is this": "assets/audio/phrases/what-is-this.mp3",
+    "what time is it": "assets/audio/phrases/what-time-is-it.mp3",
+    "when is your birthday": "assets/audio/phrases/when-is-your-birthday.mp3",
+    "where are you from": "assets/audio/phrases/where-are-you-from.mp3",
+    "yes i do": "assets/audio/phrases/yes-i-do.mp3",
+    "yes she does": "assets/audio/phrases/yes-she-does.mp3",
+    "yesterday was sunday": "assets/audio/phrases/yesterday-was-sunday.mp3",
+    "you work": "assets/audio/phrases/you-work.mp3",
+    "días de la semana habla de clases trabajo planes y rutinas": "assets/audio/lesson-intros/lesson-009-days.mp3",
+    "el alfabeto usa letras para decir información exacta practicar vocales y deletrear tu nombre": "assets/audio/lesson-intros/lesson-000-alphabet.mp3",
+    "frases de comida pide alimentos y habla de lo que quieres y te gusta": "assets/audio/lesson-intros/lesson-012-food.mp3",
+    "frases para clase pide ayuda solicita repetición y sigue aprendiendo en inglés": "assets/audio/lesson-intros/lesson-005-classroom-phrases.mp3",
+    "i am aprende una frase pequeña que te permite hablar de ti ahora mismo": "assets/audio/lesson-intros/lesson-013-i-am.mp3",
+    "identidad y lugar di de dónde eres dónde vives y qué idiomas hablas": "assets/audio/lesson-intros/lesson-006-identity-place.mp3",
+    "la hora pregunta y di horas simples para clases trabajo y rutinas": "assets/audio/lesson-intros/lesson-011-time.mp3",
+    "menos ando y menos endo se conectan con ing reconoce acciones en progreso": "assets/audio/lesson-intros/lesson-014-ing-pattern.mp3",
+    "meses y fechas habla de cumpleaños y eventos simples": "assets/audio/lesson-intros/lesson-010-months-dates.mp3",
+    "negaciones con don't y doesn't niega oraciones en presente con la estructura correcta": "assets/audio/lesson-intros/lesson-003-negaciones.mp3",
+    "números del uno al veinte habla de edad teléfono y cantidades simples": "assets/audio/lesson-intros/lesson-008-numbers.mp3",
+    "preguntas básicas pide claridad y ayuda dentro de una conversación real": "assets/audio/lesson-intros/lesson-007-basic-questions.mp3",
+    "preguntas con do y does formula preguntas en presente sin pensar palabra por palabra": "assets/audio/lesson-intros/lesson-002-preguntas.mp3",
+    "pronombres y verbos aprende quién hace la acción y cómo cambia el verbo en presente": "assets/audio/lesson-intros/lesson-001-pronombres.mp3",
+    "saludos e introducciones saluda di tu nombre y empieza una conversación corta": "assets/audio/lesson-intros/lesson-004-greetings.mp3",
+    "sílabas y acento aprende a sentir el ritmo del inglés: una sílaba fuerte y las demás más suaves": "assets/audio/lesson-intros/lesson-000-syllables.mp3",
+    "sonidos clave mejora tu pronunciación con los sonidos que más cambian el significado": "assets/audio/lesson-intros/lesson-001-sounds.mp3"
+  }
+}

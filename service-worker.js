@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -64,6 +64,7 @@ const PRECACHE_PATHS = [
   "verb.js",
   "data/lessons.js",
   "data/quizzes.js",
+  "assets/audio/audio-manifest.json",
   "assets/icons/icon-192.png",
   "assets/icons/icon-512.png"
 ];
@@ -76,6 +77,18 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(Array.from(precacheUrls)))
+      .then(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        const manifestUrl = new URL("assets/audio/audio-manifest.json", self.registration.scope).href;
+        const response = await cache.match(manifestUrl);
+        if (!response) return;
+        const manifest = await response.json();
+        const audioUrls = Object.values(manifest.entries || {})
+          .map((entry) => entry?.path)
+          .filter(Boolean)
+          .map((audioPath) => new URL(audioPath, self.registration.scope).href);
+        if (audioUrls.length) await cache.addAll(audioUrls);
+      })
       .then(() => self.skipWaiting())
   );
 });
@@ -132,6 +145,15 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   const cacheKey = normalizedPrecacheUrl(url.href);
+  const isGeneratedAudio = /\/assets\/audio\/(letters|words|phrases|lesson-intros)\/.+\.mp3$/i.test(url.pathname);
+
+  // Only manifest-listed MP3 files are installed in the cache. Other audio
+  // paths remain network-only if they are not already present there.
+  if (isGeneratedAudio) {
+    event.respondWith(caches.match(cacheKey).then((cached) => cached || fetch(request)));
+    return;
+  }
+
   if (!precacheUrls.has(cacheKey)) return;
 
   if (request.mode === "navigate") {
