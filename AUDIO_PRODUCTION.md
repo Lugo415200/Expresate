@@ -32,7 +32,7 @@ ELEVENLABS_OUTPUT_FORMAT=mp3_44100_128
 - Human-readable catalog: `AUDIO_INVENTORY.md`
 - Machine-readable catalog: `assets/audio/audio-inventory.json`
 
-The inventory is the source of truth for text, IDs, destinations, language, and source pages.
+The inventory is the source of truth for text, IDs, destinations, language, and source pages. An item may also define `generationText`; the generator sends that value to ElevenLabs while preserving `text` for the website and manifest lookup. This is useful for silent punctuation safeguards such as `"sheep."`.
 
 ## Generate Audio
 

@@ -80,7 +80,12 @@ function safeDestination(relativePath) {
 function loadInventory() {
   const inventory = JSON.parse(fs.readFileSync(INVENTORY_PATH, "utf8"));
   if (!Array.isArray(inventory.items)) throw new Error("Audio inventory has no items array.");
-  for (const item of inventory.items) safeDestination(item.destination);
+  for (const item of inventory.items) {
+    safeDestination(item.destination);
+    if (item.generationText !== undefined && (typeof item.generationText !== "string" || !item.generationText.trim())) {
+      throw new Error(`Invalid generationText for inventory item: ${item.id}`);
+    }
+  }
   return inventory;
 }
 
@@ -113,8 +118,11 @@ async function requestAudio(item, credentials) {
           "xi-api-key": credentials.apiKey
         },
         body: JSON.stringify({
-          text: item.text,
+          // generationText may add silent punctuation or other pronunciation
+          // safeguards. Display text and manifest lookup remain unchanged.
+          text: item.generationText || item.text,
           model_id: credentials.modelId,
+          language_code: String(item.language || "en-US").split("-")[0].toLowerCase(),
           voice_settings: {
             stability: 0.56,
             similarity_boost: 0.78,

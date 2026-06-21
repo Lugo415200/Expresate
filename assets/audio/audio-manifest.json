@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-21T06:56:17.195Z",
-  "entryCount": 266,
+  "generatedAt": "2026-06-21T07:15:31.257Z",
+  "entryCount": 267,
   "entries": {
     "letters-a": {
       "text": "A",
@@ -362,6 +362,11 @@
       "text": "jumping",
       "language": "en-US",
       "path": "assets/audio/words/jumping.mp3"
+    },
+    "words-juice": {
+      "text": "juice",
+      "language": "en-US",
+      "path": "assets/audio/words/juice.mp3"
     },
     "words-june": {
       "text": "June",
@@ -1407,6 +1412,7 @@
     "january": "assets/audio/words/january.mp3",
     "july": "assets/audio/words/july.mp3",
     "jumping": "assets/audio/words/jumping.mp3",
+    "juice": "assets/audio/words/juice.mp3",
     "june": "assets/audio/words/june.mp3",
     "live": "assets/audio/words/live.mp3",
     "march": "assets/audio/words/march.mp3",

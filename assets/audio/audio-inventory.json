@@ -50,7 +50,7 @@
     "sync.js",
     "verb.js"
   ],
-  "itemCount": 266,
+  "itemCount": 267,
   "categories": {
     "letters": [
       "letters-a",
@@ -134,6 +134,7 @@
       "words-january",
       "words-july",
       "words-jumping",
+      "words-juice",
       "words-june",
       "words-live",
       "words-march",
@@ -398,6 +399,7 @@
       "category": "letters",
       "language": "en-US",
       "text": "A",
+      "generationText": "A.",
       "filename": "a.mp3",
       "destination": "assets/audio/letters/a.mp3",
       "sources": [
@@ -448,6 +450,7 @@
       "category": "letters",
       "language": "en-US",
       "text": "E",
+      "generationText": "E.",
       "filename": "e.mp3",
       "destination": "assets/audio/letters/e.mp3",
       "sources": [
@@ -498,6 +501,7 @@
       "category": "letters",
       "language": "en-US",
       "text": "I",
+      "generationText": "I.",
       "filename": "i.mp3",
       "destination": "assets/audio/letters/i.mp3",
       "sources": [
@@ -610,6 +614,7 @@
       "category": "letters",
       "language": "en-US",
       "text": "R",
+      "generationText": "R.",
       "filename": "r.mp3",
       "destination": "assets/audio/letters/r.mp3",
       "sources": [
@@ -708,6 +713,7 @@
       "category": "letters",
       "language": "en-US",
       "text": "Z",
+      "generationText": "Z.",
       "filename": "z.mp3",
       "destination": "assets/audio/letters/z.mp3",
       "sources": [
@@ -848,6 +854,7 @@
       "category": "words",
       "language": "en-US",
       "text": "bread",
+      "generationText": "bread.",
       "filename": "bread.mp3",
       "destination": "assets/audio/words/bread.mp3",
       "sources": [
@@ -877,6 +884,7 @@
       "category": "words",
       "language": "en-US",
       "text": "cat",
+      "generationText": "cat.",
       "filename": "cat.mp3",
       "destination": "assets/audio/words/cat.mp3",
       "sources": [
@@ -913,6 +921,7 @@
       "category": "words",
       "language": "en-US",
       "text": "cheese",
+      "generationText": "cheese.",
       "filename": "cheese.mp3",
       "destination": "assets/audio/words/cheese.mp3",
       "sources": [
@@ -1020,6 +1029,7 @@
       "category": "words",
       "language": "en-US",
       "text": "egg",
+      "generationText": "egg.",
       "filename": "egg.mp3",
       "destination": "assets/audio/words/egg.mp3",
       "sources": [
@@ -1133,6 +1143,7 @@
       "category": "words",
       "language": "en-US",
       "text": "fish",
+      "generationText": "fish.",
       "filename": "fish.mp3",
       "destination": "assets/audio/words/fish.mp3",
       "sources": [
@@ -1300,6 +1311,19 @@
       "tags": []
     },
     {
+      "id": "words-juice",
+      "category": "words",
+      "language": "en-US",
+      "text": "juice",
+      "generationText": "juice.",
+      "filename": "juice.mp3",
+      "destination": "assets/audio/words/juice.mp3",
+      "sources": [],
+      "tags": [
+        "pronunciation-test"
+      ]
+    },
+    {
       "id": "words-june",
       "category": "words",
       "language": "en-US",
@@ -1354,6 +1378,7 @@
       "category": "words",
       "language": "en-US",
       "text": "milk",
+      "generationText": "milk.",
       "filename": "milk.mp3",
       "destination": "assets/audio/words/milk.mp3",
       "sources": [
@@ -1525,6 +1550,7 @@
       "category": "words",
       "language": "en-US",
       "text": "rice",
+      "generationText": "rice.",
       "filename": "rice.mp3",
       "destination": "assets/audio/words/rice.mp3",
       "sources": [
@@ -1638,6 +1664,7 @@
       "category": "words",
       "language": "en-US",
       "text": "sheep",
+      "generationText": "sheep.",
       "filename": "sheep.mp3",
       "destination": "assets/audio/words/sheep.mp3",
       "sources": [
@@ -1650,6 +1677,7 @@
       "category": "words",
       "language": "en-US",
       "text": "ship",
+      "generationText": "ship.",
       "filename": "ship.mp3",
       "destination": "assets/audio/words/ship.mp3",
       "sources": [
@@ -1821,6 +1849,7 @@
       "category": "words",
       "language": "en-US",
       "text": "think",
+      "generationText": "think.",
       "filename": "think.mp3",
       "destination": "assets/audio/words/think.mp3",
       "sources": [
@@ -1861,6 +1890,7 @@
       "category": "words",
       "language": "en-US",
       "text": "this",
+      "generationText": "this.",
       "filename": "this.mp3",
       "destination": "assets/audio/words/this.mp3",
       "sources": [

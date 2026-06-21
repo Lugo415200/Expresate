@@ -1,7 +1,7 @@
 # Exprésate Audio Inventory
 
 Inventory version: **1**
-Canonical spoken items: **266**
+Canonical spoken items: **267**
 HTML/JS sources scanned: **45**
 Generated: **2026-06-20**
 
@@ -10,6 +10,8 @@ Generated: **2026-06-20**
 Audio-worthy instructional and learner-spoken content. Navigation labels, buttons, and long explanatory paragraphs are intentionally excluded.
 
 Repeated words and phrases use one canonical MP3. The Vowels, Game Audio, and Speech Practice sections reference those canonical items rather than creating duplicate files.
+
+The machine-readable inventory may define `generationText` when ElevenLabs needs silent punctuation or another pronunciation safeguard. Display text, filenames, and runtime manifest lookup continue to use `text`.
 
 Existing files under `audio/alphabet/` are preserved. This inventory recommends future ElevenLabs output under `assets/audio/letters/`.
 
@@ -104,6 +106,7 @@ Existing files under `audio/alphabet/` are preserved. This inventory recommends 
 | January | `en-US` | `january.mp3` | `assets/audio/words/january.mp3` | `lesson-010-months-dates.html` |
 | July | `en-US` | `july.mp3` | `assets/audio/words/july.mp3` | `lesson-010-months-dates.html` |
 | jumping | `en-US` | `jumping.mp3` | `assets/audio/words/jumping.mp3` | `lesson-014-ing-pattern.html` |
+| juice | `en-US` | `juice.mp3` | `assets/audio/words/juice.mp3` | pronunciation test |
 | June | `en-US` | `june.mp3` | `assets/audio/words/june.mp3` | `lesson-010-months-dates.html` |
 | live | `en-US` | `live.mp3` | `assets/audio/words/live.mp3` | `lesson-001.html` |
 | March | `en-US` | `march.mp3` | `assets/audio/words/march.mp3` | `lesson-010-months-dates.html` |
