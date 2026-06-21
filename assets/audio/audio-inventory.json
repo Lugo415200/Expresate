@@ -1,0 +1,3747 @@
+{
+  "version": 1,
+  "generatedOn": "2026-06-20",
+  "scope": "Audio-worthy instructional and learner-spoken content. Navigation labels, buttons, and long explanatory paragraphs are intentionally excluded.",
+  "deduplication": "Each spoken text has one canonical item. Category arrays may reference the same item ID.",
+  "scannedSources": [
+    "Syllables.html",
+    "_tmp_build_audio_inventory.js",
+    "access.js",
+    "alerts.js",
+    "app.js",
+    "auth.html",
+    "auth.js",
+    "curso.html",
+    "curso.js",
+    "data/lessons.js",
+    "data/quizzes.js",
+    "diccionario.html",
+    "diccionario.js",
+    "home.js",
+    "index.html",
+    "juego-comida.html",
+    "juego-comida.js",
+    "lesson-000-alphabet.html",
+    "lesson-001-sounds.html",
+    "lesson-001.html",
+    "lesson-001.js",
+    "lesson-002.html",
+    "lesson-003.html",
+    "lesson-004-greetings.html",
+    "lesson-005-classroom-phrases.html",
+    "lesson-006-identity-place.html",
+    "lesson-007-basic-questions.html",
+    "lesson-008-numbers-1-20.html",
+    "lesson-009-days-of-week.html",
+    "lesson-010-months-dates.html",
+    "lesson-011-time-basics.html",
+    "lesson-012-food-phrases.html",
+    "lesson-013-i-am.html",
+    "lesson-014-ing-pattern.html",
+    "lesson.js",
+    "lessons.html",
+    "mini-deck.js",
+    "nav.js",
+    "pricing.html",
+    "progress.js",
+    "service-worker.js",
+    "speech-practice.js",
+    "supabaseClient.js",
+    "sync.js",
+    "verb.js"
+  ],
+  "itemCount": 266,
+  "categories": {
+    "letters": [
+      "letters-a",
+      "letters-b",
+      "letters-c",
+      "letters-d",
+      "letters-e",
+      "letters-f",
+      "letters-g",
+      "letters-h",
+      "letters-i",
+      "letters-j",
+      "letters-k",
+      "letters-l",
+      "letters-m",
+      "letters-n",
+      "letters-o",
+      "letters-p",
+      "letters-q",
+      "letters-r",
+      "letters-s",
+      "letters-t",
+      "letters-u",
+      "letters-v",
+      "letters-w",
+      "letters-x",
+      "letters-y",
+      "letters-z"
+    ],
+    "vowels": [
+      "letters-a",
+      "letters-e",
+      "letters-i",
+      "letters-o",
+      "letters-u"
+    ],
+    "words": [
+      "words-about",
+      "words-afternoon",
+      "words-apple",
+      "words-april",
+      "words-august",
+      "words-banana",
+      "words-beginner",
+      "words-berry",
+      "words-birthday",
+      "words-book",
+      "words-bread",
+      "words-camera",
+      "words-cat",
+      "words-chair",
+      "words-check",
+      "words-cheese",
+      "words-chicken",
+      "words-coffee",
+      "words-comfortable",
+      "words-dancing",
+      "words-december",
+      "words-driving",
+      "words-eating",
+      "words-egg",
+      "words-eight",
+      "words-eighteen",
+      "words-eleven",
+      "words-english",
+      "words-evening",
+      "words-family",
+      "words-february",
+      "words-fifteen",
+      "words-fish",
+      "words-five",
+      "words-four",
+      "words-fourteen",
+      "words-friday",
+      "words-happy",
+      "words-hello",
+      "words-help",
+      "words-hi",
+      "words-home",
+      "words-hungry",
+      "words-january",
+      "words-july",
+      "words-jumping",
+      "words-june",
+      "words-live",
+      "words-march",
+      "words-may",
+      "words-milk",
+      "words-monday",
+      "words-morning",
+      "words-name",
+      "words-night",
+      "words-nine",
+      "words-nineteen",
+      "words-noon",
+      "words-november",
+      "words-october",
+      "words-one",
+      "words-pen",
+      "words-please",
+      "words-repeat",
+      "words-rice",
+      "words-run",
+      "words-running",
+      "words-sad",
+      "words-saturday",
+      "words-september",
+      "words-seven",
+      "words-seventeen",
+      "words-she",
+      "words-sheep",
+      "words-ship",
+      "words-shop",
+      "words-six",
+      "words-sixteen",
+      "words-sleeping",
+      "words-speaking",
+      "words-study",
+      "words-studying",
+      "words-sunday",
+      "words-swimming",
+      "words-talking",
+      "words-tea",
+      "words-teacher",
+      "words-ten",
+      "words-think",
+      "words-thirteen",
+      "words-thirty",
+      "words-this",
+      "words-three",
+      "words-thursday",
+      "words-tired",
+      "words-today",
+      "words-tomorrow",
+      "words-tuesday",
+      "words-twelve",
+      "words-twenty",
+      "words-two",
+      "words-understand",
+      "words-upset",
+      "words-very",
+      "words-water",
+      "words-wednesday",
+      "words-work",
+      "words-yesterday"
+    ],
+    "phrases": [
+      "phrases-12th-street",
+      "phrases-ahora-escucha-como-se-deletrea-tu-nombre",
+      "phrases-at-night",
+      "phrases-can-i-have-bread-please",
+      "phrases-can-i-have-bread",
+      "phrases-can-i-have-coffee-please",
+      "phrases-can-i-have-tea-please",
+      "phrases-can-i-have-water",
+      "phrases-can-you-repeat-please",
+      "phrases-can-you-say-that-again",
+      "phrases-class-is-at-eight",
+      "phrases-d-a-n-i-e-l",
+      "phrases-di-esta-palabra-en-ingles",
+      "phrases-do-they-study",
+      "phrases-do-you-work",
+      "phrases-does-she-live-here",
+      "phrases-does-she-work",
+      "phrases-elige-una-palabra-luego-lee-la-frase-completa",
+      "phrases-escribe-tu-nombre",
+      "phrases-escucha-y-repite",
+      "phrases-excelente-continua",
+      "phrases-g-m-a-i-l-dot-com",
+      "phrases-good-afternoon",
+      "phrases-good-evening",
+      "phrases-good-morning",
+      "phrases-he-doesnt-study-english",
+      "phrases-he-works",
+      "phrases-hello-my-name-is-ana",
+      "phrases-hello-whats-your-name",
+      "phrases-how-do-you-say-biblioteca-in-english",
+      "phrases-how-do-you-say-cuaderno-in-english",
+      "phrases-i-am-ana",
+      "phrases-i-am-driving",
+      "phrases-i-am-from-mexico",
+      "phrases-i-am-happy",
+      "phrases-i-am-hungry",
+      "phrases-i-am-running",
+      "phrases-i-am-sad",
+      "phrases-i-am-sleeping",
+      "phrases-i-am-tired",
+      "phrases-i-am-twenty-years-old",
+      "phrases-i-am-twenty",
+      "phrases-i-am-upset",
+      "phrases-i-dont-live-here",
+      "phrases-i-dont-understand-yet",
+      "phrases-i-dont-understand",
+      "phrases-i-dont-work",
+      "phrases-i-have-class-on-monday",
+      "phrases-i-like-cheese",
+      "phrases-i-like-coffee",
+      "phrases-i-live-here",
+      "phrases-i-live-in-miami",
+      "phrases-i-live-in-the-united-states",
+      "phrases-i-need-help",
+      "phrases-i-need-two",
+      "phrases-i-practice-at-six",
+      "phrases-i-practice-on-sunday",
+      "phrases-i-run-every-day",
+      "phrases-i-speak-spanish",
+      "phrases-i-think-this-is-very-good",
+      "phrases-i-understand",
+      "phrases-i-want-rice",
+      "phrases-i-want-water",
+      "phrases-i-work-at-nine",
+      "phrases-i-work-here",
+      "phrases-i-work-on-friday",
+      "phrases-i-work",
+      "phrases-im-a-beginner",
+      "phrases-im-ana",
+      "phrases-im-from-colombia",
+      "phrases-im-from-here",
+      "phrases-im-from-mexico",
+      "phrases-im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english",
+      "phrases-im-learning-english",
+      "phrases-in-the-afternoon",
+      "phrases-in-the-morning",
+      "phrases-intenta-otra-vez",
+      "phrases-it-is-eight-oclock",
+      "phrases-it-is-eight",
+      "phrases-it-is-noon",
+      "phrases-it-is-spelled-e-r-i-k-a",
+      "phrases-my-birthday-is-in-may",
+      "phrases-my-birthday-is-on-may-5",
+      "phrases-my-name-is-ana",
+      "phrases-my-name-is-erika",
+      "phrases-nice-to-meet-you",
+      "phrases-no-i-dont",
+      "phrases-presiona-hablar-y-repite-la-palabra",
+      "phrases-repeat-please",
+      "phrases-she-doesnt-live-here",
+      "phrases-she-doesnt-work-here",
+      "phrases-she-lives-here",
+      "phrases-she-works-here",
+      "phrases-they-dont-work-here",
+      "phrases-they-study-english",
+      "phrases-this-is-a-pen",
+      "phrases-this-is-my-book",
+      "phrases-toca-una-letra-para-escucharla",
+      "phrases-toca-una-tarjeta-para-escuchar",
+      "phrases-toca-una-tarjeta-para-ver-como-cambia-el-ejemplo",
+      "phrases-today-is-monday",
+      "phrases-today-is-monday-i-practice-on-friday",
+      "phrases-tomorrow-is-tuesday",
+      "phrases-we-dont-study-today",
+      "phrases-what-does-home-mean",
+      "phrases-what-does-it-mean",
+      "phrases-what-does-this-mean",
+      "phrases-what-is-this",
+      "phrases-what-time-is-it",
+      "phrases-when-is-your-birthday",
+      "phrases-where-are-you-from",
+      "phrases-yes-i-do",
+      "phrases-yes-she-does",
+      "phrases-yesterday-was-sunday",
+      "phrases-you-work"
+    ],
+    "lessonIntros": [
+      "lesson-intros-lesson-009-days",
+      "lesson-intros-lesson-000-alphabet",
+      "lesson-intros-lesson-012-food",
+      "lesson-intros-lesson-005-classroom-phrases",
+      "lesson-intros-lesson-013-i-am",
+      "lesson-intros-lesson-006-identity-place",
+      "lesson-intros-lesson-011-time",
+      "lesson-intros-lesson-014-ing-pattern",
+      "lesson-intros-lesson-010-months-dates",
+      "lesson-intros-lesson-003-negaciones",
+      "lesson-intros-lesson-008-numbers",
+      "lesson-intros-lesson-007-basic-questions",
+      "lesson-intros-lesson-002-preguntas",
+      "lesson-intros-lesson-001-pronombres",
+      "lesson-intros-lesson-004-greetings",
+      "lesson-intros-lesson-000-syllables",
+      "lesson-intros-lesson-001-sounds"
+    ],
+    "gameAudio": [
+      "words-apple",
+      "words-banana",
+      "words-bread",
+      "words-cheese",
+      "words-chicken",
+      "words-coffee",
+      "words-egg",
+      "words-fish",
+      "words-milk",
+      "words-rice",
+      "words-tea",
+      "words-water"
+    ],
+    "speechPracticePrompts": [
+      "words-birthday",
+      "words-camera",
+      "words-comfortable",
+      "words-family",
+      "words-june",
+      "words-she",
+      "words-think",
+      "words-thirteen",
+      "words-three",
+      "words-thursday",
+      "words-wednesday",
+      "phrases-can-i-have-bread-please",
+      "phrases-can-you-repeat-please",
+      "phrases-can-you-say-that-again",
+      "phrases-class-is-at-eight",
+      "phrases-do-they-study",
+      "phrases-do-you-work",
+      "phrases-does-she-live-here",
+      "phrases-he-doesnt-study-english",
+      "phrases-hello-my-name-is-ana",
+      "phrases-i-am-hungry",
+      "phrases-i-am-running",
+      "phrases-i-am-tired",
+      "phrases-i-am-twenty",
+      "phrases-i-dont-understand",
+      "phrases-i-dont-work",
+      "phrases-i-like-coffee",
+      "phrases-i-speak-spanish",
+      "phrases-i-think-this-is-very-good",
+      "phrases-i-want-water",
+      "phrases-i-work-here",
+      "phrases-im-from-mexico",
+      "phrases-im-learning-english",
+      "phrases-it-is-eight-oclock",
+      "phrases-my-birthday-is-in-may",
+      "phrases-nice-to-meet-you",
+      "phrases-she-doesnt-live-here",
+      "phrases-she-lives-here",
+      "phrases-they-study-english",
+      "phrases-today-is-monday",
+      "phrases-what-time-is-it",
+      "phrases-where-are-you-from"
+    ]
+  },
+  "items": [
+    {
+      "id": "letters-a",
+      "category": "letters",
+      "language": "en-US",
+      "text": "A",
+      "filename": "a.mp3",
+      "destination": "assets/audio/letters/a.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "vowel"
+      ]
+    },
+    {
+      "id": "letters-b",
+      "category": "letters",
+      "language": "en-US",
+      "text": "B",
+      "filename": "b.mp3",
+      "destination": "assets/audio/letters/b.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-c",
+      "category": "letters",
+      "language": "en-US",
+      "text": "C",
+      "filename": "c.mp3",
+      "destination": "assets/audio/letters/c.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-d",
+      "category": "letters",
+      "language": "en-US",
+      "text": "D",
+      "filename": "d.mp3",
+      "destination": "assets/audio/letters/d.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-e",
+      "category": "letters",
+      "language": "en-US",
+      "text": "E",
+      "filename": "e.mp3",
+      "destination": "assets/audio/letters/e.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "vowel"
+      ]
+    },
+    {
+      "id": "letters-f",
+      "category": "letters",
+      "language": "en-US",
+      "text": "F",
+      "filename": "f.mp3",
+      "destination": "assets/audio/letters/f.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-g",
+      "category": "letters",
+      "language": "en-US",
+      "text": "G",
+      "filename": "g.mp3",
+      "destination": "assets/audio/letters/g.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-h",
+      "category": "letters",
+      "language": "en-US",
+      "text": "H",
+      "filename": "h.mp3",
+      "destination": "assets/audio/letters/h.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-i",
+      "category": "letters",
+      "language": "en-US",
+      "text": "I",
+      "filename": "i.mp3",
+      "destination": "assets/audio/letters/i.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "vowel"
+      ]
+    },
+    {
+      "id": "letters-j",
+      "category": "letters",
+      "language": "en-US",
+      "text": "J",
+      "filename": "j.mp3",
+      "destination": "assets/audio/letters/j.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-k",
+      "category": "letters",
+      "language": "en-US",
+      "text": "K",
+      "filename": "k.mp3",
+      "destination": "assets/audio/letters/k.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-l",
+      "category": "letters",
+      "language": "en-US",
+      "text": "L",
+      "filename": "l.mp3",
+      "destination": "assets/audio/letters/l.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-m",
+      "category": "letters",
+      "language": "en-US",
+      "text": "M",
+      "filename": "m.mp3",
+      "destination": "assets/audio/letters/m.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-n",
+      "category": "letters",
+      "language": "en-US",
+      "text": "N",
+      "filename": "n.mp3",
+      "destination": "assets/audio/letters/n.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-o",
+      "category": "letters",
+      "language": "en-US",
+      "text": "O",
+      "filename": "o.mp3",
+      "destination": "assets/audio/letters/o.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "vowel"
+      ]
+    },
+    {
+      "id": "letters-p",
+      "category": "letters",
+      "language": "en-US",
+      "text": "P",
+      "filename": "p.mp3",
+      "destination": "assets/audio/letters/p.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-q",
+      "category": "letters",
+      "language": "en-US",
+      "text": "Q",
+      "filename": "q.mp3",
+      "destination": "assets/audio/letters/q.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-r",
+      "category": "letters",
+      "language": "en-US",
+      "text": "R",
+      "filename": "r.mp3",
+      "destination": "assets/audio/letters/r.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-s",
+      "category": "letters",
+      "language": "en-US",
+      "text": "S",
+      "filename": "s.mp3",
+      "destination": "assets/audio/letters/s.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-t",
+      "category": "letters",
+      "language": "en-US",
+      "text": "T",
+      "filename": "t.mp3",
+      "destination": "assets/audio/letters/t.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-u",
+      "category": "letters",
+      "language": "en-US",
+      "text": "U",
+      "filename": "u.mp3",
+      "destination": "assets/audio/letters/u.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "vowel"
+      ]
+    },
+    {
+      "id": "letters-v",
+      "category": "letters",
+      "language": "en-US",
+      "text": "V",
+      "filename": "v.mp3",
+      "destination": "assets/audio/letters/v.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-w",
+      "category": "letters",
+      "language": "en-US",
+      "text": "W",
+      "filename": "w.mp3",
+      "destination": "assets/audio/letters/w.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-x",
+      "category": "letters",
+      "language": "en-US",
+      "text": "X",
+      "filename": "x.mp3",
+      "destination": "assets/audio/letters/x.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-y",
+      "category": "letters",
+      "language": "en-US",
+      "text": "Y",
+      "filename": "y.mp3",
+      "destination": "assets/audio/letters/y.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "letters-z",
+      "category": "letters",
+      "language": "en-US",
+      "text": "Z",
+      "filename": "z.mp3",
+      "destination": "assets/audio/letters/z.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-about",
+      "category": "words",
+      "language": "en-US",
+      "text": "about",
+      "filename": "about.mp3",
+      "destination": "assets/audio/words/about.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-afternoon",
+      "category": "words",
+      "language": "en-US",
+      "text": "afternoon",
+      "filename": "afternoon.mp3",
+      "destination": "assets/audio/words/afternoon.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-apple",
+      "category": "words",
+      "language": "en-US",
+      "text": "apple",
+      "filename": "apple.mp3",
+      "destination": "assets/audio/words/apple.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-april",
+      "category": "words",
+      "language": "en-US",
+      "text": "April",
+      "filename": "april.mp3",
+      "destination": "assets/audio/words/april.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-august",
+      "category": "words",
+      "language": "en-US",
+      "text": "August",
+      "filename": "august.mp3",
+      "destination": "assets/audio/words/august.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-banana",
+      "category": "words",
+      "language": "en-US",
+      "text": "banana",
+      "filename": "banana.mp3",
+      "destination": "assets/audio/words/banana.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-beginner",
+      "category": "words",
+      "language": "en-US",
+      "text": "beginner",
+      "filename": "beginner.mp3",
+      "destination": "assets/audio/words/beginner.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-berry",
+      "category": "words",
+      "language": "en-US",
+      "text": "berry",
+      "filename": "berry.mp3",
+      "destination": "assets/audio/words/berry.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-birthday",
+      "category": "words",
+      "language": "en-US",
+      "text": "birthday",
+      "filename": "birthday.mp3",
+      "destination": "assets/audio/words/birthday.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-book",
+      "category": "words",
+      "language": "en-US",
+      "text": "book",
+      "filename": "book.mp3",
+      "destination": "assets/audio/words/book.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-bread",
+      "category": "words",
+      "language": "en-US",
+      "text": "bread",
+      "filename": "bread.mp3",
+      "destination": "assets/audio/words/bread.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-camera",
+      "category": "words",
+      "language": "en-US",
+      "text": "camera",
+      "filename": "camera.mp3",
+      "destination": "assets/audio/words/camera.mp3",
+      "sources": [
+        "Syllables.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-cat",
+      "category": "words",
+      "language": "en-US",
+      "text": "cat",
+      "filename": "cat.mp3",
+      "destination": "assets/audio/words/cat.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-chair",
+      "category": "words",
+      "language": "en-US",
+      "text": "chair",
+      "filename": "chair.mp3",
+      "destination": "assets/audio/words/chair.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-check",
+      "category": "words",
+      "language": "en-US",
+      "text": "check",
+      "filename": "check.mp3",
+      "destination": "assets/audio/words/check.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-cheese",
+      "category": "words",
+      "language": "en-US",
+      "text": "cheese",
+      "filename": "cheese.mp3",
+      "destination": "assets/audio/words/cheese.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-chicken",
+      "category": "words",
+      "language": "en-US",
+      "text": "chicken",
+      "filename": "chicken.mp3",
+      "destination": "assets/audio/words/chicken.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-coffee",
+      "category": "words",
+      "language": "en-US",
+      "text": "coffee",
+      "filename": "coffee.mp3",
+      "destination": "assets/audio/words/coffee.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-comfortable",
+      "category": "words",
+      "language": "en-US",
+      "text": "comfortable",
+      "filename": "comfortable.mp3",
+      "destination": "assets/audio/words/comfortable.mp3",
+      "sources": [
+        "Syllables.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-dancing",
+      "category": "words",
+      "language": "en-US",
+      "text": "dancing",
+      "filename": "dancing.mp3",
+      "destination": "assets/audio/words/dancing.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-december",
+      "category": "words",
+      "language": "en-US",
+      "text": "December",
+      "filename": "december.mp3",
+      "destination": "assets/audio/words/december.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-driving",
+      "category": "words",
+      "language": "en-US",
+      "text": "driving",
+      "filename": "driving.mp3",
+      "destination": "assets/audio/words/driving.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-eating",
+      "category": "words",
+      "language": "en-US",
+      "text": "eating",
+      "filename": "eating.mp3",
+      "destination": "assets/audio/words/eating.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-egg",
+      "category": "words",
+      "language": "en-US",
+      "text": "egg",
+      "filename": "egg.mp3",
+      "destination": "assets/audio/words/egg.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-eight",
+      "category": "words",
+      "language": "en-US",
+      "text": "eight",
+      "filename": "eight.mp3",
+      "destination": "assets/audio/words/eight.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-eighteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "eighteen",
+      "filename": "eighteen.mp3",
+      "destination": "assets/audio/words/eighteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-eleven",
+      "category": "words",
+      "language": "en-US",
+      "text": "eleven",
+      "filename": "eleven.mp3",
+      "destination": "assets/audio/words/eleven.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-english",
+      "category": "words",
+      "language": "en-US",
+      "text": "English",
+      "filename": "english.mp3",
+      "destination": "assets/audio/words/english.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-evening",
+      "category": "words",
+      "language": "en-US",
+      "text": "evening",
+      "filename": "evening.mp3",
+      "destination": "assets/audio/words/evening.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-family",
+      "category": "words",
+      "language": "en-US",
+      "text": "family",
+      "filename": "family.mp3",
+      "destination": "assets/audio/words/family.mp3",
+      "sources": [
+        "Syllables.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-february",
+      "category": "words",
+      "language": "en-US",
+      "text": "February",
+      "filename": "february.mp3",
+      "destination": "assets/audio/words/february.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-fifteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "fifteen",
+      "filename": "fifteen.mp3",
+      "destination": "assets/audio/words/fifteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-fish",
+      "category": "words",
+      "language": "en-US",
+      "text": "fish",
+      "filename": "fish.mp3",
+      "destination": "assets/audio/words/fish.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-five",
+      "category": "words",
+      "language": "en-US",
+      "text": "five",
+      "filename": "five.mp3",
+      "destination": "assets/audio/words/five.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-four",
+      "category": "words",
+      "language": "en-US",
+      "text": "four",
+      "filename": "four.mp3",
+      "destination": "assets/audio/words/four.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-fourteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "fourteen",
+      "filename": "fourteen.mp3",
+      "destination": "assets/audio/words/fourteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-friday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Friday",
+      "filename": "friday.mp3",
+      "destination": "assets/audio/words/friday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-happy",
+      "category": "words",
+      "language": "en-US",
+      "text": "happy",
+      "filename": "happy.mp3",
+      "destination": "assets/audio/words/happy.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-hello",
+      "category": "words",
+      "language": "en-US",
+      "text": "hello",
+      "filename": "hello.mp3",
+      "destination": "assets/audio/words/hello.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-help",
+      "category": "words",
+      "language": "en-US",
+      "text": "help",
+      "filename": "help.mp3",
+      "destination": "assets/audio/words/help.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-hi",
+      "category": "words",
+      "language": "en-US",
+      "text": "hi",
+      "filename": "hi.mp3",
+      "destination": "assets/audio/words/hi.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-home",
+      "category": "words",
+      "language": "en-US",
+      "text": "home",
+      "filename": "home.mp3",
+      "destination": "assets/audio/words/home.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-hungry",
+      "category": "words",
+      "language": "en-US",
+      "text": "hungry",
+      "filename": "hungry.mp3",
+      "destination": "assets/audio/words/hungry.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-january",
+      "category": "words",
+      "language": "en-US",
+      "text": "January",
+      "filename": "january.mp3",
+      "destination": "assets/audio/words/january.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-july",
+      "category": "words",
+      "language": "en-US",
+      "text": "July",
+      "filename": "july.mp3",
+      "destination": "assets/audio/words/july.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-jumping",
+      "category": "words",
+      "language": "en-US",
+      "text": "jumping",
+      "filename": "jumping.mp3",
+      "destination": "assets/audio/words/jumping.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-june",
+      "category": "words",
+      "language": "en-US",
+      "text": "June",
+      "filename": "june.mp3",
+      "destination": "assets/audio/words/june.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-live",
+      "category": "words",
+      "language": "en-US",
+      "text": "live",
+      "filename": "live.mp3",
+      "destination": "assets/audio/words/live.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-march",
+      "category": "words",
+      "language": "en-US",
+      "text": "March",
+      "filename": "march.mp3",
+      "destination": "assets/audio/words/march.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-may",
+      "category": "words",
+      "language": "en-US",
+      "text": "May",
+      "filename": "may.mp3",
+      "destination": "assets/audio/words/may.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-milk",
+      "category": "words",
+      "language": "en-US",
+      "text": "milk",
+      "filename": "milk.mp3",
+      "destination": "assets/audio/words/milk.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-monday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Monday",
+      "filename": "monday.mp3",
+      "destination": "assets/audio/words/monday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-morning",
+      "category": "words",
+      "language": "en-US",
+      "text": "morning",
+      "filename": "morning.mp3",
+      "destination": "assets/audio/words/morning.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-name",
+      "category": "words",
+      "language": "en-US",
+      "text": "name",
+      "filename": "name.mp3",
+      "destination": "assets/audio/words/name.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-night",
+      "category": "words",
+      "language": "en-US",
+      "text": "night",
+      "filename": "night.mp3",
+      "destination": "assets/audio/words/night.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-nine",
+      "category": "words",
+      "language": "en-US",
+      "text": "nine",
+      "filename": "nine.mp3",
+      "destination": "assets/audio/words/nine.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-nineteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "nineteen",
+      "filename": "nineteen.mp3",
+      "destination": "assets/audio/words/nineteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-noon",
+      "category": "words",
+      "language": "en-US",
+      "text": "noon",
+      "filename": "noon.mp3",
+      "destination": "assets/audio/words/noon.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-november",
+      "category": "words",
+      "language": "en-US",
+      "text": "November",
+      "filename": "november.mp3",
+      "destination": "assets/audio/words/november.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-october",
+      "category": "words",
+      "language": "en-US",
+      "text": "October",
+      "filename": "october.mp3",
+      "destination": "assets/audio/words/october.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-one",
+      "category": "words",
+      "language": "en-US",
+      "text": "one",
+      "filename": "one.mp3",
+      "destination": "assets/audio/words/one.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-pen",
+      "category": "words",
+      "language": "en-US",
+      "text": "pen",
+      "filename": "pen.mp3",
+      "destination": "assets/audio/words/pen.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-please",
+      "category": "words",
+      "language": "en-US",
+      "text": "please",
+      "filename": "please.mp3",
+      "destination": "assets/audio/words/please.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-repeat",
+      "category": "words",
+      "language": "en-US",
+      "text": "repeat",
+      "filename": "repeat.mp3",
+      "destination": "assets/audio/words/repeat.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-rice",
+      "category": "words",
+      "language": "en-US",
+      "text": "rice",
+      "filename": "rice.mp3",
+      "destination": "assets/audio/words/rice.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-run",
+      "category": "words",
+      "language": "en-US",
+      "text": "run",
+      "filename": "run.mp3",
+      "destination": "assets/audio/words/run.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-running",
+      "category": "words",
+      "language": "en-US",
+      "text": "running",
+      "filename": "running.mp3",
+      "destination": "assets/audio/words/running.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-sad",
+      "category": "words",
+      "language": "en-US",
+      "text": "sad",
+      "filename": "sad.mp3",
+      "destination": "assets/audio/words/sad.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-saturday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Saturday",
+      "filename": "saturday.mp3",
+      "destination": "assets/audio/words/saturday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-september",
+      "category": "words",
+      "language": "en-US",
+      "text": "September",
+      "filename": "september.mp3",
+      "destination": "assets/audio/words/september.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-seven",
+      "category": "words",
+      "language": "en-US",
+      "text": "seven",
+      "filename": "seven.mp3",
+      "destination": "assets/audio/words/seven.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-seventeen",
+      "category": "words",
+      "language": "en-US",
+      "text": "seventeen",
+      "filename": "seventeen.mp3",
+      "destination": "assets/audio/words/seventeen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-she",
+      "category": "words",
+      "language": "en-US",
+      "text": "she",
+      "filename": "she.mp3",
+      "destination": "assets/audio/words/she.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-sheep",
+      "category": "words",
+      "language": "en-US",
+      "text": "sheep",
+      "filename": "sheep.mp3",
+      "destination": "assets/audio/words/sheep.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-ship",
+      "category": "words",
+      "language": "en-US",
+      "text": "ship",
+      "filename": "ship.mp3",
+      "destination": "assets/audio/words/ship.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-shop",
+      "category": "words",
+      "language": "en-US",
+      "text": "shop",
+      "filename": "shop.mp3",
+      "destination": "assets/audio/words/shop.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-six",
+      "category": "words",
+      "language": "en-US",
+      "text": "six",
+      "filename": "six.mp3",
+      "destination": "assets/audio/words/six.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-sixteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "sixteen",
+      "filename": "sixteen.mp3",
+      "destination": "assets/audio/words/sixteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-sleeping",
+      "category": "words",
+      "language": "en-US",
+      "text": "sleeping",
+      "filename": "sleeping.mp3",
+      "destination": "assets/audio/words/sleeping.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-speaking",
+      "category": "words",
+      "language": "en-US",
+      "text": "speaking",
+      "filename": "speaking.mp3",
+      "destination": "assets/audio/words/speaking.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-study",
+      "category": "words",
+      "language": "en-US",
+      "text": "study",
+      "filename": "study.mp3",
+      "destination": "assets/audio/words/study.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-studying",
+      "category": "words",
+      "language": "en-US",
+      "text": "studying",
+      "filename": "studying.mp3",
+      "destination": "assets/audio/words/studying.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-sunday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Sunday",
+      "filename": "sunday.mp3",
+      "destination": "assets/audio/words/sunday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-swimming",
+      "category": "words",
+      "language": "en-US",
+      "text": "swimming",
+      "filename": "swimming.mp3",
+      "destination": "assets/audio/words/swimming.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-talking",
+      "category": "words",
+      "language": "en-US",
+      "text": "talking",
+      "filename": "talking.mp3",
+      "destination": "assets/audio/words/talking.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-tea",
+      "category": "words",
+      "language": "en-US",
+      "text": "tea",
+      "filename": "tea.mp3",
+      "destination": "assets/audio/words/tea.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-teacher",
+      "category": "words",
+      "language": "en-US",
+      "text": "teacher",
+      "filename": "teacher.mp3",
+      "destination": "assets/audio/words/teacher.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-ten",
+      "category": "words",
+      "language": "en-US",
+      "text": "ten",
+      "filename": "ten.mp3",
+      "destination": "assets/audio/words/ten.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-think",
+      "category": "words",
+      "language": "en-US",
+      "text": "think",
+      "filename": "think.mp3",
+      "destination": "assets/audio/words/think.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-thirteen",
+      "category": "words",
+      "language": "en-US",
+      "text": "thirteen",
+      "filename": "thirteen.mp3",
+      "destination": "assets/audio/words/thirteen.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-thirty",
+      "category": "words",
+      "language": "en-US",
+      "text": "thirty",
+      "filename": "thirty.mp3",
+      "destination": "assets/audio/words/thirty.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-this",
+      "category": "words",
+      "language": "en-US",
+      "text": "this",
+      "filename": "this.mp3",
+      "destination": "assets/audio/words/this.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-three",
+      "category": "words",
+      "language": "en-US",
+      "text": "three",
+      "filename": "three.mp3",
+      "destination": "assets/audio/words/three.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-thursday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Thursday",
+      "filename": "thursday.mp3",
+      "destination": "assets/audio/words/thursday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-tired",
+      "category": "words",
+      "language": "en-US",
+      "text": "tired",
+      "filename": "tired.mp3",
+      "destination": "assets/audio/words/tired.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-today",
+      "category": "words",
+      "language": "en-US",
+      "text": "today",
+      "filename": "today.mp3",
+      "destination": "assets/audio/words/today.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-tomorrow",
+      "category": "words",
+      "language": "en-US",
+      "text": "tomorrow",
+      "filename": "tomorrow.mp3",
+      "destination": "assets/audio/words/tomorrow.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-tuesday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Tuesday",
+      "filename": "tuesday.mp3",
+      "destination": "assets/audio/words/tuesday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-twelve",
+      "category": "words",
+      "language": "en-US",
+      "text": "twelve",
+      "filename": "twelve.mp3",
+      "destination": "assets/audio/words/twelve.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-twenty",
+      "category": "words",
+      "language": "en-US",
+      "text": "twenty",
+      "filename": "twenty.mp3",
+      "destination": "assets/audio/words/twenty.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-two",
+      "category": "words",
+      "language": "en-US",
+      "text": "two",
+      "filename": "two.mp3",
+      "destination": "assets/audio/words/two.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-understand",
+      "category": "words",
+      "language": "en-US",
+      "text": "understand",
+      "filename": "understand.mp3",
+      "destination": "assets/audio/words/understand.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-upset",
+      "category": "words",
+      "language": "en-US",
+      "text": "upset",
+      "filename": "upset.mp3",
+      "destination": "assets/audio/words/upset.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-very",
+      "category": "words",
+      "language": "en-US",
+      "text": "very",
+      "filename": "very.mp3",
+      "destination": "assets/audio/words/very.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-water",
+      "category": "words",
+      "language": "en-US",
+      "text": "water",
+      "filename": "water.mp3",
+      "destination": "assets/audio/words/water.mp3",
+      "sources": [
+        "juego-comida.js",
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "game"
+      ]
+    },
+    {
+      "id": "words-wednesday",
+      "category": "words",
+      "language": "en-US",
+      "text": "Wednesday",
+      "filename": "wednesday.mp3",
+      "destination": "assets/audio/words/wednesday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "words-work",
+      "category": "words",
+      "language": "en-US",
+      "text": "work",
+      "filename": "work.mp3",
+      "destination": "assets/audio/words/work.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "words-yesterday",
+      "category": "words",
+      "language": "en-US",
+      "text": "yesterday",
+      "filename": "yesterday.mp3",
+      "destination": "assets/audio/words/yesterday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-12th-street",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "12th Street",
+      "filename": "12th-street.mp3",
+      "destination": "assets/audio/phrases/12th-street.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-ahora-escucha-como-se-deletrea-tu-nombre",
+      "category": "phrases",
+      "language": "es",
+      "text": "Ahora escucha cómo se deletrea tu nombre.",
+      "filename": "ahora-escucha-como-se-deletrea-tu-nombre.mp3",
+      "destination": "assets/audio/phrases/ahora-escucha-como-se-deletrea-tu-nombre.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-at-night",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "at night",
+      "filename": "at-night.mp3",
+      "destination": "assets/audio/phrases/at-night.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-can-i-have-bread-please",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can I have bread, please?",
+      "filename": "can-i-have-bread-please.mp3",
+      "destination": "assets/audio/phrases/can-i-have-bread-please.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-can-i-have-bread",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can I have bread?",
+      "filename": "can-i-have-bread.mp3",
+      "destination": "assets/audio/phrases/can-i-have-bread.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-can-i-have-coffee-please",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can I have coffee, please?",
+      "filename": "can-i-have-coffee-please.mp3",
+      "destination": "assets/audio/phrases/can-i-have-coffee-please.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-can-i-have-tea-please",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can I have tea, please?",
+      "filename": "can-i-have-tea-please.mp3",
+      "destination": "assets/audio/phrases/can-i-have-tea-please.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-can-i-have-water",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can I have water?",
+      "filename": "can-i-have-water.mp3",
+      "destination": "assets/audio/phrases/can-i-have-water.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-can-you-repeat-please",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can you repeat, please?",
+      "filename": "can-you-repeat-please.mp3",
+      "destination": "assets/audio/phrases/can-you-repeat-please.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html",
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-can-you-say-that-again",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Can you say that again?",
+      "filename": "can-you-say-that-again.mp3",
+      "destination": "assets/audio/phrases/can-you-say-that-again.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html",
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-class-is-at-eight",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Class is at eight.",
+      "filename": "class-is-at-eight.mp3",
+      "destination": "assets/audio/phrases/class-is-at-eight.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-d-a-n-i-e-l",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "D A N I E L",
+      "filename": "d-a-n-i-e-l.mp3",
+      "destination": "assets/audio/phrases/d-a-n-i-e-l.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-di-esta-palabra-en-ingles",
+      "category": "phrases",
+      "language": "es",
+      "text": "Di esta palabra en inglés.",
+      "filename": "di-esta-palabra-en-ingles.mp3",
+      "destination": "assets/audio/phrases/di-esta-palabra-en-ingles.mp3",
+      "sources": [
+        "juego-comida.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-do-they-study",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Do they study?",
+      "filename": "do-they-study.mp3",
+      "destination": "assets/audio/phrases/do-they-study.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-do-you-work",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Do you work?",
+      "filename": "do-you-work.mp3",
+      "destination": "assets/audio/phrases/do-you-work.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-does-she-live-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Does she live here?",
+      "filename": "does-she-live-here.mp3",
+      "destination": "assets/audio/phrases/does-she-live-here.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-does-she-work",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Does she work?",
+      "filename": "does-she-work.mp3",
+      "destination": "assets/audio/phrases/does-she-work.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-elige-una-palabra-luego-lee-la-frase-completa",
+      "category": "phrases",
+      "language": "es",
+      "text": "Elige una palabra. Luego lee la frase completa.",
+      "filename": "elige-una-palabra-luego-lee-la-frase-completa.mp3",
+      "destination": "assets/audio/phrases/elige-una-palabra-luego-lee-la-frase-completa.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-escribe-tu-nombre",
+      "category": "phrases",
+      "language": "es",
+      "text": "Escribe tu nombre.",
+      "filename": "escribe-tu-nombre.mp3",
+      "destination": "assets/audio/phrases/escribe-tu-nombre.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-escucha-y-repite",
+      "category": "phrases",
+      "language": "es",
+      "text": "Escucha y repite.",
+      "filename": "escucha-y-repite.mp3",
+      "destination": "assets/audio/phrases/escucha-y-repite.mp3",
+      "sources": [
+        "lesson-001-sounds.html",
+        "lesson-013-i-am.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-excelente-continua",
+      "category": "phrases",
+      "language": "es",
+      "text": "Excelente. Continúa.",
+      "filename": "excelente-continua.mp3",
+      "destination": "assets/audio/phrases/excelente-continua.mp3",
+      "sources": [
+        "juego-comida.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-g-m-a-i-l-dot-com",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "G M A I L dot com",
+      "filename": "g-m-a-i-l-dot-com.mp3",
+      "destination": "assets/audio/phrases/g-m-a-i-l-dot-com.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-good-afternoon",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Good afternoon.",
+      "filename": "good-afternoon.mp3",
+      "destination": "assets/audio/phrases/good-afternoon.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-good-evening",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Good evening.",
+      "filename": "good-evening.mp3",
+      "destination": "assets/audio/phrases/good-evening.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-good-morning",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Good morning.",
+      "filename": "good-morning.mp3",
+      "destination": "assets/audio/phrases/good-morning.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-he-doesnt-study-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "He doesn't study English.",
+      "filename": "he-doesnt-study-english.mp3",
+      "destination": "assets/audio/phrases/he-doesnt-study-english.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-he-works",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "He works.",
+      "filename": "he-works.mp3",
+      "destination": "assets/audio/phrases/he-works.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-hello-my-name-is-ana",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Hello. My name is Ana.",
+      "filename": "hello-my-name-is-ana.mp3",
+      "destination": "assets/audio/phrases/hello-my-name-is-ana.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-hello-whats-your-name",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Hello. What's your name?",
+      "filename": "hello-whats-your-name.mp3",
+      "destination": "assets/audio/phrases/hello-whats-your-name.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-how-do-you-say-biblioteca-in-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "How do you say biblioteca in English?",
+      "filename": "how-do-you-say-biblioteca-in-english.mp3",
+      "destination": "assets/audio/phrases/how-do-you-say-biblioteca-in-english.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-how-do-you-say-cuaderno-in-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "How do you say cuaderno in English?",
+      "filename": "how-do-you-say-cuaderno-in-english.mp3",
+      "destination": "assets/audio/phrases/how-do-you-say-cuaderno-in-english.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-ana",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am Ana.",
+      "filename": "i-am-ana.mp3",
+      "destination": "assets/audio/phrases/i-am-ana.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-driving",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am driving.",
+      "filename": "i-am-driving.mp3",
+      "destination": "assets/audio/phrases/i-am-driving.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-from-mexico",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am from Mexico.",
+      "filename": "i-am-from-mexico.mp3",
+      "destination": "assets/audio/phrases/i-am-from-mexico.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-happy",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am happy.",
+      "filename": "i-am-happy.mp3",
+      "destination": "assets/audio/phrases/i-am-happy.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-hungry",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am hungry.",
+      "filename": "i-am-hungry.mp3",
+      "destination": "assets/audio/phrases/i-am-hungry.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-am-running",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am running.",
+      "filename": "i-am-running.mp3",
+      "destination": "assets/audio/phrases/i-am-running.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-am-sad",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am sad.",
+      "filename": "i-am-sad.mp3",
+      "destination": "assets/audio/phrases/i-am-sad.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-sleeping",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am sleeping.",
+      "filename": "i-am-sleeping.mp3",
+      "destination": "assets/audio/phrases/i-am-sleeping.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-tired",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am tired.",
+      "filename": "i-am-tired.mp3",
+      "destination": "assets/audio/phrases/i-am-tired.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-am-twenty-years-old",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am twenty years old.",
+      "filename": "i-am-twenty-years-old.mp3",
+      "destination": "assets/audio/phrases/i-am-twenty-years-old.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-am-twenty",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am twenty.",
+      "filename": "i-am-twenty.mp3",
+      "destination": "assets/audio/phrases/i-am-twenty.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-am-upset",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I am upset.",
+      "filename": "i-am-upset.mp3",
+      "destination": "assets/audio/phrases/i-am-upset.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-dont-live-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I don't live here.",
+      "filename": "i-dont-live-here.mp3",
+      "destination": "assets/audio/phrases/i-dont-live-here.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-dont-understand-yet",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I don't understand yet.",
+      "filename": "i-dont-understand-yet.mp3",
+      "destination": "assets/audio/phrases/i-dont-understand-yet.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-dont-understand",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I don't understand.",
+      "filename": "i-dont-understand.mp3",
+      "destination": "assets/audio/phrases/i-dont-understand.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-dont-work",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I don't work.",
+      "filename": "i-dont-work.mp3",
+      "destination": "assets/audio/phrases/i-dont-work.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-have-class-on-monday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I have class on Monday.",
+      "filename": "i-have-class-on-monday.mp3",
+      "destination": "assets/audio/phrases/i-have-class-on-monday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-like-cheese",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I like cheese.",
+      "filename": "i-like-cheese.mp3",
+      "destination": "assets/audio/phrases/i-like-cheese.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-like-coffee",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I like coffee.",
+      "filename": "i-like-coffee.mp3",
+      "destination": "assets/audio/phrases/i-like-coffee.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-live-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I live here.",
+      "filename": "i-live-here.mp3",
+      "destination": "assets/audio/phrases/i-live-here.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-live-in-miami",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I live in Miami.",
+      "filename": "i-live-in-miami.mp3",
+      "destination": "assets/audio/phrases/i-live-in-miami.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-live-in-the-united-states",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I live in the United States.",
+      "filename": "i-live-in-the-united-states.mp3",
+      "destination": "assets/audio/phrases/i-live-in-the-united-states.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-need-help",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I need help.",
+      "filename": "i-need-help.mp3",
+      "destination": "assets/audio/phrases/i-need-help.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-need-two",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I need two.",
+      "filename": "i-need-two.mp3",
+      "destination": "assets/audio/phrases/i-need-two.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-practice-at-six",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I practice at six.",
+      "filename": "i-practice-at-six.mp3",
+      "destination": "assets/audio/phrases/i-practice-at-six.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-practice-on-sunday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I practice on Sunday.",
+      "filename": "i-practice-on-sunday.mp3",
+      "destination": "assets/audio/phrases/i-practice-on-sunday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-run-every-day",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I run every day.",
+      "filename": "i-run-every-day.mp3",
+      "destination": "assets/audio/phrases/i-run-every-day.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-speak-spanish",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I speak Spanish.",
+      "filename": "i-speak-spanish.mp3",
+      "destination": "assets/audio/phrases/i-speak-spanish.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html",
+        "lesson-006-identity-place.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-think-this-is-very-good",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I think this is very good.",
+      "filename": "i-think-this-is-very-good.mp3",
+      "destination": "assets/audio/phrases/i-think-this-is-very-good.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-understand",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I understand.",
+      "filename": "i-understand.mp3",
+      "destination": "assets/audio/phrases/i-understand.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-want-rice",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I want rice.",
+      "filename": "i-want-rice.mp3",
+      "destination": "assets/audio/phrases/i-want-rice.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-want-water",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I want water.",
+      "filename": "i-want-water.mp3",
+      "destination": "assets/audio/phrases/i-want-water.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-work-at-nine",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I work at nine.",
+      "filename": "i-work-at-nine.mp3",
+      "destination": "assets/audio/phrases/i-work-at-nine.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-work-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I work here.",
+      "filename": "i-work-here.mp3",
+      "destination": "assets/audio/phrases/i-work-here.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-i-work-on-friday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I work on Friday.",
+      "filename": "i-work-on-friday.mp3",
+      "destination": "assets/audio/phrases/i-work-on-friday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-i-work",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I work.",
+      "filename": "i-work.mp3",
+      "destination": "assets/audio/phrases/i-work.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-a-beginner",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm a beginner.",
+      "filename": "im-a-beginner.mp3",
+      "destination": "assets/audio/phrases/im-a-beginner.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-ana",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm Ana.",
+      "filename": "im-ana.mp3",
+      "destination": "assets/audio/phrases/im-ana.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-from-colombia",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm from Colombia.",
+      "filename": "im-from-colombia.mp3",
+      "destination": "assets/audio/phrases/im-from-colombia.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-from-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm from here.",
+      "filename": "im-from-here.mp3",
+      "destination": "assets/audio/phrases/im-from-here.mp3",
+      "sources": [
+        "lesson-004-greetings.html",
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-from-mexico",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm from Mexico.",
+      "filename": "im-from-mexico.mp3",
+      "destination": "assets/audio/phrases/im-from-mexico.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm from Mexico. I live in New York. I speak Spanish. I'm learning English.",
+      "filename": "im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english.mp3",
+      "destination": "assets/audio/phrases/im-from-mexico-i-live-in-new-york-i-speak-spanish-im-learning-english.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-im-learning-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "I'm learning English.",
+      "filename": "im-learning-english.mp3",
+      "destination": "assets/audio/phrases/im-learning-english.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html",
+        "lesson-006-identity-place.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-in-the-afternoon",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "in the afternoon",
+      "filename": "in-the-afternoon.mp3",
+      "destination": "assets/audio/phrases/in-the-afternoon.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-in-the-morning",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "in the morning",
+      "filename": "in-the-morning.mp3",
+      "destination": "assets/audio/phrases/in-the-morning.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-intenta-otra-vez",
+      "category": "phrases",
+      "language": "es",
+      "text": "Intenta otra vez.",
+      "filename": "intenta-otra-vez.mp3",
+      "destination": "assets/audio/phrases/intenta-otra-vez.mp3",
+      "sources": [
+        "juego-comida.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-it-is-eight-oclock",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "It is eight o'clock.",
+      "filename": "it-is-eight-oclock.mp3",
+      "destination": "assets/audio/phrases/it-is-eight-oclock.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-it-is-eight",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "It is eight.",
+      "filename": "it-is-eight.mp3",
+      "destination": "assets/audio/phrases/it-is-eight.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-it-is-noon",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "It is noon.",
+      "filename": "it-is-noon.mp3",
+      "destination": "assets/audio/phrases/it-is-noon.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-it-is-spelled-e-r-i-k-a",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "It is spelled E-R-I-K-A.",
+      "filename": "it-is-spelled-e-r-i-k-a.mp3",
+      "destination": "assets/audio/phrases/it-is-spelled-e-r-i-k-a.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-my-birthday-is-in-may",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "My birthday is in May.",
+      "filename": "my-birthday-is-in-may.mp3",
+      "destination": "assets/audio/phrases/my-birthday-is-in-may.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-my-birthday-is-on-may-5",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "My birthday is on May 5.",
+      "filename": "my-birthday-is-on-may-5.mp3",
+      "destination": "assets/audio/phrases/my-birthday-is-on-may-5.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-my-name-is-ana",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "My name is Ana.",
+      "filename": "my-name-is-ana.mp3",
+      "destination": "assets/audio/phrases/my-name-is-ana.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-my-name-is-erika",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "My name is Erika.",
+      "filename": "my-name-is-erika.mp3",
+      "destination": "assets/audio/phrases/my-name-is-erika.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-nice-to-meet-you",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Nice to meet you.",
+      "filename": "nice-to-meet-you.mp3",
+      "destination": "assets/audio/phrases/nice-to-meet-you.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-no-i-dont",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "No, I don't.",
+      "filename": "no-i-dont.mp3",
+      "destination": "assets/audio/phrases/no-i-dont.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-presiona-hablar-y-repite-la-palabra",
+      "category": "phrases",
+      "language": "es",
+      "text": "Presiona Hablar y repite la palabra.",
+      "filename": "presiona-hablar-y-repite-la-palabra.mp3",
+      "destination": "assets/audio/phrases/presiona-hablar-y-repite-la-palabra.mp3",
+      "sources": [
+        "juego-comida.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-repeat-please",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Repeat, please.",
+      "filename": "repeat-please.mp3",
+      "destination": "assets/audio/phrases/repeat-please.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-she-doesnt-live-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "She doesn't live here.",
+      "filename": "she-doesnt-live-here.mp3",
+      "destination": "assets/audio/phrases/she-doesnt-live-here.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-she-doesnt-work-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "She doesn't work here.",
+      "filename": "she-doesnt-work-here.mp3",
+      "destination": "assets/audio/phrases/she-doesnt-work-here.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-she-lives-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "She lives here.",
+      "filename": "she-lives-here.mp3",
+      "destination": "assets/audio/phrases/she-lives-here.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-she-works-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "She works here.",
+      "filename": "she-works-here.mp3",
+      "destination": "assets/audio/phrases/she-works-here.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-they-dont-work-here",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "They don't work here.",
+      "filename": "they-dont-work-here.mp3",
+      "destination": "assets/audio/phrases/they-dont-work-here.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-they-study-english",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "They study English.",
+      "filename": "they-study-english.mp3",
+      "destination": "assets/audio/phrases/they-study-english.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-this-is-a-pen",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "This is a pen.",
+      "filename": "this-is-a-pen.mp3",
+      "destination": "assets/audio/phrases/this-is-a-pen.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-this-is-my-book",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "This is my book.",
+      "filename": "this-is-my-book.mp3",
+      "destination": "assets/audio/phrases/this-is-my-book.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-toca-una-letra-para-escucharla",
+      "category": "phrases",
+      "language": "es",
+      "text": "Toca una letra para escucharla.",
+      "filename": "toca-una-letra-para-escucharla.mp3",
+      "destination": "assets/audio/phrases/toca-una-letra-para-escucharla.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-toca-una-tarjeta-para-escuchar",
+      "category": "phrases",
+      "language": "es",
+      "text": "Toca una tarjeta para escuchar.",
+      "filename": "toca-una-tarjeta-para-escuchar.mp3",
+      "destination": "assets/audio/phrases/toca-una-tarjeta-para-escuchar.mp3",
+      "sources": [
+        "Syllables.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-toca-una-tarjeta-para-ver-como-cambia-el-ejemplo",
+      "category": "phrases",
+      "language": "es",
+      "text": "Toca una tarjeta para ver cómo cambia el ejemplo.",
+      "filename": "toca-una-tarjeta-para-ver-como-cambia-el-ejemplo.mp3",
+      "destination": "assets/audio/phrases/toca-una-tarjeta-para-ver-como-cambia-el-ejemplo.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": [
+        "instruction"
+      ]
+    },
+    {
+      "id": "phrases-today-is-monday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Today is Monday.",
+      "filename": "today-is-monday.mp3",
+      "destination": "assets/audio/phrases/today-is-monday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-today-is-monday-i-practice-on-friday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Today is Monday. I practice on Friday.",
+      "filename": "today-is-monday-i-practice-on-friday.mp3",
+      "destination": "assets/audio/phrases/today-is-monday-i-practice-on-friday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-tomorrow-is-tuesday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Tomorrow is Tuesday.",
+      "filename": "tomorrow-is-tuesday.mp3",
+      "destination": "assets/audio/phrases/tomorrow-is-tuesday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-we-dont-study-today",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "We don't study today.",
+      "filename": "we-dont-study-today.mp3",
+      "destination": "assets/audio/phrases/we-dont-study-today.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-what-does-home-mean",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "What does home mean?",
+      "filename": "what-does-home-mean.mp3",
+      "destination": "assets/audio/phrases/what-does-home-mean.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-what-does-it-mean",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "What does it mean?",
+      "filename": "what-does-it-mean.mp3",
+      "destination": "assets/audio/phrases/what-does-it-mean.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-what-does-this-mean",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "What does this mean?",
+      "filename": "what-does-this-mean.mp3",
+      "destination": "assets/audio/phrases/what-does-this-mean.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-what-is-this",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "What is this?",
+      "filename": "what-is-this.mp3",
+      "destination": "assets/audio/phrases/what-is-this.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-what-time-is-it",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "What time is it?",
+      "filename": "what-time-is-it.mp3",
+      "destination": "assets/audio/phrases/what-time-is-it.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-when-is-your-birthday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "When is your birthday?",
+      "filename": "when-is-your-birthday.mp3",
+      "destination": "assets/audio/phrases/when-is-your-birthday.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-where-are-you-from",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Where are you from?",
+      "filename": "where-are-you-from.mp3",
+      "destination": "assets/audio/phrases/where-are-you-from.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": [
+        "speech-practice"
+      ]
+    },
+    {
+      "id": "phrases-yes-i-do",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Yes, I do.",
+      "filename": "yes-i-do.mp3",
+      "destination": "assets/audio/phrases/yes-i-do.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-yes-she-does",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Yes, she does.",
+      "filename": "yes-she-does.mp3",
+      "destination": "assets/audio/phrases/yes-she-does.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-yesterday-was-sunday",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "Yesterday was Sunday.",
+      "filename": "yesterday-was-sunday.mp3",
+      "destination": "assets/audio/phrases/yesterday-was-sunday.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "phrases-you-work",
+      "category": "phrases",
+      "language": "en-US",
+      "text": "You work.",
+      "filename": "you-work.mp3",
+      "destination": "assets/audio/phrases/you-work.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-009-days",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Días de la semana. Habla de clases, trabajo, planes y rutinas.",
+      "filename": "lesson-009-days.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-009-days.mp3",
+      "sources": [
+        "lesson-009-days-of-week.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-000-alphabet",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "El alfabeto. Usa letras para decir información exacta, practicar vocales y deletrear tu nombre.",
+      "filename": "lesson-000-alphabet.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-000-alphabet.mp3",
+      "sources": [
+        "lesson-000-alphabet.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-012-food",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Frases de comida. Pide alimentos y habla de lo que quieres y te gusta.",
+      "filename": "lesson-012-food.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-012-food.mp3",
+      "sources": [
+        "lesson-012-food-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-005-classroom-phrases",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Frases para clase. Pide ayuda, solicita repetición y sigue aprendiendo en inglés.",
+      "filename": "lesson-005-classroom-phrases.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-005-classroom-phrases.mp3",
+      "sources": [
+        "lesson-005-classroom-phrases.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-013-i-am",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "I am. Aprende una frase pequeña que te permite hablar de ti ahora mismo.",
+      "filename": "lesson-013-i-am.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-013-i-am.mp3",
+      "sources": [
+        "lesson-013-i-am.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-006-identity-place",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Identidad y lugar. Di de dónde eres, dónde vives y qué idiomas hablas.",
+      "filename": "lesson-006-identity-place.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-006-identity-place.mp3",
+      "sources": [
+        "lesson-006-identity-place.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-011-time",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "La hora. Pregunta y di horas simples para clases, trabajo y rutinas.",
+      "filename": "lesson-011-time.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-011-time.mp3",
+      "sources": [
+        "lesson-011-time-basics.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-014-ing-pattern",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Menos ando y menos endo se conectan con ing. Reconoce acciones en progreso.",
+      "filename": "lesson-014-ing-pattern.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-014-ing-pattern.mp3",
+      "sources": [
+        "lesson-014-ing-pattern.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-010-months-dates",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Meses y fechas. Habla de cumpleaños y eventos simples.",
+      "filename": "lesson-010-months-dates.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-010-months-dates.mp3",
+      "sources": [
+        "lesson-010-months-dates.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-003-negaciones",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Negaciones con don't y doesn't. Niega oraciones en presente con la estructura correcta.",
+      "filename": "lesson-003-negaciones.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-003-negaciones.mp3",
+      "sources": [
+        "lesson-003.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-008-numbers",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Números del uno al veinte. Habla de edad, teléfono y cantidades simples.",
+      "filename": "lesson-008-numbers.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-008-numbers.mp3",
+      "sources": [
+        "lesson-008-numbers-1-20.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-007-basic-questions",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Preguntas básicas. Pide claridad y ayuda dentro de una conversación real.",
+      "filename": "lesson-007-basic-questions.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-007-basic-questions.mp3",
+      "sources": [
+        "lesson-007-basic-questions.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-002-preguntas",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Preguntas con do y does. Formula preguntas en presente sin pensar palabra por palabra.",
+      "filename": "lesson-002-preguntas.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-002-preguntas.mp3",
+      "sources": [
+        "lesson-002.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-001-pronombres",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Pronombres y verbos. Aprende quién hace la acción y cómo cambia el verbo en presente.",
+      "filename": "lesson-001-pronombres.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-001-pronombres.mp3",
+      "sources": [
+        "lesson-001.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-004-greetings",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Saludos e introducciones. Saluda, di tu nombre y empieza una conversación corta.",
+      "filename": "lesson-004-greetings.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-004-greetings.mp3",
+      "sources": [
+        "lesson-004-greetings.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-000-syllables",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Sílabas y acento. Aprende a sentir el ritmo del inglés: una sílaba fuerte y las demás más suaves.",
+      "filename": "lesson-000-syllables.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-000-syllables.mp3",
+      "sources": [
+        "Syllables.html"
+      ],
+      "tags": []
+    },
+    {
+      "id": "lesson-intros-lesson-001-sounds",
+      "category": "lesson-intros",
+      "language": "es",
+      "text": "Sonidos clave. Mejora tu pronunciación con los sonidos que más cambian el significado.",
+      "filename": "lesson-001-sounds.mp3",
+      "destination": "assets/audio/lesson-intros/lesson-001-sounds.mp3",
+      "sources": [
+        "lesson-001-sounds.html"
+      ],
+      "tags": []
+    }
+  ]
+}
