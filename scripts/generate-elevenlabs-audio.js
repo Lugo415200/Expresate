@@ -156,8 +156,10 @@ async function requestAudio(item, credentials) {
 function buildManifest(inventory) {
   const entries = {};
   const byText = {};
+  const preservedCategories = new Set(inventory.preserveOriginalCategories || []);
 
   for (const item of inventory.items) {
+    if (preservedCategories.has(item.category)) continue;
     const absolute = safeDestination(item.destination);
     if (!fs.existsSync(absolute) || fs.statSync(absolute).size < 128) continue;
     entries[item.id] = {
@@ -204,6 +206,12 @@ async function main() {
   let selected = requestedIds.size
     ? inventory.items.filter((item) => requestedIds.has(item.id))
     : inventory.items.slice();
+  const preservedCategories = new Set(inventory.preserveOriginalCategories || []);
+  const preservedItems = selected.filter((item) => preservedCategories.has(item.category));
+  if (preservedItems.length) {
+    console.log(`Preserving ${preservedItems.length} original audio item(s): ${preservedItems.map((item) => item.id).join(", ")}`);
+  }
+  selected = selected.filter((item) => !preservedCategories.has(item.category));
   selected = selected.slice(0, options.limit);
 
   const credentials = {

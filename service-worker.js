@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v9";
+const CACHE_VERSION = "v11";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -65,6 +65,32 @@ const PRECACHE_PATHS = [
   "data/lessons.js",
   "data/quizzes.js",
   "assets/audio/audio-manifest.json",
+  "audio/alphabet/a.mp3",
+  "audio/alphabet/b.mp3",
+  "audio/alphabet/c.mp3",
+  "audio/alphabet/d.mp3",
+  "audio/alphabet/e.mp3",
+  "audio/alphabet/f.mp3",
+  "audio/alphabet/g.mp3",
+  "audio/alphabet/h.mp3",
+  "audio/alphabet/i.mp3",
+  "audio/alphabet/j.mp3",
+  "audio/alphabet/k.mp3",
+  "audio/alphabet/l.mp3",
+  "audio/alphabet/m.mp3",
+  "audio/alphabet/n.mp3",
+  "audio/alphabet/o.mp3",
+  "audio/alphabet/p.mp3",
+  "audio/alphabet/q.mp3",
+  "audio/alphabet/r.mp3",
+  "audio/alphabet/s.mp3",
+  "audio/alphabet/t.mp3",
+  "audio/alphabet/u.mp3",
+  "audio/alphabet/v.mp3",
+  "audio/alphabet/w.mp3",
+  "audio/alphabet/x.mp3",
+  "audio/alphabet/y.mp3",
+  "audio/alphabet/z.mp3",
   "assets/icons/icon-192.png",
   "assets/icons/icon-512.png"
 ];

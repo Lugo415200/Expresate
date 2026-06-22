@@ -13,7 +13,7 @@ Repeated words and phrases use one canonical MP3. The Vowels, Game Audio, and Sp
 
 The machine-readable inventory may define `generationText` when ElevenLabs needs silent punctuation or another pronunciation safeguard. Display text, filenames, and runtime manifest lookup continue to use `text`.
 
-Existing files under `audio/alphabet/` are preserved. This inventory recommends future ElevenLabs output under `assets/audio/letters/`.
+Existing files under `audio/alphabet/` are the production alphabet voice and are preserved. The generator skips the `letters` category, and the runtime manifest intentionally excludes generated letter replacements.
 
 ## Letters
 

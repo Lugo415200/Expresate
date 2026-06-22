@@ -3,6 +3,9 @@
   "generatedOn": "2026-06-20",
   "scope": "Audio-worthy instructional and learner-spoken content. Navigation labels, buttons, and long explanatory paragraphs are intentionally excluded.",
   "deduplication": "Each spoken text has one canonical item. Category arrays may reference the same item ID.",
+  "preserveOriginalCategories": [
+    "letters"
+  ],
   "scannedSources": [
     "Syllables.html",
     "_tmp_build_audio_inventory.js",
@@ -399,7 +402,6 @@
       "category": "letters",
       "language": "en-US",
       "text": "A",
-      "generationText": "A.",
       "filename": "a.mp3",
       "destination": "assets/audio/letters/a.mp3",
       "sources": [
@@ -450,7 +452,6 @@
       "category": "letters",
       "language": "en-US",
       "text": "E",
-      "generationText": "E.",
       "filename": "e.mp3",
       "destination": "assets/audio/letters/e.mp3",
       "sources": [
@@ -501,7 +502,6 @@
       "category": "letters",
       "language": "en-US",
       "text": "I",
-      "generationText": "I.",
       "filename": "i.mp3",
       "destination": "assets/audio/letters/i.mp3",
       "sources": [
@@ -614,7 +614,6 @@
       "category": "letters",
       "language": "en-US",
       "text": "R",
-      "generationText": "R.",
       "filename": "r.mp3",
       "destination": "assets/audio/letters/r.mp3",
       "sources": [
@@ -713,7 +712,6 @@
       "category": "letters",
       "language": "en-US",
       "text": "Z",
-      "generationText": "Z.",
       "filename": "z.mp3",
       "destination": "assets/audio/letters/z.mp3",
       "sources": [

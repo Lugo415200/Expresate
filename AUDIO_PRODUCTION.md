@@ -34,6 +34,8 @@ ELEVENLABS_OUTPUT_FORMAT=mp3_44100_128
 
 The inventory is the source of truth for text, IDs, destinations, language, and source pages. An item may also define `generationText`; the generator sends that value to ElevenLabs while preserving `text` for the website and manifest lookup. This is useful for silent punctuation safeguards such as `"sheep."`.
 
+Categories listed in `preserveOriginalCategories` are excluded from ElevenLabs generation and the generated-audio manifest. Alphabet letters use the original recordings under `audio/alphabet/`.
+
 ## Generate Audio
 
 Generate every missing inventory item:

@@ -474,7 +474,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // remain the second priority for legacy recordings and custom assets.
       const candidates = [
         { src: manifestMatch.path, type: "ElevenLabs MP3" },
-        { src: legacySrc, type: "legacy MP3" }
+        {
+          src: legacySrc,
+          type: /^audio\/alphabet\//i.test(legacySrc) ? "original alphabet MP3" : "legacy MP3"
+        }
       ].filter((candidate, index, all) => candidate.src && all.findIndex((item) => item.src === candidate.src) === index);
       for (const candidate of candidates) {
         if (await _tryAudioSource(candidate.src, requestId, trigger, candidate.type, options.fallbackText)) return;
