@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v15";
+const CACHE_VERSION = "v16";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.

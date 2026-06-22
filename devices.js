@@ -5,6 +5,7 @@
     const list = document.getElementById("deviceList");
     const message = document.getElementById("deviceMessage");
     const count = document.getElementById("deviceCount");
+    const maximum = document.getElementById("deviceMaximum");
     const returnLink = document.getElementById("deviceReturn");
 
     const params = new URLSearchParams(window.location.search);
@@ -46,6 +47,10 @@
 
     function render(state) {
       if (count) count.textContent = String(state.activeCount ?? 0);
+      if (maximum) maximum.textContent = String(state.maxDevices ?? 0);
+      document.querySelectorAll("[data-device-limit]").forEach((node) => {
+        node.textContent = String(state.maxDevices ?? 0);
+      });
       if (!list) return;
       list.replaceChildren();
 
