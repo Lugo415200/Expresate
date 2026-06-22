@@ -439,49 +439,6 @@ body[data-page="curso"] .course-dashboard {
   gap: clamp(1rem, 2vw, 1.4rem);
 }
 
-.course-quick-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  align-items: center;
-  padding: 0.4rem;
-  width: fit-content;
-  max-width: 100%;
-  border: 1px solid rgba(67, 88, 244, .15);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .66);
-  box-shadow:
-    0 14px 34px rgba(67, 88, 244, .10),
-    inset 0 1px 0 rgba(255, 255, 255, .70);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.course-quick-nav a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.15rem;
-  padding: 0 0.9rem;
-  border-radius: 999px;
-  color: rgba(17, 24, 39, .68);
-  font-weight: 800;
-  font-size: 0.92rem;
-  text-decoration: none;
-}
-
-.course-quick-nav a:hover {
-  color: var(--brand-blue, #4b66f2);
-  background: rgba(67, 88, 244, .08);
-  text-decoration: none;
-}
-
-.course-quick-nav a.active {
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--brand-blue, #4b66f2), #8b5cf6);
-  box-shadow: 0 10px 22px rgba(67, 88, 244, .24);
-}
-
 .course-hero,
 .course-progress-dock,
 .course-route-card {
@@ -717,15 +674,6 @@ body[data-page="curso"] .course-footer {
 }
 
 @media (max-width: 700px) {
-  .course-quick-nav {
-    width: 100%;
-    border-radius: 1.25rem;
-  }
-
-  .course-quick-nav a {
-    flex: 1 1 8rem;
-  }
-
   .course-hero,
   .course-progress-dock,
   .course-route-card {
