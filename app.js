@@ -9,6 +9,18 @@
    ------------------------------------------------------------ */
 
 document.addEventListener("DOMContentLoaded", () => {
+  function pulseTextureReward() {
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    document.querySelector(".texture-reward-burst")?.remove();
+    const burst = document.createElement("div");
+    burst.className = "texture-reward-burst";
+    burst.setAttribute("aria-hidden", "true");
+    document.body.appendChild(burst);
+    burst.addEventListener("animationend", () => burst.remove(), { once: true });
+    window.setTimeout(() => burst.remove(), 2200);
+  }
+
+  window.ExpresateTextureReward = { pulse: pulseTextureReward };
   // Footer year (if present)
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
@@ -778,6 +790,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // !done means we just marked it complete (was false, now true)
         Alerts.success("¡Lección completada! +10 XP 🎉");
       }
+      if (!done) pulseTextureReward();
     });
 
     // React if another tab (or the curso page) changes progress.

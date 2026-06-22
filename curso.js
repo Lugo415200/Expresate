@@ -224,7 +224,9 @@ function renderQuiz(container, quizId) {
     }
 
     const passed = score >= quiz.passingScore;
+    const wasPassed = isQuizPassed(quizId);
     setQuizPassed(quizId, passed, score, quiz.questions.length);
+    if (passed && !wasPassed) window.ExpresateTextureReward?.pulse?.();
 
     result.textContent = passed
       ? `✅ Aprobado. Puntaje: ${score}/${quiz.questions.length}.`
