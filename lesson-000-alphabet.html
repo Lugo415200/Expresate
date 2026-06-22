@@ -58,18 +58,15 @@
           <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o dirección puede quedar mal.</p>
           <p class="alphabet-tap-hint">Toca una tarjeta para ver cómo cambia el ejemplo.</p>
           <div class="alphabet-use-cases" data-alpha-examples>
-            <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true"
-                    data-audio="assets/audio/phrases/name-example.mp3" data-audio-fallback="D A N I E L">
+            <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true">
               <strong>Nombre</strong>
               <span>D-A-N-I-E-L</span>
             </button>
-            <button type="button" data-alpha-example="email" aria-pressed="false"
-                    data-audio="assets/audio/phrases/email-example.mp3" data-audio-fallback="G M A I L dot com">
+            <button type="button" data-alpha-example="email" aria-pressed="false">
               <strong>Correo</strong>
               <span>G-M-A-I-L</span>
             </button>
-            <button type="button" data-alpha-example="address" aria-pressed="false"
-                    data-audio="assets/audio/phrases/address-example.mp3" data-audio-fallback="12th Street">
+            <button type="button" data-alpha-example="address" aria-pressed="false">
               <strong>Dirección</strong>
               <span>calle / código</span>
             </button>
@@ -299,6 +296,33 @@
     </aside>
   </div>
 
+  <div class="lesson-guide-modal" data-guide-modal hidden role="dialog" aria-modal="true"
+       aria-labelledby="guideModalTitle" aria-describedby="guideModalExplanation">
+    <button class="lesson-guide-backdrop" type="button" data-guide-close aria-label="Cerrar ejemplo"></button>
+    <section class="lesson-guide-dialog" tabindex="-1">
+      <button class="lesson-guide-close" type="button" data-guide-close aria-label="Cerrar ejemplo">×</button>
+
+      <div class="lesson-guide-character" aria-hidden="true">
+        <img src="assets/characters/teacher-guide.png" alt="" data-guide-character />
+        <div class="lesson-guide-character-fallback" data-guide-character-fallback hidden>Guía</div>
+      </div>
+
+      <div class="lesson-guide-content">
+        <div class="lesson-guide-speech" data-guide-speech></div>
+        <span class="lesson-guide-category" data-guide-category></span>
+        <h2 id="guideModalTitle" class="lesson-guide-example" data-guide-example></h2>
+        <p id="guideModalExplanation" class="lesson-guide-explanation" data-guide-explanation></p>
+
+        <div class="lesson-guide-actions">
+          <button class="btn lesson-guide-back" type="button" data-guide-close>← Volver</button>
+          <button class="btn lesson-guide-audio" type="button" data-guide-audio
+                  data-audio="" data-audio-fallback="">Escuchar</button>
+          <button class="btn primary lesson-guide-continue" type="button" data-guide-continue>Continuar →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <script src="access.js"></script>
@@ -313,31 +337,45 @@
     (function () {
       var wrap = document.querySelector("[data-alpha-examples]");
       var panel = document.querySelector("[data-alpha-example-panel]");
+      var modal = document.querySelector("[data-guide-modal]");
+      var modalDialog = modal && modal.querySelector(".lesson-guide-dialog");
+      var modalSpeech = modal && modal.querySelector("[data-guide-speech]");
+      var modalCategory = modal && modal.querySelector("[data-guide-category]");
+      var modalExample = modal && modal.querySelector("[data-guide-example]");
+      var modalExplanation = modal && modal.querySelector("[data-guide-explanation]");
+      var modalAudio = modal && modal.querySelector("[data-guide-audio]");
+      var character = modal && modal.querySelector("[data-guide-character]");
+      var characterFallback = modal && modal.querySelector("[data-guide-character-fallback]");
       if (!wrap || !panel) return;
       var typeTimer = null;
       var loadTimer = null;
+      var modalTimer = null;
+      var activeTrigger = null;
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       var examples = {
         name: {
-          label: "Ejemplo",
+          label: "Nombre",
           value: "D-A-N-I-E-L",
           audio: "assets/audio/phrases/name-example.mp3",
           fallback: "D A N I E L",
+          speech: "Tu nombre puede deletrearse así cuando alguien lo necesita exacto.",
           note: "Deletrear evita que escriban tu nombre como otra palabra."
         },
         email: {
           label: "Correo",
-          value: "d.a.n.i.e.l @ gmail.com",
+          value: "G-M-A-I-L",
           audio: "assets/audio/phrases/email-example.mp3",
-          fallback: "D A N I E L at G M A I L dot com",
+          fallback: "G M A I L",
+          speech: "Tu correo también se puede deletrear letra por letra para evitar errores.",
           note: "Una letra o punto incorrecto puede mandar el correo a otra persona."
         },
         address: {
           label: "Dirección",
-          value: "12th S-t-r-e-e-t",
+          value: "12th Street",
           audio: "assets/audio/phrases/address-example.mp3",
           fallback: "12th Street",
+          speech: "Una dirección puede cambiar si una letra o número se escucha mal.",
           note: "En direcciones y códigos, cada letra ayuda a confirmar el dato exacto."
         }
       };
@@ -358,6 +396,77 @@
           panel.classList.add("loaded");
         }, reduceMotion ? 0 : 500);
       }
+
+      function renderModalLetters(text) {
+        if (!modalExample) return;
+        modalExample.replaceChildren();
+        Array.from(text).forEach(function (letter, index) {
+          var span = document.createElement("span");
+          span.textContent = letter === " " ? "\u00a0" : letter;
+          span.style.setProperty("--guide-letter-index", index);
+          modalExample.appendChild(span);
+        });
+      }
+
+      function openGuideModal(key, trigger) {
+        if (!modal) return;
+        var item = examples[key] || examples.name;
+        activeTrigger = trigger || null;
+        render(key);
+        modalSpeech.textContent = item.speech;
+        modalCategory.textContent = item.label;
+        modalExplanation.textContent = item.note;
+        modalAudio.setAttribute("data-audio", item.audio || "");
+        modalAudio.setAttribute("data-audio-fallback", item.fallback || item.value);
+        renderModalLetters(item.value);
+
+        clearTimeout(modalTimer);
+        modal.hidden = false;
+        document.querySelector(".shell")?.setAttribute("inert", "");
+        document.body.classList.add("lesson-guide-open");
+        requestAnimationFrame(function () {
+          modal.classList.add("is-open");
+          modalDialog && modalDialog.focus();
+        });
+      }
+
+      function closeGuideModal(advance) {
+        if (!modal || modal.hidden) return;
+        window.ExpresateAudio?.stop?.();
+        modal.classList.remove("is-open");
+        document.body.classList.remove("lesson-guide-open");
+        var delay = reduceMotion ? 0 : 240;
+        clearTimeout(modalTimer);
+        modalTimer = setTimeout(function () {
+          modal.hidden = true;
+          document.querySelector(".shell")?.removeAttribute("inert");
+          if (advance) {
+            document.querySelector('[data-fc-id="intro"] [data-fc-listo]')?.click();
+          } else {
+            activeTrigger && activeTrigger.focus();
+          }
+          activeTrigger = null;
+        }, delay);
+      }
+
+      if (character) {
+        var showCharacterFallback = function () {
+          character.hidden = true;
+          if (characterFallback) characterFallback.hidden = false;
+        };
+        character.addEventListener("error", showCharacterFallback);
+        if (character.complete && !character.naturalWidth) showCharacterFallback();
+      }
+
+      modal?.querySelectorAll("[data-guide-close]").forEach(function (button) {
+        button.addEventListener("click", function () { closeGuideModal(false); });
+      });
+      modal?.querySelector("[data-guide-continue]")?.addEventListener("click", function () {
+        closeGuideModal(true);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal && !modal.hidden) closeGuideModal(false);
+      });
 
       function typeExampleText(text) {
         var target = panel.querySelector("[data-alpha-example-text]");
@@ -408,14 +517,15 @@
       }
 
       wrap.querySelectorAll("[data-alpha-example]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
+        btn.addEventListener("click", function (event) {
+          event.stopPropagation();
           wrap.querySelectorAll("[data-alpha-example]").forEach(function (el) {
             el.classList.remove("is-selected");
             el.setAttribute("aria-pressed", "false");
           });
           btn.classList.add("is-selected");
           btn.setAttribute("aria-pressed", "true");
-          render(btn.getAttribute("data-alpha-example"));
+          openGuideModal(btn.getAttribute("data-alpha-example"), btn);
         });
       });
       render("name");
