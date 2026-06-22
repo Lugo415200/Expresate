@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (year) year.textContent = new Date().getFullYear();
 
   const params = new URLSearchParams(window.location.search);
-  const redirectTo = params.get("redirect") || "curso.html";
+  const redirectParam = params.get("redirect");
+  const isAuthCallback = params.has("code") || /(?:^|[#&])access_token=/.test(window.location.hash);
 
   const modeLogin = document.getElementById("modeLogin");
   const modeSignup = document.getElementById("modeSignup");
@@ -28,8 +29,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const safeRedirect = sanitizeRedirect(redirectTo);
-  if (continueBtn) continueBtn.addEventListener("click", () => (window.location.href = safeRedirect));
+  const safeRedirect = (redirectParam || isAuthCallback)
+    ? resolveRedirect(redirectParam)
+    : "curso.html";
+  if (continueBtn) continueBtn.addEventListener("click", redirectAfterLogin);
 
   let mode = "login";
   setMode("login");
@@ -39,6 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // If already signed in, show signed-in UI
   const { data: sessionData } = await sb.auth.getSession();
+  if (sessionData?.session?.user) {
+    redirectAfterLogin();
+    return;
+  }
   updateSignedInUI(sessionData?.session);
 
   // Keep UI in sync if auth state changes
@@ -67,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         showMsg("✅ Sesión iniciada. Redirigiendo…");
         if (window.Alerts) Alerts.success("¡Sesión iniciada! Redirigiendo…", { duration: 2500 });
-        window.location.href = safeRedirect;
+        redirectAfterLogin();
         return;
       }
 
@@ -156,5 +163,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     return cleaned || "curso.html";
   }
-});
 
+  function resolveRedirect(value) {
+    if (window.Access?.resolvePostLoginRedirect) {
+      return window.Access.resolvePostLoginRedirect(value);
+    }
+    return sanitizeRedirect(value);
+  }
+
+  function redirectAfterLogin() {
+    const destination = window.Access?.consumePostLoginRedirect
+      ? window.Access.consumePostLoginRedirect(redirectParam || (isAuthCallback ? undefined : safeRedirect))
+      : safeRedirect;
+    window.location.replace(destination || "curso.html");
+  }
+});

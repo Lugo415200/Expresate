@@ -22,8 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileEmail = document.getElementById("profileEmail");
   const logoutBtnGlobal = document.getElementById("logoutBtnGlobal");
 
-  // current page for redirect (index.html, curso.html, etc.)
-  const redirectUrl = window.location.pathname.split("/").pop() || "index.html";
+  // Preserve the full local page, including query/hash, for post-login return.
+  const redirectUrl = window.Access?.currentDestination?.()
+    || window.location.pathname.split("/").pop()
+    || "index.html";
+  const goToLogin = () => {
+    window.location.href = window.Access?.loginUrl?.(redirectUrl)
+      || `auth.html?redirect=${encodeURIComponent(redirectUrl)}`;
+  };
 
   // if the HTML elements aren't on this page, skip
   if (profileBtn && profileMenu) {
@@ -33,9 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // If Supabase isn't loaded on this page, fallback to auth page
     if (!sb) {
       profileBtn.textContent = "Iniciar sesión";
-      profileBtn.addEventListener("click", () => {
-        window.location.href = `auth.html?redirect=${encodeURIComponent(redirectUrl)}`;
-      });
+      profileBtn.addEventListener("click", goToLogin);
     } else {
       // On load, check session
       sb.auth.getSession().then(({ data }) => {
@@ -51,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       profileBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         if (profileBtn.dataset.state !== "signed-in") {
-          window.location.href = `auth.html?redirect=${encodeURIComponent(redirectUrl)}`;
+          goToLogin();
           return;
         }
         profileMenu.style.display = (profileMenu.style.display === "block") ? "none" : "block";

@@ -10,6 +10,12 @@
   "use strict";
 
   const sb = window.supabaseClient;
+  const POST_LOGIN_REDIRECT_KEY = "expresate_post_login_redirect";
+  const POST_LOGIN_REDIRECT_TTL = 30 * 60 * 1000;
+  const accessScriptUrl = Array.from(document.scripts)
+    .map((script) => script.src)
+    .find((src) => /\/access\.js(?:[?#]|$)/.test(src));
+  const siteBaseUrl = new URL("./", accessScriptUrl || window.location.href);
 
   let _session  = null;
   let _profile  = null;
@@ -19,6 +25,73 @@
   function isLocalDevOrigin() {
     const host = window.location.hostname;
     return host === "localhost" || host === "127.0.0.1" || host === "::1";
+  }
+
+  function sanitizeRedirect(value, fallback = "curso.html") {
+    const safeFallback = fallback === "index.html" ? fallback : "curso.html";
+    const candidate = String(value || "").trim();
+    if (!candidate) return safeFallback;
+
+    try {
+      const url = new URL(candidate, siteBaseUrl);
+      if (url.origin !== window.location.origin) return safeFallback;
+      if (!url.pathname.startsWith(siteBaseUrl.pathname)) return safeFallback;
+
+      const relativePath = url.pathname.slice(siteBaseUrl.pathname.length);
+      if (!relativePath || !/^[a-z0-9][a-z0-9._/-]*\.html$/i.test(relativePath)) return safeFallback;
+      if (relativePath.toLowerCase() === "auth.html") return safeFallback;
+      return `${relativePath}${url.search}${url.hash}`;
+    } catch {
+      return safeFallback;
+    }
+  }
+
+  function currentDestination() {
+    const relativePath = window.location.pathname.startsWith(siteBaseUrl.pathname)
+      ? window.location.pathname.slice(siteBaseUrl.pathname.length)
+      : "";
+    return sanitizeRedirect(`${relativePath}${window.location.search}${window.location.hash}`, "index.html");
+  }
+
+  function rememberPostLoginRedirect(destination) {
+    const redirect = sanitizeRedirect(destination);
+    try {
+      window.sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, JSON.stringify({
+        redirect,
+        createdAt: Date.now()
+      }));
+    } catch {}
+    return redirect;
+  }
+
+  function storedPostLoginRedirect() {
+    try {
+      const stored = JSON.parse(window.sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY) || "null");
+      if (!stored || Date.now() - Number(stored.createdAt || 0) > POST_LOGIN_REDIRECT_TTL) {
+        window.sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
+        return "";
+      }
+      return sanitizeRedirect(stored.redirect, "");
+    } catch {
+      return "";
+    }
+  }
+
+  function resolvePostLoginRedirect(explicitRedirect) {
+    return explicitRedirect
+      ? rememberPostLoginRedirect(explicitRedirect)
+      : storedPostLoginRedirect() || "curso.html";
+  }
+
+  function consumePostLoginRedirect(explicitRedirect) {
+    const redirect = resolvePostLoginRedirect(explicitRedirect);
+    try { window.sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY); } catch {}
+    return redirect;
+  }
+
+  function loginUrl(destination) {
+    const redirect = rememberPostLoginRedirect(destination || currentDestination());
+    return `auth.html?redirect=${encodeURIComponent(redirect)}`;
   }
 
   if (_devPremiumBypass) {
@@ -128,10 +201,11 @@
 
     // Redirect to auth if not logged in.
     requireLogin: function (redirectBack) {
-      const page = redirectBack || window.location.pathname.split("/").pop() || "index.html";
       if (!Access.isLoggedIn()) {
-        window.location.href = "auth.html?redirect=" + encodeURIComponent(page);
+        window.location.href = loginUrl(redirectBack || currentDestination());
+        return false;
       }
+      return true;
     },
 
     // Redirect to pricing if not premium.
@@ -149,8 +223,28 @@
     onAuthChange: function (cb) {
       _listeners.add(cb);
       return function () { _listeners.delete(cb); };
-    }
+    },
+
+    sanitizeRedirect,
+    currentDestination,
+    rememberPostLoginRedirect,
+    resolvePostLoginRedirect,
+    consumePostLoginRedirect,
+    loginUrl
   };
 
   window.Access = Access;
+
+  // Plain auth links also retain their source page without page-specific JS.
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest?.("a[href]");
+    if (!link || event.defaultPrevented || event.button !== 0) return;
+    try {
+      const url = new URL(link.getAttribute("href") || "", siteBaseUrl);
+      if (url.origin !== window.location.origin || !url.pathname.endsWith("/auth.html")) return;
+      if (url.searchParams.has("redirect")) return;
+      event.preventDefault();
+      window.location.href = loginUrl(currentDestination());
+    } catch {}
+  }, true);
 })();
