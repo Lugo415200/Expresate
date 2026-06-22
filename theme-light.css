@@ -1657,6 +1657,43 @@ body.auth-page .auth-footer{
     0 12px 24px rgba(15,23,42,.18);
 }
 
+.device-limit-notice {
+  position: relative;
+  z-index: 19;
+  width: min(56rem, calc(100% - 2rem));
+  margin: 0.75rem auto 0;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #3b2f15;
+  background: linear-gradient(135deg, rgba(255, 247, 214, .96), rgba(255, 237, 180, .96));
+  border: 1px solid rgba(180, 124, 20, .28);
+  border-radius: 0.9rem;
+  box-shadow: 0 14px 34px rgba(87, 62, 17, .12);
+}
+
+.device-limit-notice div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.device-limit-notice span {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .device-limit-notice {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .device-limit-notice .btn {
+    width: 100%;
+  }
+}
+
 body.auth-page .auth-side{
   align-self: start;
 }

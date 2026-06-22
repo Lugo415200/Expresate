@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Logout
       logoutBtnGlobal?.addEventListener("click", async () => {
         try {
+          await window.Access?.deactivateCurrentDevice?.();
           await sb.auth.signOut();
           profileMenu.style.display = "none";
           if (window.Alerts) Alerts.success("¡Hasta pronto! Sesión cerrada.", { duration: 2500 });
@@ -97,6 +98,36 @@ document.addEventListener("DOMContentLoaded", () => {
       profileMenu.style.display = "none";
       if (profileEmail) profileEmail.textContent = "—";
     }
+  }
+
+  function renderDeviceLimitNotice(state) {
+    const existing = document.getElementById("deviceLimitNotice");
+    if (!state || state.status !== "limited") {
+      existing?.remove();
+      return;
+    }
+
+    const notice = existing || document.createElement("aside");
+    notice.id = "deviceLimitNotice";
+    notice.className = "device-limit-notice";
+    notice.setAttribute("role", "alert");
+    const returnTo = window.Access?.currentDestination?.() || "curso.html";
+    notice.innerHTML = `
+      <div>
+        <strong>Límite de dispositivos Premium</strong>
+        <span>Esta cuenta tiene ${state.activeCount} dispositivos activos. Desactiva uno para usar Premium aquí.</span>
+      </div>
+      <a class="btn primary" href="devices.html?from=${encodeURIComponent(returnTo)}">Administrar</a>
+    `;
+    if (!existing) {
+      const topbar = document.querySelector(".topbar");
+      topbar?.insertAdjacentElement("afterend", notice) || document.body.prepend(notice);
+    }
+  }
+
+  if (window.Access) {
+    Access.ready().then(() => renderDeviceLimitNotice(Access.getDeviceLimitState?.()));
+    Access.onDeviceChange?.(renderDeviceLimitNotice);
   }
 
 

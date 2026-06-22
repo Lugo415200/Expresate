@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   logoutBtn?.addEventListener("click", async () => {
     hideMsg();
+    await window.Access?.deactivateCurrentDevice?.();
     const { error } = await sb.auth.signOut();
     if (error) {
       showMsg(`❌ ${error.message}`, true);

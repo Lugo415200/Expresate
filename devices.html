@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#4358f4" />
+  <meta name="application-name" content="Exprésate" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="/Expresate/assets/icons/icon-192.png" />
+  <title>Dispositivos | Exprésate</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="devices.css" />
+</head>
+<body class="device-page" data-page="devices">
+  <div class="topbar"></div>
+
+  <main class="device-shell">
+    <header class="device-header">
+      <p class="device-eyebrow">Cuenta Premium</p>
+      <h1>Tus dispositivos</h1>
+      <p>Premium funciona en hasta dos dispositivos activos. Puedes desactivar uno antiguo sin cerrar tu cuenta.</p>
+    </header>
+
+    <section class="device-summary" aria-live="polite">
+      <div>
+        <strong id="deviceCount">—</strong>
+        <span>dispositivos activos</span>
+      </div>
+      <div>
+        <strong>2</strong>
+        <span>máximo con Premium</span>
+      </div>
+    </section>
+
+    <p id="deviceMessage" class="device-message" role="status">Cargando tus dispositivos…</p>
+    <section id="deviceList" class="device-list" aria-label="Dispositivos de la cuenta"></section>
+
+    <div class="device-footer-actions">
+      <a id="deviceReturn" class="btn primary" href="curso.html">Volver</a>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="access.js"></script>
+  <script src="progress.js"></script>
+  <script src="sync.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
+  <script src="devices.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

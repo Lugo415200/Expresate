@@ -69,6 +69,7 @@
             </p>
             <div class="actions" style="margin:0;">
               <a id="profileLink" class="btn" href="auth.html">Cuenta</a>
+              <a id="deviceLink" class="btn" href="devices.html">Dispositivos</a>
               <button id="logoutBtnGlobal" class="btn primary" type="button">Cerrar sesión</button>
             </div>
           </div>
