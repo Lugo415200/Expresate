@@ -9,7 +9,9 @@
 
 "use strict";
 
-var STORE_KEY = "expresate_food_game_v3";
+var STORE_KEY_LEGACY = "expresate_food_game_v3";
+var STORE_KEY = "expresate_food_game_v4:guest";
+var STORE_KEY_PREFIX = "expresate_food_game_v4:";
 var STORE_KEY_V2 = "expresate_food_game_v2";
 var STORE_KEY_OLD = "ynoel_food_game_v1";
 
@@ -87,9 +89,7 @@ function defaultState() {
 
 function loadRawState() {
   try {
-    return localStorage.getItem(STORE_KEY) ||
-      localStorage.getItem(STORE_KEY_V2) ||
-      localStorage.getItem(STORE_KEY_OLD);
+    return localStorage.getItem(STORE_KEY);
   } catch (e) {
     return null;
   }
@@ -184,10 +184,12 @@ function renderFoodVisual(card, container) {
 
 function boot() {
   try {
-    if (!localStorage.getItem(STORE_KEY) && localStorage.getItem(STORE_KEY_V2)) {
-      saveState(getState());
+    if (STORE_KEY.endsWith(":guest") && !localStorage.getItem(STORE_KEY)) {
+      var legacy = localStorage.getItem(STORE_KEY_LEGACY) ||
+        localStorage.getItem(STORE_KEY_V2) ||
+        localStorage.getItem(STORE_KEY_OLD);
+      if (legacy) localStorage.setItem(STORE_KEY, legacy);
     }
-    localStorage.removeItem(STORE_KEY_OLD);
   } catch (e) {}
 
   var cardArea = byId("cardArea");
@@ -555,8 +557,11 @@ function boot() {
   function doReset() {
     try {
       localStorage.removeItem(STORE_KEY);
-      localStorage.removeItem(STORE_KEY_V2);
-      localStorage.removeItem(STORE_KEY_OLD);
+      if (STORE_KEY.endsWith(":guest")) {
+        localStorage.removeItem(STORE_KEY_LEGACY);
+        localStorage.removeItem(STORE_KEY_V2);
+        localStorage.removeItem(STORE_KEY_OLD);
+      }
     } catch (e) {}
     _lastStreak = 0;
     hideResetModal();
@@ -613,8 +618,16 @@ function boot() {
   }
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", boot);
-} else {
+function startFoodGame() {
+  var userId = window.Access?.getUser?.()?.id;
+  STORE_KEY = STORE_KEY_PREFIX + (userId ? "user:" + userId : "guest");
   boot();
+}
+
+if (window.Access) {
+  Access.ready().then(startFoodGame);
+} else if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startFoodGame);
+} else {
+  startFoodGame();
 }

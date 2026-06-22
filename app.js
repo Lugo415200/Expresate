@@ -787,20 +787,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Lessons page: show completed badges next to lessons that are done.
-  document.querySelectorAll("[data-progress-id]").forEach((el) => {
-    const id = el.getAttribute("data-progress-id");
-    if (Progress.isLessonDone(id)) {
-      el.classList.add("done");
+  const renderLessonIndexProgress = () => {
+    document.querySelectorAll("[data-progress-id]").forEach((el) => {
+      const id = el.getAttribute("data-progress-id");
+      const done = Progress.isLessonDone(id);
+      el.classList.toggle("done", done);
 
-      // Prevent duplicates if you refresh multiple times
-      if (!el.querySelector(".doneBadge")) {
+      const existingBadge = el.querySelector(".doneBadge");
+      if (!done) {
+        existingBadge?.remove();
+      } else if (!existingBadge) {
         const badge = document.createElement("span");
         badge.className = "doneBadge";
         badge.textContent = "Completada ✅";
         el.appendChild(badge);
       }
-    }
-  });
+    });
+  };
+  renderLessonIndexProgress();
+  Progress.on("change", renderLessonIndexProgress);
 });
 
 /* ------------------------------------------------------------

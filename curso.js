@@ -575,22 +575,6 @@ document.addEventListener("click", (e) => {
   updateProgressUI();
 });
 
-/** ---------------------------
- * Accept completion from lessons:
- * curso.html?complete=lesson-000-alphabet
- ----------------------------*/
-(function handleCompleteFromQuery() {
-  const params = new URLSearchParams(location.search);
-  const lessonId = params.get("complete");
-  if (!lessonId) return;
-
-  setLessonDone(lessonId, true);
-
-  params.delete("complete");
-  const newUrl = `${location.pathname}${params.toString() ? "?" + params.toString() : ""}`;
-  history.replaceState({}, "", newUrl);
-})();
-
 document.addEventListener("DOMContentLoaded", () => {
   // Build the module/step UI from data/lessons.js first, so applyLocks
   // has the right elements (.courseStep, [data-lock], etc.) to operate on.

@@ -36,8 +36,10 @@
   }
 
   // --- Storage keys ------------------------------------------------------
-  const KEY = "expresate_progress_v1";
-  const MIGRATION_FLAG = "expresate_migration_v1_done";
+  const LEGACY_KEY = "expresate_progress_v1";
+  const GUEST_KEY = "expresate_progress_v2:guest";
+  const USER_KEY_PREFIX = "expresate_progress_v2:user:";
+  const MIGRATION_FLAG = "expresate_progress_scopes_v2_done";
   const OLD_LESSON_KEY = "ynoel_english_progress_v1"; // used by old app.js
   const OLD_COURSE_KEY = "ynoel_course_progress_v1"; // used by old curso.js
 
@@ -51,10 +53,13 @@
   };
   const canonId = (id) => ID_ALIASES[id] || id;
 
+  let activeUserId = null;
+  let activeKey = GUEST_KEY;
+
   // --- Internal helpers --------------------------------------------------
-  function readRaw() {
+  function readRaw(key = activeKey) {
     try {
-      const parsed = JSON.parse(localStorage.getItem(KEY));
+      const parsed = JSON.parse(localStorage.getItem(key));
       if (parsed && typeof parsed === "object") return parsed;
     } catch (_) {}
     return null;
@@ -64,25 +69,48 @@
     return { schemaVersion: 1, lessons: {}, quizzes: {} };
   }
 
-  function writeRaw(state) {
+  function writeRaw(state, options = {}) {
+    const clean = sanitizeState(state);
     try {
-      localStorage.setItem(KEY, JSON.stringify(state));
+      localStorage.setItem(activeKey, JSON.stringify(clean));
     } catch (err) {
       console.error("[Progress] write failed:", err);
     }
-    emit("change", state);
+    if (options.emit !== false) emit("change", clean);
+    return clean;
   }
 
-  function ensureShape(state) {
-    if (!state || typeof state !== "object") return emptyState();
-    state.schemaVersion = 1;
-    state.lessons = state.lessons && typeof state.lessons === "object" ? state.lessons : {};
-    state.quizzes = state.quizzes && typeof state.quizzes === "object" ? state.quizzes : {};
-    return state;
+  function validTimestamp(value) {
+    const ts = Number(value);
+    return Number.isFinite(ts) && ts > 0 ? ts : 0;
+  }
+
+  // Missing or malformed values are never interpreted as completion.
+  function sanitizeState(state) {
+    const clean = emptyState();
+    if (!state || typeof state !== "object") return clean;
+
+    const lessons = state.lessons && typeof state.lessons === "object" ? state.lessons : {};
+    Object.entries(lessons).forEach(([rawId, entry]) => {
+      if (!entry || entry.done !== true) return;
+      clean.lessons[canonId(rawId)] = { done: true, ts: validTimestamp(entry.ts) };
+    });
+
+    const quizzes = state.quizzes && typeof state.quizzes === "object" ? state.quizzes : {};
+    Object.entries(quizzes).forEach(([rawId, entry]) => {
+      if (!entry || typeof entry.passed !== "boolean") return;
+      clean.quizzes[canonId(rawId)] = {
+        passed: entry.passed === true,
+        score: typeof entry.score === "number" ? entry.score : null,
+        total: typeof entry.total === "number" ? entry.total : null,
+        ts: validTimestamp(entry.ts)
+      };
+    });
+    return clean;
   }
 
   function load() {
-    return ensureShape(readRaw());
+    return sanitizeState(readRaw());
   }
 
   // Move any stray top-level keys (legacy "flat" writes by old inline
@@ -114,11 +142,16 @@
   function migrateOnce() {
     if (localStorage.getItem(MIGRATION_FLAG) === "1") return;
 
-    const merged = load();
+    // The former browser-wide key becomes guest progress only. It is never
+    // imported automatically into an authenticated account.
+    const legacy = readRaw(LEGACY_KEY) || emptyState();
+    legacy.lessons = legacy.lessons && typeof legacy.lessons === "object" ? legacy.lessons : {};
+    legacy.quizzes = legacy.quizzes && typeof legacy.quizzes === "object" ? legacy.quizzes : {};
 
     // 0) Clean up any stray top-level keys that earlier inline scripts
     //    wrote directly into the new storage key with a flat shape.
-    normalizeStrayKeys(merged);
+    normalizeStrayKeys(legacy);
+    const merged = sanitizeState(legacy);
 
     // 1) Pull lesson completions from the old "ynoel_english_progress_v1".
     try {
@@ -166,7 +199,9 @@
       });
     } catch (_) {}
 
-    writeRaw(merged);
+    if (!readRaw(GUEST_KEY)) {
+      try { localStorage.setItem(GUEST_KEY, JSON.stringify(sanitizeState(merged))); } catch (_) {}
+    }
     try {
       localStorage.setItem(MIGRATION_FLAG, "1");
     } catch (_) {}
@@ -189,11 +224,32 @@
 
   // Reflect changes from other tabs as 'change' events too.
   window.addEventListener("storage", (e) => {
-    if (e.key === KEY) emit("change", load());
+    if (e.key === activeKey) emit("change", load());
   });
 
   // --- Public API --------------------------------------------------------
   const Progress = {
+    useGuestScope() {
+      activeUserId = null;
+      activeKey = GUEST_KEY;
+      emit("change", load());
+      return this.snapshot();
+    },
+    useUserScope(userId) {
+      const normalizedUserId = String(userId || "").trim();
+      if (!normalizedUserId) return this.useGuestScope();
+      activeUserId = normalizedUserId;
+      activeKey = `${USER_KEY_PREFIX}${normalizedUserId}`;
+      emit("change", load());
+      return this.snapshot();
+    },
+    replace(state) {
+      return writeRaw(state);
+    },
+    hasStoredState() {
+      try { return localStorage.getItem(activeKey) !== null; } catch (_) { return false; }
+    },
+
     // Lessons
     isLessonDone(id) {
       const state = load();
@@ -331,9 +387,24 @@
     // Subscriptions
     on,
 
+    debugState() {
+      const result = {
+        scope: activeUserId ? "user" : "guest",
+        userId: activeUserId,
+        storageKey: activeKey,
+        hasStoredState: this.hasStoredState(),
+        xp: this.getXP(),
+        streak: this.getStreak(),
+        progress: this.snapshot()
+      };
+      console.info("[Progress] state", result);
+      return result;
+    },
+
     // Useful for debugging in the console
     _canonId: canonId,
-    _KEY: KEY
+    _LEGACY_KEY: LEGACY_KEY,
+    _GUEST_KEY: GUEST_KEY
   };
 
   // Run migration before exposing the API so first reads see the merged state.
