@@ -53,7 +53,7 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   2. TOPBAR — white landing-page bar, homepage only
+   2. TOPBAR — homepage color treatment, shared site-wide layout
    ═══════════════════════════════════════════════════════════════ */
 body[data-page="home"] .topbar {
   background:
@@ -77,66 +77,6 @@ body[data-page="home"] .topbar #profileBtn:hover {
   color:           #ffffff !important;
   text-decoration: none    !important;
 }
-body[data-page="home"] .topbar-inner {
-  justify-content: flex-start !important;
-  gap:             0          !important;
-  max-width:       1160px     !important;
-  padding:         10px 20px  !important;
-}
-body[data-page="home"] .topbar .topbar-actions {
-  margin-left: auto;
-}
-
-/* ── Landing nav links (injected by inline script) ────────────── */
-.landing-nav-links {
-  display:     flex;
-  align-items: center;
-  gap:         2px;
-  margin-left: 20px;
-  flex-shrink: 0;
-}
-.lnav-link {
-  display:         inline-flex;
-  align-items:     center;
-  padding:         7px 13px;
-  border-radius:   9px;
-  font-size:       0.88rem;
-  font-weight:     600;
-  color:           rgba(255, 255, 255, .84);
-  text-decoration: none;
-  white-space:     nowrap;
-  transition:      background 0.13s ease, color 0.13s ease;
-  border:          1px solid transparent;
-}
-.lnav-link:hover {
-  background:      rgba(255, 255, 255, .14);
-  color:           #ffffff;
-  text-decoration: none;
-}
-.lnav-link.is-active {
-  color:       #ffffff;
-  background:  rgba(255, 255, 255, .18);
-  font-weight: 700;
-}
-.lnav-premium {
-  color:        #ffffff;
-  background:   rgba(255, 255, 255, .16);
-  border-color: rgba(255, 255, 255, .24);
-  font-weight:  700;
-}
-.lnav-premium:hover {
-  background:   rgba(255, 255, 255, .22);
-  border-color: rgba(255, 255, 255, .34);
-  color:        #ffffff;
-}
-@media (max-width: 720px) {
-  .landing-nav-links { margin-left: 10px; gap: 0; }
-  .lnav-link         { font-size: 0.80rem; padding: 6px 8px; }
-}
-@media (max-width: 520px) {
-  .landing-nav-links { display: none; }
-}
-
 /* ═══════════════════════════════════════════════════════════════
    3. DECORATIVE BLOBS — fixed, pointer-events none
    ═══════════════════════════════════════════════════════════════ */

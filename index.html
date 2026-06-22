@@ -14,9 +14,7 @@
 </head>
 <body data-page="home">
 
-  <!-- Topbar — nav.js fills this (brand + profile button).
-       The inline script below injects landing nav links into
-       .topbar-inner after nav.js runs. -->
+  <!-- Shared topbar — nav.js provides the same navigation used site-wide. -->
   <div class="topbar"></div>
 
   <!-- ══════════════════════════════════════════════════════════
@@ -314,44 +312,5 @@
   <script src="nav.js"></script>
   <script src="app.js"></script>
   <script src="home.js"></script>
-  <script>
-    /* ── Footer year ─────────────────────────────────────────── */
-    var yr = document.getElementById("year");
-    if (yr) yr.textContent = new Date().getFullYear();
-
-    /* ── Landing nav injection ───────────────────────────────────
-       nav.js already ran synchronously (readyState check), so
-       .topbar-inner is already in the DOM. We insert a <nav> of
-       page links before .topbar-actions so the topbar reads:
-       [Brand] [Nav links] [Profile button].                     */
-    (function () {
-      if (document.body.dataset.page !== "home") return;
-      var inner = document.querySelector(".topbar-inner");
-      if (!inner) return;
-      var actions = inner.querySelector(".topbar-actions");
-      if (!actions) return;
-
-      var nav = document.createElement("nav");
-      nav.className = "landing-nav-links";
-      nav.setAttribute("aria-label", "Navegación del sitio");
-
-      var items = [
-        { id: "home",        href: "index.html",       label: "Inicio"      },
-        { id: "curso",       href: "curso.html",        label: "Curso"       },
-        { id: "diccionario", href: "diccionario.html",  label: "Diccionario" },
-        { id: "juego",       href: "juego-comida.html", label: "Juego"       },
-        { id: "pricing",     href: "pricing.html",      label: "Premium ✦",  premium: true }
-      ];
-
-      nav.innerHTML = items.map(function (item) {
-        var cls = ["lnav-link"];
-        if (item.id === "home") cls.push("is-active");
-        if (item.premium)       cls.push("lnav-premium");
-        return '<a class="' + cls.join(" ") + '" href="' + item.href + '">' + item.label + "</a>";
-      }).join("");
-
-      inner.insertBefore(nav, actions);
-    }());
-  </script>
 </body>
 </html>
