@@ -654,8 +654,8 @@ async function startCheckout() {
       },
       body: JSON.stringify({
         priceId: "price_XXXXXXXXXXXXXXXX", // replace with real Stripe price ID
-        successUrl: "https://lugo415200.github.io/Expresate/curso.html?welcome=1",
-        cancelUrl: "https://lugo415200.github.io/Expresate/pricing.html"
+        successUrl: "https://expresate.co/curso.html?welcome=1",
+        cancelUrl: "https://expresate.co/pricing.html"
       })
     }
   );
@@ -721,4 +721,4 @@ SUPABASE_SERVICE_ROLE_KEY (from Supabase → Settings → API → service_role)
 - **localStorage stays as UI source of truth.** Supabase sync is best-effort in the background.
 - **Premium status is only trusted from Supabase `profiles` table**, read by `access.js` at login. Never from localStorage alone.
 - **`window.supabaseClient` is the Supabase client.** Don't create additional instances.
-- **GitHub Pages URL:** `https://lugo415200.github.io/Expresate/` — use this for Stripe success/cancel URLs.
+- **GitHub Pages URL:** `https://expresate.co/` — use this for Stripe success/cancel URLs.

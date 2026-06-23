@@ -67,7 +67,7 @@ Do not commit real values. Do not put real values in `.env.example`.
 - `STRIPE_WEBHOOK_SECRET`: Stripe Dashboard → Developers → Webhooks → your endpoint → Signing secret. If testing locally with Stripe CLI, use the `whsec_...` printed by `stripe listen`.
 - `STRIPE_MONTHLY_PRICE_ID`: Stripe Dashboard → Product catalog → Exprésate Premium → monthly recurring price → Price ID.
 - `STRIPE_YEARLY_PRICE_ID`: Stripe Dashboard → Product catalog → Exprésate Premium → yearly recurring price → Price ID. If you are not offering yearly yet, leave it unset.
-- `SITE_URL`: `https://lugo415200.github.io/Expresate`
+- `SITE_URL`: `https://expresate.co`
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase Dashboard → Project Settings → API → service_role key.
 
 ## Supabase CLI Secret Commands
@@ -79,7 +79,7 @@ supabase secrets set STRIPE_SECRET_KEY=YOUR_TEST_STRIPE_SECRET_KEY
 supabase secrets set STRIPE_WEBHOOK_SECRET=YOUR_TEST_WEBHOOK_SIGNING_SECRET
 supabase secrets set STRIPE_MONTHLY_PRICE_ID=YOUR_TEST_MONTHLY_PRICE_ID
 supabase secrets set STRIPE_YEARLY_PRICE_ID=YOUR_TEST_YEARLY_PRICE_ID
-supabase secrets set SITE_URL=https://lugo415200.github.io/Expresate
+supabase secrets set SITE_URL=https://expresate.co
 supabase secrets set SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
 ```
 
@@ -149,7 +149,7 @@ Use Stripe test cards only.
    - ZIP: any valid ZIP
 6. Complete Checkout.
 7. Confirm Stripe redirects back to:
-   - `https://lugo415200.github.io/Expresate/pricing.html?checkout=success`
+   - `https://expresate.co/pricing.html?checkout=success`
 8. Confirm the Stripe webhook event succeeds in Stripe Dashboard.
 9. Confirm the Supabase `profiles` row has:
    - `stripe_customer_id`

@@ -5,7 +5,7 @@ import { corsHeaders, jsonResponse } from "../_shared/cors.ts";
 const stripeSecretKey = Deno.env.get("STRIPE_SECRET_KEY") || "";
 const supabaseUrl = Deno.env.get("SUPABASE_URL") || "";
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const siteUrl = (Deno.env.get("SITE_URL") || "https://lugo415200.github.io/Expresate").replace(/\/$/, "");
+const siteUrl = (Deno.env.get("SITE_URL") || "https://expresate.co").replace(/\/$/, "");
 
 const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2024-06-20",
