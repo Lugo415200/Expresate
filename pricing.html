@@ -284,6 +284,28 @@
       font-size: .92rem;
       border-radius: 16px;
     }
+    .billing-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .billing-status {
+      display: none;
+      margin-top: 2px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(75,102,242,.18);
+      background: rgba(75,102,242,.08);
+      color: rgba(15,23,42,.72);
+      font-size: .86rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .billing-status.is-error {
+      border-color: rgba(239,68,68,.26);
+      background: rgba(239,68,68,.08);
+      color: #991b1b;
+    }
 
     /* "Próximamente" / disabled state */
     .btn-coming {
@@ -563,7 +585,10 @@
       <span class="premium-icon">✨</span>
       <h2>Ya tienes acceso Premium</h2>
       <p>Tienes acceso completo al curso — todas las plantillas y quizzes están desbloqueados para ti.</p>
-      <a class="btn primary" href="curso.html">Ir al curso →</a>
+      <div class="billing-actions">
+        <a class="btn primary" href="curso.html">Ir al curso →</a>
+        <button id="manageBillingBtn" class="btn" type="button">Administrar suscripción</button>
+      </div>
     </div>
 
     <!-- =====================================================
@@ -641,10 +666,8 @@
           </ul>
 
           <div class="pricing-cta">
-            <button id="subscribeBtn" class="btn primary btn-coming" type="button" disabled>
-              <span class="coming-chip">En integración</span>
-              Próximamente
-            </button>
+            <button id="subscribeBtn" class="btn primary" type="button" data-plan-interval="monthly">Suscribirme con Stripe</button>
+            <p id="billingStatus" class="billing-status" aria-live="polite"></p>
             <p class="fine-print">Pago seguro con Stripe · Cancela cuando quieras</p>
           </div>
         </div>
@@ -773,10 +796,7 @@
         </div>
         <p>Completa el Módulo 0 gratis y desbloquea Premium cuando estés listo.</p>
         <div class="btn-group">
-          <a class="btn primary btn-coming" style="cursor:not-allowed; opacity:.72;" href="#">
-            <span class="coming-chip">En integración</span>
-            Suscribirse — Próximamente
-          </a>
+          <button id="bottomSubscribeBtn" class="btn primary" type="button" data-plan-interval="monthly">Suscribirse con Stripe</button>
           <a class="btn" href="curso.html">Continuar gratis →</a>
         </div>
       </div>
@@ -814,6 +834,94 @@
     const fromPage = params.get("from");
     if (fromPage) {
       document.getElementById("redirectNotice").style.display = "block";
+    }
+
+    const subscribeButtons = [
+      document.getElementById("subscribeBtn"),
+      document.getElementById("bottomSubscribeBtn")
+    ].filter(Boolean);
+    const manageBillingBtn = document.getElementById("manageBillingBtn");
+    const billingStatus = document.getElementById("billingStatus");
+
+    function setBillingStatus(message, isError = false) {
+      if (!billingStatus) return;
+      billingStatus.textContent = message || "";
+      billingStatus.style.display = message ? "block" : "none";
+      billingStatus.classList.toggle("is-error", !!isError);
+    }
+
+    function setBillingBusy(isBusy) {
+      subscribeButtons.forEach((button) => {
+        button.disabled = isBusy;
+        button.textContent = isBusy ? "Abriendo Stripe..." : "Suscribirme con Stripe";
+      });
+      if (manageBillingBtn) {
+        manageBillingBtn.disabled = isBusy;
+        manageBillingBtn.textContent = isBusy ? "Abriendo portal..." : "Administrar suscripción";
+      }
+    }
+
+    async function requireBillingLogin() {
+      await (window.Access ? Access.ready() : Promise.resolve());
+      if (window.Access?.isLoggedIn?.()) return true;
+      const destination = window.Access?.currentDestination?.() || "pricing.html";
+      window.location.href = window.Access?.loginUrl?.(destination)
+        || `auth.html?redirect=${encodeURIComponent(destination)}`;
+      return false;
+    }
+
+    async function invokeBillingFunction(functionName, payload = {}) {
+      if (!window.supabaseClient?.functions?.invoke) {
+        throw new Error("Supabase Functions no está disponible en este navegador.");
+      }
+
+      const { data, error } = await window.supabaseClient.functions.invoke(functionName, {
+        body: payload
+      });
+      if (error) throw error;
+      if (!data?.url) throw new Error("Stripe no devolvió una URL válida.");
+      return data.url;
+    }
+
+    async function startCheckout(interval = "monthly") {
+      if (!(await requireBillingLogin())) return;
+      setBillingStatus("Preparando pago seguro con Stripe...");
+      setBillingBusy(true);
+      try {
+        const url = await invokeBillingFunction("create-checkout-session", { interval });
+        window.location.assign(url);
+      } catch (error) {
+        console.error("[Billing] Checkout failed:", error);
+        setBillingStatus("No se pudo abrir Stripe. Revisa la configuración o intenta otra vez.", true);
+        if (window.Alerts) Alerts.error("No se pudo abrir Stripe.");
+      } finally {
+        setBillingBusy(false);
+      }
+    }
+
+    async function openBillingPortal() {
+      if (!(await requireBillingLogin())) return;
+      setBillingBusy(true);
+      try {
+        const url = await invokeBillingFunction("create-billing-portal");
+        window.location.assign(url);
+      } catch (error) {
+        console.error("[Billing] Portal failed:", error);
+        if (window.Alerts) Alerts.error("No se pudo abrir el portal de suscripción.");
+      } finally {
+        setBillingBusy(false);
+      }
+    }
+
+    subscribeButtons.forEach((button) => {
+      button.addEventListener("click", () => startCheckout(button.dataset.planInterval || "monthly"));
+    });
+    manageBillingBtn?.addEventListener("click", openBillingPortal);
+
+    if (params.get("checkout") === "success") {
+      setBillingStatus("Pago recibido. Stripe está activando tu Premium; si no aparece enseguida, actualiza en unos segundos.");
+    } else if (params.get("checkout") === "cancelled") {
+      setBillingStatus("Pago cancelado. Puedes intentarlo de nuevo cuando quieras.");
     }
 
     // Once Access resolves, check whether user already has premium
