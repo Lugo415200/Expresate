@@ -3148,29 +3148,35 @@ body.lesson-guide-open {
 
 @media (max-width: 600px) {
   .lesson-guide-modal {
-    padding: max(3.75rem, env(safe-area-inset-top)) .5rem max(.5rem, env(safe-area-inset-bottom));
+    padding: max(3.5rem, env(safe-area-inset-top)) .65rem max(.65rem, env(safe-area-inset-bottom));
   }
 
   .lesson-guide-dialog {
     width: 100%;
-    max-height: calc(100svh - 4.25rem);
-    display: block;
-    padding: 1rem;
+    max-height: calc(100svh - 4.15rem);
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: center;
+    column-gap: .65rem;
+    row-gap: .65rem;
+    padding: .9rem;
     border-radius: 1.15rem;
   }
 
   .lesson-guide-character {
-    position: absolute;
-    z-index: 2;
-    top: 2.7rem;
-    left: .85rem;
-    width: 4.8rem;
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    width: 4.5rem;
     min-height: 0;
+    align-self: end;
+    place-items: end center;
   }
 
   .lesson-guide-character img {
-    width: 4.8rem;
-    max-height: 6rem;
+    width: 4.5rem;
+    max-height: 5.65rem;
   }
 
   .lesson-guide-character-fallback {
@@ -3179,14 +3185,18 @@ body.lesson-guide-open {
   }
 
   .lesson-guide-content {
-    gap: .65rem;
+    display: contents;
   }
 
   .lesson-guide-speech {
-    min-height: 5.8rem;
-    padding: .75rem .75rem .75rem 5.4rem;
+    grid-column: 2;
+    min-height: 4.9rem;
+    display: flex;
+    align-items: center;
+    padding: .7rem 2.3rem .7rem .8rem;
     text-align: left;
-    font-size: .9rem;
+    font-size: clamp(.82rem, 3.7vw, .92rem);
+    line-height: 1.35;
   }
 
   .lesson-guide-speech::before {
@@ -3194,15 +3204,25 @@ body.lesson-guide-open {
   }
 
   .lesson-guide-example {
+    grid-column: 1 / -1;
     font-size: clamp(1.8rem, 9vw, 2.65rem);
+  }
+
+  .lesson-guide-category,
+  .lesson-guide-explanation {
+    grid-column: 1 / -1;
   }
 
   .lesson-guide-explanation {
     font-size: .88rem;
+    line-height: 1.4;
   }
 
   .lesson-guide-actions {
+    grid-column: 1 / -1;
     grid-template-columns: 1fr 1fr;
+    gap: .55rem;
+    margin-top: .1rem;
   }
 
   .lesson-guide-continue {
@@ -3212,18 +3232,20 @@ body.lesson-guide-open {
 
 @media (max-width: 350px) {
   .lesson-guide-dialog {
-    padding: .85rem;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    column-gap: .5rem;
+    padding: .75rem;
   }
 
   .lesson-guide-speech {
-    min-height: 5.4rem;
-    padding-left: 4.9rem;
-    font-size: .84rem;
+    min-height: 4.65rem;
+    padding: .6rem 2rem .6rem .65rem;
+    font-size: .8rem;
   }
 
   .lesson-guide-character,
   .lesson-guide-character img {
-    width: 4.25rem;
+    width: 4rem;
   }
 
   .lesson-guide-actions .btn {
