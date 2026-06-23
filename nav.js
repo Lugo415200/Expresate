@@ -59,7 +59,7 @@
           ${topLinks}
         </nav>
         <div class="topbar-actions">
-          <a id="profileBtn" class="topbar-link" type="button" style="display:none;">Perfil ▾</a>
+          <a id="profileBtn" class="topbar-link" type="button" style="display:none;">Iniciar sesión</a>
           <div id="profileMenu" class="panel" style="
             display:none; position:absolute; right:16px; top:56px;
             width:260px; padding:12px; z-index:999;
@@ -120,6 +120,90 @@
     document.querySelectorAll("aside.panel.sidebar").forEach((el) => {
       renderSidebar(el, currentPage);
     });
+
+    initAuthNav();
+  }
+
+  function currentDestination() {
+    return window.Access?.currentDestination?.()
+      || window.location.pathname.split("/").pop()
+      || "index.html";
+  }
+
+  function loginUrl() {
+    const destination = currentDestination();
+    return window.Access?.loginUrl?.(destination)
+      || `auth.html?redirect=${encodeURIComponent(destination)}`;
+  }
+
+  function updateAuthNav(session) {
+    const signedIn = !!session?.user;
+    const profileBtn = document.getElementById("profileBtn");
+    const profileMenu = document.getElementById("profileMenu");
+    const profileEmail = document.getElementById("profileEmail");
+
+    if (!profileBtn) return;
+
+    profileBtn.style.display = "inline-flex";
+    profileBtn.dataset.state = signedIn ? "signed-in" : "logged-out";
+    profileBtn.textContent = signedIn ? "Perfil ▾" : "Iniciar sesión";
+
+    if (profileMenu && !signedIn) profileMenu.style.display = "none";
+    if (profileEmail) profileEmail.textContent = signedIn ? (session.user.email || "usuario") : "—";
+  }
+
+  function initAuthNav() {
+    const profileBtn = document.getElementById("profileBtn");
+    const profileMenu = document.getElementById("profileMenu");
+    const logoutBtn = document.getElementById("logoutBtnGlobal");
+    const sb = window.supabaseClient;
+
+    if (!profileBtn) return;
+    if (profileBtn.dataset.navAuthReady === "1") return;
+    profileBtn.dataset.navAuthReady = "1";
+
+    profileBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (profileBtn.dataset.state !== "signed-in") {
+        window.location.href = loginUrl();
+        return;
+      }
+      if (profileMenu) {
+        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+      }
+    });
+
+    document.addEventListener("click", () => {
+      if (profileMenu) profileMenu.style.display = "none";
+    });
+
+    logoutBtn?.addEventListener("click", async () => {
+      try {
+        await window.Access?.deactivateCurrentDevice?.();
+        await sb?.auth?.signOut?.();
+        if (profileMenu) profileMenu.style.display = "none";
+        updateAuthNav(null);
+        if (window.Alerts) Alerts.success("¡Hasta pronto! Sesión cerrada.", { duration: 2500 });
+        window.setTimeout(() => { window.location.href = "index.html"; }, 600);
+      } catch (error) {
+        console.error("[Nav] Logout failed:", error);
+        if (window.Alerts) Alerts.error("Error al cerrar sesión. Intenta de nuevo.");
+      }
+    });
+
+    if (window.Access?.ready) {
+      window.Access.ready().then(() => updateAuthNav(window.Access.getSession?.()));
+      window.Access.onAuthChange?.((session) => updateAuthNav(session));
+      return;
+    }
+
+    if (sb?.auth?.getSession) {
+      sb.auth.getSession().then(({ data }) => updateAuthNav(data?.session)).catch(() => updateAuthNav(null));
+      sb.auth.onAuthStateChange?.((_event, session) => updateAuthNav(session));
+      return;
+    }
+
+    updateAuthNav(null);
   }
 
   if (document.readyState === "loading") {
