@@ -454,6 +454,8 @@ body[data-page="curso"] .course-dashboard {
 }
 
 .course-hero {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: 1rem;
   padding: clamp(2rem, 4.2vw, 3.2rem);
@@ -493,6 +495,9 @@ body[data-page="curso"] .course-dashboard {
 }
 
 .course-progress-dock {
+  position: relative;
+  z-index: 20;
+  overflow: visible;
   padding: clamp(0.7rem, 1.5vw, 0.95rem);
   border-radius: 1.25rem;
 }
@@ -521,6 +526,7 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
 
 .course-stats-widget {
   position: relative;
+  z-index: 40;
   justify-self: end;
 }
 
@@ -584,7 +590,7 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
   position: absolute;
   right: 0;
   top: calc(100% + 0.75rem);
-  z-index: 30;
+  z-index: 100;
   width: min(23rem, calc(100vw - 2rem));
   padding: 1.05rem;
   border: 1px solid rgba(255, 255, 255, .64);
@@ -720,6 +726,8 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
 }
 
 .course-route-card {
+  position: relative;
+  z-index: 1;
   padding: clamp(1.1rem, 2.4vw, 1.6rem);
   border-radius: 1.75rem;
 }
