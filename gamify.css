@@ -493,62 +493,20 @@ body[data-page="curso"] .course-dashboard {
 }
 
 .course-progress-dock {
-  padding: clamp(1rem, 2vw, 1.25rem);
-  border-radius: 1.6rem;
+  padding: clamp(0.7rem, 1.5vw, 0.95rem);
+  border-radius: 1.25rem;
 }
 
 body[data-page="curso"] #progressPanel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(min(17rem, 100%), 0.48fr);
-  gap: 0.9rem;
-  align-items: stretch;
-}
-
-body[data-page="curso"] #progressPanel .gamify-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.75rem;
-}
-
-body[data-page="curso"] #progressPanel .stat-card {
-  min-height: 5.6rem;
-  color: #111827;
-  background: rgba(255, 255, 255, .64);
-  border-color: rgba(67, 88, 244, .14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .70);
-}
-
-body[data-page="curso"] #progressPanel .stat-value {
-  color: #111827;
-}
-
-body[data-page="curso"] #progressPanel .stat-label {
-  color: rgba(17, 24, 39, .58);
-}
-
-body[data-page="curso"] #progressPanel .stat-icon {
-  background: linear-gradient(135deg, rgba(67, 88, 244, .14), rgba(139, 92, 246, .12));
-}
-
-body[data-page="curso"] #progressPanel .stat-icon.fire {
-  background: rgba(249, 115, 22, .16);
-}
-
-body[data-page="curso"] #progressPanel .stat-icon.xp {
-  background: rgba(251, 191, 36, .20);
-}
-
-body[data-page="curso"] #progressPanel .progress-donut .bg {
-  stroke: rgba(67, 88, 244, .16);
-}
-
-body[data-page="curso"] #progressPanel .progress-donut .fg {
-  stroke: var(--brand-blue, #4b66f2);
+  align-items: center;
 }
 
 body[data-page="curso"] #progressPanel .cta-next {
   margin: 0;
-  min-height: 5.6rem;
+  min-height: 4.1rem;
   justify-content: center;
   background: linear-gradient(135deg, var(--brand-blue, #4b66f2), #8b5cf6);
   color: #ffffff;
@@ -561,12 +519,140 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
   color: #ffffff;
 }
 
-body[data-page="curso"] #progressPanel .gamify-rule {
-  grid-column: 1 / -1;
+.course-stats-widget {
+  position: relative;
+  justify-self: end;
+}
+
+.course-stats-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.1rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(67, 88, 244, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .74);
+  color: #172033;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 900;
+  box-shadow:
+    0 10px 24px rgba(67, 88, 244, .12),
+    inset 0 1px 0 rgba(255, 255, 255, .78);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.course-stats-trigger:hover,
+.course-stats-trigger[aria-expanded="true"] {
+  transform: translateY(-1px);
+  border-color: rgba(67, 88, 244, .34);
+  background: rgba(255, 255, 255, .92);
+}
+
+.course-stats-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.65rem);
+  z-index: 30;
+  width: min(21rem, calc(100vw - 2rem));
+  padding: 1rem;
+  border: 1px solid rgba(67, 88, 244, .18);
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .16), transparent 36%),
+    rgba(255, 255, 255, .94);
+  box-shadow: 0 24px 70px rgba(67, 88, 244, .20);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.course-stats-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  color: #111827;
+}
+
+.course-stats-close {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(67, 88, 244, .16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .76);
+  color: #172033;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.course-stats-list {
+  display: grid;
+  gap: 0.55rem;
   margin: 0;
-  padding: 0.75rem 0 0;
-  border-top: 1px solid rgba(67, 88, 244, .13);
-  color: rgba(17, 24, 39, .58);
+}
+
+.course-stats-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.85rem;
+  background: rgba(223, 243, 255, .48);
+  border: 1px solid rgba(67, 88, 244, .10);
+}
+
+.course-stats-list dt {
+  color: rgba(17, 24, 39, .64);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.course-stats-list dd {
+  margin: 0;
+  color: #111827;
+  font-weight: 950;
+  text-align: right;
+}
+
+.course-reward-toast {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.5rem);
+  bottom: clamp(1rem, 3vw, 1.5rem);
+  z-index: 1200;
+  display: grid;
+  gap: 0.15rem;
+  min-width: 9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(67, 88, 244, .20);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(223,243,255,.94));
+  box-shadow: 0 20px 48px rgba(67, 88, 244, .22);
+  color: #172033;
+  animation: courseRewardToast 2.6s ease both;
+}
+
+.course-reward-toast strong {
+  color: var(--brand-blue, #4b66f2);
+  font-size: 1.05rem;
+}
+
+.course-reward-toast span {
+  color: rgba(17, 24, 39, .66);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+@keyframes courseRewardToast {
+  0% { opacity: 0; transform: translateY(12px) scale(.96); }
+  16%, 82% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(8px) scale(.98); }
 }
 
 .course-route-card {
@@ -656,11 +742,21 @@ body[data-page="curso"] .course-footer {
 
 @media (max-width: 980px) {
   body[data-page="curso"] #progressPanel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  body[data-page="curso"] #progressPanel .gamify-stats {
-    grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+  .course-stats-widget {
+    justify-self: stretch;
+  }
+
+  .course-stats-trigger {
+    width: 100%;
+  }
+
+  .course-stats-popover {
+    left: 0;
+    right: auto;
+    width: 100%;
   }
 
   .course-route-head {
@@ -707,7 +803,27 @@ body[data-page="curso"] .course-footer {
     padding: 0.9rem;
   }
 
+  .course-stats-trigger {
+    justify-content: space-between;
+    gap: 0.35rem;
+    font-size: 0.84rem;
+  }
+
+  .course-reward-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
   body[data-page="curso"] #modulesContainer > details.block {
     padding: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-stats-trigger:hover,
+  .course-reward-toast {
+    transform: none;
+    animation: none;
   }
 }

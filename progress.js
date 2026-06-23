@@ -397,6 +397,10 @@
       const days = Array.from(this.getActiveDays()).sort();
       return days.length ? days[days.length - 1] : null;
     },
+    getCompletedLessonCount() {
+      const state = load();
+      return Object.values(state.lessons || {}).filter((entry) => entry && entry.done).length;
+    },
     isTodayActive() {
       return this.getActiveDays().has(dayKey(Date.now()));
     },
@@ -436,6 +440,9 @@
         streak: this.getStreak(),
         lastStreakDate: this.getLastStreakDate(),
         activeDays: Array.from(this.getActiveDays()).sort(),
+        completedLessons: Object.entries(this.snapshot().lessons || {})
+          .filter(([, entry]) => entry && entry.done)
+          .map(([id, entry]) => ({ id, ts: entry.ts || 0 })),
         progress: this.snapshot()
       };
       console.info("[Progress] state", result);

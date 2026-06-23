@@ -433,8 +433,9 @@ function findNextStep() {
 }
 
 /** ---------------------------
- * Render the gamified right panel: streak, total XP, daily-goal donut,
- * and a "Continuar →" CTA pointing at the next available step.
+ * Render the compact progress dock: a primary "Continuar →" CTA plus
+ * a lightweight XP/Racha popover. XP stays derived from Progress, scoped
+ * to guest or the active Supabase user.
  ----------------------------*/
 function renderProgressPanel() {
   const container = document.getElementById("progressPanel");
@@ -444,13 +445,9 @@ function renderProgressPanel() {
   const xp = Progress.getXP();
   const xpToday = Progress.getXPToday();
   const todayDone = Progress.isTodayActive();
-  const dailyGoalCount = 1;
-  const todayPct = todayDone ? 100 : 0;
-
-  // SVG donut math
-  const radius = 18;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - todayPct / 100);
+  const completedLessons = typeof Progress.getCompletedLessonCount === "function"
+    ? Progress.getCompletedLessonCount()
+    : Object.values(Progress.snapshot().lessons || {}).filter((entry) => entry && entry.done).length;
 
   const next = findNextStep();
 
@@ -482,50 +479,41 @@ function renderProgressPanel() {
   const streakLabel = streak === 1 ? "día seguido" : "días seguidos";
   const xpTodayBit = xpToday > 0
     ? `+${xpToday} hoy`
-    : "sin XP hoy";
+    : "Sin XP hoy";
+  const todayLabel = todayDone ? "Actividad registrada" : "Sin actividad hoy";
+  const premiumLabel = window.Access?.hasPremiumSubscription?.()
+    ? "Premium activo"
+    : "Plan gratuito";
 
   container.innerHTML = `
-    <div class="gamify-stats">
-      <div class="stat-card ${streak === 0 ? "streak-zero" : ""}">
-        <div class="stat-icon fire">🔥</div>
-        <div class="stat-text">
-          <div class="stat-value">${streak}</div>
-          <div class="stat-label">${streakLabel}</div>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon xp">⭐</div>
-        <div class="stat-text">
-          <div class="stat-value" id="xp-stat-value">${xp}</div>
-          <div class="stat-label">XP total · ${xpTodayBit}</div>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon donut">
-          <svg class="progress-donut" viewBox="0 0 44 44" aria-hidden="true">
-            <circle class="bg" cx="22" cy="22" r="${radius}"></circle>
-            <circle class="fg" cx="22" cy="22" r="${radius}"
-                    stroke-dasharray="${circumference}"
-                    stroke-dashoffset="${offset}"></circle>
-          </svg>
-        </div>
-        <div class="stat-text">
-          <div class="stat-value">${todayDone ? "✓" : "0"}/${dailyGoalCount}</div>
-          <div class="stat-label">Meta de hoy</div>
-        </div>
-      </div>
-    </div>
-
     ${ctaHtml}
 
-    <p class="gamify-rule">Sigue paso a paso. Cada lección suma XP y mantiene tu racha.</p>
+    <div class="course-stats-widget" data-course-stats-widget>
+      <button class="course-stats-trigger" type="button" data-course-stats-toggle aria-expanded="false" aria-controls="courseStatsPopover">
+        <span>🔥 Racha ${streak}</span>
+        <span>⭐ <strong id="xp-stat-value">${xp}</strong> XP</span>
+      </button>
+      <aside class="course-stats-popover" id="courseStatsPopover" data-course-stats-popover hidden>
+        <div class="course-stats-head">
+          <strong>Tu actividad</strong>
+          <button class="course-stats-close" type="button" data-course-stats-close aria-label="Cerrar estadísticas">×</button>
+        </div>
+        <dl class="course-stats-list">
+          <div><dt>XP total</dt><dd>${xp}</dd></div>
+          <div><dt>Racha</dt><dd>${streak} ${streakLabel}</dd></div>
+          <div><dt>Lecciones completadas</dt><dd>${completedLessons}</dd></div>
+          <div><dt>Actividad de hoy</dt><dd>${todayLabel}</dd></div>
+          <div><dt>Hoy</dt><dd>${xpTodayBit}</dd></div>
+          <div><dt>Estado</dt><dd>${premiumLabel}</dd></div>
+        </dl>
+      </aside>
+    </div>
   `;
 
   // XP pop — fire the spring animation only when XP actually increased
   // (not on the initial render, which would feel noisy).
   if (typeof _lastRenderedXP !== "undefined" && xp > _lastRenderedXP) {
+    const gained = xp - _lastRenderedXP;
     const xpEl = container.querySelector("#xp-stat-value");
     if (xpEl) {
       xpEl.classList.remove("xp-value-pop");
@@ -537,13 +525,58 @@ function renderProgressPanel() {
         { once: true }
       );
     }
+    showCourseRewardToast(`+${gained} XP`, streak > 0 ? "Racha actualizada" : "");
   }
   _lastRenderedXP = xp;
+}
+
+function showCourseRewardToast(title, subtitle) {
+  if (!title) return;
+  const existing = document.querySelector(".course-reward-toast");
+  if (existing) existing.remove();
+  const toast = document.createElement("div");
+  toast.className = "course-reward-toast";
+  toast.setAttribute("role", "status");
+  toast.innerHTML = `
+    <strong>${escText(title)}</strong>
+    ${subtitle ? `<span>${escText(subtitle)}</span>` : ""}
+  `;
+  document.body.appendChild(toast);
+  window.setTimeout(() => toast.remove(), 2600);
 }
 
 /** ---------------------------
  * Click handlers
  ----------------------------*/
+document.addEventListener("click", (e) => {
+  const statsToggle = e.target.closest("[data-course-stats-toggle]");
+  if (statsToggle) {
+    const widget = statsToggle.closest("[data-course-stats-widget]");
+    const popover = widget?.querySelector("[data-course-stats-popover]");
+    if (!popover) return;
+    const willOpen = popover.hidden;
+    popover.hidden = !willOpen;
+    statsToggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    return;
+  }
+
+  const statsClose = e.target.closest("[data-course-stats-close]");
+  if (statsClose) {
+    const widget = statsClose.closest("[data-course-stats-widget]");
+    const popover = widget?.querySelector("[data-course-stats-popover]");
+    const toggle = widget?.querySelector("[data-course-stats-toggle]");
+    if (popover) popover.hidden = true;
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+    return;
+  }
+
+  document.querySelectorAll("[data-course-stats-popover]:not([hidden])").forEach((popover) => {
+    if (e.target.closest("[data-course-stats-widget]")) return;
+    popover.hidden = true;
+    popover.closest("[data-course-stats-widget]")?.querySelector("[data-course-stats-toggle]")?.setAttribute("aria-expanded", "false");
+  });
+});
+
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-open-quiz]");
   if (!btn) return;
