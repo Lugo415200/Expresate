@@ -138,8 +138,8 @@
 
   function getDeviceName() {
     const ua = navigator.userAgent || "";
-    const platform = navigator.userAgentData?.platform || navigator.platform || "Device";
-    let browser = "Browser";
+    const platform = navigator.userAgentData?.platform || navigator.platform || "Dispositivo";
+    let browser = "Navegador";
     if (/Edg\//.test(ua)) browser = "Edge";
     else if (/CriOS|Chrome\//.test(ua)) browser = "Chrome";
     else if (/Firefox\//.test(ua)) browser = "Firefox";

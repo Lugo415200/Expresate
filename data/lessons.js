@@ -147,18 +147,18 @@ window.ExpresateLessons = {
     },
     {
       id: "module-2",
-      title: "Módulo 2 — Survival English",
+      title: "Módulo 2 — Inglés de supervivencia",
       style: "numbered",
       open: false,
       lockOnQuiz: "quiz-003",
       hint: "Conversaciones prácticas",
-      lockedHint: "Completa el Quiz 003 para desbloquear Survival English.",
+      lockedHint: "Completa el Quiz 003 para desbloquear Inglés de supervivencia.",
       steps: [
         {
           id: "lesson-004-greetings",
           type: "lesson",
           premium: true,
-          title: "Lección 004 — Greetings & Introductions",
+          title: "Lección 004 — Saludos y presentaciones",
           subtitle: "Hello, my name is..., nice to meet you",
           href: "lesson-004-greetings.html",
           requires: "quiz-003"
@@ -167,7 +167,7 @@ window.ExpresateLessons = {
           id: "lesson-005-classroom-phrases",
           type: "lesson",
           premium: true,
-          title: "Lección 005 — Classroom & App Phrases",
+          title: "Lección 005 — Frases para clase y la app",
           subtitle: "Repeat, please · I don’t understand · How do you say...?",
           href: "lesson-005-classroom-phrases.html",
           requires: "lesson-004-greetings"
@@ -176,7 +176,7 @@ window.ExpresateLessons = {
           id: "lesson-006-identity-place",
           type: "lesson",
           premium: true,
-          title: "Lección 006 — Where are you from?",
+          title: "Lección 006 — ¿De dónde eres?",
           subtitle: "I am from... · I live in... · I speak Spanish",
           href: "lesson-006-identity-place.html",
           requires: "lesson-005-classroom-phrases"
@@ -185,7 +185,7 @@ window.ExpresateLessons = {
           id: "lesson-007-basic-questions",
           type: "lesson",
           premium: true,
-          title: "Lección 007 — Basic Questions",
+          title: "Lección 007 — Preguntas básicas",
           subtitle: "What is this? · What does this mean? · I need help",
           href: "lesson-007-basic-questions.html",
           requires: "lesson-006-identity-place"
@@ -194,8 +194,8 @@ window.ExpresateLessons = {
           id: "lesson-008-numbers-1-20",
           type: "lesson",
           premium: true,
-          title: "Lección 008 — Numbers 1–20",
-          subtitle: "Age · phone numbers · teen sounds",
+          title: "Lección 008 — Números del 1 al 20",
+          subtitle: "Edad · números de teléfono · sonidos teen",
           href: "lesson-008-numbers-1-20.html",
           requires: "lesson-007-basic-questions"
         },
@@ -203,8 +203,8 @@ window.ExpresateLessons = {
           id: "lesson-009-days-of-week",
           type: "lesson",
           premium: true,
-          title: "Lección 009 — Days of the Week",
-          subtitle: "Today is... · on Monday · class days",
+          title: "Lección 009 — Días de la semana",
+          subtitle: "Today is... · on Monday · días de clase",
           href: "lesson-009-days-of-week.html",
           requires: "lesson-008-numbers-1-20"
         },
@@ -212,8 +212,8 @@ window.ExpresateLessons = {
           id: "lesson-010-months-dates",
           type: "lesson",
           premium: true,
-          title: "Lección 010 — Months & Dates",
-          subtitle: "in January · on May 5 · birthdays",
+          title: "Lección 010 — Meses y fechas",
+          subtitle: "in January · on May 5 · cumpleaños",
           href: "lesson-010-months-dates.html",
           requires: "lesson-009-days-of-week"
         },
@@ -221,8 +221,8 @@ window.ExpresateLessons = {
           id: "lesson-011-time-basics",
           type: "lesson",
           premium: true,
-          title: "Lección 011 — Time Basics",
-          subtitle: "What time is it? · at 8:00 · morning/evening",
+          title: "Lección 011 — Hora básica",
+          subtitle: "What time is it? · at 8:00 · mañana/noche",
           href: "lesson-011-time-basics.html",
           requires: "lesson-010-months-dates"
         },
@@ -230,7 +230,7 @@ window.ExpresateLessons = {
           id: "lesson-012-food-phrases",
           type: "lesson",
           premium: true,
-          title: "Lección 012 — Food Phrases",
+          title: "Lección 012 — Frases con comida",
           subtitle: "I want... · I like... · Can I have...?",
           href: "lesson-012-food-phrases.html",
           requires: "lesson-011-time-basics"

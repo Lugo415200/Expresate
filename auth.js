@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const { error } = await sb.auth.signUp({ email, password });
       if (error) throw error;
 
-      showMsg("✅ Cuenta creada. Si te pide confirmar por email, revisa tu inbox.");
-      if (window.Alerts) Alerts.success("¡Cuenta creada! Revisa tu email si te piden confirmar.");
+      showMsg("✅ Cuenta creada. Si te pide confirmar por email, revisa tu correo.");
+      if (window.Alerts) Alerts.success("¡Cuenta creada! Revisa tu correo si te piden confirmar.");
       // Optional:
       // window.location.href = safeRedirect;
     } catch (err) {

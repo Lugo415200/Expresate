@@ -122,7 +122,7 @@
       almost: "Casi",
       tryAgain: "Intenta otra vez",
       heard: "Escuché",
-      unsupported: "Speech practice works best in Chrome or Edge.",
+      unsupported: "La práctica de voz funciona mejor en Chrome o Edge.",
       unavailable: "Tu navegador no permite práctica de voz aquí.",
       noMic: "Permite el micrófono para practicar.",
       unclear: "No pude escuchar bien. Intenta otra vez.",
