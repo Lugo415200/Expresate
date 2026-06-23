@@ -109,7 +109,7 @@ supabase functions deploy stripe-webhook --no-verify-jwt
 Use this endpoint in Stripe test mode:
 
 ```text
-https://wgszratizlxpxifngrrs.functions.supabase.co/stripe-webhook
+https://wgszratizlxpxifngrrs.supabase.co/functions/v1/stripe-webhook
 ```
 
 Enable these events:
@@ -130,8 +130,8 @@ After creating the endpoint, copy its signing secret into `STRIPE_WEBHOOK_SECRET
 The Supabase JS client automatically calls these at:
 
 ```text
-https://wgszratizlxpxifngrrs.functions.supabase.co/create-checkout-session
-https://wgszratizlxpxifngrrs.functions.supabase.co/create-billing-portal
+https://wgszratizlxpxifngrrs.supabase.co/functions/v1/create-checkout-session
+https://wgszratizlxpxifngrrs.supabase.co/functions/v1/create-billing-portal
 ```
 
 ## Stripe Test Checklist
