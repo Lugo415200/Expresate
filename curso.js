@@ -490,8 +490,8 @@ function renderProgressPanel() {
 
     <div class="course-stats-widget" data-course-stats-widget>
       <button class="course-stats-trigger" type="button" data-course-stats-toggle aria-expanded="false" aria-controls="courseStatsPopover">
-        <span>🔥 Racha ${streak}</span>
-        <span>⭐ <strong id="xp-stat-value">${xp}</strong> XP</span>
+        <span class="course-stats-trigger-item"><span class="course-stats-icon" aria-hidden="true">🔥</span><span>Racha ${streak}</span></span>
+        <span class="course-stats-trigger-item"><span class="course-stats-icon" aria-hidden="true">⭐</span><span><strong id="xp-stat-value">${xp}</strong> XP</span></span>
       </button>
       <aside class="course-stats-popover" id="courseStatsPopover" data-course-stats-popover hidden>
         <div class="course-stats-head">
