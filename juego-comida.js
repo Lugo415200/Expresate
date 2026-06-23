@@ -366,6 +366,9 @@ function boot() {
 
     var xp = already ? s.xp : (s.xp || 0) + XP_SPEAK;
     setState({ spoken: spoken, learned: learned, game: nextGame, xp: xp });
+    if (window.Progress && typeof Progress.recordActivity === "function") {
+      Progress.recordActivity("food-game", card.id);
+    }
     if (!already) showXpToast(XP_SPEAK);
     renderHUD();
     flashCard("correct");

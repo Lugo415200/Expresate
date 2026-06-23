@@ -11,6 +11,7 @@
      Progress.getQuiz(id)           -> { passed, score, total, ts } | null
      Progress.reset(id)             -> remove one entry (lesson or quiz)
      Progress.resetAll()            -> wipe everything (current key only)
+     Progress.recordActivity(source, id?) -> count one daily streak activity
      Progress.snapshot()            -> the whole stored object (read-only copy)
      Progress.on('change', cb)      -> subscribe to changes (cross-tab too)
 
@@ -66,7 +67,7 @@
   }
 
   function emptyState() {
-    return { schemaVersion: 1, lessons: {}, quizzes: {} };
+    return { schemaVersion: 2, lessons: {}, quizzes: {}, activities: {} };
   }
 
   function writeRaw(state, options = {}) {
@@ -104,6 +105,20 @@
         score: typeof entry.score === "number" ? entry.score : null,
         total: typeof entry.total === "number" ? entry.total : null,
         ts: validTimestamp(entry.ts)
+      };
+    });
+
+    const activities = state.activities && typeof state.activities === "object" ? state.activities : {};
+    Object.entries(activities).forEach(([rawId, entry]) => {
+      if (!entry || typeof entry !== "object") return;
+      const ts = validTimestamp(entry.ts);
+      if (!ts) return;
+      const id = String(rawId || dayKey(ts)).trim();
+      if (!id) return;
+      clean.activities[id] = {
+        source: typeof entry.source === "string" ? entry.source : "activity",
+        id: typeof entry.id === "string" ? entry.id : null,
+        ts
       };
     });
     return clean;
@@ -303,6 +318,23 @@
     },
 
     // Generic
+    recordActivity(source = "activity", id = "") {
+      const state = load();
+      const now = Date.now();
+      const day = dayKey(now);
+      state.activities = state.activities && typeof state.activities === "object"
+        ? state.activities
+        : {};
+      if (state.activities[day]?.ts && dayKey(state.activities[day].ts) === day) {
+        return writeRaw(state);
+      }
+      state.activities[day] = {
+        source: String(source || "activity"),
+        id: id ? String(id) : null,
+        ts: now
+      };
+      return writeRaw(state);
+    },
     reset(id) {
       const state = load();
       const cid = canonId(id);
@@ -345,7 +377,7 @@
       return xp;
     },
     // Returns a Set<string> of "YYYY-MM-DD" days the user did at least
-    // one lesson or quiz. Used for streak math.
+    // one lesson, quiz, or explicit practice activity. Used for streak math.
     getActiveDays() {
       const state = load();
       const days = new Set();
@@ -356,7 +388,14 @@
       };
       Object.values(state.lessons || {}).forEach(addIf);
       Object.values(state.quizzes || {}).forEach(addIf);
+      Object.values(state.activities || {}).forEach((entry) => {
+        if (entry && entry.ts) days.add(dayKey(entry.ts));
+      });
       return days;
+    },
+    getLastStreakDate() {
+      const days = Array.from(this.getActiveDays()).sort();
+      return days.length ? days[days.length - 1] : null;
     },
     isTodayActive() {
       return this.getActiveDays().has(dayKey(Date.now()));
@@ -395,6 +434,8 @@
         hasStoredState: this.hasStoredState(),
         xp: this.getXP(),
         streak: this.getStreak(),
+        lastStreakDate: this.getLastStreakDate(),
+        activeDays: Array.from(this.getActiveDays()).sort(),
         progress: this.snapshot()
       };
       console.info("[Progress] state", result);

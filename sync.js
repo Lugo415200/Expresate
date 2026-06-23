@@ -15,7 +15,7 @@
   let suppressUploads = false;
 
   function emptyState() {
-    return { schemaVersion: 1, lessons: {}, quizzes: {} };
+    return { schemaVersion: 2, lessons: {}, quizzes: {}, activities: {} };
   }
 
   function mergeEntries(cloudEntries, localEntries) {
@@ -31,9 +31,10 @@
 
   function mergeProgress(cloud, local) {
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       lessons: mergeEntries(cloud?.lessons, local?.lessons),
-      quizzes: mergeEntries(cloud?.quizzes, local?.quizzes)
+      quizzes: mergeEntries(cloud?.quizzes, local?.quizzes),
+      activities: mergeEntries(cloud?.activities, local?.activities)
     };
   }
 
