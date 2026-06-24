@@ -3577,12 +3577,45 @@ body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"
   box-shadow:
     0 .55rem 0 rgba(67, 88, 244, .10),
     inset 0 1px 0 rgba(255,255,255,.76);
+  transform-origin: center;
+  transition:
+    transform var(--motion-med, 220ms) var(--motion-spring, cubic-bezier(.18,.9,.28,1.18)),
+    border-radius var(--motion-med, 220ms) var(--motion-ease, ease),
+    box-shadow var(--motion-med, 220ms) ease,
+    background var(--motion-med, 220ms) ease,
+    border-color var(--motion-med, 220ms) ease,
+    color var(--motion-med, 220ms) ease;
 }
 
 body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"] .fc-letter:hover {
   background:
     linear-gradient(135deg, rgba(223,243,255,.88), rgba(237,233,254,.74)),
     var(--texture-paper-tosca);
+  background-size: auto, cover;
+  border-radius: 999px;
+  border-color: rgba(67, 88, 244, .38);
+  transform: translateY(-5px) scale(1.08) rotate(-1deg);
+  box-shadow:
+    0 .9rem 1.65rem rgba(67, 88, 244, .18),
+    0 0 0 .18rem rgba(67, 88, 244, .10),
+    inset 0 1px 0 rgba(255,255,255,.82);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"] .fc-letter:nth-child(even):hover {
+  transform: translateY(-5px) scale(1.08) rotate(1deg);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"] .fc-letter:active {
+  transform: translateY(1px) scale(.96);
+  box-shadow:
+    0 .25rem .55rem rgba(67, 88, 244, .12),
+    inset 0 1px 0 rgba(255,255,255,.80);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"] .fc-letter.vowel:hover {
+  background:
+    linear-gradient(135deg, rgba(237,233,254,.90), rgba(223,243,255,.78)),
+    var(--texture-paper-blue);
   background-size: auto, cover;
 }
 

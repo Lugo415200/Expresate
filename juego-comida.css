@@ -963,6 +963,7 @@ body[data-page="juego"] {
   background:
     radial-gradient(circle at 50% 0%, rgba(239, 68, 68, .10), transparent 15rem),
     linear-gradient(135deg, rgba(255, 255, 255, .95), rgba(223, 243, 255, .82));
+  animation: motionSoftShake .42s cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .reward-pill {

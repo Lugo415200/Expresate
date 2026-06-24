@@ -348,6 +348,199 @@ body[data-page="diccionario"] #result > *,
   --texture-opacity: .08;
 }
 
+/* =========================
+   Motion Interaction System
+   CSS-only utilities. Keep motion on transform/opacity/shadow/radius.
+   ========================= */
+:root {
+  --motion-fast: 140ms;
+  --motion-med: 220ms;
+  --motion-slow: 360ms;
+  --motion-ease: cubic-bezier(.2, .8, .2, 1);
+  --motion-spring: cubic-bezier(.18, .9, .28, 1.18);
+  --motion-lift-y: -4px;
+  --motion-lift-shadow: 0 1.15rem 2.8rem rgba(67, 88, 244, .18);
+  --motion-glow-shadow: 0 0 0 .18rem rgba(67, 88, 244, .12), 0 1rem 2.25rem rgba(67, 88, 244, .16);
+}
+
+.motion-lift,
+.motion-pop,
+.motion-morph,
+.motion-glow,
+.motion-press,
+.motion-success,
+.motion-error {
+  will-change: transform;
+}
+
+.motion-lift {
+  transition: transform var(--motion-med) var(--motion-ease), box-shadow var(--motion-med) ease, border-color var(--motion-med) ease;
+}
+
+.motion-lift:hover {
+  transform: translateY(var(--motion-lift-y));
+  box-shadow: var(--motion-lift-shadow);
+}
+
+.motion-pop {
+  transition: transform var(--motion-med) var(--motion-spring), filter var(--motion-med) ease;
+}
+
+.motion-pop:hover {
+  transform: translateY(-2px) scale(1.035);
+}
+
+.motion-morph {
+  transition: transform var(--motion-med) var(--motion-spring), border-radius var(--motion-med) var(--motion-ease), background var(--motion-med) ease, box-shadow var(--motion-med) ease, border-color var(--motion-med) ease;
+}
+
+.motion-morph:hover {
+  border-radius: 999px;
+  transform: translateY(-3px) scale(1.045) rotate(var(--motion-rotate, -.6deg));
+  box-shadow: var(--motion-glow-shadow);
+}
+
+.motion-glow {
+  transition: box-shadow var(--motion-med) ease, border-color var(--motion-med) ease, filter var(--motion-med) ease;
+}
+
+.motion-glow:hover,
+.motion-glow:focus-visible {
+  border-color: rgba(67, 88, 244, .34);
+  box-shadow: var(--motion-glow-shadow);
+}
+
+.motion-press,
+.btn,
+button {
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-med) ease,
+    border-color var(--motion-med) ease,
+    background-color var(--motion-med) ease,
+    filter var(--motion-med) ease;
+}
+
+.motion-press:active,
+.btn:active,
+button:active {
+  transform: translateY(1px) scale(.985);
+}
+
+.motion-success {
+  animation: motionSuccessPulse .72s var(--motion-ease) both;
+}
+
+.motion-error {
+  animation: motionSoftShake .42s var(--motion-ease) both;
+}
+
+@keyframes motionSuccessPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, .0); }
+  35% { transform: scale(1.025); box-shadow: 0 0 0 .45rem rgba(16, 185, 129, .14); }
+  100% { transform: scale(1); box-shadow: 0 0 0 .05rem rgba(16, 185, 129, .04); }
+}
+
+@keyframes motionSoftShake {
+  0%, 100% { transform: translateX(0); }
+  22% { transform: translateX(-5px); }
+  46% { transform: translateX(4px); }
+  68% { transform: translateX(-2px); }
+}
+
+/* Targeted product motion: cards and panels that should feel app-like. */
+.guest-account-reminder,
+.course-stats-popover,
+.course-stats-list div,
+body[data-page="curso"] .courseStep,
+body[data-page="diccionario"] #result > *,
+.food-game-stage,
+.food-visual,
+.target-word-panel,
+.feedback-screen .result-card,
+.lesson-window,
+.alphabet-example-panel {
+  transition:
+    transform var(--motion-med) var(--motion-ease),
+    box-shadow var(--motion-med) ease,
+    border-color var(--motion-med) ease,
+    filter var(--motion-med) ease;
+}
+
+.guest-account-reminder:hover,
+body[data-page="curso"] .courseStep:not(.isLocked):hover,
+body[data-page="diccionario"] #result > *:hover,
+.food-visual:hover,
+.target-word-panel:hover,
+.alphabet-example-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--motion-lift-shadow);
+}
+
+.course-stats-trigger,
+.course-stats-close,
+.guest-account-reminder__actions .btn {
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-med) ease,
+    background var(--motion-med) ease,
+    border-color var(--motion-med) ease;
+}
+
+.course-stats-trigger:active,
+.course-stats-close:active,
+.guest-account-reminder__actions .btn:active {
+  transform: translateY(1px) scale(.985);
+}
+
+/* Avoid adding extra flourish to forms and payment-focused CTAs. */
+body.auth-page .btn,
+body.auth-page button,
+body[data-page="pricing"] .btn,
+body[data-page="pricing"] button {
+  transition: background-color var(--motion-med) ease, border-color var(--motion-med) ease, box-shadow var(--motion-med) ease;
+}
+
+body.auth-page .btn:active,
+body.auth-page button:active,
+body[data-page="pricing"] .btn:active,
+body[data-page="pricing"] button:active {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 1ms;
+    --motion-med: 1ms;
+    --motion-slow: 1ms;
+  }
+
+  .motion-lift,
+  .motion-pop,
+  .motion-morph,
+  .motion-glow,
+  .motion-press,
+  .motion-success,
+  .motion-error,
+  .guest-account-reminder,
+  .course-stats-popover,
+  .course-stats-list div,
+  body[data-page="curso"] .courseStep,
+  body[data-page="diccionario"] #result > *,
+  .food-game-stage,
+  .food-visual,
+  .target-word-panel,
+  .feedback-screen .result-card,
+  .lesson-window,
+  .alphabet-example-panel,
+  .btn,
+  button {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
 /* ----------------------------------------------------------
    PWA install prompt - rendered only after beforeinstallprompt
    ---------------------------------------------------------- */
