@@ -27,46 +27,10 @@
       padding: clamp(24px, 4vw, 36px) 0 clamp(44px, 6vw, 64px);
     }
 
-    body.theme-dark-shell[data-page="pricing"] {
-      background:
-        radial-gradient(circle at 12% 12%, rgba(34,211,238,.12), transparent 32%),
-        radial-gradient(circle at 86% 10%, rgba(124,58,237,.18), transparent 36%),
-        linear-gradient(135deg, #030712 0%, #071126 52%, #050816 100%) !important;
-    }
-
     /* ---- Hero ------------------------------------------------ */
     .pricing-hero {
       text-align: center;
       padding: 44px 20px 32px;
-    }
-
-    body.theme-dark-shell .pricing-hero.texture-accent--pricing {
-      background:
-        radial-gradient(circle at 18% 14%, rgba(34,211,238,.10), transparent 34%),
-        radial-gradient(circle at 86% 16%, rgba(124,58,237,.14), transparent 38%),
-        linear-gradient(135deg, rgba(5,12,30,.96), rgba(11,18,48,.94));
-      border-color: rgba(167,139,250,.28);
-      box-shadow: 0 32px 90px rgba(0,0,0,.34);
-    }
-
-    body.theme-dark-shell .pricing-hero.texture-accent--pricing::before {
-      opacity: .12;
-      filter: saturate(.9) contrast(.92);
-    }
-
-    body.theme-dark-shell .pricing-hero.texture-accent--pricing::after {
-      background:
-        linear-gradient(118deg, rgba(3,7,18,.72), rgba(13,19,51,.48) 52%, rgba(3,7,18,.68)),
-        radial-gradient(circle at 76% 22%, rgba(34,211,238,.08), transparent 34%);
-    }
-
-    body.theme-dark-shell .pricing-hero h1 {
-      color: #fff;
-      text-shadow: 0 2px 24px rgba(0,0,0,.34);
-    }
-
-    body.theme-dark-shell .pricing-hero .sub {
-      color: rgba(232,241,255,.84);
     }
     .pricing-eyebrow {
       display: inline-flex;
@@ -210,20 +174,9 @@
       inset: -18%;
       pointer-events: none;
       background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
-      opacity: .16;
+      opacity: .34;
       mix-blend-mode: screen;
       animation: pricingSwirlFloat 48s ease-in-out infinite alternate;
-    }
-
-    body.theme-dark-shell .pricing-card:not(.featured),
-    body.theme-dark-shell .locked-preview,
-    body.theme-dark-shell .why-card,
-    body.theme-dark-shell .faq-item,
-    body.theme-dark-shell .pricing-bottom-cta {
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.94), rgba(239,246,255,.90)),
-        var(--texture-paper-white);
-      box-shadow: 0 24px 60px rgba(0,0,0,.22);
     }
 
     .pricing-card.featured .pricing-title,
@@ -670,7 +623,7 @@
   </style>
 </head>
 
-<body class="theme-dark-shell" data-page="pricing">
+<body data-page="pricing">
   <!-- Topbar injected by nav.js -->
   <div class="topbar"></div>
 
