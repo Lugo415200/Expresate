@@ -55,6 +55,72 @@ document.addEventListener("DOMContentLoaded", () => {
     Access.onDeviceChange?.(renderDeviceLimitNotice);
   }
 
+  const GUEST_REMINDER_KEY = "expresate_guest_account_reminder_dismissed_until";
+  const GUEST_REMINDER_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+  const GUEST_REMINDER_PAGES = new Set(["curso", "diccionario", "juego"]);
+
+  function shouldShowGuestReminder() {
+    if (document.body.dataset.page === "auth" || document.body.dataset.page === "pricing") return false;
+    if (document.body.dataset.lessonId) return true;
+    return GUEST_REMINDER_PAGES.has(document.body.dataset.page || "");
+  }
+
+  function guestReminderDismissed() {
+    try {
+      const until = Number(window.localStorage.getItem(GUEST_REMINDER_KEY) || 0);
+      return Number.isFinite(until) && until > Date.now();
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function dismissGuestReminder() {
+    try {
+      window.localStorage.setItem(GUEST_REMINDER_KEY, String(Date.now() + GUEST_REMINDER_COOLDOWN_MS));
+    } catch (_) {}
+    document.getElementById("guestAccountReminder")?.remove();
+  }
+
+  function authReminderUrl(mode) {
+    const redirect = window.Access?.currentDestination?.() || window.location.pathname.split("/").pop() || "curso.html";
+    const params = new URLSearchParams({ mode, redirect });
+    return `auth.html?${params.toString()}`;
+  }
+
+  function renderGuestAccountReminder(session) {
+    const existing = document.getElementById("guestAccountReminder");
+    if (session?.user || !shouldShowGuestReminder() || guestReminderDismissed()) {
+      existing?.remove();
+      return;
+    }
+    if (existing) return;
+
+    const reminder = document.createElement("aside");
+    reminder.id = "guestAccountReminder";
+    reminder.className = "guest-account-reminder";
+    reminder.setAttribute("role", "region");
+    reminder.setAttribute("aria-label", "Recordatorio para guardar tu progreso");
+    reminder.innerHTML = `
+      <div class="guest-account-reminder__icon" aria-hidden="true">★</div>
+      <div class="guest-account-reminder__copy">
+        <strong>Guarda tu progreso</strong>
+        <span>Crea una cuenta gratis o inicia sesión para guardar tu XP, racha y lecciones completadas.</span>
+      </div>
+      <div class="guest-account-reminder__actions">
+        <a class="btn primary" href="${authReminderUrl("signup")}">Crear cuenta</a>
+        <a class="btn" href="${authReminderUrl("login")}">Iniciar sesión</a>
+        <button class="btn ghost" type="button" data-guest-reminder-dismiss>Más tarde</button>
+      </div>
+    `;
+    reminder.querySelector("[data-guest-reminder-dismiss]")?.addEventListener("click", dismissGuestReminder);
+    document.body.appendChild(reminder);
+  }
+
+  if (window.Access) {
+    Access.ready().then(() => renderGuestAccountReminder(Access.getSession?.()));
+    Access.onAuthChange?.((session) => renderGuestAccountReminder(session));
+  }
+
 
     // =========================
   // Audio buttons (alphabet + custom)

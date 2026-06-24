@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (continueBtn) continueBtn.addEventListener("click", redirectAfterLogin);
 
   let mode = "login";
-  setMode("login");
+  setMode(params.get("mode") === "signup" ? "signup" : "login");
 
   modeLogin?.addEventListener("click", () => setMode("login"));
   modeSignup?.addEventListener("click", () => setMode("signup"));

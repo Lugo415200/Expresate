@@ -137,6 +137,119 @@
   }
 }
 
+/* ----------------------------------------------------------
+   Guest account reminder - non-blocking progress save prompt
+   ---------------------------------------------------------- */
+.guest-account-reminder {
+  position: fixed;
+  z-index: 1190;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  width: min(30rem, calc(100vw - 2rem));
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, .68);
+  border-radius: 1.15rem;
+  color: #172033;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .20), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, .95), rgba(223, 243, 255, .92));
+  box-shadow:
+    0 1.25rem 3.5rem rgba(67, 88, 244, .20),
+    inset 0 1px 0 rgba(255, 255, 255, .86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  animation: guestReminderEnter .28s ease-out both;
+}
+
+.guest-account-reminder__icon {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-blue), #8b5cf6);
+  box-shadow: 0 0.75rem 1.5rem rgba(67, 88, 244, .22);
+}
+
+.guest-account-reminder__copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.guest-account-reminder__copy strong {
+  font-family: var(--font-display, "Ribeye", serif);
+  font-size: 1rem;
+  line-height: 1.15;
+}
+
+.guest-account-reminder__copy span {
+  color: rgba(23, 32, 51, .68);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.guest-account-reminder__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.guest-account-reminder__actions .btn {
+  margin: 0;
+  min-height: 2.45rem;
+  white-space: nowrap;
+}
+
+.guest-account-reminder__actions .btn.ghost {
+  background: rgba(255, 255, 255, .64);
+}
+
+@keyframes guestReminderEnter {
+  from { opacity: 0; transform: translateY(0.75rem) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 560px) {
+  .guest-account-reminder {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+
+  .guest-account-reminder__icon {
+    display: none;
+  }
+
+  .guest-account-reminder__actions {
+    justify-content: stretch;
+  }
+
+  .guest-account-reminder__actions .btn {
+    flex: 1 1 calc(50% - 0.5rem);
+    padding-inline: 0.65rem;
+  }
+
+  .guest-account-reminder__actions .btn.ghost {
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guest-account-reminder {
+    animation: none;
+  }
+}
+
 /* =========================
    2) GLOBAL / BACKGROUND
    ========================= */
