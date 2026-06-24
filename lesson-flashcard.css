@@ -3310,10 +3310,10 @@ body.lesson-guide-open {
 .letter-explore-dialog {
   position: relative;
   z-index: 1;
-  width: min(58rem, 100%);
-  min-height: min(34rem, calc(100svh - 6rem));
+  width: min(62rem, 100%);
+  min-height: min(35rem, calc(100svh - 6rem));
   display: grid;
-  grid-template-columns: minmax(15rem, .9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(18rem, .98fr) minmax(0, 1.02fr);
   gap: clamp(1rem, 2.5vw, 1.6rem);
   padding: clamp(1rem, 2.5vw, 1.5rem);
   color: #172033;
@@ -3354,44 +3354,81 @@ body.lesson-guide-open {
 .letter-explore-visual {
   min-width: 0;
   display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   place-items: center;
   align-content: center;
-  gap: .8rem;
+  gap: .65rem;
   min-height: 100%;
-  padding: clamp(1rem, 2vw, 1.25rem);
+  padding: clamp(1rem, 2vw, 1.4rem);
   border-radius: 1.25rem;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, .38), rgba(184, 226, 155, .38)),
+    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, .30), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, .28), rgba(184, 226, 155, .46)),
     var(--texture-paper-green);
-  background-size: auto, cover;
+  background-size: auto, auto, cover;
   border: 1px solid rgba(60, 111, 56, .22);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.44);
 }
 
 .letter-art {
+  grid-row: 1;
+  grid-column: 1;
   display: grid;
   place-items: center;
-  width: min(13rem, 52vw);
+  width: min(21rem, 62vw);
   aspect-ratio: .76;
-  color: rgba(70, 102, 39, .80);
+  color: rgba(212, 226, 136, .90);
   font-family: var(--font-display, "Ribeye", serif);
-  font-size: clamp(7rem, 17vw, 11rem);
+  font-size: clamp(10rem, 23vw, 17rem);
   line-height: .9;
-  text-shadow: 0 .18rem 0 rgba(255,255,255,.45);
+  text-shadow:
+    0 .18rem 0 rgba(255,255,255,.35),
+    0 .8rem 1.6rem rgba(42, 83, 32, .18);
   border-radius: 2rem;
+  transform: translateX(-9%) translateY(2%);
 }
 
 .letter-art.is-small {
-  width: min(8rem, 34vw);
-  font-size: clamp(4.5rem, 13vw, 6.5rem);
-  aspect-ratio: .9;
+  width: min(19rem, 58vw);
+  font-size: clamp(9rem, 21vw, 15.5rem);
+  aspect-ratio: .76;
 }
 
 .letter-explore-visual img {
-  width: min(100%, 26rem);
-  max-height: 15rem;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  justify-self: center;
+  width: min(100%, 31rem);
+  max-height: 19rem;
   object-fit: contain;
   filter: drop-shadow(0 .8rem 1.1rem rgba(24, 48, 38, .18));
+  transform: translateX(8%) translateY(-1%);
+}
+
+.letter-visual-words {
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .45rem;
+  width: 100%;
+}
+
+.letter-visual-words span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: .35rem .7rem;
+  color: #263f22;
+  background:
+    linear-gradient(135deg, rgba(240, 248, 203, .86), rgba(255, 255, 255, .52)),
+    var(--texture-paper-white);
+  background-size: auto, cover;
+  border: 1px solid rgba(60, 111, 56, .20);
+  border-radius: 999px;
+  box-shadow: 0 .45rem .95rem rgba(24, 48, 38, .10);
+  font-weight: 950;
 }
 
 .letter-explore-content {
@@ -3432,11 +3469,14 @@ body.lesson-guide-open {
   padding: clamp(1rem, 2vw, 1.25rem);
   border-radius: 1.25rem;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.82), rgba(237,233,254,.62)),
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .12), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.78), rgba(237,233,254,.58)),
     var(--texture-paper-white);
-  background-size: auto, cover;
+  background-size: auto, auto, cover;
   border: 1px solid rgba(67, 88, 244, .18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.76);
+  box-shadow:
+    0 .8rem 2rem rgba(67, 88, 244, .10),
+    inset 0 1px 0 rgba(255,255,255,.76);
 }
 
 .letter-kicker {
@@ -3635,19 +3675,33 @@ body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"
   }
 
   .letter-explore-visual {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(8.5rem, auto) auto;
     min-height: 0;
     padding: .75rem;
   }
 
   .letter-art,
   .letter-art.is-small {
-    width: 5.2rem;
-    font-size: 4.4rem;
+    width: min(13rem, 58vw);
+    font-size: clamp(6.5rem, 28vw, 9rem);
+    transform: translateX(-12%) translateY(2%);
   }
 
   .letter-explore-visual img {
-    max-height: 7.5rem;
+    width: min(100%, 18rem);
+    max-height: 9rem;
+    transform: translateX(8%) translateY(-2%);
+  }
+
+  .letter-visual-words {
+    gap: .35rem;
+  }
+
+  .letter-visual-words span {
+    min-height: 1.95rem;
+    padding: .28rem .55rem;
+    font-size: .82rem;
   }
 
   .letter-speech::before {
@@ -3656,6 +3710,10 @@ body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"
 
   .letter-facts {
     grid-template-columns: 1fr;
+  }
+
+  .letter-mini-lesson {
+    padding: .85rem;
   }
 
   .letter-explore-actions {

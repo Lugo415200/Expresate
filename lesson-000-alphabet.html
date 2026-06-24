@@ -332,6 +332,11 @@
       <div class="letter-explore-visual">
         <div class="letter-art" data-letter-art>A</div>
         <img src="assets/characters/letter-a-animals.png" alt="" data-letter-scene hidden />
+        <div class="letter-visual-words" data-letter-visual-words hidden>
+          <span>Ant</span>
+          <span>Alligator</span>
+          <span>Animal</span>
+        </div>
       </div>
 
       <div class="letter-explore-content">
@@ -671,9 +676,18 @@
         var scene = modal.querySelector("[data-letter-scene]");
         var art = modal.querySelector("[data-letter-art]");
         var expansion = modal.querySelector("[data-letter-expansion]");
+        var visualWords = modal.querySelector("[data-letter-visual-words]");
         if (scene && art) {
           scene.hidden = !item.scene;
           art.classList.toggle("is-small", Boolean(item.scene));
+        }
+        if (visualWords) {
+          visualWords.hidden = !item.extra;
+          if (item.extra) {
+            visualWords.innerHTML = item.extra.split(" · ").map(function (word) {
+              return "<span>" + word + "</span>";
+            }).join("");
+          }
         }
         if (expansion) {
           expansion.hidden = !item.extra;
