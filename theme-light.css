@@ -243,6 +243,53 @@ body[data-page="diccionario"] #result > * > *,
   mix-blend-mode: normal;
 }
 
+.texture-workbook,
+.texture-learning-card,
+.texture-phonics {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.texture-workbook::before,
+.texture-learning-card::before,
+.texture-phonics::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--texture-education-image, var(--texture-paper-green));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: var(--texture-education-opacity, .24);
+  mix-blend-mode: multiply;
+}
+
+.texture-workbook > *,
+.texture-learning-card > *,
+.texture-phonics > * {
+  position: relative;
+  z-index: 1;
+}
+
+.texture-workbook {
+  --texture-education-image: var(--texture-paper-green);
+  --texture-education-opacity: .28;
+}
+
+.texture-learning-card {
+  --texture-education-image: var(--texture-paper-tosca);
+  --texture-education-opacity: .20;
+}
+
+.texture-phonics {
+  --texture-education-image: var(--texture-paper-blue);
+  --texture-education-opacity: .22;
+}
+
 .course-hero,
 .step-card,
 .home-hub .hub-hero,

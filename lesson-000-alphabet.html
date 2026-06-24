@@ -323,6 +323,64 @@
     </section>
   </div>
 
+  <div class="letter-explore-modal" data-letter-modal hidden role="dialog" aria-modal="true"
+       aria-labelledby="letterExploreTitle" aria-describedby="letterExploreTip">
+    <button class="letter-explore-backdrop" type="button" data-letter-close aria-label="Cerrar letra"></button>
+    <section class="letter-explore-dialog texture-workbook" tabindex="-1">
+      <button class="letter-explore-close" type="button" data-letter-close aria-label="Cerrar letra">×</button>
+
+      <div class="letter-explore-visual">
+        <div class="letter-art" data-letter-art>A</div>
+        <img src="assets/characters/letter-a-animals.png" alt="" data-letter-scene hidden />
+      </div>
+
+      <div class="letter-explore-content">
+        <div class="letter-speech" data-letter-speech>
+          Toca escuchar y repite la letra con su palabra.
+        </div>
+
+        <div class="letter-mini-lesson">
+          <span class="letter-kicker">Explora la letra</span>
+          <h2 id="letterExploreTitle" data-letter-title>A</h2>
+
+          <dl class="letter-facts">
+            <div>
+              <dt>Nombre de la letra</dt>
+              <dd data-letter-name>A</dd>
+            </div>
+            <div>
+              <dt>Sonido</dt>
+              <dd data-letter-sound>ay / ah</dd>
+            </div>
+            <div>
+              <dt>Palabra ejemplo</dt>
+              <dd><strong data-letter-word>Apple</strong> <span data-letter-spanish>Manzana</span></dd>
+            </div>
+            <div>
+              <dt>Pronunciación</dt>
+              <dd data-letter-pronunciation>APPLE</dd>
+            </div>
+          </dl>
+
+          <p id="letterExploreTip" class="letter-tip" data-letter-tip>
+            La letra A suele sonar como "ah" o "ay" dependiendo de la palabra.
+          </p>
+
+          <div class="letter-expansion" data-letter-expansion hidden>
+            <span>Más palabras con A</span>
+            <strong>Ant · Alligator · Animal</strong>
+          </div>
+        </div>
+
+        <div class="letter-explore-actions">
+          <button class="btn letter-explore-back" type="button" data-letter-close>← Volver</button>
+          <button class="btn letter-explore-audio" type="button" data-letter-audio>Escuchar</button>
+          <button class="btn primary letter-explore-next" type="button" data-letter-next>Siguiente →</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <script src="access.js"></script>
@@ -529,6 +587,155 @@
         });
       });
       render("name");
+    })();
+
+    (function () {
+      var modal = document.querySelector("[data-letter-modal]");
+      var dialog = modal && modal.querySelector(".letter-explore-dialog");
+      var grid = document.querySelector('[data-fc-id="alphabet-grid"] .alphabet-grid-compact');
+      if (!modal || !grid) return;
+
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var activeTrigger = null;
+      var modalTimer = null;
+      var audioTimer = null;
+      var currentLetter = "a";
+
+      var letters = {
+        a: { letter: "A", sound: "ay / ah", word: "Apple", pronunciation: "APPLE", spanish: "Manzana", scene: true, extra: "Ant · Alligator · Animal", tip: 'La letra A suele sonar como "ah" o "ay" dependiendo de la palabra.' },
+        b: { letter: "B", sound: "b", word: "Ball", pronunciation: "BALL", spanish: "Pelota", tip: 'La B se parece a la B del español, pero en inglés suele sonar más corta y firme.' },
+        c: { letter: "C", sound: "k / s", word: "Cat", pronunciation: "CAT", spanish: "Gato", tip: 'La C puede sonar como K en cat o como S en city. Mira la palabra completa.' },
+        d: { letter: "D", sound: "d", word: "Dog", pronunciation: "DOG", spanish: "Perro", tip: 'La D en inglés es rápida. Evita agregar una vocal al final: di dog, no dog-eh.' },
+        e: { letter: "E", sound: "ee / eh", word: "Elephant", pronunciation: "ELEPHANT", spanish: "Elefante", tip: 'El nombre de la letra E suena como "ii", pero en palabras puede sonar más abierta.' },
+        f: { letter: "F", sound: "f", word: "Fish", pronunciation: "FISH", spanish: "Pez", tip: 'La F usa aire suave entre los dientes y el labio. No agregues una vocal al final.' },
+        g: { letter: "G", sound: "g / j", word: "Goat", pronunciation: "GOAT", spanish: "Cabra", tip: 'La G puede sonar fuerte como goat o suave como giant. La palabra decide.' },
+        h: { letter: "H", sound: "h", word: "Hat", pronunciation: "HAT", spanish: "Sombrero", tip: 'La H sí se escucha en inglés. Haz una salida suave de aire: hat.' },
+        i: { letter: "I", sound: "ai / ih", word: "Igloo", pronunciation: "IGLOO", spanish: "Iglú", tip: 'El nombre de I suena como "ai". Dentro de palabras puede sonar corto como ih.' },
+        j: { letter: "J", sound: "j", word: "Juice", pronunciation: "JUICE", spanish: "Jugo", tip: 'La J inglesa suena como una mezcla fuerte de d + y. Practica con juice.' },
+        k: { letter: "K", sound: "k", word: "Kite", pronunciation: "KITE", spanish: "Cometa", tip: 'K suele tener un sonido claro de K. Es útil para deletrear nombres y códigos.' },
+        l: { letter: "L", sound: "l", word: "Lion", pronunciation: "LION", spanish: "León", tip: 'La L toca arriba con la lengua. Mantén el sonido limpio: lion.' },
+        m: { letter: "M", sound: "m", word: "Moon", pronunciation: "MOON", spanish: "Luna", tip: 'M se pronuncia con los labios cerrados. Es una letra fácil para empezar.' },
+        n: { letter: "N", sound: "n", word: "Nose", pronunciation: "NOSE", spanish: "Nariz", tip: 'N usa la nariz y la lengua arriba. No la conviertas en ñ.' },
+        o: { letter: "O", sound: "oh / ah", word: "Orange", pronunciation: "ORANGE", spanish: "Naranja", tip: 'O puede sonar como "ou" en su nombre o más abierta dentro de palabras.' },
+        p: { letter: "P", sound: "p", word: "Pencil", pronunciation: "PENCIL", spanish: "Lápiz", tip: 'La P inglesa tiene un pequeño golpe de aire. Practica pencil.' },
+        q: { letter: "Q", sound: "kw", word: "Queen", pronunciation: "QUEEN", spanish: "Reina", tip: 'Q casi siempre trabaja con U y suena como kw: queen.' },
+        r: { letter: "R", sound: "r inglesa", word: "Rabbit", pronunciation: "RABBIT", spanish: "Conejo", tip: 'La R inglesa no vibra como la R española. La lengua no debe golpear fuerte.' },
+        s: { letter: "S", sound: "s", word: "Sun", pronunciation: "SUN", spanish: "Sol", tip: 'S mantiene aire constante. Evita decir es-sun; empieza directo con S.' },
+        t: { letter: "T", sound: "t", word: "Tiger", pronunciation: "TIGER", spanish: "Tigre", tip: 'La T inglesa puede tener más aire que en español. Hazla corta y clara.' },
+        u: { letter: "U", sound: "yu / uh", word: "Umbrella", pronunciation: "UMBRELLA", spanish: "Paraguas", tip: 'El nombre de U suena como "iu", pero en umbrella suena más como uh.' },
+        v: { letter: "V", sound: "v", word: "Van", pronunciation: "VAN", spanish: "Camioneta", tip: 'V no es igual que B. Usa labio y dientes para sentir vibración suave.' },
+        w: { letter: "W", sound: "w", word: "Water", pronunciation: "WATER", spanish: "Agua", tip: 'W empieza con labios redondeados. Practica water sin empezar con gua.' },
+        x: { letter: "X", sound: "ks", word: "Box", pronunciation: "BOX", spanish: "Caja", tip: 'X muchas veces suena como ks al final de una palabra: box.' },
+        y: { letter: "Y", sound: "y", word: "Yellow", pronunciation: "YELLOW", spanish: "Amarillo", tip: 'Y al inicio suena como una y suave: yellow.' },
+        z: { letter: "Z", sound: "z", word: "Zebra", pronunciation: "ZEBRA", spanish: "Cebra", tip: 'En inglés americano, Z vibra como zzz. No la pronuncies como S plana.' }
+      };
+
+      function safeKey(letter) {
+        return String(letter || "").toLowerCase().trim().slice(0, 1);
+      }
+
+      function setText(selector, value) {
+        var el = modal.querySelector(selector);
+        if (el) el.textContent = value || "";
+      }
+
+      function playLetterAndWord(item, trigger) {
+        clearTimeout(audioTimer);
+        window.ExpresateAudio?.play?.("audio/alphabet/" + item.letter.toLowerCase() + ".mp3", {
+          trigger: trigger || null,
+          fallbackText: item.letter,
+          speechType: "letter"
+        });
+        audioTimer = setTimeout(function () {
+          window.ExpresateAudio?.play?.("assets/audio/words/" + item.word.toLowerCase() + ".mp3", {
+            trigger: trigger || null,
+            fallbackText: item.word.toLowerCase(),
+            speechType: "word"
+          });
+        }, reduceMotion ? 500 : 900);
+      }
+
+      function renderLetter(key) {
+        var item = letters[key] || letters.a;
+        currentLetter = key;
+        setText("[data-letter-art]", item.letter);
+        setText("[data-letter-title]", item.letter);
+        setText("[data-letter-name]", item.letter);
+        setText("[data-letter-sound]", item.sound);
+        setText("[data-letter-word]", item.word);
+        setText("[data-letter-spanish]", item.spanish);
+        setText("[data-letter-pronunciation]", item.pronunciation);
+        setText("[data-letter-tip]", item.tip);
+        setText("[data-letter-speech]", "Letra " + item.letter + ": escucha el nombre, luego la palabra " + item.word + ".");
+
+        var scene = modal.querySelector("[data-letter-scene]");
+        var art = modal.querySelector("[data-letter-art]");
+        var expansion = modal.querySelector("[data-letter-expansion]");
+        if (scene && art) {
+          scene.hidden = !item.scene;
+          art.classList.toggle("is-small", Boolean(item.scene));
+        }
+        if (expansion) {
+          expansion.hidden = !item.extra;
+          var strong = expansion.querySelector("strong");
+          if (strong) strong.textContent = item.extra || "";
+        }
+      }
+
+      function openLetterModal(key, trigger) {
+        var item = letters[key] || letters.a;
+        activeTrigger = trigger || null;
+        renderLetter(key);
+        clearTimeout(modalTimer);
+        modal.hidden = false;
+        document.querySelector(".shell")?.setAttribute("inert", "");
+        document.body.classList.add("lesson-guide-open", "letter-explore-open");
+        requestAnimationFrame(function () {
+          modal.classList.add("is-open");
+          dialog && dialog.focus();
+          playLetterAndWord(item, modal.querySelector("[data-letter-audio]"));
+        });
+      }
+
+      function closeLetterModal() {
+        if (modal.hidden) return;
+        clearTimeout(audioTimer);
+        window.ExpresateAudio?.stop?.();
+        modal.classList.remove("is-open");
+        document.body.classList.remove("lesson-guide-open", "letter-explore-open");
+        clearTimeout(modalTimer);
+        modalTimer = setTimeout(function () {
+          modal.hidden = true;
+          document.querySelector(".shell")?.removeAttribute("inert");
+          activeTrigger && activeTrigger.focus();
+          activeTrigger = null;
+        }, reduceMotion ? 0 : 240);
+      }
+
+      grid.addEventListener("click", function (event) {
+        var button = event.target.closest(".letter-btn");
+        if (!button || !grid.contains(button)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        openLetterModal(safeKey(button.dataset.letter), button);
+      }, true);
+
+      modal.querySelectorAll("[data-letter-close]").forEach(function (button) {
+        button.addEventListener("click", closeLetterModal);
+      });
+      modal.querySelector("[data-letter-audio]")?.addEventListener("click", function () {
+        playLetterAndWord(letters[currentLetter] || letters.a, this);
+      });
+      modal.querySelector("[data-letter-next]")?.addEventListener("click", function () {
+        var keys = Object.keys(letters);
+        var next = keys[(keys.indexOf(currentLetter) + 1) % keys.length];
+        renderLetter(next);
+        playLetterAndWord(letters[next], modal.querySelector("[data-letter-audio]"));
+      });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !modal.hidden) closeLetterModal();
+      });
     })();
   </script>
 </body>
