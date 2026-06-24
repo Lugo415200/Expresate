@@ -492,7 +492,7 @@ A clean, standalone pricing page. Key content:
 - Two columns: **Gratis** and **Premium**
 - Free includes: Módulo 0 (Alfabeto, Sonidos, Sílabas), Diccionario, Juego
 - Premium includes: Todo lo gratis + Módulo 1 completo (3 Plantillas + 3 Quizzes), progreso sincronizado entre dispositivos, contenido futuro
-- Price: placeholder "$X/mes" with "Suscribirse →" button (href to be wired in Phase 4)
+- Price: "$14.99/mes" with "Suscribirse →" button (Stripe Checkout wired through Supabase Edge Functions)
 - Nav: same topbar as other pages (load nav.js + supabaseClient.js + access.js)
 - If already premium: show "Ya eres Premium ✨" state instead of CTA
 

@@ -42,11 +42,17 @@ In Stripe Dashboard, make sure you are in **Test mode**.
 
 1. Go to **Product catalog**.
 2. Create product: `Exprésate Premium`.
-3. Add a recurring monthly price.
+3. Add a recurring monthly price for `$14.99 USD / month`.
 4. Optional: add a recurring yearly price.
 5. Copy each test-mode price ID.
 
 Price IDs start with `price_...`.
+
+### Monthly Price Updates
+
+Stripe Price amounts are immutable. To change Premium monthly pricing, create a new recurring monthly Price for `Exprésate Premium` at `$14.99 USD / month`, then update the Supabase Edge Function secret `STRIPE_MONTHLY_PRICE_ID` with the new `price_...` value.
+
+Existing active subscribers stay on their original Stripe Price unless you intentionally migrate or update those subscriptions in Stripe. Do not auto-migrate existing subscribers from code.
 
 ## Required Supabase Secrets
 
@@ -65,7 +71,7 @@ Do not commit real values. Do not put real values in `.env.example`.
 
 - `STRIPE_SECRET_KEY`: Stripe Dashboard → Developers → API keys → Secret key. In test mode, use the test secret key.
 - `STRIPE_WEBHOOK_SECRET`: Stripe Dashboard → Developers → Webhooks → your endpoint → Signing secret. If testing locally with Stripe CLI, use the `whsec_...` printed by `stripe listen`.
-- `STRIPE_MONTHLY_PRICE_ID`: Stripe Dashboard → Product catalog → Exprésate Premium → monthly recurring price → Price ID.
+- `STRIPE_MONTHLY_PRICE_ID`: Stripe Dashboard → Product catalog → Exprésate Premium → `$14.99 USD / month` recurring price → Price ID.
 - `STRIPE_YEARLY_PRICE_ID`: Stripe Dashboard → Product catalog → Exprésate Premium → yearly recurring price → Price ID. If you are not offering yearly yet, leave it unset.
 - `SITE_URL`: `https://expresate.co`
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase Dashboard → Project Settings → API → service_role key.
