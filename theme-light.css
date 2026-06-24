@@ -1771,6 +1771,56 @@ body.auth-page .auth-footer{
   z-index: 1;
 }
 
+body.theme-dark-shell {
+  color: #f8fbff;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(34, 211, 238, .12), transparent 30%),
+    radial-gradient(circle at 86% 12%, rgba(124, 58, 237, .16), transparent 34%),
+    radial-gradient(circle at 72% 78%, rgba(236, 72, 153, .08), transparent 32%),
+    linear-gradient(135deg, #030712 0%, #071126 48%, #050816 100%) !important;
+}
+
+body.theme-dark-shell::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
+  opacity: .11;
+  mix-blend-mode: screen;
+  filter: saturate(.9) contrast(.9);
+  transform: scale(1.08);
+  animation: premiumShellAtmosphere 72s ease-in-out infinite alternate;
+}
+
+body.theme-dark-shell .topbar {
+  background: rgba(3, 7, 18, .82) !important;
+  border-bottom: 1px solid rgba(167, 139, 250, .22) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, .28) !important;
+  backdrop-filter: blur(18px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.08) !important;
+}
+
+body.theme-dark-shell .topbar-nav-link {
+  color: rgba(240, 247, 255, .86);
+}
+
+body.theme-dark-shell .topbar-nav-link:hover,
+body.theme-dark-shell .topbar-nav-link.active {
+  color: #fff;
+  background: rgba(99, 102, 241, .24);
+  border-color: rgba(167, 139, 250, .42);
+  box-shadow: 0 0 24px rgba(99, 102, 241, .20);
+}
+
+body.theme-dark-shell .topbar-actions .pill,
+body.theme-dark-shell .topbar-link {
+  color: #fff;
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .22);
+}
+
 /* Animated texture accents: opt-in only for heroes and short reward moments. */
 .texture-accent {
   position: relative;
@@ -1805,7 +1855,7 @@ body.auth-page .auth-footer{
 }
 
 .texture-accent--home::before {
-  opacity: 0.64;
+  opacity: 0.18;
   mix-blend-mode: screen;
   animation-duration: 58s;
 }
@@ -1869,7 +1919,7 @@ body.auth-page .auth-footer{
 }
 
 .texture-accent--pricing::before {
-  opacity: 0.78;
+  opacity: 0.20;
   mix-blend-mode: screen;
   animation-duration: 52s;
 }
@@ -1910,6 +1960,12 @@ body.auth-page .auth-footer{
   100% { transform: translate3d(2%, 1.5%, 0) scale(1.12) rotate(1deg); }
 }
 
+@keyframes premiumShellAtmosphere {
+  0% { transform: translate3d(-1%, -1%, 0) scale(1.08); opacity: .08; }
+  50% { transform: translate3d(1.5%, -1.5%, 0) scale(1.12); opacity: .12; }
+  100% { transform: translate3d(1%, 1%, 0) scale(1.09); opacity: .09; }
+}
+
 @keyframes expresateTextureDrift {
   0% { transform: translate3d(-2%, -1%, 0) scale(1.05); }
   50% { transform: translate3d(1.5%, -2%, 0) scale(1.09); }
@@ -1924,6 +1980,7 @@ body.auth-page .auth-footer{
 
 @media (prefers-reduced-motion: reduce) {
   .texture-accent::before,
+  body.theme-dark-shell::before,
   .premium-shell-card::before,
   .texture-reward-burst {
     animation: none !important;
