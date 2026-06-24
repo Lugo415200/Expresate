@@ -53,13 +53,32 @@
   --texture-paper-red: url("assets/textures/paper-red.jpg");
   --texture-paper-tosca: url("assets/textures/paper-tosca.jpg");
   --texture-paper-black: url("assets/textures/paper-black.jpg");
-  --texture-card-opacity: .055;
-  --texture-surface-opacity: .075;
+  --texture-card-opacity: .13;
+  --texture-surface-opacity: .16;
 }
 
 /* =========================
    Paper Texture System
    ========================= */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 58px 0 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--texture-paper-blue);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: .075;
+  mix-blend-mode: multiply;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
 .texture-paper,
 .texture-blue,
 .texture-green,
@@ -152,7 +171,7 @@ body[data-page="diccionario"] #result > *::after,
   background-position: center;
   background-repeat: no-repeat;
   opacity: var(--texture-opacity, var(--texture-card-opacity));
-  mix-blend-mode: multiply;
+  mix-blend-mode: soft-light;
 }
 
 .texture-paper > *,
@@ -220,7 +239,7 @@ body[data-page="diccionario"] #result > * > *,
 
 .texture-dark {
   --texture-image: var(--texture-paper-black);
-  --texture-opacity: .06;
+  --texture-opacity: .1;
   mix-blend-mode: normal;
 }
 
@@ -236,7 +255,7 @@ body.auth-page .auth-card,
 .pricing-card,
 .pricing-bottom-cta {
   --texture-image: var(--texture-paper-blue);
-  --texture-opacity: .045;
+  --texture-opacity: .14;
 }
 
 .course-progress-dock,
@@ -249,7 +268,7 @@ body.auth-page .auth-card,
 body.auth-page .auth-benefit-panel,
 .already-premium {
   --texture-image: var(--texture-paper-tosca);
-  --texture-opacity: .055;
+  --texture-opacity: .15;
 }
 
 body[data-page="curso"] #modulesContainer > details.block,
@@ -262,24 +281,24 @@ body[data-page="diccionario"] #result > *,
 .food-visual,
 .target-word-panel {
   --texture-image: var(--texture-paper-white);
-  --texture-opacity: .06;
+  --texture-opacity: .12;
 }
 
 .course-reward-toast,
 .feedback-screen .result-card.is-success {
   --texture-image: var(--texture-paper-green);
-  --texture-opacity: .075;
+  --texture-opacity: .16;
 }
 
 .feedback-screen .result-card.is-try-again {
   --texture-image: var(--texture-paper-red);
-  --texture-opacity: .06;
+  --texture-opacity: .15;
 }
 
 .panel.sidebar,
 .panel.right {
   --texture-image: var(--texture-paper-black);
-  --texture-opacity: .045;
+  --texture-opacity: .08;
 }
 
 /* ----------------------------------------------------------
