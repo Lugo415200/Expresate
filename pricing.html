@@ -153,6 +153,56 @@
         inset 0 1px 0 rgba(255,255,255,.80);
       animation: premium-pulse 5s ease-in-out infinite;
     }
+
+    .pricing-card.featured {
+      color: #f8fbff;
+      border-color: rgba(167,139,250,.36);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(34,211,238,.18), transparent 34%),
+        radial-gradient(circle at 84% 18%, rgba(236,72,153,.20), transparent 38%),
+        linear-gradient(145deg, rgba(8,17,42,.98), rgba(35,27,92,.96));
+      box-shadow:
+        0 24px 70px rgba(17,24,71,.28),
+        0 0 0 1px rgba(167,139,250,.18),
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
+
+    .pricing-card.featured::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: -18%;
+      pointer-events: none;
+      background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
+      opacity: .34;
+      mix-blend-mode: screen;
+      animation: pricingSwirlFloat 48s ease-in-out infinite alternate;
+    }
+
+    .pricing-card.featured .pricing-title,
+    .pricing-card.featured .pricing-amount {
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.28);
+    }
+
+    .pricing-card.featured .pricing-desc,
+    .pricing-card.featured .pricing-period,
+    .pricing-card.featured .fine-print,
+    .pricing-card.featured .pricing-features li {
+      color: rgba(232,241,255,.86);
+    }
+
+    .pricing-card.featured .pricing-badge {
+      color: #fff;
+      background: linear-gradient(135deg, rgba(236,72,153,.92), rgba(124,58,237,.92));
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    @keyframes pricingSwirlFloat {
+      0% { transform: translate3d(-2%, -1%, 0) scale(1.08) rotate(-2deg); }
+      100% { transform: translate3d(2%, 1.5%, 0) scale(1.12) rotate(1deg); }
+    }
+
     .pricing-card.featured:hover {
       transform: translateY(-5px);
       box-shadow:
@@ -195,7 +245,8 @@
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      .pricing-card.featured { animation: none; }
+      .pricing-card.featured,
+      .pricing-card.featured::after { animation: none; }
     }
 
     .pricing-badge {

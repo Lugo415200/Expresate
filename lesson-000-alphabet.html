@@ -639,6 +639,20 @@
         return String(letter || "").toLowerCase().trim().slice(0, 1);
       }
 
+      letters.a.sceneSrc = "assets/characters/letter-a-animals.png";
+      letters.a.extra = "Ant · Alligator · Animal";
+      letters.b = {
+        letter: "B",
+        sound: "b",
+        word: "Birds",
+        pronunciation: "BIRDS",
+        spanish: "Pájaros",
+        scene: true,
+        sceneSrc: "assets/characters/letter-b-birds.png",
+        extra: "Bird · Bluebird · Branch",
+        tip: "La B en inglés es corta y firme. Junta los labios, suelta aire rápido y evita agregar una vocal al final."
+      };
+
       function setText(selector, value) {
         var el = modal.querySelector(selector);
         if (el) el.textContent = value || "";
@@ -678,13 +692,16 @@
         var expansion = modal.querySelector("[data-letter-expansion]");
         var visualWords = modal.querySelector("[data-letter-visual-words]");
         if (scene && art) {
+          if (item.sceneSrc && scene.getAttribute("src") !== item.sceneSrc) {
+            scene.setAttribute("src", item.sceneSrc);
+          }
           scene.hidden = !item.scene;
           art.classList.toggle("is-small", Boolean(item.scene));
         }
         if (visualWords) {
           visualWords.hidden = !item.extra;
           if (item.extra) {
-            visualWords.innerHTML = item.extra.split(" · ").map(function (word) {
+            visualWords.innerHTML = item.extra.split(/\s*[·Â]\s*/).filter(Boolean).map(function (word) {
               return "<span>" + word + "</span>";
             }).join("");
           }

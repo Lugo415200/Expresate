@@ -1103,3 +1103,42 @@ h2.step-headline {
     width: 100%;
   }
 }
+
+/* Premium shell prototype: homepage hero and returning hub only. */
+.step-card.texture-accent--home,
+.hub-hero.texture-accent--home {
+  color: #f8fbff;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(34, 211, 238, .20), transparent 34%),
+    radial-gradient(circle at 88% 18%, rgba(236, 72, 153, .22), transparent 38%),
+    linear-gradient(135deg, #071126 0%, #111a4a 56%, #071126 100%);
+  border: 1px solid rgba(167, 139, 250, .34);
+  box-shadow: 0 30px 90px rgba(17, 24, 71, .32);
+}
+
+.step-card.texture-accent--home .hero-title,
+.hub-hero.texture-accent--home .hub-title,
+.hub-hero.texture-accent--home h2,
+.hub-hero.texture-accent--home .hub-progress strong {
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .34);
+}
+
+.step-card.texture-accent--home .step-copy,
+.hub-hero.texture-accent--home .hub-sub,
+.hub-hero.texture-accent--home .hub-progress span:last-child {
+  color: rgba(232, 241, 255, .84);
+}
+
+.step-card.texture-accent--home .step-eyebrow,
+.hub-hero.texture-accent--home .step-eyebrow,
+.hub-hero.texture-accent--home .hub-progress-label {
+  color: #dbeafe;
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .24);
+}
+
+.hub-hero.texture-accent--home .hub-progress {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .24);
+}

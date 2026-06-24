@@ -700,21 +700,42 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
   gap: 0.15rem;
   min-width: 9rem;
   padding: 0.85rem 1rem;
-  border: 1px solid rgba(67, 88, 244, .20);
+  overflow: hidden;
+  border: 1px solid rgba(167, 139, 250, .34);
   border-radius: 1rem;
-  background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(223,243,255,.94));
-  box-shadow: 0 20px 48px rgba(67, 88, 244, .22);
-  color: #172033;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, .18), transparent 34%),
+    radial-gradient(circle at 82% 16%, rgba(236, 72, 153, .18), transparent 38%),
+    linear-gradient(145deg, rgba(8, 17, 42, .96), rgba(35, 27, 92, .94));
+  box-shadow: 0 24px 60px rgba(17, 24, 71, .32);
+  color: #f8fbff;
   animation: courseRewardToast 2.6s ease both;
 }
 
+.course-reward-toast::before {
+  content: "";
+  position: absolute;
+  inset: -24%;
+  pointer-events: none;
+  background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
+  opacity: .36;
+  mix-blend-mode: screen;
+  animation: courseRewardSwirl 2.6s ease both;
+}
+
+.course-reward-toast > * {
+  position: relative;
+  z-index: 1;
+}
+
 .course-reward-toast strong {
-  color: var(--brand-blue, #4b66f2);
+  color: #fff;
   font-size: 1.05rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .28);
 }
 
 .course-reward-toast span {
-  color: rgba(17, 24, 39, .66);
+  color: rgba(232, 241, 255, .82);
   font-size: 0.82rem;
   font-weight: 800;
 }
@@ -723,6 +744,12 @@ body[data-page="curso"] #progressPanel .cta-next .cta-sub {
   0% { opacity: 0; transform: translateY(12px) scale(.96); }
   16%, 82% { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(8px) scale(.98); }
+}
+
+@keyframes courseRewardSwirl {
+  0% { transform: scale(1.1) rotate(-2deg); opacity: 0; }
+  18%, 82% { opacity: .36; }
+  100% { transform: scale(1.02) rotate(1deg); opacity: 0; }
 }
 
 .course-route-card {
@@ -913,7 +940,8 @@ body[data-page="curso"] .course-footer {
   .course-stats-trigger:hover,
   .course-stats-close:hover,
   .course-stats-popover,
-  .course-reward-toast {
+  .course-reward-toast,
+  .course-reward-toast::before {
     transform: none;
     animation: none;
   }

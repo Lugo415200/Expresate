@@ -3301,9 +3301,12 @@ body.lesson-guide-open {
   height: 100%;
   padding: 0;
   border: 0;
-  background: rgba(20, 32, 66, .34);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background:
+    radial-gradient(circle at 20% 14%, rgba(34, 211, 238, .16), transparent 34%),
+    radial-gradient(circle at 84% 20%, rgba(236, 72, 153, .15), transparent 38%),
+    rgba(7, 17, 38, .58);
+  backdrop-filter: blur(6px) saturate(1.08);
+  -webkit-backdrop-filter: blur(6px) saturate(1.08);
   cursor: default;
 }
 
@@ -3316,17 +3319,39 @@ body.lesson-guide-open {
   grid-template-columns: minmax(18rem, .98fr) minmax(0, 1.02fr);
   gap: clamp(1rem, 2.5vw, 1.6rem);
   padding: clamp(1rem, 2.5vw, 1.5rem);
+  isolation: isolate;
   color: #172033;
   background:
-    linear-gradient(135deg, rgba(237, 247, 220, .92), rgba(224, 244, 203, .88)),
-    var(--texture-paper-green);
-  background-size: auto, cover;
+    radial-gradient(circle at 16% 12%, rgba(34, 211, 238, .20), transparent 34%),
+    radial-gradient(circle at 86% 18%, rgba(236, 72, 153, .22), transparent 38%),
+    linear-gradient(135deg, #071126, #111a4a 58%, #071126);
+  background-size: auto, auto, auto;
   background-position: center;
-  border: 2px solid rgba(60, 111, 56, .28);
+  border: 1px solid rgba(167, 139, 250, .38);
   border-radius: 1.55rem;
-  box-shadow: 0 2.2rem 5.5rem rgba(24, 48, 38, .34);
+  box-shadow:
+    0 2.4rem 6rem rgba(7, 17, 38, .44),
+    inset 0 1px 0 rgba(255, 255, 255, .12);
   transform: translateY(.85rem) scale(.985);
   transition: transform .28s cubic-bezier(.22, .8, .28, 1);
+}
+
+.letter-explore-dialog::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: -18%;
+  pointer-events: none;
+  background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
+  opacity: .44;
+  mix-blend-mode: screen;
+  transform: rotate(-2deg) scale(1.08);
+  animation: letterModalSwirl 52s ease-in-out infinite alternate;
+}
+
+.letter-explore-dialog > * {
+  position: relative;
+  z-index: 1;
 }
 
 .letter-explore-modal.is-open .letter-explore-dialog {
@@ -3439,6 +3464,11 @@ body.lesson-guide-open {
   display: grid;
   align-content: center;
   gap: .85rem;
+}
+
+@keyframes letterModalSwirl {
+  0% { transform: translate3d(-2%, -1%, 0) scale(1.08) rotate(-2deg); }
+  100% { transform: translate3d(2%, 1.5%, 0) scale(1.12) rotate(1deg); }
 }
 
 .letter-speech {
@@ -3737,6 +3767,7 @@ body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"
 @media (prefers-reduced-motion: reduce) {
   .letter-explore-modal,
   .letter-explore-dialog,
+  .letter-explore-dialog::before,
   .letter-explore-visual,
   .letter-speech {
     animation: none !important;
