@@ -45,6 +45,241 @@
   --font-body:    'Nunito', system-ui, -apple-system, sans-serif;
   --font-display: 'Ribeye', serif;
   --font-title:   var(--font-display);
+
+  /* paper texture assets: keep overlays subtle so copy stays readable */
+  --texture-paper-white: url("assets/textures/paper-white.jpg");
+  --texture-paper-blue: url("assets/textures/paper-blue.jpg");
+  --texture-paper-green: url("assets/textures/paper-green.jpg");
+  --texture-paper-red: url("assets/textures/paper-red.jpg");
+  --texture-paper-tosca: url("assets/textures/paper-tosca.jpg");
+  --texture-paper-black: url("assets/textures/paper-black.jpg");
+  --texture-card-opacity: .055;
+  --texture-surface-opacity: .075;
+}
+
+/* =========================
+   Paper Texture System
+   ========================= */
+.texture-paper,
+.texture-blue,
+.texture-green,
+.texture-red,
+.texture-tosca,
+.texture-white,
+.texture-dark,
+.pwa-install-banner,
+.guest-account-reminder,
+.step-card,
+.home-hub .hub-hero,
+.home-hub .hub-progress,
+.home-hub .hub-recommendation,
+.home-hub .hub-card,
+.course-hero,
+.course-progress-dock,
+.course-route-card,
+.course-stats-trigger,
+.course-stats-popover,
+.course-stats-list div,
+.course-reward-toast,
+body[data-page="curso"] #modulesContainer > details.block,
+body[data-page="curso"] .courseStep,
+body.auth-page .auth-card,
+body.auth-page .auth-benefit-panel,
+.pricing-card,
+.pricing-bottom-cta,
+.already-premium,
+.how-to-strip.block,
+body[data-page="diccionario"] .content > .block,
+body[data-page="diccionario"] #result > *,
+.lesson-window,
+.lesson-stage-hero,
+.alphabet-example-panel,
+.food-game-stage,
+.food-visual,
+.target-word-panel,
+.feedback-screen .result-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.texture-paper::after,
+.texture-blue::after,
+.texture-green::after,
+.texture-red::after,
+.texture-tosca::after,
+.texture-white::after,
+.texture-dark::after,
+.pwa-install-banner::after,
+.guest-account-reminder::after,
+.step-card::after,
+.home-hub .hub-hero::after,
+.home-hub .hub-progress::after,
+.home-hub .hub-recommendation::after,
+.home-hub .hub-card::after,
+.course-hero::after,
+.course-progress-dock::after,
+.course-route-card::after,
+.course-stats-trigger::after,
+.course-stats-popover::after,
+.course-stats-list div::after,
+.course-reward-toast::after,
+body[data-page="curso"] #modulesContainer > details.block::after,
+body[data-page="curso"] .courseStep::after,
+body.auth-page .auth-card::after,
+body.auth-page .auth-benefit-panel::after,
+.pricing-card::after,
+.pricing-bottom-cta::after,
+.already-premium::after,
+.how-to-strip.block::after,
+body[data-page="diccionario"] .content > .block::after,
+body[data-page="diccionario"] #result > *::after,
+.lesson-window::after,
+.lesson-stage-hero::after,
+.alphabet-example-panel::after,
+.food-game-stage::after,
+.food-visual::after,
+.target-word-panel::after,
+.feedback-screen .result-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--texture-image, var(--texture-paper-white));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: var(--texture-opacity, var(--texture-card-opacity));
+  mix-blend-mode: multiply;
+}
+
+.texture-paper > *,
+.texture-blue > *,
+.texture-green > *,
+.texture-red > *,
+.texture-tosca > *,
+.texture-white > *,
+.texture-dark > *,
+.pwa-install-banner > *,
+.guest-account-reminder > *,
+.step-card > *,
+.home-hub .hub-hero > *,
+.home-hub .hub-progress > *,
+.home-hub .hub-recommendation > *,
+.home-hub .hub-card > *,
+.course-hero > *,
+.course-progress-dock > *,
+.course-route-card > *,
+.course-stats-trigger > *,
+.course-stats-popover > *,
+.course-stats-list div > *,
+.course-reward-toast > *,
+body[data-page="curso"] #modulesContainer > details.block > *,
+body[data-page="curso"] .courseStep > *,
+body.auth-page .auth-card > *,
+body.auth-page .auth-benefit-panel > *,
+.pricing-card > *,
+.pricing-bottom-cta > *,
+.already-premium > *,
+.how-to-strip.block > *,
+body[data-page="diccionario"] .content > .block > *,
+body[data-page="diccionario"] #result > * > *,
+.lesson-window > *,
+.lesson-stage-hero > *,
+.alphabet-example-panel > *,
+.food-game-stage > *,
+.food-visual > *,
+.target-word-panel > *,
+.feedback-screen .result-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.texture-paper,
+.texture-white {
+  --texture-image: var(--texture-paper-white);
+}
+
+.texture-blue {
+  --texture-image: var(--texture-paper-blue);
+}
+
+.texture-tosca {
+  --texture-image: var(--texture-paper-tosca);
+}
+
+.texture-green {
+  --texture-image: var(--texture-paper-green);
+}
+
+.texture-red {
+  --texture-image: var(--texture-paper-red);
+}
+
+.texture-dark {
+  --texture-image: var(--texture-paper-black);
+  --texture-opacity: .06;
+  mix-blend-mode: normal;
+}
+
+.course-hero,
+.step-card,
+.home-hub .hub-hero,
+.home-hub .hub-recommendation,
+.course-route-card,
+.lesson-window,
+.lesson-stage-hero,
+.food-game-stage,
+body.auth-page .auth-card,
+.pricing-card,
+.pricing-bottom-cta {
+  --texture-image: var(--texture-paper-blue);
+  --texture-opacity: .045;
+}
+
+.course-progress-dock,
+.home-hub .hub-progress,
+.home-hub .hub-card,
+.course-stats-popover,
+.course-stats-trigger,
+.guest-account-reminder,
+.pwa-install-banner,
+body.auth-page .auth-benefit-panel,
+.already-premium {
+  --texture-image: var(--texture-paper-tosca);
+  --texture-opacity: .055;
+}
+
+body[data-page="curso"] #modulesContainer > details.block,
+body[data-page="curso"] .courseStep,
+.course-stats-list div,
+.how-to-strip.block,
+body[data-page="diccionario"] .content > .block,
+body[data-page="diccionario"] #result > *,
+.alphabet-example-panel,
+.food-visual,
+.target-word-panel {
+  --texture-image: var(--texture-paper-white);
+  --texture-opacity: .06;
+}
+
+.course-reward-toast,
+.feedback-screen .result-card.is-success {
+  --texture-image: var(--texture-paper-green);
+  --texture-opacity: .075;
+}
+
+.feedback-screen .result-card.is-try-again {
+  --texture-image: var(--texture-paper-red);
+  --texture-opacity: .06;
+}
+
+.panel.sidebar,
+.panel.right {
+  --texture-image: var(--texture-paper-black);
+  --texture-opacity: .045;
 }
 
 /* ----------------------------------------------------------
