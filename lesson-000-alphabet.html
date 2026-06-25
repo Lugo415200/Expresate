@@ -125,49 +125,11 @@
         </div>
       </section>
 
-      <!-- CARD 3 — Spelling exact information -->
-      <section class="flashcard block" data-fc-id="exact-info" data-fc-title="Información exacta"
-               data-focus-mode="true"
-               data-fc-tip="Deletrear no es solo decir letras: es poder dar información exacta cuando alguien la necesita.">
+      <!-- CARD 3 — Alphabet overview -->
+      <section class="flashcard block" data-fc-id="alphabet-grid" data-fc-title="A-Z"
+               data-fc-tip="No tienes que memorizar todo hoy. Toca varias letras, escucha y repite. Las vocales aparecen destacadas dentro del alfabeto.">
         <div class="fc-head">
           <div class="fc-num">3</div>
-          <div class="fc-titles">
-            <strong class="fc-title">El alfabeto te ayuda a decir información exacta</strong>
-            <span class="fc-sub">Nombres, correos y direcciones</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <div class="alphabet-stage-preview alphabet-focus-strip" aria-hidden="true">
-            <span>A</span><span>B</span><span>C</span><span>D</span>
-          </div>
-          <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o dirección puede quedar mal.</p>
-          <p class="alphabet-tap-hint">Toca una tarjeta para ver cómo cambia el ejemplo.</p>
-          <div class="alphabet-use-cases" data-alpha-examples>
-            <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true">
-              <strong>Nombre</strong>
-              <span>D-A-N-I-E-L</span>
-            </button>
-            <button type="button" data-alpha-example="email" aria-pressed="false">
-              <strong>Correo</strong>
-              <span>G-M-A-I-L</span>
-            </button>
-            <button type="button" data-alpha-example="address" aria-pressed="false">
-              <strong>Dirección</strong>
-              <span>calle / código</span>
-            </button>
-          </div>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
-        </div>
-      </section>
-
-      <!-- CARD 4 — Alphabet grid -->
-      <section class="flashcard block" data-fc-id="alphabet-grid" data-fc-title="A-Z"
-               data-fc-tip="No tienes que memorizar todo hoy. Toca varias letras, escucha y repite. Vuelve a esta pantalla cuando quieras practicar.">
-        <div class="fc-head">
-          <div class="fc-num">4</div>
           <div class="fc-titles">
             <strong class="fc-title">A-Z: toca y escucha</strong>
             <span class="fc-sub">Las 26 letras del inglés</span>
@@ -204,38 +166,105 @@
             <button class="fc-letter letter-btn" type="button" data-letter="y">Y</button>
             <button class="fc-letter letter-btn" type="button" data-letter="z">Z</button>
           </div>
+          <p class="alphabet-vowel-note">
+            <strong>A E I O U</strong>
+            <span>Estas son las vocales del inglés.</span>
+          </p>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- CARD 5 — Vowels -->
-      <section class="flashcard block" data-fc-id="vowels" data-fc-title="Vocales"
-               data-fc-tip="La vocal I en inglés se oye como “ai” cuando dices el nombre de la letra. No es la i del español.">
+      <!-- CARD 4 — Phonics introduction -->
+      <section class="flashcard block" data-fc-id="phonics-intro" data-fc-title="Sonidos del inglés"
+               data-fc-tip="En español las letras suelen ser más constantes. En inglés aprenderemos patrones de sonido paso a paso.">
         <div class="fc-head">
-          <div class="fc-num">5</div>
+          <div class="fc-num">4</div>
           <div class="fc-titles">
-            <strong class="fc-title">Las vocales: A E I O U</strong>
-            <span class="fc-sub">Toca, escucha y repite</span>
+            <strong class="fc-title">Los sonidos del inglés</strong>
+            <span class="fc-sub">Las letras pueden sonar de diferentes maneras según la palabra.</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p>Toca cada vocal, escucha y repite en voz alta.</p>
-          <div class="fc-vowel-row">
-            <button class="fc-letter vowel letter-btn" type="button" data-letter="a">A<span class="fc-vowel-sub">ei</span></button>
-            <button class="fc-letter vowel letter-btn" type="button" data-letter="e">E<span class="fc-vowel-sub">ii</span></button>
-            <button class="fc-letter vowel letter-btn" type="button" data-letter="i">I<span class="fc-vowel-sub">ai</span></button>
-            <button class="fc-letter vowel letter-btn" type="button" data-letter="o">O<span class="fc-vowel-sub">ou</span></button>
-            <button class="fc-letter vowel letter-btn" type="button" data-letter="u">U<span class="fc-vowel-sub">iu</span></button>
+          <div class="phonics-guide-card">
+            <span class="phrase-label">Idea clave</span>
+            <p>En inglés una misma letra puede tener varios sonidos.</p>
+            <button class="btn" type="button" data-phonics-guide>Escuchar al guía</button>
           </div>
-          <div class="vowel-hint-grid">
-            <span><strong>A</strong> suena como “ei”</span>
-            <span><strong>E</strong> suena como “ii”</span>
-            <span><strong>I</strong> suena como “ai”</span>
-            <span><strong>O</strong> suena como “ou”</span>
-            <span><strong>U</strong> suena como “iu”</span>
+
+          <div class="phonics-card-grid" aria-label="Ejemplos iniciales de sonidos en inglés">
+            <article class="phonics-sound-card texture-learning-card">
+              <span class="phrase-label">Letra A</span>
+              <strong>A</strong>
+              <div class="phonics-sound-list">
+                <span>ay</span>
+                <span>ah</span>
+              </div>
+              <div class="phonics-word-row">
+                <button type="button" data-audio="assets/audio/words/apple.mp3" data-audio-fallback="apple">Apple</button>
+                <button type="button" data-audio="assets/audio/words/animal.mp3" data-audio-fallback="animal">Animal</button>
+                <button type="button" data-audio="assets/audio/words/april.mp3" data-audio-fallback="april">April</button>
+              </div>
+            </article>
+
+            <article class="phonics-sound-card texture-learning-card">
+              <span class="phrase-label">Letra E</span>
+              <strong>E</strong>
+              <div class="phonics-sound-list">
+                <span>ee</span>
+                <span>eh</span>
+              </div>
+              <div class="phonics-word-row">
+                <button type="button" data-audio="assets/audio/words/egg.mp3" data-audio-fallback="egg">Egg</button>
+                <button type="button" data-audio="assets/audio/words/elephant.mp3" data-audio-fallback="elephant">Elephant</button>
+                <button type="button" data-audio="assets/audio/words/evening.mp3" data-audio-fallback="evening">Evening</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="fc-note-card phonics-next-note">
+            <strong>No lo memorices todo hoy.</strong>
+            <span>Solo nota el patrón: la letra tiene nombre, pero dentro de palabras puede cambiar de sonido.</span>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+        </div>
+      </section>
+
+      <!-- CARD 5 — Spelling exact information -->
+      <section class="flashcard block" data-fc-id="exact-info" data-fc-title="Información exacta"
+               data-focus-mode="true"
+               data-fc-tip="Deletrear no es solo decir letras: es poder dar información exacta cuando alguien la necesita.">
+        <div class="fc-head">
+          <div class="fc-num">5</div>
+          <div class="fc-titles">
+            <strong class="fc-title">El alfabeto te ayuda a decir información exacta</strong>
+            <span class="fc-sub">Nombres, correos y direcciones</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="alphabet-stage-preview alphabet-focus-strip" aria-hidden="true">
+            <span>A</span><span>B</span><span>C</span><span>D</span>
+          </div>
+          <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o dirección puede quedar mal.</p>
+          <p class="alphabet-tap-hint">Toca una tarjeta para ver cómo cambia el ejemplo.</p>
+          <div class="alphabet-use-cases" data-alpha-examples>
+            <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true">
+              <strong>Nombre</strong>
+              <span>D-A-N-I-E-L</span>
+            </button>
+            <button type="button" data-alpha-example="email" aria-pressed="false">
+              <strong>Correo</strong>
+              <span>G-M-A-I-L</span>
+            </button>
+            <button type="button" data-alpha-example="address" aria-pressed="false">
+              <strong>Dirección</strong>
+              <span>calle / código</span>
+            </button>
           </div>
         </div>
         <div class="fc-foot">
@@ -286,57 +315,15 @@
         </div>
       </section>
 
-      <!-- CARD 7 — Phonetics preview -->
-      <section class="flashcard block" data-fc-id="phonetics-preview" data-fc-title="Sonidos dentro de palabras"
-               data-fc-tip="Esta es la gran diferencia: una letra tiene nombre, pero dentro de una palabra puede sonar diferente. La siguiente lección trabaja eso con calma.">
-        <div class="fc-head">
-          <div class="fc-num">7</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Las letras pueden cambiar de sonido</strong>
-            <span class="fc-sub">La letra A no siempre suena igual</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p class="alphabet-big-idea">Hoy aprendiste nombres de letras. Ahora mira cómo una letra puede cambiar dentro de palabras.</p>
-          <div class="sound-shift-row sound-shift-focus" aria-label="Ejemplos de sonidos variables">
-            <!-- Future local word audio should live in assets/audio/words/. -->
-            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/name.mp3" data-audio-fallback="name" aria-label="Escuchar name">
-              <span class="phrase-label">A en</span>
-              <strong>name</strong>
-              <em>suena como “ei”</em>
-            </button>
-            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/cat.mp3" data-audio-fallback="cat" aria-label="Escuchar cat">
-              <span class="phrase-label">A en</span>
-              <strong>cat</strong>
-              <em>suena más abierta</em>
-            </button>
-            <button class="sound-shift-card" type="button" data-audio="assets/audio/words/about.mp3" data-audio-fallback="about" aria-label="Escuchar about">
-              <span class="phrase-label">A en</span>
-              <strong>about</strong>
-              <em>suena muy suave</em>
-            </button>
-          </div>
-          <div class="fc-note-card">
-            <strong>Idea simple:</strong>
-            <span>Primero reconoces letras. Después entrenas sonidos reales dentro de palabras.</span>
-          </div>
-          <!-- TODO: Restore phonetics YouTube video URL here -->
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
-        </div>
-      </section>
-
-      <!-- CARD 8 — Transition -->
+      <!-- CARD 7 — Transition -->
       <section class="flashcard fc-summary block"
                data-fc-id="transition"
                data-fc-title="Siguiente"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">8</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
-            <strong class="fc-title">Ya conoces las letras</strong>
+            <strong class="fc-title">Ya conoces letras y sonidos iniciales</strong>
             <span class="fc-sub">Ahora vamos a escuchar sonidos clave</span>
           </div>
           <div class="fc-status"></div>
@@ -345,8 +332,8 @@
           <div class="fc-summary-banner">
             <span class="fc-summary-emoji">✓</span>
             <div>
-              <div class="fc-summary-headline">Ya puedes reconocer letras, vocales y deletrear tu nombre.</div>
-              <div class="fc-summary-sub">La siguiente lección convierte esas letras en sonidos reales.</div>
+              <div class="fc-summary-headline">Ya puedes reconocer letras, notar vocales y entender que el sonido cambia por palabra.</div>
+              <div class="fc-summary-sub">La siguiente lección entrena sonidos clave para hablar con más claridad.</div>
             </div>
           </div>
           <a class="fc-summary-next lesson-next-cta" href="lesson-001-sounds.html">
@@ -504,6 +491,7 @@
       var modalTimer = null;
       var activeTrigger = null;
       var activeExampleKey = "name";
+      var guideMode = "examples";
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var exampleOrder = ["name", "email", "address"];
       var profile = loadProfile();
@@ -671,6 +659,7 @@
         if (!modal) return;
         var selectedKey = examples[key] ? key : "name";
         var item = examples[selectedKey];
+        guideMode = "examples";
         activeTrigger = trigger || null;
         selectExample(selectedKey);
         modalSpeech.textContent = item.speech;
@@ -682,6 +671,30 @@
         if (modalContinue) {
           var index = exampleOrder.indexOf(selectedKey);
           modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo →" : "Continuar →";
+        }
+
+        clearTimeout(modalTimer);
+        modal.hidden = false;
+        document.querySelector(".shell")?.setAttribute("inert", "");
+        document.body.classList.add("lesson-guide-open");
+        requestAnimationFrame(function () {
+          modal.classList.add("is-open");
+          modalDialog && modalDialog.focus();
+        });
+      }
+
+      function openPhonicsGuideModal(trigger) {
+        if (!modal) return;
+        guideMode = "phonics";
+        activeTrigger = trigger || null;
+        modalSpeech.textContent = "En español normalmente cada letra tiene un sonido bastante consistente. En inglés algunas letras pueden sonar diferente dependiendo de la palabra. No te preocupes. Lo aprenderemos paso a paso.";
+        modalCategory.textContent = "Sonidos";
+        modalExplanation.textContent = "Hoy solo necesitas notar el patrón: una letra puede tener más de un sonido.";
+        modalAudio.setAttribute("data-audio", "assets/audio/phrases/english-sounds-intro.mp3");
+        modalAudio.setAttribute("data-audio-fallback", modalSpeech.textContent);
+        renderModalLetters("A · E");
+        if (modalContinue) {
+          modalContinue.textContent = "Entendido →";
         }
 
         clearTimeout(modalTimer);
@@ -779,6 +792,10 @@
         button.addEventListener("click", function () { closeGuideModal(false); });
       });
       modalContinue?.addEventListener("click", function () {
+        if (guideMode === "phonics") {
+          closeGuideModal(false);
+          return;
+        }
         var currentIndex = exampleOrder.indexOf(activeExampleKey);
         if (currentIndex >= 0 && currentIndex < exampleOrder.length - 1) {
           showGuideExample(exampleOrder[currentIndex + 1]);
@@ -846,6 +863,9 @@
           selectExample(key);
           openGuideModal(key, btn);
         });
+      });
+      document.querySelector("[data-phonics-guide]")?.addEventListener("click", function () {
+        openPhonicsGuideModal(this);
       });
     })();
 
