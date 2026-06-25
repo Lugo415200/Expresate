@@ -2120,6 +2120,159 @@ body[data-lesson-id="lesson-000-alphabet"] .alphabet-tap-hint {
   font-weight: 900;
 }
 
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-panel,
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+  width: min(100%, 56rem);
+  margin: 0 auto;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-panel {
+  display: grid;
+  grid-template-columns: minmax(16rem, .9fr) minmax(18rem, 1.1fr);
+  gap: clamp(1rem, 2.4vw, 1.5rem);
+  align-items: stretch;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-copy,
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide,
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(67, 88, 244, .16);
+  border-radius: 1.35rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .88), rgba(237, 247, 255, .74)),
+    var(--texture-paper-white, none);
+  background-size: auto, cover;
+  box-shadow: 0 1rem 2.6rem rgba(67, 88, 244, .10);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-copy {
+  padding: clamp(1rem, 2.3vw, 1.45rem);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-copy .alphabet-big-idea {
+  margin: .45rem 0 .75rem;
+  text-align: left;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-list {
+  display: grid;
+  gap: .45rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: rgba(15, 23, 42, .76);
+  font-weight: 750;
+  line-height: 1.38;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .65rem;
+  padding: clamp(.85rem, 2vw, 1.1rem);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, .14), transparent 42%),
+    linear-gradient(135deg, rgba(245, 250, 255, .90), rgba(229, 246, 255, .74)),
+    var(--texture-paper-blue, none);
+  background-size: auto, auto, cover;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .08rem .55rem;
+  align-items: center;
+  padding: .72rem;
+  border: 1px solid rgba(67, 88, 244, .12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, .64);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide span {
+  grid-row: span 2;
+  width: 2.15rem;
+  height: 2.15rem;
+  display: grid;
+  place-items: center;
+  border-radius: .8rem;
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 .55rem 1.2rem rgba(67, 88, 244, .10);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide strong {
+  color: #172033;
+  font-weight: 950;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide small {
+  color: rgba(71, 85, 105, .88);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+  display: grid;
+  gap: clamp(.75rem, 1.8vw, 1rem);
+  padding: clamp(1rem, 2.4vw, 1.45rem);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, .16), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, .9), rgba(237, 233, 254, .62)),
+    var(--texture-paper-white, none);
+  background-size: auto, auto, cover;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-help,
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-status {
+  margin: 0;
+  color: rgba(71, 85, 105, .88);
+  font-weight: 750;
+  line-height: 1.4;
+  text-align: center;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid label {
+  display: grid;
+  gap: .4rem;
+  color: rgba(15, 23, 42, .78);
+  font-size: .82rem;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid small {
+  color: rgba(71, 85, 105, .72);
+  font-weight: 800;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid .input {
+  width: 100%;
+  min-height: 3rem;
+  border: 1.5px solid rgba(67, 88, 244, .18);
+  border-radius: .95rem;
+  background: rgba(255, 255, 255, .82);
+  font-weight: 850;
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid .input:focus {
+  outline: none;
+  border-color: rgba(67, 88, 244, .58);
+  box-shadow: 0 0 0 .22rem rgba(67, 88, 244, .14);
+}
+
+body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .7rem;
+}
+
 .alphabet-example-panel {
   appearance: none;
   display: grid;
@@ -3894,39 +4047,79 @@ body[data-lesson-id="lesson-000-alphabet"] .floating-continue {
     padding-bottom: .45rem;
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .fc-body {
-    grid-template-columns: minmax(14rem, 0.72fr) minmax(22rem, 1.28fr);
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .fc-body {
+    grid-template-columns: minmax(0, 1fr);
     align-content: center;
-    align-items: stretch;
+    align-items: center;
     gap: clamp(.4rem, .9svh, .65rem) clamp(1rem, 2.2svh, 1.55rem);
     padding-inline: clamp(.25rem, 1.2svh, .75rem);
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-focus-strip,
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-big-idea,
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-tap-hint {
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-focus-strip,
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-big-idea,
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-tap-hint {
     grid-column: 1 / -1;
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-focus-strip {
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-focus-strip {
     display: none;
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-use-cases {
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-use-cases {
     width: 100%;
-    max-width: none;
-    grid-template-columns: 1fr;
+    max-width: 54rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-content: stretch;
-    margin: 0;
+    margin-inline: auto;
     gap: clamp(.42rem, .9svh, .58rem);
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-use-cases button {
-    min-height: clamp(3.35rem, 7svh, 4.35rem);
-    padding: .78rem .85rem .7rem;
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-use-cases button {
+    min-height: clamp(5.2rem, 11svh, 6.8rem);
+    padding: .9rem .95rem .8rem;
   }
 
-  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="intro"] .alphabet-example-panel {
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-panel {
+    gap: clamp(.65rem, 1.35svh, 1rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-copy,
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide,
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+    padding: clamp(.72rem, 1.45svh, 1rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-list {
+    gap: clamp(.22rem, .55svh, .34rem);
+    font-size: clamp(.82rem, 1.55svh, .95rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide {
+    gap: clamp(.42rem, .9svh, .58rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide div {
+    padding: clamp(.48rem, .95svh, .62rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide span {
+    width: clamp(1.75rem, 3.85svh, 2.05rem);
+    height: clamp(1.75rem, 3.85svh, 2.05rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide small {
+    font-size: clamp(.68rem, 1.32svh, .78rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+    gap: clamp(.45rem, .95svh, .65rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid .input {
+    min-height: clamp(2.45rem, 5.5svh, 3rem);
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-example-panel {
     width: 100%;
     max-width: none;
     min-height: 100%;
@@ -4243,6 +4436,35 @@ body[data-lesson-id="lesson-000-alphabet"] .floating-continue {
     font-size: 0.54rem;
     font-weight: 950;
     letter-spacing: 0.06em;
+  }
+}
+
+@media (max-width: 760px) {
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-panel,
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-grid,
+  body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="exact-info"] .alphabet-use-cases {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-welcome-panel {
+    gap: .75rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-key-guide {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-form {
+    padding: .9rem;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .lesson-profile-actions .btn {
+    width: 100%;
   }
 }
 

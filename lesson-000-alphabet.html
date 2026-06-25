@@ -39,12 +39,98 @@
 
       <div data-lesson-progress></div>
 
-      <!-- CARD 1 — Alphabet intro -->
-      <section class="flashcard block" data-fc-id="intro" data-fc-title="Alfabeto"
+      <!-- CARD 1 — Welcome / how to use Exprésate -->
+      <section class="flashcard block" data-fc-id="welcome" data-fc-title="Bienvenida"
+               data-fc-type="intro"
+               data-focus-mode="true"
+               data-fc-tip="Cada lección te guía paso a paso. Lee, toca, escucha y avanza cuando estés listo.">
+        <div class="fc-head">
+          <div class="fc-num">1</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Bienvenido a Exprésate</strong>
+            <span class="fc-sub">Aprende inglés paso a paso con ejemplos, audio y práctica.</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="lesson-welcome-panel">
+            <div class="lesson-welcome-copy">
+              <span class="phrase-label">Tu primera lección</span>
+              <p class="alphabet-big-idea">Aquí aprenderás cómo funciona cada lección.</p>
+              <ul class="lesson-welcome-list">
+                <li>Lee la explicación.</li>
+                <li>Toca los ejemplos.</li>
+                <li>Escucha la pronunciación.</li>
+                <li>Repite en voz alta.</li>
+                <li>Completa actividades.</li>
+                <li>Gana XP y mantén tu racha.</li>
+              </ul>
+            </div>
+            <div class="lesson-key-guide" aria-label="Guía rápida de iconos">
+              <div><span>🔊</span><strong>Escuchar</strong><small>Oye la palabra o frase.</small></div>
+              <div><span>🎤</span><strong>Hablar</strong><small>Practica pronunciación.</small></div>
+              <div><span>💡</span><strong>Consejo</strong><small>Ayuda rápida.</small></div>
+              <div><span>⭐</span><strong>XP</strong><small>Puntos por practicar.</small></div>
+              <div><span>🔥</span><strong>Racha</strong><small>Días seguidos.</small></div>
+              <div><span>✅</span><strong>Completado</strong><small>Actividad terminada.</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Comenzar lección</button>
+        </div>
+      </section>
+
+      <!-- CARD 2 — Optional personalization -->
+      <section class="flashcard block" data-fc-id="personalize" data-fc-title="Personaliza"
+               data-fc-type="practice"
+               data-focus-mode="true"
+               data-fc-tip="Esta información se queda en este dispositivo. Sirve para que los ejemplos de la lección se sientan tuyos.">
+        <div class="fc-head">
+          <div class="fc-num">2</div>
+          <div class="fc-titles">
+            <strong class="fc-title">Personaliza tus ejemplos</strong>
+            <span class="fc-sub">Usaremos esta información solo para practicar dentro de la lección.</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <form class="lesson-profile-form" data-onboarding-profile-form novalidate>
+            <p class="lesson-profile-help">
+              Ejemplo: si escribes tu nombre, practicarás cómo deletrearlo en inglés.
+            </p>
+            <div class="lesson-profile-grid">
+              <label>
+                <span>Nombre</span>
+                <input class="input" type="text" name="name" autocomplete="name" placeholder="Daniel" data-profile-name />
+              </label>
+              <label>
+                <span>Correo electrónico</span>
+                <input class="input" type="email" name="email" autocomplete="email" placeholder="daniel@gmail.com" data-profile-email />
+              </label>
+              <label>
+                <span>Dirección o ciudad <small>(opcional)</small></span>
+                <input class="input" type="text" name="address" autocomplete="street-address" placeholder="12th Street" data-profile-address />
+              </label>
+            </div>
+            <p class="lesson-profile-status" data-profile-status aria-live="polite"></p>
+            <div class="lesson-profile-actions">
+              <button class="btn primary" type="submit" data-profile-save>Guardar y continuar</button>
+              <button class="btn" type="button" data-profile-skip>Saltar por ahora</button>
+            </div>
+          </form>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo hidden>Continuar →</button>
+        </div>
+      </section>
+
+      <!-- CARD 3 — Spelling exact information -->
+      <section class="flashcard block" data-fc-id="exact-info" data-fc-title="Información exacta"
                data-focus-mode="true"
                data-fc-tip="Deletrear no es solo decir letras: es poder dar información exacta cuando alguien la necesita.">
         <div class="fc-head">
-          <div class="fc-num">1</div>
+          <div class="fc-num">3</div>
           <div class="fc-titles">
             <strong class="fc-title">El alfabeto te ayuda a decir información exacta</strong>
             <span class="fc-sub">Nombres, correos y direcciones</span>
@@ -71,23 +157,17 @@
               <span>calle / código</span>
             </button>
           </div>
-          <button class="alphabet-example-panel" type="button" aria-live="polite" data-alpha-example-panel
-                  data-audio="assets/audio/phrases/name-example.mp3" data-audio-fallback="D A N I E L"
-                  aria-label="Escuchar ejemplo">
-            <strong>D-A-N-I-E-L</strong>
-            <p>Deletrear evita que escriban tu nombre como otra palabra.</p>
-          </button>
         </div>
         <div class="fc-foot">
           <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
         </div>
       </section>
 
-      <!-- CARD 2 — Alphabet grid -->
+      <!-- CARD 4 — Alphabet grid -->
       <section class="flashcard block" data-fc-id="alphabet-grid" data-fc-title="A-Z"
                data-fc-tip="No tienes que memorizar todo hoy. Toca varias letras, escucha y repite. Vuelve a esta pantalla cuando quieras practicar.">
         <div class="fc-head">
-          <div class="fc-num">2</div>
+          <div class="fc-num">4</div>
           <div class="fc-titles">
             <strong class="fc-title">A-Z: toca y escucha</strong>
             <span class="fc-sub">Las 26 letras del inglés</span>
@@ -130,11 +210,11 @@
         </div>
       </section>
 
-      <!-- CARD 3 — Vowels -->
+      <!-- CARD 5 — Vowels -->
       <section class="flashcard block" data-fc-id="vowels" data-fc-title="Vocales"
                data-fc-tip="La vocal I en inglés se oye como “ai” cuando dices el nombre de la letra. No es la i del español.">
         <div class="fc-head">
-          <div class="fc-num">3</div>
+          <div class="fc-num">5</div>
           <div class="fc-titles">
             <strong class="fc-title">Las vocales: A E I O U</strong>
             <span class="fc-sub">Toca, escucha y repite</span>
@@ -163,13 +243,13 @@
         </div>
       </section>
 
-      <!-- CARD 4 — Name spelling -->
+      <!-- CARD 6 — Name spelling -->
       <section class="flashcard block" data-fc-id="name-spelling" data-fc-title="Tu nombre"
                data-fc-type="practice"
                data-focus-mode="true"
                data-fc-tip="Si tu nombre tiene acento o ñ, escribe una versión simple para deletrear en inglés. Ejemplo: José → JOSE.">
         <div class="fc-head">
-          <div class="fc-num">4</div>
+          <div class="fc-num">6</div>
           <div class="fc-titles">
             <strong class="fc-title">Deletrea tu nombre</strong>
             <span class="fc-sub">Escribe, separa y escucha letra por letra</span>
@@ -206,11 +286,11 @@
         </div>
       </section>
 
-      <!-- CARD 5 — Phonetics preview -->
+      <!-- CARD 7 — Phonetics preview -->
       <section class="flashcard block" data-fc-id="phonetics-preview" data-fc-title="Sonidos dentro de palabras"
                data-fc-tip="Esta es la gran diferencia: una letra tiene nombre, pero dentro de una palabra puede sonar diferente. La siguiente lección trabaja eso con calma.">
         <div class="fc-head">
-          <div class="fc-num">5</div>
+          <div class="fc-num">7</div>
           <div class="fc-titles">
             <strong class="fc-title">Las letras pueden cambiar de sonido</strong>
             <span class="fc-sub">La letra A no siempre suena igual</span>
@@ -248,13 +328,13 @@
         </div>
       </section>
 
-      <!-- CARD 6 — Transition -->
+      <!-- CARD 8 — Transition -->
       <section class="flashcard fc-summary block"
                data-fc-id="transition"
                data-fc-title="Siguiente"
                data-fc-summary="true">
         <div class="fc-head">
-          <div class="fc-num">6</div>
+          <div class="fc-num">8</div>
           <div class="fc-titles">
             <strong class="fc-title">Ya conoces las letras</strong>
             <span class="fc-sub">Ahora vamos a escuchar sonidos clave</span>
@@ -410,7 +490,15 @@
       var modalContinue = modal && modal.querySelector("[data-guide-continue]");
       var character = modal && modal.querySelector("[data-guide-character]");
       var characterFallback = modal && modal.querySelector("[data-guide-character-fallback]");
-      if (!wrap || !panel) return;
+      var profileForm = document.querySelector("[data-onboarding-profile-form]");
+      var profileStatus = document.querySelector("[data-profile-status]");
+      var profileContinue = document.querySelector('[data-fc-id="personalize"] [data-fc-listo]');
+      var nameInput = document.querySelector("[data-profile-name]");
+      var emailInput = document.querySelector("[data-profile-email]");
+      var addressInput = document.querySelector("[data-profile-address]");
+      var learnerNameInput = document.querySelector("[data-name-input]");
+      if (!wrap) return;
+      var profileStorageKey = "expresate_onboarding_profile_v1";
       var typeTimer = null;
       var loadTimer = null;
       var modalTimer = null;
@@ -418,36 +506,118 @@
       var activeExampleKey = "name";
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var exampleOrder = ["name", "email", "address"];
+      var profile = loadProfile();
 
-      var examples = {
-        name: {
+      function cleanText(value) {
+        return String(value || "").trim().replace(/\s+/g, " ");
+      }
+
+      function loadProfile() {
+        try {
+          var parsed = JSON.parse(localStorage.getItem(profileStorageKey) || "{}");
+          return {
+            name: cleanText(parsed.name),
+            email: cleanText(parsed.email),
+            address: cleanText(parsed.address)
+          };
+        } catch (error) {
+          return { name: "", email: "", address: "" };
+        }
+      }
+
+      function saveProfile(nextProfile) {
+        profile = {
+          name: cleanText(nextProfile.name),
+          email: cleanText(nextProfile.email),
+          address: cleanText(nextProfile.address)
+        };
+        try {
+          localStorage.setItem(profileStorageKey, JSON.stringify(profile));
+        } catch (error) {
+          // Local storage can fail in private browsing; the lesson still works with defaults.
+        }
+        applyProfileToForm();
+        examples = buildExamples();
+        selectExample(activeExampleKey);
+      }
+
+      function applyProfileToForm() {
+        if (nameInput) nameInput.value = profile.name || "";
+        if (emailInput) emailInput.value = profile.email || "";
+        if (addressInput) addressInput.value = profile.address || "";
+        if (learnerNameInput && profile.name && !learnerNameInput.value) {
+          learnerNameInput.value = profile.name;
+          learnerNameInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
+
+      function spellOutValue(value) {
+        var raw = cleanText(value);
+        if (!raw) return "";
+        var output = "";
+        var needsHyphen = false;
+        Array.from(raw).forEach(function (char) {
+          if (/^[a-z0-9]$/i.test(char)) {
+            if (needsHyphen && output && !/[\s@.]$/.test(output)) output += "-";
+            output += char.toUpperCase();
+            needsHyphen = true;
+            return;
+          }
+          if (char === "@" || char === ".") {
+            output = output.replace(/-$/, "").trimEnd() + " " + char + " ";
+            needsHyphen = false;
+            return;
+          }
+          if (/\s/.test(char)) {
+            output = output.replace(/-$/, "").trimEnd() + " ";
+            needsHyphen = false;
+          }
+        });
+        return output.replace(/\s+/g, " ").trim();
+      }
+
+      function spokenFallback(value) {
+        return spellOutValue(value).replace(/-/g, " ").replace(/\s+/g, " ");
+      }
+
+      function buildExamples() {
+        var nameValue = profile.name || "Daniel";
+        var emailValue = profile.email || "daniel@gmail.com";
+        var addressValue = profile.address || "12th Street";
+        return {
+          name: {
           label: "Nombre",
-          value: "D-A-N-I-E-L",
+          value: spellOutValue(nameValue),
           audio: "assets/audio/phrases/name-example.mp3",
-          fallback: "D A N I E L",
+          fallback: spokenFallback(nameValue),
           speech: "Tu nombre puede deletrearse así cuando alguien lo necesita exacto.",
           note: "Deletrear evita que escriban tu nombre como otra palabra."
-        },
-        email: {
+          },
+          email: {
           label: "Correo",
-          value: "G-M-A-I-L",
+          value: spellOutValue(emailValue),
           audio: "assets/audio/phrases/email-example.mp3",
-          fallback: "G M A I L",
-          speech: "Tu correo también se puede deletrear letra por letra para evitar errores.",
+          fallback: spokenFallback(emailValue),
+          speech: "Los correos electrónicos suelen deletrearse letra por letra para evitar errores.",
           note: "Una letra o punto incorrecto puede mandar el correo a otra persona."
-        },
-        address: {
+          },
+          address: {
           label: "Dirección",
-          value: "12th Street",
+          value: spellOutValue(addressValue),
           audio: "assets/audio/phrases/address-example.mp3",
-          fallback: "12th Street",
-          speech: "Una dirección puede cambiar si una letra o número se escucha mal.",
+          fallback: addressValue,
+          speech: "Las direcciones también se pueden deletrear cuando alguien necesita información exacta.",
           note: "En direcciones y códigos, cada letra ayuda a confirmar el dato exacto."
-        }
-      };
+          }
+        };
+      }
+
+      var examples = buildExamples();
 
       function render(key) {
         var item = examples[key] || examples.name;
+        updateExamplePills();
+        if (!panel) return;
         panel.classList.remove("loaded");
         if (loadTimer) {
           clearTimeout(loadTimer);
@@ -466,12 +636,22 @@
       function selectExample(key) {
         var selectedKey = examples[key] ? key : "name";
         activeExampleKey = selectedKey;
+        updateExamplePills();
         wrap.querySelectorAll("[data-alpha-example]").forEach(function (el) {
           var isSelected = el.getAttribute("data-alpha-example") === selectedKey;
           el.classList.toggle("is-selected", isSelected);
           el.setAttribute("aria-pressed", isSelected ? "true" : "false");
         });
         render(selectedKey);
+      }
+
+      function updateExamplePills() {
+        wrap.querySelectorAll("[data-alpha-example]").forEach(function (button) {
+          var key = button.getAttribute("data-alpha-example");
+          var item = examples[key];
+          var preview = button.querySelector("span");
+          if (item && preview) preview.textContent = item.value || "";
+        });
       }
 
       function renderModalLetters(text) {
@@ -523,7 +703,7 @@
           modal.hidden = true;
           document.querySelector(".shell")?.removeAttribute("inert");
           if (advance) {
-            document.querySelector('[data-fc-id="intro"] [data-fc-listo]')?.click();
+            document.querySelector('[data-fc-id="exact-info"] [data-fc-listo]')?.click();
           } else {
             activeTrigger && activeTrigger.focus();
           }
@@ -559,6 +739,40 @@
         if (character.complete && !character.naturalWidth) showCharacterFallback();
       }
 
+      function completeProfileStep(message) {
+        if (profileStatus) profileStatus.textContent = message || "";
+        if (profileContinue) {
+          profileContinue.hidden = false;
+          profileContinue.click();
+        }
+      }
+
+      applyProfileToForm();
+      selectExample("name");
+
+      if (profileForm) {
+        profileForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var nextProfile = {
+            name: nameInput ? nameInput.value : "",
+            email: emailInput ? emailInput.value : "",
+            address: addressInput ? addressInput.value : ""
+          };
+          var email = cleanText(nextProfile.email);
+          if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (profileStatus) profileStatus.textContent = "Ese correo no parece completo. Puedes corregirlo o borrar el campo.";
+            emailInput && emailInput.focus();
+            return;
+          }
+          saveProfile(nextProfile);
+          completeProfileStep("Listo. Usaremos tus ejemplos en la lección.");
+        });
+      }
+
+      document.querySelector("[data-profile-skip]")?.addEventListener("click", function () {
+        completeProfileStep("Sin problema. Usaremos ejemplos de práctica.");
+      });
+
       modal?.querySelectorAll("[data-guide-close]").forEach(function (button) {
         button.addEventListener("click", function () { closeGuideModal(false); });
       });
@@ -575,6 +789,7 @@
       });
 
       function typeExampleText(text) {
+        if (!panel) return;
         var target = panel.querySelector("[data-alpha-example-text]");
         if (!target) return;
         if (typeTimer) {
@@ -630,7 +845,6 @@
           openGuideModal(key, btn);
         });
       });
-      render("name");
     })();
 
     (function () {
