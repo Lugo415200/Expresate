@@ -657,6 +657,8 @@
       function renderModalLetters(text) {
         if (!modalExample) return;
         modalExample.replaceChildren();
+        modalExample.classList.toggle("is-long", text.length > 16);
+        modalExample.classList.toggle("is-extra-long", text.length > 28);
         Array.from(text).forEach(function (letter, index) {
           var span = document.createElement("span");
           span.textContent = letter === " " ? "\u00a0" : letter;

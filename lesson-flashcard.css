@@ -3107,10 +3107,10 @@ body.lesson-guide-open {
 .lesson-guide-dialog {
   position: relative;
   z-index: 1;
-  width: min(48rem, 100%);
+  width: min(58rem, calc(100vw - 2rem));
   max-height: calc(100svh - 5.5rem);
   display: grid;
-  grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+  grid-template-columns: minmax(8.5rem, 12rem) minmax(0, 1fr);
   align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
   padding: clamp(1.25rem, 3vw, 2rem);
@@ -3181,6 +3181,7 @@ body.lesson-guide-open {
 
 .lesson-guide-content {
   min-width: 0;
+  max-width: 100%;
   display: grid;
   justify-items: center;
   gap: .8rem;
@@ -3190,6 +3191,7 @@ body.lesson-guide-open {
 .lesson-guide-speech {
   position: relative;
   width: 100%;
+  min-width: 0;
   padding: 1rem 1.15rem;
   color: #25304a;
   background: rgba(255, 255, 255, .88);
@@ -3226,23 +3228,40 @@ body.lesson-guide-open {
 }
 
 .lesson-guide-example {
-  max-width: 100%;
+  width: 100%;
+  max-width: min(100%, 42rem);
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  gap: .02em .08em;
   margin: 0;
   color: #111827;
   font-family: var(--font-display, "Ribeye", serif);
   font-size: clamp(2rem, 6vw, 3.35rem);
   line-height: 1.05;
   letter-spacing: .01em;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .lesson-guide-example span {
   display: inline-block;
+  min-width: .35em;
   opacity: 0;
   transform: translateY(.45rem);
+}
+
+.lesson-guide-example.is-long {
+  max-width: min(100%, 46rem);
+  font-size: clamp(1.65rem, 4vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.lesson-guide-example.is-extra-long {
+  font-size: clamp(1.22rem, 2.75vw, 2.05rem);
+  gap: .01em .06em;
+  line-height: 1.2;
 }
 
 .lesson-guide-modal.is-open .lesson-guide-example span {
@@ -3358,7 +3377,17 @@ body.lesson-guide-open {
 
   .lesson-guide-example {
     grid-column: 1 / -1;
-    font-size: clamp(1.8rem, 9vw, 2.65rem);
+    font-size: clamp(1.55rem, 8vw, 2.35rem);
+    max-width: 100%;
+  }
+
+  .lesson-guide-example.is-long {
+    font-size: clamp(1.12rem, 6vw, 1.8rem);
+  }
+
+  .lesson-guide-example.is-extra-long {
+    font-size: clamp(.92rem, 4.5vw, 1.35rem);
+    line-height: 1.28;
   }
 
   .lesson-guide-category,
