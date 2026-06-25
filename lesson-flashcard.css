@@ -3656,16 +3656,17 @@ body.lesson-guide-open {
   isolation: isolate;
   color: #172033;
   background:
-    radial-gradient(circle at 16% 12%, rgba(34, 211, 238, .20), transparent 34%),
-    radial-gradient(circle at 86% 18%, rgba(236, 72, 153, .22), transparent 38%),
-    linear-gradient(135deg, #071126, #111a4a 58%, #071126);
-  background-size: auto, auto, auto;
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, .32), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(194, 225, 142, .38), transparent 38%),
+    linear-gradient(135deg, rgba(219, 238, 178, .94), rgba(176, 214, 146, .90)),
+    var(--texture-paper-green);
+  background-size: auto, auto, auto, cover;
   background-position: center;
-  border: 1px solid rgba(167, 139, 250, .38);
+  border: 1px solid rgba(90, 137, 72, .32);
   border-radius: 1.55rem;
   box-shadow:
-    0 2.4rem 6rem rgba(7, 17, 38, .44),
-    inset 0 1px 0 rgba(255, 255, 255, .12);
+    0 2.4rem 6rem rgba(26, 58, 42, .26),
+    inset 0 1px 0 rgba(255, 255, 255, .50);
   transform: translateY(.85rem) scale(.985);
   transition: transform .28s cubic-bezier(.22, .8, .28, 1);
 }
@@ -3676,11 +3677,13 @@ body.lesson-guide-open {
   z-index: 0;
   inset: -18%;
   pointer-events: none;
-  background: url("assets/design/sweetink-gradient-texture.jpg") center / cover no-repeat;
-  opacity: .44;
-  mix-blend-mode: screen;
-  transform: rotate(-2deg) scale(1.08);
-  animation: letterModalSwirl 52s ease-in-out infinite alternate;
+  background:
+    radial-gradient(circle at 20% 8%, rgba(255,255,255,.34), transparent 28%),
+    var(--texture-paper-green);
+  background-size: auto, cover;
+  opacity: .18;
+  mix-blend-mode: multiply;
+  transform: rotate(-1deg) scale(1.04);
 }
 
 .letter-explore-dialog > * {
