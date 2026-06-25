@@ -407,6 +407,7 @@
       var modalExample = modal && modal.querySelector("[data-guide-example]");
       var modalExplanation = modal && modal.querySelector("[data-guide-explanation]");
       var modalAudio = modal && modal.querySelector("[data-guide-audio]");
+      var modalContinue = modal && modal.querySelector("[data-guide-continue]");
       var character = modal && modal.querySelector("[data-guide-character]");
       var characterFallback = modal && modal.querySelector("[data-guide-character-fallback]");
       if (!wrap || !panel) return;
@@ -414,7 +415,9 @@
       var loadTimer = null;
       var modalTimer = null;
       var activeTrigger = null;
+      var activeExampleKey = "name";
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var exampleOrder = ["name", "email", "address"];
 
       var examples = {
         name: {
@@ -460,6 +463,17 @@
         }, reduceMotion ? 0 : 500);
       }
 
+      function selectExample(key) {
+        var selectedKey = examples[key] ? key : "name";
+        activeExampleKey = selectedKey;
+        wrap.querySelectorAll("[data-alpha-example]").forEach(function (el) {
+          var isSelected = el.getAttribute("data-alpha-example") === selectedKey;
+          el.classList.toggle("is-selected", isSelected);
+          el.setAttribute("aria-pressed", isSelected ? "true" : "false");
+        });
+        render(selectedKey);
+      }
+
       function renderModalLetters(text) {
         if (!modalExample) return;
         modalExample.replaceChildren();
@@ -473,15 +487,20 @@
 
       function openGuideModal(key, trigger) {
         if (!modal) return;
-        var item = examples[key] || examples.name;
+        var selectedKey = examples[key] ? key : "name";
+        var item = examples[selectedKey];
         activeTrigger = trigger || null;
-        render(key);
+        selectExample(selectedKey);
         modalSpeech.textContent = item.speech;
         modalCategory.textContent = item.label;
         modalExplanation.textContent = item.note;
         modalAudio.setAttribute("data-audio", item.audio || "");
         modalAudio.setAttribute("data-audio-fallback", item.fallback || item.value);
         renderModalLetters(item.value);
+        if (modalContinue) {
+          var index = exampleOrder.indexOf(selectedKey);
+          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo →" : "Continuar →";
+        }
 
         clearTimeout(modalTimer);
         modal.hidden = false;
@@ -512,6 +531,25 @@
         }, delay);
       }
 
+      function showGuideExample(key) {
+        if (!modal || modal.hidden) return;
+        var selectedKey = examples[key] ? key : "name";
+        var item = examples[selectedKey];
+        activeExampleKey = selectedKey;
+        selectExample(selectedKey);
+        modalSpeech.textContent = item.speech;
+        modalCategory.textContent = item.label;
+        modalExplanation.textContent = item.note;
+        modalAudio.setAttribute("data-audio", item.audio || "");
+        modalAudio.setAttribute("data-audio-fallback", item.fallback || item.value);
+        renderModalLetters(item.value);
+        if (modalContinue) {
+          var index = exampleOrder.indexOf(selectedKey);
+          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo →" : "Continuar →";
+        }
+        modalDialog && modalDialog.focus();
+      }
+
       if (character) {
         var showCharacterFallback = function () {
           character.hidden = true;
@@ -524,7 +562,12 @@
       modal?.querySelectorAll("[data-guide-close]").forEach(function (button) {
         button.addEventListener("click", function () { closeGuideModal(false); });
       });
-      modal?.querySelector("[data-guide-continue]")?.addEventListener("click", function () {
+      modalContinue?.addEventListener("click", function () {
+        var currentIndex = exampleOrder.indexOf(activeExampleKey);
+        if (currentIndex >= 0 && currentIndex < exampleOrder.length - 1) {
+          showGuideExample(exampleOrder[currentIndex + 1]);
+          return;
+        }
         closeGuideModal(true);
       });
       document.addEventListener("keydown", function (event) {
@@ -582,13 +625,9 @@
       wrap.querySelectorAll("[data-alpha-example]").forEach(function (btn) {
         btn.addEventListener("click", function (event) {
           event.stopPropagation();
-          wrap.querySelectorAll("[data-alpha-example]").forEach(function (el) {
-            el.classList.remove("is-selected");
-            el.setAttribute("aria-pressed", "false");
-          });
-          btn.classList.add("is-selected");
-          btn.setAttribute("aria-pressed", "true");
-          openGuideModal(btn.getAttribute("data-alpha-example"), btn);
+          var key = btn.getAttribute("data-alpha-example");
+          selectExample(key);
+          openGuideModal(key, btn);
         });
       });
       render("name");
