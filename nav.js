@@ -60,10 +60,7 @@
         </nav>
         <div class="topbar-actions">
           <a id="profileBtn" class="topbar-link" type="button" style="display:none;">Iniciar sesión</a>
-          <div id="profileMenu" class="panel" style="
-            display:none; position:absolute; right:16px; top:56px;
-            width:260px; padding:12px; z-index:999;
-          ">
+          <div id="profileMenu" class="panel profile-menu" style="display:none;">
             <p class="small" style="margin:0 0 10px;">
               Sesión: <strong id="profileEmail">—</strong>
             </p>
@@ -76,6 +73,14 @@
         </div>
       </div>
     `;
+  }
+
+  function shouldSuppressPrimarySidebar(currentPage) {
+    const path = window.location.pathname.split("/").pop() || "";
+    return document.body.classList.contains("lesson-step-mode")
+      || currentPage === "diccionario"
+      || path === "lessons.html"
+      || path === "Syllables.html";
   }
 
   function renderSidebar(target, currentPage) {
@@ -112,12 +117,22 @@
   function init() {
     if (document.body && document.body.dataset.skipSharedNav === "true") return;
     const currentPage = (document.body && document.body.dataset.page) || "";
+    const suppressSidebar = shouldSuppressPrimarySidebar(currentPage);
 
     document.querySelectorAll("div.topbar").forEach((el) => {
       renderTopbar(el, currentPage);
     });
     // Match only the generic sidebar — leave .panel.auth-side etc. alone.
     document.querySelectorAll("aside.panel.sidebar").forEach((el) => {
+      const shell = el.closest(".shell");
+      if (suppressSidebar) {
+        el.hidden = true;
+        el.innerHTML = "";
+        shell?.classList.add("no-primary-sidebar");
+        return;
+      }
+      el.hidden = false;
+      shell?.classList.remove("no-primary-sidebar");
       renderSidebar(el, currentPage);
     });
 
