@@ -59,7 +59,7 @@
           ${topLinks}
         </nav>
         <div class="topbar-actions">
-          <a id="profileBtn" class="topbar-link" type="button" style="display:none;">Iniciar sesión</a>
+          <button id="profileBtn" class="topbar-link" type="button" style="display:none;">Iniciar sesión</button>
           <div id="profileMenu" class="panel profile-menu" style="display:none;">
             <p class="small" style="margin:0 0 10px;">
               Sesión: <strong id="profileEmail">—</strong>
