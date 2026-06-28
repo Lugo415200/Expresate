@@ -56,6 +56,8 @@
   let currentIndex = 0;
   let stepModeEnabled = false;
   let lastDirection = "next"; // "next" or "back" — drives card enter animation
+  let consejoRail = null;
+  let consejoPositionFrame = 0;
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
@@ -71,6 +73,98 @@
     return $$(".flashcard[data-fc-id]");
   }
   function totalSections() { return getSections().length; }
+
+  // ---------------------------------------------------------------
+  // CONSEJO PANEL — one shared, accessible learning-aid rail.
+  // The active card's data-fc-tip remains the single source of copy.
+  // ---------------------------------------------------------------
+  function closeConsejoPanel(options) {
+    if (!consejoRail) return;
+    const panel = consejoRail.querySelector(".consejo-panel");
+    const toggle = consejoRail.querySelector(".consejo-toggle");
+    if (!panel || !toggle) return;
+    panel.classList.remove("is-open");
+    consejoRail.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    if (options && options.focusToggle) toggle.focus();
+  }
+
+  function syncConsejoPosition() {
+    if (!consejoRail || consejoRail.hidden) return;
+    const active = getSections()[currentIndex];
+    if (!active) return;
+    const rect = active.getBoundingClientRect();
+    const top = Math.max(104, Math.min(window.innerHeight - 104, rect.top + Math.min(rect.height * 0.46, 260)));
+    const left = Math.max(8, rect.left - 52);
+    consejoRail.style.setProperty("--consejo-anchor-top", `${Math.round(top)}px`);
+    consejoRail.style.setProperty("--consejo-anchor-left", `${Math.round(left)}px`);
+  }
+
+  function setConsejoForCard(card) {
+    if (!consejoRail) return;
+    closeConsejoPanel();
+    const tip = card ? card.getAttribute("data-fc-tip") : "";
+    consejoRail.hidden = !tip;
+    const copy = consejoRail.querySelector("[data-consejo-copy]");
+    if (copy) copy.textContent = tip || "";
+    if (!tip) return;
+    cancelAnimationFrame(consejoPositionFrame);
+    consejoPositionFrame = requestAnimationFrame(syncConsejoPosition);
+  }
+
+  function setupConsejoPanels() {
+    if (consejoRail || !getSections().some((card) => card.hasAttribute("data-fc-tip"))) return;
+
+    consejoRail = document.createElement("div");
+    consejoRail.className = "consejo-rail";
+    consejoRail.hidden = true;
+    consejoRail.innerHTML = `
+      <button class="consejo-tab consejo-toggle" type="button"
+              id="consejoToggle" aria-expanded="false" aria-controls="consejoPanel"
+              aria-label="Abrir Consejo de Exprésate">
+        <span class="consejo-tab-icon" aria-hidden="true">i</span>
+        <span class="consejo-tab-label">Consejo</span>
+      </button>
+      <aside class="consejo-panel" id="consejoPanel" role="region"
+             aria-labelledby="consejoPanelTitle" aria-hidden="true">
+        <div class="consejo-panel-head">
+          <span class="consejo-panel-icon" aria-hidden="true">i</span>
+          <strong id="consejoPanelTitle">Consejo de Exprésate</strong>
+          <button class="consejo-panel-close" type="button" data-consejo-close
+                  aria-label="Cerrar Consejo de Exprésate">×</button>
+        </div>
+        <p data-consejo-copy></p>
+      </aside>
+    `;
+    document.body.appendChild(consejoRail);
+
+    const toggle = consejoRail.querySelector(".consejo-toggle");
+    const panel = consejoRail.querySelector(".consejo-panel");
+    toggle.addEventListener("click", () => {
+      const shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
+      closeConsejoPanel();
+      if (!shouldOpen) return;
+      document.querySelectorAll(".consejo-panel.is-open").forEach((openPanel) => {
+        if (openPanel !== panel) openPanel.classList.remove("is-open");
+      });
+      panel.classList.add("is-open");
+      consejoRail.classList.add("is-open");
+      panel.setAttribute("aria-hidden", "false");
+      toggle.setAttribute("aria-expanded", "true");
+    });
+    consejoRail.querySelector("[data-consejo-close]").addEventListener("click", () => {
+      closeConsejoPanel({ focusToggle: true });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && consejoRail.classList.contains("is-open")) {
+        closeConsejoPanel({ focusToggle: true });
+      }
+    });
+    window.addEventListener("resize", syncConsejoPosition, { passive: true });
+    window.addEventListener("scroll", syncConsejoPosition, { passive: true });
+  }
 
   // ---------------------------------------------------------------
   // PROGRESS BAR
@@ -337,19 +431,6 @@
         listo.style.display = "none";
       }
 
-      // Inject the Consejo de Exprésate bubble from data-fc-tip="..."
-      const tip = sec.getAttribute("data-fc-tip");
-      if (tip) {
-        const body = sec.querySelector(".fc-body");
-        if (body && !body.querySelector(".fc-tip")) {
-          const tipEl = document.createElement("div");
-          tipEl.className = "fc-tip";
-          tipEl.innerHTML =
-            `<div><span class="fc-tip-label">Consejo de Exprésate</span>${esc(tip)}</div>`;
-          body.appendChild(tipEl);
-        }
-      }
-
       // Inject the visual upgrade meta row (badge + step indicator + XP preview)
       // and tag the section with its type class. Idempotent.
       if (!sec.querySelector(":scope > .fc-meta")) {
@@ -373,6 +454,7 @@
       runLesson000PageTransition(goBack, "back");
     });
 
+    setupConsejoPanels();
     showCard(0);
   }
 
@@ -398,6 +480,7 @@
     updateProgressBar();
     updateRightPanel();
     const active = cards[currentIndex];
+    setConsejoForCard(active);
     // Bring the new card under the topbar so it feels like a real "step".
     if (active) {
       const fixedLesson000 = lessonId === "lesson-000-alphabet" &&

@@ -427,6 +427,210 @@ body.lesson-step-mode .flashcard.is-current.from-back {
   color: rgba(146,64,14,0.85);
 }
 
+/* ----------------------------------------------------------
+   INTERACTIVE CONSEJO RAIL
+   lesson.js reads data-fc-tip from the active lesson window and
+   presents it here instead of consuming space inside the card.
+   ---------------------------------------------------------- */
+.consejo-rail {
+  --consejo-anchor-top: 50vh;
+  --consejo-anchor-left: .75rem;
+  position: fixed;
+  z-index: 9200;
+  top: var(--consejo-anchor-top);
+  left: var(--consejo-anchor-left);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.consejo-rail[hidden] {
+  display: none !important;
+}
+
+.consejo-tab,
+.consejo-panel {
+  background-image:
+    linear-gradient(180deg, rgba(255, 250, 207, .82), rgba(250, 211, 91, .78)),
+    var(--texture-paper-white, none);
+  background-size: cover;
+  background-position: center;
+  background-color: #fff0a8;
+  background-blend-mode: normal, soft-light;
+  border: 1px solid rgba(180, 112, 10, .38);
+  color: #5b3008;
+  box-shadow: 0 .8rem 2rem rgba(38, 35, 76, .17), inset 0 1px 0 rgba(255, 255, 255, .68);
+}
+
+.consejo-tab {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  width: 2.7rem;
+  min-height: 8.4rem;
+  padding: .7rem .45rem;
+  border-radius: 1rem 0 0 1rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+
+.consejo-tab-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: .72rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.consejo-tab-icon,
+.consejo-panel-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  background: rgba(180, 83, 9, .14);
+  color: #8a430b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 900;
+}
+
+.consejo-tab:hover,
+.consejo-tab:focus-visible,
+.consejo-rail.is-open .consejo-tab {
+  filter: brightness(1.035) saturate(1.08);
+  box-shadow: 0 0 0 .22rem rgba(250, 204, 21, .15), 0 .9rem 2rem rgba(38, 35, 76, .2);
+  transform: translateX(-.15rem) scale(1.025);
+  outline: none;
+}
+
+.consejo-panel {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: calc(100% + .7rem);
+  width: min(15rem, calc(100vw - 5rem));
+  padding: 1rem;
+  border-radius: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(1rem, -50%);
+  transition: opacity .3s ease, transform .36s cubic-bezier(.22, .8, .28, 1), visibility .3s ease;
+}
+
+.consejo-panel.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+}
+
+.consejo-panel-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: .65rem;
+}
+
+.consejo-panel-head strong {
+  color: #7a3808;
+  font-size: .7rem;
+  font-weight: 950;
+  letter-spacing: .055em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.consejo-panel p {
+  margin: 0;
+  color: #59320f;
+  font-size: .88rem;
+  font-weight: 750;
+  line-height: 1.52;
+}
+
+.consejo-panel-close {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid rgba(146, 64, 14, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  color: #713708;
+  cursor: pointer;
+  font: 900 1.15rem/1 system-ui, sans-serif;
+}
+
+.consejo-panel-close:hover,
+.consejo-panel-close:focus-visible {
+  background: rgba(255, 255, 255, .86);
+  outline: 2px solid rgba(67, 88, 244, .36);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1799px) {
+  .consejo-rail {
+    top: auto;
+    left: max(.75rem, env(safe-area-inset-left));
+    bottom: max(.75rem, env(safe-area-inset-bottom));
+    transform: none;
+  }
+
+  .consejo-tab {
+    width: auto;
+    min-height: 2.85rem;
+    padding: .6rem .85rem;
+    border-radius: 999px;
+  }
+
+  .consejo-tab-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: .7rem;
+  }
+
+  .consejo-tab:hover,
+  .consejo-tab:focus-visible,
+  .consejo-rail.is-open .consejo-tab {
+    transform: translateY(-.12rem) scale(1.015);
+  }
+
+  .consejo-panel {
+    position: fixed;
+    inset: auto auto calc(6rem + env(safe-area-inset-bottom)) .75rem;
+    width: min(24rem, calc(100vw - 1.5rem));
+    max-height: min(15rem, 48svh);
+    overflow-y: auto;
+    border-radius: 1rem;
+    transform: translateY(.8rem);
+  }
+
+  .consejo-panel.is-open {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consejo-tab,
+  .consejo-panel {
+    transition: none !important;
+  }
+
+  .consejo-tab:hover,
+  .consejo-tab:focus-visible,
+  .consejo-rail.is-open .consejo-tab {
+    transform: none;
+  }
+}
+
 /* Summary card — calmer success */
 .flashcard.fc-summary {
   background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(236,253,245,0.70) 100%) !important;
