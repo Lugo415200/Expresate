@@ -467,9 +467,9 @@ body.lesson-step-mode .flashcard.is-current.from-back {
   align-items: center;
   justify-content: center;
   gap: .4rem;
-  width: 2.7rem;
-  min-height: 8.4rem;
-  padding: .7rem .45rem;
+  width: 2.15rem;
+  min-height: 7.4rem;
+  padding: .58rem .25rem;
   border-radius: 1rem 0 0 1rem;
   cursor: pointer;
   font: inherit;
@@ -480,7 +480,7 @@ body.lesson-step-mode .flashcard.is-current.from-back {
 .consejo-tab-label {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: .72rem;
+  font-size: .64rem;
   letter-spacing: .07em;
   text-transform: uppercase;
 }
@@ -498,6 +498,12 @@ body.lesson-step-mode .flashcard.is-current.from-back {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-weight: 900;
+}
+
+.consejo-tab-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: .78rem;
 }
 
 .consejo-tab:hover,
@@ -595,6 +601,12 @@ body.lesson-step-mode .flashcard.is-current.from-back {
     writing-mode: horizontal-tb;
     transform: none;
     font-size: .7rem;
+  }
+
+  .consejo-tab-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    font-size: .86rem;
   }
 
   .consejo-tab:hover,

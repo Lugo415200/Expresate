@@ -96,7 +96,7 @@
     if (!active) return;
     const rect = active.getBoundingClientRect();
     const top = Math.max(104, Math.min(window.innerHeight - 104, rect.top + Math.min(rect.height * 0.46, 260)));
-    const left = Math.max(8, rect.left - 52);
+    const left = Math.max(8, rect.left - 43);
     consejoRail.style.setProperty("--consejo-anchor-top", `${Math.round(top)}px`);
     consejoRail.style.setProperty("--consejo-anchor-left", `${Math.round(left)}px`);
   }
