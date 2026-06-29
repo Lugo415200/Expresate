@@ -461,6 +461,7 @@
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
+  <script src="data/lesson000-letters.js"></script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
   <script>
@@ -881,52 +882,20 @@
       var audioTimer = null;
       var currentLetter = "a";
 
-      var letters = {
-        a: { letter: "A", sound: "ay / ah", word: "Apple", pronunciation: "APPLE", spanish: "Manzana", scene: true, extra: "Ant · Alligator · Animal", tip: 'La letra A suele sonar como "ah" o "ay" dependiendo de la palabra.' },
-        b: { letter: "B", sound: "b", word: "Ball", pronunciation: "BALL", spanish: "Pelota", tip: 'La B se parece a la B del español, pero en inglés suele sonar más corta y firme.' },
-        c: { letter: "C", sound: "k / s", word: "Cat", pronunciation: "CAT", spanish: "Gato", scene: true, sceneSrc: "assets/characters/letter-c-cat.png", extra: "Cat · City · Circle", tip: 'La C puede sonar como K en cat o como S en city. Mira la palabra completa.' },
-        d: { letter: "D", sound: "d", word: "Dog", pronunciation: "DOG", spanish: "Perro", tip: 'La D en inglés es rápida. Evita agregar una vocal al final: di dog, no dog-eh.' },
-        e: { letter: "E", sound: "ee / eh", word: "Elephant", pronunciation: "ELEPHANT", spanish: "Elefante", tip: 'El nombre de la letra E suena como "ii", pero en palabras puede sonar más abierta.' },
-        f: { letter: "F", sound: "f", word: "Fish", pronunciation: "FISH", spanish: "Pez", tip: 'La F usa aire suave entre los dientes y el labio. No agregues una vocal al final.' },
-        g: { letter: "G", sound: "g / j", word: "Goat", pronunciation: "GOAT", spanish: "Cabra", tip: 'La G puede sonar fuerte como goat o suave como giant. La palabra decide.' },
-        h: { letter: "H", sound: "h", word: "Hat", pronunciation: "HAT", spanish: "Sombrero", tip: 'La H sí se escucha en inglés. Haz una salida suave de aire: hat.' },
-        i: { letter: "I", sound: "ai / ih", word: "Igloo", pronunciation: "IGLOO", spanish: "Iglú", tip: 'El nombre de I suena como "ai". Dentro de palabras puede sonar corto como ih.' },
-        j: { letter: "J", sound: "j", word: "Juice", pronunciation: "JUICE", spanish: "Jugo", tip: 'La J inglesa suena como una mezcla fuerte de d + y. Practica con juice.' },
-        k: { letter: "K", sound: "k", word: "Kite", pronunciation: "KITE", spanish: "Cometa", tip: 'K suele tener un sonido claro de K. Es útil para deletrear nombres y códigos.' },
-        l: { letter: "L", sound: "l", word: "Lion", pronunciation: "LION", spanish: "León", tip: 'La L toca arriba con la lengua. Mantén el sonido limpio: lion.' },
-        m: { letter: "M", sound: "m", word: "Moon", pronunciation: "MOON", spanish: "Luna", tip: 'M se pronuncia con los labios cerrados. Es una letra fácil para empezar.' },
-        n: { letter: "N", sound: "n", word: "Nose", pronunciation: "NOSE", spanish: "Nariz", tip: 'N usa la nariz y la lengua arriba. No la conviertas en ñ.' },
-        o: { letter: "O", sound: "oh / ah", word: "Orange", pronunciation: "ORANGE", spanish: "Naranja", tip: 'O puede sonar como "ou" en su nombre o más abierta dentro de palabras.' },
-        p: { letter: "P", sound: "p", word: "Pencil", pronunciation: "PENCIL", spanish: "Lápiz", tip: 'La P inglesa tiene un pequeño golpe de aire. Practica pencil.' },
-        q: { letter: "Q", sound: "kw", word: "Queen", pronunciation: "QUEEN", spanish: "Reina", tip: 'Q casi siempre trabaja con U y suena como kw: queen.' },
-        r: { letter: "R", sound: "r inglesa", word: "Rabbit", pronunciation: "RABBIT", spanish: "Conejo", tip: 'La R inglesa no vibra como la R española. La lengua no debe golpear fuerte.' },
-        s: { letter: "S", sound: "s", word: "Sun", pronunciation: "SUN", spanish: "Sol", tip: 'S mantiene aire constante. Evita decir es-sun; empieza directo con S.' },
-        t: { letter: "T", sound: "t", word: "Tiger", pronunciation: "TIGER", spanish: "Tigre", tip: 'La T inglesa puede tener más aire que en español. Hazla corta y clara.' },
-        u: { letter: "U", sound: "yu / uh", word: "Umbrella", pronunciation: "UMBRELLA", spanish: "Paraguas", tip: 'El nombre de U suena como "iu", pero en umbrella suena más como uh.' },
-        v: { letter: "V", sound: "v", word: "Van", pronunciation: "VAN", spanish: "Camioneta", tip: 'V no es igual que B. Usa labio y dientes para sentir vibración suave.' },
-        w: { letter: "W", sound: "w", word: "Water", pronunciation: "WATER", spanish: "Agua", tip: 'W empieza con labios redondeados. Practica water sin empezar con gua.' },
-        x: { letter: "X", sound: "ks", word: "Box", pronunciation: "BOX", spanish: "Caja", tip: 'X muchas veces suena como ks al final de una palabra: box.' },
-        y: { letter: "Y", sound: "y", word: "Yellow", pronunciation: "YELLOW", spanish: "Amarillo", tip: 'Y al inicio suena como una y suave: yellow.' },
-        z: { letter: "Z", sound: "z", word: "Zebra", pronunciation: "ZEBRA", spanish: "Cebra", tip: 'En inglés americano, Z vibra como zzz. No la pronuncies como S plana.' }
-      };
+      var letterStore = window.ExpresateLesson000Letters;
+      if (!letterStore) {
+        console.error("[Lesson 000] No se pudo cargar el contenido del alfabeto.");
+        return;
+      }
+      var letters = letterStore.getEffectiveLetters();
+      grid.querySelectorAll(".letter-btn[data-letter]").forEach(function (button) {
+        var item = letters[safeKey(button.dataset.letter)];
+        if (item) button.textContent = item.letter;
+      });
 
       function safeKey(letter) {
         return String(letter || "").toLowerCase().trim().slice(0, 1);
       }
-
-      letters.a.sceneSrc = "assets/characters/letter-a-animals.png";
-      letters.a.extra = "Ant · Alligator · Animal";
-      letters.b = {
-        letter: "B",
-        sound: "b",
-        word: "Birds",
-        pronunciation: "BIRDS",
-        spanish: "Pájaros",
-        scene: true,
-        sceneSrc: "assets/characters/letter-b-birds.png",
-        extra: "Bird · Bluebird · Branch",
-        tip: "La B en inglés es corta y firme. Junta los labios, suelta aire rápido y evita agregar una vocal al final."
-      };
 
       function setText(selector, value) {
         var el = modal.querySelector(selector);
@@ -970,26 +939,30 @@
         var art = modal.querySelector("[data-letter-art]");
         var expansion = modal.querySelector("[data-letter-expansion]");
         var visualWords = modal.querySelector("[data-letter-visual-words]");
+        var imagePath = item.imagePath || "";
+        var examples = Array.isArray(item.examples) ? item.examples.filter(Boolean) : [];
         if (scene && art) {
-          if (item.sceneSrc && scene.getAttribute("src") !== item.sceneSrc) {
-            scene.setAttribute("src", item.sceneSrc);
+          if (imagePath && scene.getAttribute("src") !== imagePath) {
+            scene.setAttribute("src", imagePath);
           }
           scene.setAttribute("data-scene-letter", key);
-          scene.hidden = !item.scene;
-          art.classList.toggle("is-small", Boolean(item.scene));
+          scene.hidden = !imagePath;
+          art.classList.toggle("is-small", Boolean(imagePath));
         }
         if (visualWords) {
-          visualWords.hidden = !item.extra;
-          if (item.extra) {
-            visualWords.innerHTML = item.extra.split(/\s*[·Â]\s*/).filter(Boolean).map(function (word) {
-              return "<span>" + word + "</span>";
-            }).join("");
+          visualWords.hidden = examples.length === 0;
+          if (examples.length) {
+            visualWords.replaceChildren.apply(visualWords, examples.map(function (word) {
+              var chip = document.createElement("span");
+              chip.textContent = word;
+              return chip;
+            }));
           }
         }
         if (expansion) {
-          expansion.hidden = !item.extra;
+          expansion.hidden = examples.length === 0;
           var strong = expansion.querySelector("strong");
-          if (strong) strong.textContent = item.extra || "";
+          if (strong) strong.textContent = examples.join(" · ");
         }
       }
 

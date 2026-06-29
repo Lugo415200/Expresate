@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111936" />
+  <meta name="application-name" content="Exprésate" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <title>Administración de contenido | Exprésate</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page" data-page="admin">
+  <div class="topbar"></div>
+
+  <main class="admin-shell">
+    <section class="admin-access-card" data-admin-loading>
+      <span class="admin-eyebrow">Acceso privado</span>
+      <h1>Verificando tu sesión…</h1>
+      <p>Estamos confirmando que esta cuenta puede administrar contenido.</p>
+    </section>
+
+    <section class="admin-access-card" data-admin-denied hidden>
+      <span class="admin-eyebrow">Acceso restringido</span>
+      <h1>No tienes acceso.</h1>
+      <p>Esta herramienta está disponible únicamente para administradores aprobados.</p>
+      <a class="btn" href="index.html">Volver al inicio</a>
+    </section>
+
+    <section class="admin-dashboard" data-admin-dashboard hidden>
+      <header class="admin-header">
+        <div>
+          <span class="admin-eyebrow">Centro de contenido · Fase 1</span>
+          <h1>Alfabeto de la Lección 000</h1>
+          <p>Edita un borrador local, pruébalo en la lección y exporta el JSON cuando esté listo.</p>
+        </div>
+        <div class="admin-header-actions" aria-label="Acciones del contenido">
+          <a class="btn" href="lesson-000-alphabet.html" target="_blank" rel="noopener">Vista previa</a>
+          <button class="btn" type="button" data-admin-import>Importar JSON</button>
+          <button class="btn" type="button" data-admin-export>Exportar JSON</button>
+          <button class="btn admin-danger" type="button" data-admin-reset>Restablecer</button>
+          <input type="file" accept="application/json,.json" data-admin-import-file hidden />
+        </div>
+      </header>
+
+      <div class="admin-status" role="status" aria-live="polite" data-admin-status>
+        Los cambios se guardan solamente en este navegador.
+      </div>
+
+      <div class="admin-workspace">
+        <aside class="admin-letter-nav" aria-label="Letras del alfabeto">
+          <div class="admin-section-heading">
+            <span>Letras</span>
+            <small>26 registros</small>
+          </div>
+          <div class="admin-letter-list" data-admin-letter-list></div>
+        </aside>
+
+        <section class="admin-editor-card">
+          <div class="admin-editor-heading">
+            <div class="admin-letter-preview" aria-hidden="true" data-admin-letter-preview>A</div>
+            <div>
+              <span class="admin-eyebrow">Editando</span>
+              <h2 data-admin-editor-title>Letra A</h2>
+              <p>Este borrador reemplaza los datos predeterminados solo en este dispositivo.</p>
+            </div>
+          </div>
+
+          <form class="admin-letter-form" data-admin-letter-form novalidate>
+            <label>
+              <span>Letra</span>
+              <input type="text" name="letter" maxlength="1" autocomplete="off" required />
+            </label>
+            <label>
+              <span>Palabra principal</span>
+              <input type="text" name="word" maxlength="80" autocomplete="off" required />
+            </label>
+            <label>
+              <span>Traducción al español</span>
+              <input type="text" name="spanish" maxlength="100" autocomplete="off" required />
+            </label>
+            <label>
+              <span>Etiqueta de sonido</span>
+              <input type="text" name="sound" maxlength="60" autocomplete="off" required />
+            </label>
+            <label>
+              <span>Etiqueta de pronunciación</span>
+              <input type="text" name="pronunciation" maxlength="100" autocomplete="off" required />
+            </label>
+            <label class="admin-field-wide">
+              <span>Ejemplos <small>uno por línea o separados por coma</small></span>
+              <textarea name="examples" rows="3" maxlength="400"></textarea>
+            </label>
+            <label class="admin-field-wide">
+              <span>Ruta local de imagen</span>
+              <input type="text" name="imagePath" maxlength="180" autocomplete="off" placeholder="assets/characters/letter-a-animals.png" />
+              <small>Solo rutas relativas dentro del proyecto. No se permiten URLs externas.</small>
+            </label>
+            <div class="admin-image-preview admin-field-wide" data-admin-image-preview hidden>
+              <img alt="Vista previa del recurso de la letra" data-admin-image />
+              <span data-admin-image-fallback hidden>No se pudo cargar esta imagen.</span>
+            </div>
+            <div class="admin-form-actions admin-field-wide">
+              <button class="btn primary" type="submit">Guardar cambios</button>
+              <span data-admin-save-state>Sin cambios pendientes</span>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <footer class="admin-future-note">
+        <strong>Próximas fases:</strong>
+        tablas de lecciones en Supabase, imágenes y audio, publicación y constructor completo.
+      </footer>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="access.js"></script>
+  <script src="nav.js"></script>
+  <script src="data/lesson000-letters.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

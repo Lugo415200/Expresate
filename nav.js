@@ -22,6 +22,7 @@
   "use strict";
 
   const BRAND = "Exprésate";
+  const ADMIN_EMAILS = ["ynoellugo@icloud.com"];
 
   // Source of truth for the left-nav.
   // To add an item later (e.g., Perfil, Ajustes), append here.
@@ -67,6 +68,7 @@
             <div class="actions" style="margin:0;">
               <a id="profileLink" class="btn" href="auth.html">Cuenta</a>
               <a id="deviceLink" class="btn" href="devices.html">Dispositivos</a>
+              <a id="adminLink" class="btn" href="admin.html" style="display:none;">Administrar</a>
               <button id="logoutBtnGlobal" class="btn primary" type="button">Cerrar sesión</button>
             </div>
           </div>
@@ -156,6 +158,7 @@
     const profileBtn = document.getElementById("profileBtn");
     const profileMenu = document.getElementById("profileMenu");
     const profileEmail = document.getElementById("profileEmail");
+    const adminLink = document.getElementById("adminLink");
 
     if (!profileBtn) return;
 
@@ -165,6 +168,10 @@
 
     if (profileMenu && !signedIn) profileMenu.style.display = "none";
     if (profileEmail) profileEmail.textContent = signedIn ? (session.user.email || "usuario") : "—";
+    if (adminLink) {
+      const email = String(session?.user?.email || "").trim().toLowerCase();
+      adminLink.style.display = signedIn && ADMIN_EMAILS.includes(email) ? "inline-flex" : "none";
+    }
   }
 
   function initAuthNav() {
@@ -228,5 +235,5 @@
   }
 
   // Expose the config so the curso page (or future tools) can read it.
-  window.ExpresateNav = { BRAND, NAV_ITEMS };
+  window.ExpresateNav = { BRAND, NAV_ITEMS, ADMIN_EMAILS };
 })();
