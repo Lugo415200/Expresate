@@ -3993,6 +3993,10 @@ body.lesson-guide-open {
   transform: translateY(-1%);
 }
 
+.letter-explore-visual img[data-scene-letter="c"] {
+  mix-blend-mode: multiply;
+}
+
 .letter-visual-words {
   grid-row: 2;
   display: flex;

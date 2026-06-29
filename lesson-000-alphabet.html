@@ -884,7 +884,7 @@
       var letters = {
         a: { letter: "A", sound: "ay / ah", word: "Apple", pronunciation: "APPLE", spanish: "Manzana", scene: true, extra: "Ant · Alligator · Animal", tip: 'La letra A suele sonar como "ah" o "ay" dependiendo de la palabra.' },
         b: { letter: "B", sound: "b", word: "Ball", pronunciation: "BALL", spanish: "Pelota", tip: 'La B se parece a la B del español, pero en inglés suele sonar más corta y firme.' },
-        c: { letter: "C", sound: "k / s", word: "Cat", pronunciation: "CAT", spanish: "Gato", tip: 'La C puede sonar como K en cat o como S en city. Mira la palabra completa.' },
+        c: { letter: "C", sound: "k / s", word: "Cat", pronunciation: "CAT", spanish: "Gato", scene: true, sceneSrc: "assets/characters/letter-c-cat.png", extra: "Cat · City · Circle", tip: 'La C puede sonar como K en cat o como S en city. Mira la palabra completa.' },
         d: { letter: "D", sound: "d", word: "Dog", pronunciation: "DOG", spanish: "Perro", tip: 'La D en inglés es rápida. Evita agregar una vocal al final: di dog, no dog-eh.' },
         e: { letter: "E", sound: "ee / eh", word: "Elephant", pronunciation: "ELEPHANT", spanish: "Elefante", tip: 'El nombre de la letra E suena como "ii", pero en palabras puede sonar más abierta.' },
         f: { letter: "F", sound: "f", word: "Fish", pronunciation: "FISH", spanish: "Pez", tip: 'La F usa aire suave entre los dientes y el labio. No agregues una vocal al final.' },
@@ -933,13 +933,17 @@
         if (el) el.textContent = value || "";
       }
 
-      function playLetterAndWord(item, trigger) {
+      function playLetterName(item, trigger) {
         clearTimeout(audioTimer);
         window.ExpresateAudio?.play?.("audio/alphabet/" + item.letter.toLowerCase() + ".mp3", {
           trigger: trigger || null,
           fallbackText: item.letter,
           speechType: "letter"
         });
+      }
+
+      function playLetterAndWord(item, trigger) {
+        playLetterName(item, trigger);
         audioTimer = setTimeout(function () {
           window.ExpresateAudio?.play?.("assets/audio/words/" + item.word.toLowerCase() + ".mp3", {
             trigger: trigger || null,
@@ -970,6 +974,7 @@
           if (item.sceneSrc && scene.getAttribute("src") !== item.sceneSrc) {
             scene.setAttribute("src", item.sceneSrc);
           }
+          scene.setAttribute("data-scene-letter", key);
           scene.hidden = !item.scene;
           art.classList.toggle("is-small", Boolean(item.scene));
         }
@@ -999,7 +1004,7 @@
         requestAnimationFrame(function () {
           modal.classList.add("is-open");
           dialog && dialog.focus();
-          playLetterAndWord(item, modal.querySelector("[data-letter-audio]"));
+          playLetterName(item, activeTrigger);
         });
       }
 
@@ -1037,7 +1042,7 @@
         var keys = Object.keys(letters);
         var next = keys[(keys.indexOf(currentLetter) + 1) % keys.length];
         renderLetter(next);
-        playLetterAndWord(letters[next], modal.querySelector("[data-letter-audio]"));
+        playLetterName(letters[next], modal.querySelector("[data-letter-next]"));
       });
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && !modal.hidden) closeLetterModal();
