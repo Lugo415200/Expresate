@@ -536,8 +536,12 @@
     window.setTimeout(changeStep, 620);
     window.setTimeout(() => {
       loader.classList.remove("loader--active", "is-back");
-      document.body.classList.remove("lesson-transitioning");
     }, 1120);
+    // The loader container keeps its width for 1.35s while the five tiles
+    // retract. Keep floating lesson UI hidden until that visual exit ends.
+    window.setTimeout(() => {
+      document.body.classList.remove("lesson-transitioning");
+    }, 2520);
   }
 
   function showLesson000Feedback(sec) {
