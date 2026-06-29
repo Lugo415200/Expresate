@@ -529,11 +529,14 @@
       return;
     }
     const loader = getLesson000Loader();
+    document.body.classList.add("lesson-transitioning");
+    closeConsejoPanel();
     loader.classList.toggle("is-back", direction === "back");
     loader.classList.add("loader--active");
     window.setTimeout(changeStep, 620);
     window.setTimeout(() => {
       loader.classList.remove("loader--active", "is-back");
+      document.body.classList.remove("lesson-transitioning");
     }, 1120);
   }
 

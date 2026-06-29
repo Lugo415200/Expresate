@@ -447,6 +447,13 @@ body.lesson-step-mode .flashcard.is-current.from-back {
   display: none !important;
 }
 
+body.lesson-transitioning .consejo-rail {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none !important;
+}
+
 .consejo-tab,
 .consejo-panel {
   background-image:
