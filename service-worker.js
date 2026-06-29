@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v58";
+const CACHE_VERSION = "v59";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -71,6 +71,7 @@ const PRECACHE_PATHS = [
   "data/lessons.js",
   "data/lesson000-letters.js",
   "data/studio-media-library.js",
+  "data/studio-vocabulary.js",
   "data/quizzes.js",
   "assets/audio/audio-manifest.json",
   "assets/design/sweetink-gradient-texture.jpg",

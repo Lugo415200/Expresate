@@ -5,12 +5,13 @@
   const ADMIN_EMAILS = ["ynoellugo@icloud.com"];
   const store = window.ExpresateLesson000Letters;
   const mediaStore = window.ExpresateStudioMedia;
+  const vocabularyStore = window.ExpresateStudioVocabulary;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
     alphabet: ["Lesson 000", "Alphabet", "Edit letter content, examples, sound labels, and local media paths."],
     lessons: ["Future builder", "Lessons", "Plan reusable learning blocks for future guided lessons."],
-    vocabulary: ["Future library", "Vocabulary", "Organize reusable words and translations across learning experiences."],
+    vocabulary: ["Reusable content", "Vocabulary", "Create structured words and phrases for lessons, quizzes, and practice."],
     quizzes: ["Future builder", "Quizzes", "Plan quick checks, answer feedback, and audio prompts."],
     media: ["Asset catalog", "Media Library", "Organize local images, audio, animations, textures, and characters."],
     settings: ["Prototype configuration", "Settings", "Review the local-only data boundary for this Studio phase."]
@@ -53,6 +54,26 @@
   const mediaPickerGrid = document.querySelector("[data-media-picker-grid]");
   const mediaPickerEmpty = document.querySelector("[data-media-picker-empty]");
   const mediaPickerSearch = document.querySelector("[data-media-picker-search]");
+  const mediaPickerEyebrow = document.querySelector("[data-media-picker-eyebrow]");
+  const mediaPickerTitle = document.querySelector("[data-media-picker-title]");
+  const mediaPickerDescription = document.querySelector("[data-media-picker-description]");
+  const vocabularyForm = document.querySelector("[data-vocab-form]");
+  const vocabularyFormMode = document.querySelector("[data-vocab-form-mode]");
+  const vocabularyFormTitle = document.querySelector("[data-vocab-form-title]");
+  const vocabularyCancel = document.querySelector("[data-vocab-cancel]");
+  const vocabularyImagePreview = document.querySelector("[data-vocab-image-preview]");
+  const vocabularyAudioPreview = document.querySelector("[data-vocab-audio-preview]");
+  const vocabularyGrid = document.querySelector("[data-vocab-grid]");
+  const vocabularyEmpty = document.querySelector("[data-vocab-empty]");
+  const vocabularyCount = document.querySelector("[data-vocab-count]");
+  const vocabularyDashboardCount = document.querySelector("[data-vocab-dashboard-count]");
+  const vocabularyRecentList = document.querySelector("[data-vocab-recent-list]");
+  const vocabularyRecentEmpty = document.querySelector("[data-vocab-recent-empty]");
+  const vocabularySearch = document.querySelector("[data-vocab-search]");
+  const vocabularyDifficultyFilter = document.querySelector("[data-vocab-difficulty-filter]");
+  const vocabularyPosFilter = document.querySelector("[data-vocab-pos-filter]");
+  const vocabularyCategoryFilter = document.querySelector("[data-vocab-category-filter]");
+  const vocabularyImportFile = document.querySelector("[data-vocab-import-file]");
 
   let documentState = null;
   let activeKey = "a";
@@ -62,6 +83,9 @@
   let mediaDocument = { version: 1, items: [] };
   let editingMediaId = "";
   let mediaPickerReturnFocus = null;
+  let mediaPickerTarget = "alphabet-image";
+  let vocabularyDocument = { version: 1, items: [] };
+  let editingVocabularyId = "";
 
   function normalizedEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -393,7 +417,11 @@
   function compatiblePickerItems() {
     const query = String(mediaPickerSearch?.value || "").trim().toLowerCase();
     return mediaDocument.items.filter((item) => {
-      const compatible = ["image", "character"].includes(item.type) && mediaStore.isImagePath(item.assetPath);
+      const compatible = mediaPickerTarget === "vocabulary-audio"
+        ? item.type === "audio" && mediaStore.isAudioPath(item.assetPath)
+        : mediaPickerTarget === "vocabulary-image"
+          ? ["image", "character", "texture", "animation"].includes(item.type) && mediaStore.isImagePath(item.assetPath)
+          : ["image", "character"].includes(item.type) && mediaStore.isImagePath(item.assetPath);
       const searchable = [item.title, item.category, ...item.tags].join(" ").toLowerCase();
       return compatible && (!query || searchable.includes(query));
     });
@@ -404,17 +432,24 @@
     button.type = "button";
     button.className = "media-picker-item";
     button.dataset.pickMediaId = item.id;
-    const image = document.createElement("img");
-    image.src = item.thumbnailPath || item.assetPath;
-    image.alt = "";
-    image.addEventListener("error", () => { image.hidden = true; }, { once: true });
+    let preview;
+    if (item.type === "audio") {
+      preview = document.createElement("span");
+      preview.className = "media-picker-audio-symbol";
+      preview.textContent = "♪";
+    } else {
+      preview = document.createElement("img");
+      preview.src = item.thumbnailPath || item.assetPath;
+      preview.alt = "";
+      preview.addEventListener("error", () => { preview.hidden = true; }, { once: true });
+    }
     const body = document.createElement("div");
     const title = document.createElement("strong");
     title.textContent = item.title;
     const path = document.createElement("small");
     path.textContent = item.assetPath;
     body.append(title, path);
-    button.append(image, body);
+    button.append(preview, body);
     return button;
   }
 
@@ -428,6 +463,23 @@
 
   function openMediaPicker(trigger) {
     mediaPickerReturnFocus = trigger || document.activeElement;
+    mediaPickerTarget = trigger?.dataset?.mediaPickerTarget || "alphabet-image";
+    const isAudio = mediaPickerTarget === "vocabulary-audio";
+    const isVocabulary = mediaPickerTarget.startsWith("vocabulary-");
+    mediaPickerEyebrow.textContent = isVocabulary ? "Vocabulary asset" : "Alphabet image";
+    mediaPickerTitle.textContent = isAudio ? "Choose vocabulary audio" : "Choose an image";
+    mediaPickerDescription.textContent = isAudio
+      ? "Select an Audio item to fill the vocabulary audio path."
+      : isVocabulary
+        ? "Select a visual asset to fill the vocabulary image path."
+        : "Select an Image or Character item to fill the current letter image path.";
+    if (mediaPickerSearch) mediaPickerSearch.placeholder = isAudio
+      ? "Search audio assets…"
+      : "Search images and characters…";
+    const pickerEmptyCopy = mediaPickerEmpty?.querySelector("p");
+    if (pickerEmptyCopy) pickerEmptyCopy.textContent = isAudio
+      ? "Add an Audio item to the Media Library first."
+      : "Add an Image or Character item to the Media Library first.";
     if (mediaPickerSearch) mediaPickerSearch.value = "";
     renderMediaPicker();
     mediaPicker.hidden = false;
@@ -444,13 +496,327 @@
 
   function chooseMediaItem(id) {
     const item = mediaDocument.items.find((entry) => entry.id === id);
-    const field = form?.elements?.namedItem("imagePath");
+    const field = mediaPickerTarget === "vocabulary-image"
+      ? vocabularyForm?.elements?.namedItem("imagePath")
+      : mediaPickerTarget === "vocabulary-audio"
+        ? vocabularyForm?.elements?.namedItem("audioPath")
+        : form?.elements?.namedItem("imagePath");
     if (!item || !field) return;
     field.value = item.assetPath;
-    renderImage(item.assetPath);
-    scheduleSave();
+    if (mediaPickerTarget === "alphabet-image") {
+      renderImage(item.assetPath);
+      scheduleSave();
+    } else {
+      renderVocabularyPreviews();
+    }
     closeMediaPicker();
-    showStatus(`${item.title} selected for letter ${documentState.letters[activeKey].letter}.`);
+    showStatus(mediaPickerTarget === "alphabet-image"
+      ? `${item.title} selected for letter ${documentState.letters[activeKey].letter}.`
+      : `${item.title} selected for the vocabulary ${mediaPickerTarget === "vocabulary-audio" ? "audio" : "image"} path.`);
+  }
+
+  function renderVocabularyPreviews() {
+    if (!vocabularyForm) return;
+    const imagePath = vocabularyStore.cleanPath(vocabularyForm.elements.namedItem("imagePath")?.value);
+    const audioPath = vocabularyStore.cleanPath(vocabularyForm.elements.namedItem("audioPath")?.value);
+    if (vocabularyImagePreview) {
+      if (imagePath && mediaStore.isImagePath(imagePath)) {
+        const image = document.createElement("img");
+        image.src = imagePath;
+        image.alt = "Vocabulary image preview";
+        image.addEventListener("error", () => {
+          const message = document.createElement("span");
+          message.textContent = "Image could not be loaded.";
+          image.replaceWith(message);
+        }, { once: true });
+        vocabularyImagePreview.replaceChildren(image);
+      } else {
+        const message = document.createElement("span");
+        message.textContent = imagePath ? "Path is not a supported image." : "Image preview";
+        vocabularyImagePreview.replaceChildren(message);
+      }
+    }
+    if (vocabularyAudioPreview) {
+      if (audioPath && mediaStore.isAudioPath(audioPath)) {
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.preload = "none";
+        audio.src = audioPath;
+        audio.setAttribute("aria-label", "Vocabulary audio preview");
+        vocabularyAudioPreview.replaceChildren(audio);
+      } else {
+        const message = document.createElement("span");
+        message.textContent = audioPath ? "Path is not a supported audio file." : "Audio preview";
+        vocabularyAudioPreview.replaceChildren(message);
+      }
+    }
+  }
+
+  function createVocabularyCard(item) {
+    const card = document.createElement("article");
+    card.className = "vocab-card";
+    card.dataset.vocabId = item.id;
+    const visual = document.createElement("div");
+    visual.className = "vocab-card-visual";
+    if (item.imagePath && mediaStore.isImagePath(item.imagePath)) {
+      const image = document.createElement("img");
+      image.src = item.imagePath;
+      image.alt = `${item.english} visual`;
+      image.addEventListener("error", () => {
+        const fallback = document.createElement("span");
+        fallback.className = "vocab-card-placeholder";
+        fallback.textContent = item.english.slice(0, 1).toUpperCase();
+        image.replaceWith(fallback);
+      }, { once: true });
+      visual.appendChild(image);
+    } else {
+      const fallback = document.createElement("span");
+      fallback.className = "vocab-card-placeholder";
+      fallback.textContent = item.english.slice(0, 1).toUpperCase();
+      visual.appendChild(fallback);
+    }
+    const indicators = document.createElement("div");
+    indicators.className = "vocab-media-indicators";
+    if (item.imagePath) {
+      const imageIndicator = document.createElement("span");
+      imageIndicator.textContent = "IMG";
+      imageIndicator.title = "Image attached";
+      indicators.appendChild(imageIndicator);
+    }
+    if (item.audioPath) {
+      const audioIndicator = document.createElement("span");
+      audioIndicator.textContent = "AUD";
+      audioIndicator.title = "Audio attached";
+      indicators.appendChild(audioIndicator);
+    }
+    visual.appendChild(indicators);
+
+    const body = document.createElement("div");
+    body.className = "vocab-card-body";
+    const topline = document.createElement("div");
+    topline.className = "vocab-card-topline";
+    const difficulty = document.createElement("span");
+    difficulty.className = "vocab-difficulty";
+    difficulty.textContent = item.difficulty;
+    const category = document.createElement("span");
+    category.className = "media-category";
+    category.textContent = `${item.category} · ${item.partOfSpeech}`;
+    topline.append(difficulty, category);
+    const heading = document.createElement("h4");
+    heading.textContent = item.english;
+    const translation = document.createElement("p");
+    translation.className = "vocab-translation";
+    translation.textContent = item.spanish || "No Spanish translation";
+    const pronunciation = document.createElement("p");
+    pronunciation.className = "vocab-pronunciation";
+    pronunciation.textContent = [item.pronunciation, item.ipa].filter(Boolean).join(" · ") || "No pronunciation guidance";
+    const example = document.createElement("p");
+    example.className = "vocab-example";
+    example.textContent = item.exampleSentenceEnglish || "No example sentence.";
+    const tags = document.createElement("div");
+    tags.className = "media-tags";
+    item.tags.slice(0, 5).forEach((tag) => tags.appendChild(createTag(tag)));
+    let audioPreview = null;
+    if (item.audioPath && mediaStore.isAudioPath(item.audioPath)) {
+      audioPreview = document.createElement("audio");
+      audioPreview.className = "vocab-card-audio";
+      audioPreview.controls = true;
+      audioPreview.preload = "none";
+      audioPreview.src = item.audioPath;
+      audioPreview.setAttribute("aria-label", `Preview ${item.english} audio`);
+    }
+    const actions = document.createElement("div");
+    actions.className = "vocab-card-actions";
+    [["Edit", "edit"], ["Delete", "delete"]].forEach(([label, action]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = label;
+      button.dataset.vocabAction = action;
+      button.dataset.vocabId = item.id;
+      if (action === "delete") button.classList.add("is-danger");
+      actions.appendChild(button);
+    });
+    body.append(topline, heading, translation, pronunciation, example, tags);
+    if (audioPreview) body.appendChild(audioPreview);
+    body.appendChild(actions);
+    card.append(visual, body);
+    return card;
+  }
+
+  function vocabularyMatchesFilters(item) {
+    const query = String(vocabularySearch?.value || "").trim().toLowerCase();
+    const difficulty = vocabularyDifficultyFilter?.value || "all";
+    const partOfSpeech = vocabularyPosFilter?.value || "all";
+    const category = vocabularyCategoryFilter?.value || "all";
+    const searchable = [item.english, item.spanish, item.category, item.pronunciation, item.ipa, ...item.tags].join(" ").toLowerCase();
+    return (!query || searchable.includes(query))
+      && (difficulty === "all" || item.difficulty === difficulty)
+      && (partOfSpeech === "all" || item.partOfSpeech === partOfSpeech)
+      && (category === "all" || item.category === category);
+  }
+
+  function updateVocabularyCategoryFilter() {
+    if (!vocabularyCategoryFilter) return;
+    const selected = vocabularyCategoryFilter.value;
+    const categories = Array.from(new Set(vocabularyDocument.items.map((item) => item.category))).sort((a, b) => a.localeCompare(b));
+    vocabularyCategoryFilter.replaceChildren(
+      new Option("All categories", "all"),
+      ...categories.map((category) => new Option(category, category))
+    );
+    vocabularyCategoryFilter.value = categories.includes(selected) ? selected : "all";
+  }
+
+  function renderRecentVocabulary() {
+    if (!vocabularyRecentList || !vocabularyRecentEmpty) return;
+    const recent = vocabularyDocument.items.slice().sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 4);
+    const rows = recent.map((item) => {
+      const row = document.createElement("div");
+      row.className = "vocab-recent-item";
+      const copy = document.createElement("div");
+      const english = document.createElement("strong");
+      english.textContent = item.english;
+      const spanish = document.createElement("small");
+      spanish.textContent = item.spanish || "No translation";
+      copy.append(english, spanish);
+      const level = document.createElement("span");
+      level.textContent = item.difficulty;
+      row.append(copy, level);
+      return row;
+    });
+    vocabularyRecentList.replaceChildren(...rows);
+    vocabularyRecentList.hidden = rows.length === 0;
+    vocabularyRecentEmpty.hidden = rows.length !== 0;
+  }
+
+  function renderVocabularyDatabase() {
+    if (!vocabularyGrid || !vocabularyEmpty) return;
+    updateVocabularyCategoryFilter();
+    const filtered = vocabularyDocument.items.filter(vocabularyMatchesFilters);
+    vocabularyGrid.replaceChildren(...filtered.map(createVocabularyCard));
+    vocabularyGrid.hidden = filtered.length === 0;
+    vocabularyEmpty.hidden = filtered.length !== 0;
+    vocabularyCount.textContent = filtered.length === vocabularyDocument.items.length
+      ? String(vocabularyDocument.items.length)
+      : `${filtered.length}/${vocabularyDocument.items.length}`;
+    vocabularyDashboardCount.textContent = String(vocabularyDocument.items.length);
+    renderRecentVocabulary();
+  }
+
+  function clearVocabularyForm() {
+    editingVocabularyId = "";
+    vocabularyForm?.reset();
+    if (vocabularyFormMode) vocabularyFormMode.textContent = "New item";
+    if (vocabularyFormTitle) vocabularyFormTitle.textContent = "Add vocabulary";
+    if (vocabularyCancel) vocabularyCancel.hidden = true;
+    renderVocabularyPreviews();
+  }
+
+  function editVocabularyItem(id) {
+    const item = vocabularyDocument.items.find((entry) => entry.id === id);
+    if (!item || !vocabularyForm) return;
+    editingVocabularyId = item.id;
+    const set = (name, value) => {
+      const field = vocabularyForm.elements.namedItem(name);
+      if (field) field.value = value == null ? "" : String(value);
+    };
+    Object.entries(item).forEach(([name, value]) => {
+      if (name === "tags") set(name, value.join(", "));
+      else set(name, value);
+    });
+    vocabularyFormMode.textContent = "Editing item";
+    vocabularyFormTitle.textContent = item.english;
+    vocabularyCancel.hidden = false;
+    renderVocabularyPreviews();
+    vocabularyForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function collectVocabularyForm() {
+    const data = new FormData(vocabularyForm);
+    const rawImagePath = String(data.get("imagePath") || "").trim();
+    const rawAudioPath = String(data.get("audioPath") || "").trim();
+    const imagePath = vocabularyStore.cleanPath(rawImagePath);
+    const audioPath = vocabularyStore.cleanPath(rawAudioPath);
+    if (!String(data.get("english") || "").trim()) throw new Error("Add the English word or phrase before saving.");
+    if (!String(data.get("spanish") || "").trim()) throw new Error("Add the Spanish translation before saving.");
+    if (rawImagePath && !imagePath) throw new Error("The image path is not a safe project-relative path.");
+    if (rawAudioPath && !audioPath) throw new Error("The audio path is not a safe project-relative path.");
+    return {
+      id: editingVocabularyId || String(data.get("id") || ""),
+      english: String(data.get("english") || ""),
+      spanish: String(data.get("spanish") || ""),
+      pronunciation: String(data.get("pronunciation") || ""),
+      ipa: String(data.get("ipa") || ""),
+      partOfSpeech: String(data.get("partOfSpeech") || "other"),
+      difficulty: String(data.get("difficulty") || "A1"),
+      category: String(data.get("category") || ""),
+      tags: String(data.get("tags") || "").split(","),
+      imagePath,
+      audioPath,
+      exampleSentenceEnglish: String(data.get("exampleSentenceEnglish") || ""),
+      exampleSentenceSpanish: String(data.get("exampleSentenceSpanish") || ""),
+      notes: String(data.get("notes") || "")
+    };
+  }
+
+  function saveVocabularyItem(event) {
+    event.preventDefault();
+    try {
+      const item = collectVocabularyForm();
+      const wasEditing = Boolean(editingVocabularyId);
+      vocabularyDocument = vocabularyStore.upsertItem(vocabularyDocument, item);
+      renderVocabularyDatabase();
+      clearVocabularyForm();
+      showStatus(wasEditing ? "Vocabulary item updated locally." : "Vocabulary item added to the local database.");
+    } catch (error) {
+      showStatus(error?.message || "The vocabulary item could not be saved.", true);
+    }
+  }
+
+  function deleteVocabularyItem(id) {
+    const item = vocabularyDocument.items.find((entry) => entry.id === id);
+    if (!item || !window.confirm(`Delete “${item.english}” from the local Vocabulary Database?`)) return;
+    vocabularyDocument = vocabularyStore.removeItem(vocabularyDocument, id);
+    if (editingVocabularyId === id) clearVocabularyForm();
+    renderVocabularyDatabase();
+    showStatus("Vocabulary item deleted from this browser.");
+  }
+
+  function exportVocabulary() {
+    const blob = new Blob([JSON.stringify(vocabularyDocument, null, 2) + "\n"], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "expresate-studio-vocabulary.json";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    showStatus("Vocabulary export prepared.");
+  }
+
+  async function importVocabulary(file) {
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (!Array.isArray(parsed) && !Array.isArray(parsed?.items)) throw new Error("The file does not contain a compatible vocabulary item list.");
+      vocabularyDocument = vocabularyStore.saveDocument(parsed);
+      clearVocabularyForm();
+      renderVocabularyDatabase();
+      activateSection("vocabulary");
+      showStatus(`Vocabulary import complete: ${file.name}`);
+    } catch (error) {
+      showStatus(error?.message || "The Vocabulary JSON could not be imported.", true);
+    } finally {
+      vocabularyImportFile.value = "";
+    }
+  }
+
+  function resetVocabulary() {
+    if (!window.confirm("Delete every item from the local Vocabulary Database?")) return;
+    vocabularyDocument = vocabularyStore.resetDatabase();
+    clearVocabularyForm();
+    renderVocabularyDatabase();
+    showStatus("The local Vocabulary Database was reset.");
   }
 
   function activateSection(section) {
@@ -472,6 +838,7 @@
     sectionDescription.textContent = copy[2];
     if (section === "alphabet") renderEditor(activeKey);
     if (section === "media") renderMediaLibrary();
+    if (section === "vocabulary") renderVocabularyDatabase();
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
   }
@@ -617,10 +984,13 @@
     const override = store.loadOverrideDocument();
     documentState = override || store.getDefaultDocument();
     mediaDocument = mediaStore.loadDocument();
+    vocabularyDocument = vocabularyStore.loadDocument();
     renderLetterList();
     renderEditor(activeKey);
     clearMediaForm();
     renderMediaLibrary();
+    clearVocabularyForm();
+    renderVocabularyDatabase();
     updateDraftSummary();
     loading.hidden = true;
     denied.hidden = true;
@@ -705,7 +1075,7 @@
   }
 
   async function init() {
-    if (!store || !mediaStore) {
+    if (!store || !mediaStore || !vocabularyStore) {
       showDenied("The content module could not be loaded.");
       return;
     }
@@ -789,6 +1159,13 @@
       if (mediaAction.dataset.mediaAction === "delete") deleteMediaItem(id);
       return;
     }
+    const vocabularyAction = event.target.closest("[data-vocab-action]");
+    if (vocabularyAction) {
+      const id = vocabularyAction.dataset.vocabId;
+      if (vocabularyAction.dataset.vocabAction === "edit") editVocabularyItem(id);
+      if (vocabularyAction.dataset.vocabAction === "delete") deleteVocabularyItem(id);
+      return;
+    }
     if (event.target.closest("[data-media-import]")) {
       mediaImportFile.click();
       return;
@@ -803,6 +1180,22 @@
     }
     if (event.target.closest("[data-media-cancel], [data-media-clear]")) {
       clearMediaForm();
+      return;
+    }
+    if (event.target.closest("[data-vocab-import]")) {
+      vocabularyImportFile.click();
+      return;
+    }
+    if (event.target.closest("[data-vocab-export]")) {
+      exportVocabulary();
+      return;
+    }
+    if (event.target.closest("[data-vocab-reset]")) {
+      resetVocabulary();
+      return;
+    }
+    if (event.target.closest("[data-vocab-cancel], [data-vocab-clear]")) {
+      clearVocabularyForm();
     }
   });
 
@@ -832,6 +1225,15 @@
   mediaCategoryFilter?.addEventListener("change", renderMediaLibrary);
   mediaImportFile?.addEventListener("change", () => importMediaLibrary(mediaImportFile.files?.[0]));
   mediaPickerSearch?.addEventListener("input", renderMediaPicker);
+  vocabularyForm?.addEventListener("submit", saveVocabularyItem);
+  vocabularyForm?.addEventListener("input", (event) => {
+    if (["imagePath", "audioPath"].includes(event.target.name)) renderVocabularyPreviews();
+  });
+  vocabularySearch?.addEventListener("input", renderVocabularyDatabase);
+  vocabularyDifficultyFilter?.addEventListener("change", renderVocabularyDatabase);
+  vocabularyPosFilter?.addEventListener("change", renderVocabularyDatabase);
+  vocabularyCategoryFilter?.addEventListener("change", renderVocabularyDatabase);
+  vocabularyImportFile?.addEventListener("change", () => importVocabulary(vocabularyImportFile.files?.[0]));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMediaPicker();
   });

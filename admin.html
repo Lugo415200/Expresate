@@ -33,7 +33,7 @@
           <span class="studio-brand-mark" aria-hidden="true">E</span>
           <div>
             <strong>Exprésate Studio</strong>
-            <small>Local prototype · Phase 2.5</small>
+            <small>Local prototype · Phase 3</small>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
             <div>
               <span class="admin-eyebrow">Your content workspace</span>
               <h2>Build the foundation, one reusable block at a time.</h2>
-              <p>Alphabet content and the local Media Library are editable today. The remaining areas show how the Studio can grow safely.</p>
+              <p>Alphabet, Vocabulary, and the local Media Library are editable today. The remaining areas show how the Studio can grow safely.</p>
             </div>
             <button class="btn primary" type="button" data-studio-open="alphabet">Edit alphabet</button>
           </div>
@@ -112,12 +112,12 @@
               <p>Composable learning blocks</p>
               <button type="button" data-studio-open="lessons">View roadmap →</button>
             </article>
-            <article class="studio-metric-card">
+            <article class="studio-metric-card is-ready">
               <span class="studio-metric-icon" aria-hidden="true">Ab</span>
-              <small>Coming soon</small>
+              <small>Phase 3 ready</small>
               <strong>Vocabulary</strong>
-              <p>Reusable word collections</p>
-              <button type="button" data-studio-open="vocabulary">View roadmap →</button>
+              <p><b data-vocab-dashboard-count>0</b> saved items</p>
+              <button type="button" data-studio-open="vocabulary">Open database →</button>
             </article>
             <article class="studio-metric-card">
               <span class="studio-metric-icon" aria-hidden="true">?</span>
@@ -165,6 +165,15 @@
                 <li><span>3</span> Image and audio uploads</li>
                 <li><span>4</span> Draft and publish workflow</li>
               </ol>
+            </article>
+
+            <article class="studio-card studio-recent-vocabulary">
+              <div class="studio-card-heading">
+                <div><span class="admin-eyebrow">Vocabulary</span><h3>Recently updated</h3></div>
+                <button class="admin-text-button" type="button" data-studio-open="vocabulary">Open database →</button>
+              </div>
+              <div class="vocab-recent-list" data-vocab-recent-list></div>
+              <div class="vocab-recent-empty" data-vocab-recent-empty>No vocabulary items yet.</div>
             </article>
           </div>
         </section>
@@ -251,7 +260,7 @@
                     <input type="text" name="imagePath" maxlength="180" autocomplete="off" placeholder="assets/characters/letter-a-animals.png" />
                     <small>Use a project-relative path. External URLs and scripts are rejected.</small>
                   </label>
-                  <button class="btn admin-choose-media" type="button" data-open-media-picker>Choose from Media Library</button>
+                  <button class="btn admin-choose-media" type="button" data-open-media-picker data-media-picker-target="alphabet-image">Choose from Media Library</button>
                   <div class="admin-image-preview" data-admin-image-preview>
                     <img alt="Letter asset preview" data-admin-image hidden />
                     <div class="admin-image-empty" data-admin-image-empty>
@@ -293,8 +302,69 @@
         </section>
 
         <section class="studio-panel" id="studio-vocabulary" data-studio-panel="vocabulary" hidden>
-          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">Ab</span><div><span class="admin-eyebrow">Coming soon</span><h2>Vocabulary Collections</h2><p>Organize reusable words by topic, difficulty, image, audio, and lesson.</p></div></div>
-          <div class="studio-block-grid"><article><strong>Topic lists</strong><p>Food, home, travel, classroom, and more.</p></article><article><strong>Shared word records</strong><p>Use one source across lessons, games, and quizzes.</p></article><article><strong>Audio status</strong><p>Track which words have recorded or generated audio.</p></article></div>
+          <div class="vocab-database-header">
+            <div><span class="admin-eyebrow">Reusable learning content</span><h2>Vocabulary Database</h2><p>Create structured words and phrases for future lessons, quizzes, dictionary entries, and speech practice.</p></div>
+            <div class="vocab-database-actions">
+              <button class="btn" type="button" data-vocab-import>Import Vocabulary JSON</button>
+              <button class="btn" type="button" data-vocab-export>Export Vocabulary</button>
+              <button class="btn admin-danger" type="button" data-vocab-reset>Reset Database</button>
+            </div>
+          </div>
+
+          <div class="vocab-database-layout">
+            <section class="studio-card vocab-editor-card">
+              <div class="studio-card-heading">
+                <div><span class="admin-eyebrow" data-vocab-form-mode>New item</span><h3 data-vocab-form-title>Add vocabulary</h3></div>
+                <button class="admin-icon-button" type="button" data-vocab-cancel aria-label="Cancel vocabulary editing" hidden>×</button>
+              </div>
+              <form class="vocab-item-form" data-vocab-form novalidate>
+                <input type="hidden" name="id" />
+                <div class="vocab-form-grid">
+                  <label><span>English</span><input type="text" name="english" maxlength="120" required placeholder="apple" /></label>
+                  <label><span>Spanish</span><input type="text" name="spanish" maxlength="160" required placeholder="manzana" /></label>
+                </div>
+                <div class="vocab-form-grid">
+                  <label><span>Pronunciation</span><input type="text" name="pronunciation" maxlength="160" placeholder="AP-uhl" /></label>
+                  <label><span>IPA <small>optional</small></span><input type="text" name="ipa" maxlength="120" placeholder="/ˈæp.əl/" /></label>
+                </div>
+                <div class="vocab-form-grid vocab-form-grid-three">
+                  <label><span>Part of speech</span><select name="partOfSpeech"><option value="noun">Noun</option><option value="verb">Verb</option><option value="adjective">Adjective</option><option value="adverb">Adverb</option><option value="phrase">Phrase</option><option value="other">Other</option></select></label>
+                  <label><span>Difficulty</span><select name="difficulty"><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option></select></label>
+                  <label><span>Category</span><input type="text" name="category" maxlength="80" placeholder="Food" /></label>
+                </div>
+                <label><span>Tags <small>comma-separated</small></span><input type="text" name="tags" maxlength="400" placeholder="fruit, food, lesson-002" /></label>
+                <div class="vocab-media-fields">
+                  <label><span>Image path</span><input type="text" name="imagePath" maxlength="240" placeholder="assets/food/apple.jpg" /></label>
+                  <button class="btn" type="button" data-open-media-picker data-media-picker-target="vocabulary-image">Choose image</button>
+                  <label><span>Audio path</span><input type="text" name="audioPath" maxlength="240" placeholder="assets/audio/words/apple.mp3" /></label>
+                  <button class="btn" type="button" data-open-media-picker data-media-picker-target="vocabulary-audio">Choose audio</button>
+                </div>
+                <div class="vocab-preview-grid">
+                  <div class="vocab-path-preview" data-vocab-image-preview><span>Image preview</span></div>
+                  <div class="vocab-path-preview" data-vocab-audio-preview><span>Audio preview</span></div>
+                </div>
+                <label><span>Example sentence in English</span><textarea name="exampleSentenceEnglish" rows="2" maxlength="320" placeholder="I eat an apple every day."></textarea></label>
+                <label><span>Example sentence in Spanish</span><textarea name="exampleSentenceSpanish" rows="2" maxlength="360" placeholder="Como una manzana todos los días."></textarea></label>
+                <label><span>Notes <small>optional</small></span><textarea name="notes" rows="3" maxlength="600" placeholder="Teaching notes or usage guidance…"></textarea></label>
+                <div class="vocab-form-actions">
+                  <button class="btn primary" type="submit">Save vocabulary item</button>
+                  <button class="btn" type="button" data-vocab-clear>Clear form</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="studio-card vocab-catalog-card">
+              <div class="studio-card-heading"><div><span class="admin-eyebrow">Database</span><h3>Vocabulary items <span class="media-count" data-vocab-count>0</span></h3></div></div>
+              <div class="vocab-filter-bar">
+                <label class="vocab-search"><span class="sr-only">Search vocabulary</span><input type="search" data-vocab-search placeholder="Search English, Spanish, or tags…" /></label>
+                <label><span class="sr-only">Filter by difficulty</span><select data-vocab-difficulty-filter><option value="all">All levels</option><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option></select></label>
+                <label><span class="sr-only">Filter by part of speech</span><select data-vocab-pos-filter><option value="all">All parts of speech</option><option value="noun">Nouns</option><option value="verb">Verbs</option><option value="adjective">Adjectives</option><option value="adverb">Adverbs</option><option value="phrase">Phrases</option><option value="other">Other</option></select></label>
+                <label><span class="sr-only">Filter by category</span><select data-vocab-category-filter><option value="all">All categories</option></select></label>
+              </div>
+              <div class="vocab-grid" data-vocab-grid></div>
+              <div class="media-empty-state" data-vocab-empty><span class="studio-placeholder-icon" aria-hidden="true">Ab</span><h3>No vocabulary items yet</h3><p>Add a word or phrase to begin building a reusable content database.</p></div>
+            </section>
+          </div>
         </section>
 
         <section class="studio-panel" id="studio-quizzes" data-studio-panel="quizzes" hidden>
@@ -369,7 +439,9 @@
         <section class="studio-panel" id="studio-settings" data-studio-panel="settings" hidden>
           <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">⚙</span><div><span class="admin-eyebrow">Prototype settings</span><h2>Local Studio Configuration</h2><p>Review the current data boundary before future publishing features are introduced.</p></div></div>
           <div class="studio-card studio-settings-list">
-            <div><span>Storage key</span><code>expresate_admin_lesson000_letters_v1</code></div>
+            <div><span>Alphabet storage</span><code>expresate_admin_lesson000_letters_v1</code></div>
+            <div><span>Media storage</span><code>expresate_studio_media_library_v1</code></div>
+            <div><span>Vocabulary storage</span><code>expresate_studio_vocabulary_v1</code></div>
             <div><span>Storage location</span><strong>This browser only</strong></div>
             <div><span>Supabase writes</span><strong>Disabled</strong></div>
             <div><span>Publishing</span><strong>Not available in Phase 2.5</strong></div>
@@ -378,6 +450,7 @@
 
         <input type="file" accept="application/json,.json" data-admin-import-file hidden />
         <input type="file" accept="application/json,.json" data-media-import-file hidden />
+        <input type="file" accept="application/json,.json" data-vocab-import-file hidden />
       </div>
     </section>
   </main>
@@ -386,10 +459,10 @@
     <div class="studio-modal-backdrop" data-close-media-picker></div>
     <section class="studio-modal-card media-picker-card">
       <header>
-        <div><span class="admin-eyebrow">Alphabet image</span><h2 id="media-picker-title">Choose from Media Library</h2><p>Select an image or character asset to fill the current letter image path.</p></div>
+        <div><span class="admin-eyebrow" data-media-picker-eyebrow>Alphabet image</span><h2 id="media-picker-title" data-media-picker-title>Choose from Media Library</h2><p data-media-picker-description>Select an image or character asset to fill the current letter image path.</p></div>
         <button class="admin-icon-button" type="button" data-close-media-picker aria-label="Close media picker">×</button>
       </header>
-      <label class="media-picker-search"><span class="sr-only">Search image media</span><input type="search" data-media-picker-search placeholder="Search images and characters…" /></label>
+      <label class="media-picker-search"><span class="sr-only">Search compatible media</span><input type="search" data-media-picker-search placeholder="Search compatible media…" /></label>
       <div class="media-picker-grid" data-media-picker-grid></div>
       <div class="media-empty-state" data-media-picker-empty hidden><h3>No compatible media</h3><p>Add an Image or Character item to the Media Library first.</p></div>
     </section>
@@ -400,6 +473,7 @@
   <script src="access.js"></script>
   <script src="data/lesson000-letters.js"></script>
   <script src="data/studio-media-library.js"></script>
+  <script src="data/studio-vocabulary.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>
