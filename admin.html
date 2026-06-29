@@ -33,7 +33,7 @@
           <span class="studio-brand-mark" aria-hidden="true">E</span>
           <div>
             <strong>Exprésate Studio</strong>
-            <small>Local prototype · Phase 2</small>
+            <small>Local prototype · Phase 2.5</small>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
             <div>
               <span class="admin-eyebrow">Your content workspace</span>
               <h2>Build the foundation, one reusable block at a time.</h2>
-              <p>Alphabet content is editable today. The remaining areas show how the Studio can grow without changing the learner experience.</p>
+              <p>Alphabet content and the local Media Library are editable today. The remaining areas show how the Studio can grow safely.</p>
             </div>
             <button class="btn primary" type="button" data-studio-open="alphabet">Edit alphabet</button>
           </div>
@@ -128,10 +128,10 @@
             </article>
             <article class="studio-metric-card">
               <span class="studio-metric-icon" aria-hidden="true">▧</span>
-              <small>Coming soon</small>
+              <small>Phase 2.5 ready</small>
               <strong>Media</strong>
-              <p>Images and audio assets</p>
-              <button type="button" data-studio-open="media">View workflow →</button>
+              <p><b data-media-dashboard-count>0</b> cataloged assets</p>
+              <button type="button" data-studio-open="media">Open library →</button>
             </article>
           </div>
 
@@ -251,6 +251,7 @@
                     <input type="text" name="imagePath" maxlength="180" autocomplete="off" placeholder="assets/characters/letter-a-animals.png" />
                     <small>Use a project-relative path. External URLs and scripts are rejected.</small>
                   </label>
+                  <button class="btn admin-choose-media" type="button" data-open-media-picker>Choose from Media Library</button>
                   <div class="admin-image-preview" data-admin-image-preview>
                     <img alt="Letter asset preview" data-admin-image hidden />
                     <div class="admin-image-empty" data-admin-image-empty>
@@ -302,13 +303,67 @@
         </section>
 
         <section class="studio-panel" id="studio-media" data-studio-panel="media" hidden>
-          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">▧</span><div><span class="admin-eyebrow">Coming soon</span><h2>Media Library</h2><p>A future home for lesson images, pronunciation audio, and reusable visual assets.</p></div></div>
-          <div class="studio-workflow">
-            <article><span>1</span><strong>Upload assets</strong><p>Add letter images and audio safely.</p></article>
-            <article><span>2</span><strong>Organize</strong><p>Group files by lesson, letter, and content type.</p></article>
-            <article><span>3</span><strong>Copy paths</strong><p>Insert validated asset paths into content records.</p></article>
+          <div class="media-library-header">
+            <div>
+              <span class="admin-eyebrow">Local asset catalog</span>
+              <h2>Media Library</h2>
+              <p>Catalog repository assets and reuse their paths across Studio content.</p>
+            </div>
+            <div class="media-library-actions">
+              <button class="btn" type="button" data-media-import>Import Media JSON</button>
+              <button class="btn" type="button" data-media-export>Export Media Library</button>
+              <button class="btn admin-danger" type="button" data-media-reset>Reset Library</button>
+            </div>
           </div>
-          <div class="studio-card"><h3>Phase 2 workflow</h3><p>Uploads are intentionally disabled. Add files to the repository, then use the manual image path field in the Alphabet editor.</p><button class="btn" type="button" data-studio-open="alphabet">Open Alphabet media fields</button></div>
+
+          <div class="media-library-layout">
+            <section class="studio-card media-editor-card">
+              <div class="studio-card-heading">
+                <div><span class="admin-eyebrow" data-media-form-mode>New asset</span><h3 data-media-form-title>Add media item</h3></div>
+                <button class="admin-icon-button" type="button" data-media-cancel aria-label="Cancel editing" hidden>×</button>
+              </div>
+              <form class="media-item-form" data-media-form novalidate>
+                <input type="hidden" name="id" />
+                <label><span>Title</span><input type="text" name="title" maxlength="100" required placeholder="Letter A animals" /></label>
+                <div class="media-form-grid">
+                  <label><span>Type</span><select name="type" required><option value="image">Image</option><option value="audio">Audio</option><option value="animation">Animation</option><option value="texture">Texture</option><option value="character">Character</option><option value="other">Other</option></select></label>
+                  <label><span>Category</span><input type="text" name="category" maxlength="80" placeholder="Alphabet" /></label>
+                </div>
+                <label><span>Tags <small>comma-separated</small></span><input type="text" name="tags" maxlength="400" placeholder="lesson-000, letter-a, animals" /></label>
+                <label><span>Asset path</span><input type="text" name="assetPath" maxlength="240" required placeholder="assets/characters/letter-a-animals.png" /><small>Project-relative paths only.</small></label>
+                <label><span>Thumbnail path <small>optional</small></span><input type="text" name="thumbnailPath" maxlength="240" placeholder="assets/characters/letter-a-animals-thumb.png" /></label>
+                <label><span>Description <small>optional</small></span><textarea name="description" rows="3" maxlength="500" placeholder="How this asset is used…"></textarea></label>
+                <div class="media-form-preview" data-media-form-preview>
+                  <span>Preview appears after a valid image or audio path is entered.</span>
+                </div>
+                <div class="media-form-actions">
+                  <button class="btn primary" type="submit" data-media-save>Save media item</button>
+                  <button class="btn" type="button" data-media-clear>Clear form</button>
+                </div>
+              </form>
+              <div class="admin-upload-placeholder" aria-disabled="true">
+                <span aria-hidden="true">↑</span>
+                <div><strong>Manual assets for Phase 2.5</strong><small>Export from Canva, place the file in the repository, then catalog its path here.</small></div>
+              </div>
+            </section>
+
+            <section class="studio-card media-catalog-card">
+              <div class="studio-card-heading">
+                <div><span class="admin-eyebrow">Catalog</span><h3>Saved assets <span class="media-count" data-media-count>0</span></h3></div>
+              </div>
+              <div class="media-filter-bar">
+                <label class="media-search"><span class="sr-only">Search media</span><input type="search" data-media-search placeholder="Search title or tags…" /></label>
+                <label><span class="sr-only">Filter by type</span><select data-media-type-filter><option value="all">All types</option><option value="image">Images</option><option value="audio">Audio</option><option value="animation">Animations</option><option value="texture">Textures</option><option value="character">Characters</option><option value="other">Other</option></select></label>
+                <label><span class="sr-only">Filter by category</span><select data-media-category-filter><option value="all">All categories</option></select></label>
+              </div>
+              <div class="media-grid" data-media-grid></div>
+              <div class="media-empty-state" data-media-empty>
+                <span class="studio-placeholder-icon" aria-hidden="true">▧</span>
+                <h3>No media items yet</h3>
+                <p>Export an image or audio file from Canva or another tool, place it in the repository, then add its relative asset path here.</p>
+              </div>
+            </section>
+          </div>
         </section>
 
         <section class="studio-panel" id="studio-settings" data-studio-panel="settings" hidden>
@@ -317,19 +372,34 @@
             <div><span>Storage key</span><code>expresate_admin_lesson000_letters_v1</code></div>
             <div><span>Storage location</span><strong>This browser only</strong></div>
             <div><span>Supabase writes</span><strong>Disabled</strong></div>
-            <div><span>Publishing</span><strong>Not available in Phase 2</strong></div>
+            <div><span>Publishing</span><strong>Not available in Phase 2.5</strong></div>
           </div>
         </section>
 
         <input type="file" accept="application/json,.json" data-admin-import-file hidden />
+        <input type="file" accept="application/json,.json" data-media-import-file hidden />
       </div>
     </section>
   </main>
+
+  <div class="studio-modal" data-media-picker hidden role="dialog" aria-modal="true" aria-labelledby="media-picker-title">
+    <div class="studio-modal-backdrop" data-close-media-picker></div>
+    <section class="studio-modal-card media-picker-card">
+      <header>
+        <div><span class="admin-eyebrow">Alphabet image</span><h2 id="media-picker-title">Choose from Media Library</h2><p>Select an image or character asset to fill the current letter image path.</p></div>
+        <button class="admin-icon-button" type="button" data-close-media-picker aria-label="Close media picker">×</button>
+      </header>
+      <label class="media-picker-search"><span class="sr-only">Search image media</span><input type="search" data-media-picker-search placeholder="Search images and characters…" /></label>
+      <div class="media-picker-grid" data-media-picker-grid></div>
+      <div class="media-empty-state" data-media-picker-empty hidden><h3>No compatible media</h3><p>Add an Image or Character item to the Media Library first.</p></div>
+    </section>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <script src="access.js"></script>
   <script src="data/lesson000-letters.js"></script>
+  <script src="data/studio-media-library.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

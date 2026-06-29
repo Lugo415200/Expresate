@@ -4,6 +4,7 @@
 
   const ADMIN_EMAILS = ["ynoellugo@icloud.com"];
   const store = window.ExpresateLesson000Letters;
+  const mediaStore = window.ExpresateStudioMedia;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
@@ -11,7 +12,7 @@
     lessons: ["Future builder", "Lessons", "Plan reusable learning blocks for future guided lessons."],
     vocabulary: ["Future library", "Vocabulary", "Organize reusable words and translations across learning experiences."],
     quizzes: ["Future builder", "Quizzes", "Plan quick checks, answer feedback, and audio prompts."],
-    media: ["Future library", "Media Library", "Prepare the workflow for images, audio, and reusable assets."],
+    media: ["Asset catalog", "Media Library", "Organize local images, audio, animations, textures, and characters."],
     settings: ["Prototype configuration", "Settings", "Review the local-only data boundary for this Studio phase."]
   };
 
@@ -35,12 +36,32 @@
   const sectionEyebrow = document.querySelector("[data-studio-eyebrow]");
   const sectionTitle = document.querySelector("[data-studio-title]");
   const sectionDescription = document.querySelector("[data-studio-description]");
+  const mediaForm = document.querySelector("[data-media-form]");
+  const mediaFormMode = document.querySelector("[data-media-form-mode]");
+  const mediaFormTitle = document.querySelector("[data-media-form-title]");
+  const mediaCancel = document.querySelector("[data-media-cancel]");
+  const mediaFormPreview = document.querySelector("[data-media-form-preview]");
+  const mediaGrid = document.querySelector("[data-media-grid]");
+  const mediaEmpty = document.querySelector("[data-media-empty]");
+  const mediaCount = document.querySelector("[data-media-count]");
+  const mediaDashboardCount = document.querySelector("[data-media-dashboard-count]");
+  const mediaSearch = document.querySelector("[data-media-search]");
+  const mediaTypeFilter = document.querySelector("[data-media-type-filter]");
+  const mediaCategoryFilter = document.querySelector("[data-media-category-filter]");
+  const mediaImportFile = document.querySelector("[data-media-import-file]");
+  const mediaPicker = document.querySelector("[data-media-picker]");
+  const mediaPickerGrid = document.querySelector("[data-media-picker-grid]");
+  const mediaPickerEmpty = document.querySelector("[data-media-picker-empty]");
+  const mediaPickerSearch = document.querySelector("[data-media-picker-search]");
 
   let documentState = null;
   let activeKey = "a";
   let activeSection = "dashboard";
   let saveTimer = 0;
   let hasAdminAccess = false;
+  let mediaDocument = { version: 1, items: [] };
+  let editingMediaId = "";
+  let mediaPickerReturnFocus = null;
 
   function normalizedEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -68,6 +89,370 @@
     status.classList.toggle("is-error", Boolean(isError));
   }
 
+  function mediaSymbol(type) {
+    return ({ image: "▧", audio: "♪", animation: "▶", texture: "◫", character: "☺", other: "•" })[type] || "•";
+  }
+
+  function createMediaPreview(item, compact) {
+    const wrap = document.createElement("div");
+    wrap.className = compact ? "media-card-preview" : "media-form-preview-content";
+    const imagePath = mediaStore.cleanPath(item.thumbnailPath || item.assetPath);
+    if (item.type !== "audio" && mediaStore.isImagePath(imagePath)) {
+      const previewImage = document.createElement("img");
+      previewImage.src = imagePath;
+      previewImage.alt = `${item.title || "Media"} preview`;
+      previewImage.addEventListener("error", () => {
+        const fallback = document.createElement("span");
+        fallback.className = "media-preview-symbol";
+        fallback.textContent = mediaSymbol(item.type);
+        previewImage.replaceWith(fallback);
+      }, { once: true });
+      wrap.appendChild(previewImage);
+      return wrap;
+    }
+    if (item.type === "audio" && mediaStore.isAudioPath(item.assetPath)) {
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.preload = "none";
+      audio.src = item.assetPath;
+      audio.setAttribute("aria-label", `Preview ${item.title || "audio"}`);
+      wrap.appendChild(audio);
+      return wrap;
+    }
+    const fallback = document.createElement("span");
+    fallback.className = "media-preview-symbol";
+    fallback.textContent = mediaSymbol(item.type);
+    wrap.appendChild(fallback);
+    return wrap;
+  }
+
+  function renderMediaFormPreview() {
+    if (!mediaForm || !mediaFormPreview) return;
+    const data = new FormData(mediaForm);
+    const item = {
+      title: String(data.get("title") || "Media"),
+      type: String(data.get("type") || "other"),
+      assetPath: mediaStore.cleanPath(data.get("assetPath")),
+      thumbnailPath: mediaStore.cleanPath(data.get("thumbnailPath"))
+    };
+    if (!item.assetPath && !item.thumbnailPath) {
+      const message = document.createElement("span");
+      message.textContent = "Preview appears after a valid image or audio path is entered.";
+      mediaFormPreview.replaceChildren(message);
+      return;
+    }
+    mediaFormPreview.replaceChildren(createMediaPreview(item, false));
+  }
+
+  function createTag(text) {
+    const tag = document.createElement("span");
+    tag.className = "media-tag";
+    tag.textContent = text;
+    return tag;
+  }
+
+  function createMediaCard(item) {
+    const card = document.createElement("article");
+    card.className = "media-card";
+    card.dataset.mediaId = item.id;
+    card.appendChild(createMediaPreview(item, true));
+
+    const body = document.createElement("div");
+    body.className = "media-card-body";
+    const topline = document.createElement("div");
+    topline.className = "media-card-topline";
+    const badge = document.createElement("span");
+    badge.className = "media-type-badge";
+    badge.textContent = item.type;
+    const category = document.createElement("span");
+    category.className = "media-category";
+    category.textContent = item.category;
+    topline.append(badge, category);
+
+    const heading = document.createElement("h4");
+    heading.textContent = item.title;
+    const description = document.createElement("p");
+    description.className = "media-card-description";
+    description.textContent = item.description || "No description.";
+    const tags = document.createElement("div");
+    tags.className = "media-tags";
+    item.tags.slice(0, 5).forEach((tag) => tags.appendChild(createTag(tag)));
+    const path = document.createElement("code");
+    path.className = "media-path";
+    path.textContent = item.assetPath || "No asset path";
+    path.title = item.assetPath || "";
+
+    const actions = document.createElement("div");
+    actions.className = "media-card-actions";
+    [
+      ["Edit", "edit"],
+      ["Copy path", "copy"],
+      ["Delete", "delete"]
+    ].forEach(([label, action]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = label;
+      button.dataset.mediaAction = action;
+      button.dataset.mediaId = item.id;
+      if (action === "delete") button.classList.add("is-danger");
+      actions.appendChild(button);
+    });
+    body.append(topline, heading, description, tags, path, actions);
+    card.appendChild(body);
+    return card;
+  }
+
+  function mediaMatchesFilters(item) {
+    const query = String(mediaSearch?.value || "").trim().toLowerCase();
+    const type = mediaTypeFilter?.value || "all";
+    const category = mediaCategoryFilter?.value || "all";
+    const searchable = [item.title, item.category, item.assetPath, item.description, ...item.tags].join(" ").toLowerCase();
+    return (!query || searchable.includes(query))
+      && (type === "all" || item.type === type)
+      && (category === "all" || item.category === category);
+  }
+
+  function updateCategoryFilter() {
+    if (!mediaCategoryFilter) return;
+    const selected = mediaCategoryFilter.value;
+    const categories = Array.from(new Set(mediaDocument.items.map((item) => item.category))).sort((a, b) => a.localeCompare(b));
+    const options = [new Option("All categories", "all"), ...categories.map((category) => new Option(category, category))];
+    mediaCategoryFilter.replaceChildren(...options);
+    mediaCategoryFilter.value = categories.includes(selected) ? selected : "all";
+  }
+
+  function renderMediaLibrary() {
+    if (!mediaGrid || !mediaEmpty) return;
+    updateCategoryFilter();
+    const filtered = mediaDocument.items.filter(mediaMatchesFilters);
+    mediaGrid.replaceChildren(...filtered.map(createMediaCard));
+    mediaGrid.hidden = filtered.length === 0;
+    mediaEmpty.hidden = filtered.length !== 0;
+    if (mediaCount) mediaCount.textContent = filtered.length === mediaDocument.items.length
+      ? String(mediaDocument.items.length)
+      : `${filtered.length}/${mediaDocument.items.length}`;
+    if (mediaDashboardCount) mediaDashboardCount.textContent = String(mediaDocument.items.length);
+    renderMediaPicker();
+  }
+
+  function clearMediaForm() {
+    editingMediaId = "";
+    mediaForm?.reset();
+    if (mediaFormMode) mediaFormMode.textContent = "New asset";
+    if (mediaFormTitle) mediaFormTitle.textContent = "Add media item";
+    if (mediaCancel) mediaCancel.hidden = true;
+    renderMediaFormPreview();
+  }
+
+  function editMediaItem(id) {
+    const item = mediaDocument.items.find((entry) => entry.id === id);
+    if (!item || !mediaForm) return;
+    editingMediaId = item.id;
+    const set = (name, value) => {
+      const field = mediaForm.elements.namedItem(name);
+      if (field) field.value = value == null ? "" : String(value);
+    };
+    set("id", item.id);
+    set("title", item.title);
+    set("type", item.type);
+    set("category", item.category);
+    set("tags", item.tags.join(", "));
+    set("assetPath", item.assetPath);
+    set("thumbnailPath", item.thumbnailPath);
+    set("description", item.description);
+    mediaFormMode.textContent = "Editing asset";
+    mediaFormTitle.textContent = item.title;
+    mediaCancel.hidden = false;
+    renderMediaFormPreview();
+    mediaForm.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function collectMediaForm() {
+    const data = new FormData(mediaForm);
+    const rawAssetPath = String(data.get("assetPath") || "").trim();
+    const rawThumbnailPath = String(data.get("thumbnailPath") || "").trim();
+    const assetPath = mediaStore.cleanPath(rawAssetPath);
+    const thumbnailPath = mediaStore.cleanPath(rawThumbnailPath);
+    if (!String(data.get("title") || "").trim()) throw new Error("Add a title before saving.");
+    if (!assetPath) throw new Error("Add a valid project-relative asset path.");
+    if (rawThumbnailPath && !thumbnailPath) throw new Error("The thumbnail path is not a safe project-relative path.");
+    return {
+      id: editingMediaId || String(data.get("id") || ""),
+      title: String(data.get("title") || ""),
+      type: String(data.get("type") || "other"),
+      category: String(data.get("category") || ""),
+      tags: String(data.get("tags") || "").split(","),
+      assetPath,
+      thumbnailPath,
+      description: String(data.get("description") || "")
+    };
+  }
+
+  function saveMediaItem(event) {
+    event.preventDefault();
+    try {
+      const item = collectMediaForm();
+      const wasEditing = Boolean(editingMediaId);
+      mediaDocument = mediaStore.upsertItem(mediaDocument, item);
+      renderMediaLibrary();
+      clearMediaForm();
+      showStatus(wasEditing ? "Media item updated locally." : "Media item added to the local library.");
+    } catch (error) {
+      showStatus(error?.message || "The media item could not be saved.", true);
+    }
+  }
+
+  async function copyMediaPath(id) {
+    const item = mediaDocument.items.find((entry) => entry.id === id);
+    if (!item?.assetPath) return;
+    try {
+      let copied = false;
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(item.assetPath);
+          copied = true;
+        } catch (error) {
+          copied = false;
+        }
+      }
+      if (!copied) {
+        const field = document.createElement("textarea");
+        field.value = item.assetPath;
+        field.style.position = "fixed";
+        field.style.opacity = "0";
+        document.body.appendChild(field);
+        field.select();
+        copied = Boolean(document.execCommand?.("copy"));
+        field.remove();
+      }
+      if (!copied) throw new Error("Copy was not permitted.");
+      showStatus(`Copied: ${item.assetPath}`);
+    } catch (error) {
+      const card = Array.from(document.querySelectorAll("[data-media-id]")).find((entry) => entry.dataset.mediaId === id);
+      const pathText = card?.querySelector(".media-path");
+      if (pathText && window.getSelection && document.createRange) {
+        const range = document.createRange();
+        range.selectNodeContents(pathText);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        showStatus("Clipboard access is unavailable. The path is selected; press Ctrl+C to copy it.");
+      } else {
+        showStatus("The asset path could not be copied. Select the path from the card instead.", true);
+      }
+    }
+  }
+
+  function deleteMediaItem(id) {
+    const item = mediaDocument.items.find((entry) => entry.id === id);
+    if (!item || !window.confirm(`Delete “${item.title}” from the local Media Library?`)) return;
+    mediaDocument = mediaStore.removeItem(mediaDocument, id);
+    if (editingMediaId === id) clearMediaForm();
+    renderMediaLibrary();
+    showStatus("Media item deleted from this browser.");
+  }
+
+  function exportMediaLibrary() {
+    const blob = new Blob([JSON.stringify(mediaDocument, null, 2) + "\n"], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "expresate-studio-media-library.json";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    showStatus("Media Library export prepared.");
+  }
+
+  async function importMediaLibrary(file) {
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (!Array.isArray(parsed) && !Array.isArray(parsed?.items)) throw new Error("The file does not contain a compatible media item list.");
+      mediaDocument = mediaStore.saveDocument(parsed);
+      clearMediaForm();
+      renderMediaLibrary();
+      activateSection("media");
+      showStatus(`Media import complete: ${file.name}`);
+    } catch (error) {
+      showStatus(error?.message || "The Media Library JSON could not be imported.", true);
+    } finally {
+      mediaImportFile.value = "";
+    }
+  }
+
+  function resetMediaLibrary() {
+    if (!window.confirm("Delete every item from the local Media Library?")) return;
+    mediaDocument = mediaStore.resetLibrary();
+    clearMediaForm();
+    renderMediaLibrary();
+    showStatus("The local Media Library was reset.");
+  }
+
+  function compatiblePickerItems() {
+    const query = String(mediaPickerSearch?.value || "").trim().toLowerCase();
+    return mediaDocument.items.filter((item) => {
+      const compatible = ["image", "character"].includes(item.type) && mediaStore.isImagePath(item.assetPath);
+      const searchable = [item.title, item.category, ...item.tags].join(" ").toLowerCase();
+      return compatible && (!query || searchable.includes(query));
+    });
+  }
+
+  function createPickerItem(item) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "media-picker-item";
+    button.dataset.pickMediaId = item.id;
+    const image = document.createElement("img");
+    image.src = item.thumbnailPath || item.assetPath;
+    image.alt = "";
+    image.addEventListener("error", () => { image.hidden = true; }, { once: true });
+    const body = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = item.title;
+    const path = document.createElement("small");
+    path.textContent = item.assetPath;
+    body.append(title, path);
+    button.append(image, body);
+    return button;
+  }
+
+  function renderMediaPicker() {
+    if (!mediaPickerGrid || !mediaPickerEmpty) return;
+    const items = compatiblePickerItems();
+    mediaPickerGrid.replaceChildren(...items.map(createPickerItem));
+    mediaPickerGrid.hidden = items.length === 0;
+    mediaPickerEmpty.hidden = items.length !== 0;
+  }
+
+  function openMediaPicker(trigger) {
+    mediaPickerReturnFocus = trigger || document.activeElement;
+    if (mediaPickerSearch) mediaPickerSearch.value = "";
+    renderMediaPicker();
+    mediaPicker.hidden = false;
+    document.body.classList.add("studio-modal-open");
+    mediaPickerSearch?.focus();
+  }
+
+  function closeMediaPicker() {
+    if (!mediaPicker || mediaPicker.hidden) return;
+    mediaPicker.hidden = true;
+    document.body.classList.remove("studio-modal-open");
+    mediaPickerReturnFocus?.focus?.();
+  }
+
+  function chooseMediaItem(id) {
+    const item = mediaDocument.items.find((entry) => entry.id === id);
+    const field = form?.elements?.namedItem("imagePath");
+    if (!item || !field) return;
+    field.value = item.assetPath;
+    renderImage(item.assetPath);
+    scheduleSave();
+    closeMediaPicker();
+    showStatus(`${item.title} selected for letter ${documentState.letters[activeKey].letter}.`);
+  }
+
   function activateSection(section) {
     if (!SECTION_COPY[section]) return;
     activeSection = section;
@@ -86,6 +471,7 @@
     sectionTitle.textContent = copy[1];
     sectionDescription.textContent = copy[2];
     if (section === "alphabet") renderEditor(activeKey);
+    if (section === "media") renderMediaLibrary();
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
   }
@@ -230,8 +616,11 @@
   function initializeStudio() {
     const override = store.loadOverrideDocument();
     documentState = override || store.getDefaultDocument();
+    mediaDocument = mediaStore.loadDocument();
     renderLetterList();
     renderEditor(activeKey);
+    clearMediaForm();
+    renderMediaLibrary();
     updateDraftSummary();
     loading.hidden = true;
     denied.hidden = true;
@@ -316,7 +705,7 @@
   }
 
   async function init() {
-    if (!store) {
+    if (!store || !mediaStore) {
       showDenied("The content module could not be loaded.");
       return;
     }
@@ -377,6 +766,43 @@
       removeExample.closest(".admin-example-row")?.remove();
       if (!exampleList.children.length) exampleList.appendChild(createExampleRow(""));
       scheduleSave();
+      return;
+    }
+    if (event.target.closest("[data-open-media-picker]")) {
+      openMediaPicker(event.target.closest("[data-open-media-picker]"));
+      return;
+    }
+    if (event.target.closest("[data-close-media-picker]")) {
+      closeMediaPicker();
+      return;
+    }
+    const pickerItem = event.target.closest("[data-pick-media-id]");
+    if (pickerItem) {
+      chooseMediaItem(pickerItem.dataset.pickMediaId);
+      return;
+    }
+    const mediaAction = event.target.closest("[data-media-action]");
+    if (mediaAction) {
+      const id = mediaAction.dataset.mediaId;
+      if (mediaAction.dataset.mediaAction === "edit") editMediaItem(id);
+      if (mediaAction.dataset.mediaAction === "copy") copyMediaPath(id);
+      if (mediaAction.dataset.mediaAction === "delete") deleteMediaItem(id);
+      return;
+    }
+    if (event.target.closest("[data-media-import]")) {
+      mediaImportFile.click();
+      return;
+    }
+    if (event.target.closest("[data-media-export]")) {
+      exportMediaLibrary();
+      return;
+    }
+    if (event.target.closest("[data-media-reset]")) {
+      resetMediaLibrary();
+      return;
+    }
+    if (event.target.closest("[data-media-cancel], [data-media-clear]")) {
+      clearMediaForm();
     }
   });
 
@@ -397,6 +823,18 @@
     imageFallback.hidden = true;
   });
   importFile?.addEventListener("change", () => importJson(importFile.files?.[0]));
+  mediaForm?.addEventListener("submit", saveMediaItem);
+  mediaForm?.addEventListener("input", (event) => {
+    if (["assetPath", "thumbnailPath", "type", "title"].includes(event.target.name)) renderMediaFormPreview();
+  });
+  mediaSearch?.addEventListener("input", renderMediaLibrary);
+  mediaTypeFilter?.addEventListener("change", renderMediaLibrary);
+  mediaCategoryFilter?.addEventListener("change", renderMediaLibrary);
+  mediaImportFile?.addEventListener("change", () => importMediaLibrary(mediaImportFile.files?.[0]));
+  mediaPickerSearch?.addEventListener("input", renderMediaPicker);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMediaPicker();
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
