@@ -89,7 +89,8 @@
     LETTER_KEYS.forEach((key) => {
       letters[key] = normalizeLetter(source[key], key);
     });
-    return { version: VERSION, lessonId: LESSON_ID, letters };
+    const updatedAt = typeof payload?.updatedAt === "string" ? payload.updatedAt.slice(0, 40) : "";
+    return { version: VERSION, lessonId: LESSON_ID, updatedAt, letters };
   }
 
   function getDefaultDocument() {
@@ -112,7 +113,10 @@
   }
 
   function saveOverrideDocument(payload) {
-    const normalized = normalizeDocument(payload);
+    const normalized = normalizeDocument({
+      ...(payload && typeof payload === "object" ? payload : {}),
+      updatedAt: new Date().toISOString()
+    });
     localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
     return clone(normalized);
   }

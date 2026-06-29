@@ -1,126 +1,334 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#111936" />
+  <meta name="theme-color" content="#0b1024" />
   <meta name="application-name" content="Exprésate" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
-  <title>Administración de contenido | Exprésate</title>
+  <title>Exprésate Studio</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="admin.css" />
 </head>
 <body class="admin-page" data-page="admin">
-  <div class="topbar"></div>
-
   <main class="admin-shell">
     <section class="admin-access-card" data-admin-loading>
-      <span class="admin-eyebrow">Acceso privado</span>
-      <h1>Verificando tu sesión…</h1>
-      <p>Estamos confirmando que esta cuenta puede administrar contenido.</p>
+      <span class="admin-eyebrow">Private access</span>
+      <h1>Checking your session…</h1>
+      <p>We are confirming that this account can manage content.</p>
     </section>
 
     <section class="admin-access-card" data-admin-denied hidden>
-      <span class="admin-eyebrow">Acceso restringido</span>
-      <h1>No tienes acceso.</h1>
-      <p>Esta herramienta está disponible únicamente para administradores aprobados.</p>
-      <a class="btn" href="index.html">Volver al inicio</a>
+      <span class="admin-eyebrow">Restricted access</span>
+      <h1>You do not have access.</h1>
+      <p>This tool is available only to approved administrators.</p>
+      <a class="btn" href="index.html">Return home</a>
     </section>
 
-    <section class="admin-dashboard" data-admin-dashboard hidden>
-      <header class="admin-header">
-        <div>
-          <span class="admin-eyebrow">Centro de contenido · Fase 1</span>
-          <h1>Alfabeto de la Lección 000</h1>
-          <p>Edita un borrador local, pruébalo en la lección y exporta el JSON cuando esté listo.</p>
-        </div>
-        <div class="admin-header-actions" aria-label="Acciones del contenido">
-          <a class="btn" href="lesson-000-alphabet.html" target="_blank" rel="noopener">Vista previa</a>
-          <button class="btn" type="button" data-admin-import>Importar JSON</button>
-          <button class="btn" type="button" data-admin-export>Exportar JSON</button>
-          <button class="btn admin-danger" type="button" data-admin-reset>Restablecer</button>
-          <input type="file" accept="application/json,.json" data-admin-import-file hidden />
-        </div>
-      </header>
-
-      <div class="admin-status" role="status" aria-live="polite" data-admin-status>
-        Los cambios se guardan solamente en este navegador.
-      </div>
-
-      <div class="admin-workspace">
-        <aside class="admin-letter-nav" aria-label="Letras del alfabeto">
-          <div class="admin-section-heading">
-            <span>Letras</span>
-            <small>26 registros</small>
+    <section class="studio-app" data-admin-dashboard hidden>
+      <aside class="studio-sidebar" aria-label="Studio navigation">
+        <div class="studio-brand">
+          <span class="studio-brand-mark" aria-hidden="true">E</span>
+          <div>
+            <strong>Exprésate Studio</strong>
+            <small>Local prototype · Phase 2</small>
           </div>
-          <div class="admin-letter-list" data-admin-letter-list></div>
-        </aside>
+        </div>
 
-        <section class="admin-editor-card">
-          <div class="admin-editor-heading">
-            <div class="admin-letter-preview" aria-hidden="true" data-admin-letter-preview>A</div>
+        <nav class="studio-nav" aria-label="Content sections">
+          <button class="studio-nav-item is-active" type="button" data-studio-target="dashboard" aria-controls="studio-dashboard" aria-selected="true">
+            <span aria-hidden="true">⌂</span> Dashboard
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="alphabet" aria-controls="studio-alphabet" aria-selected="false">
+            <span aria-hidden="true">Aa</span> Alphabet
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="lessons" aria-controls="studio-lessons" aria-selected="false">
+            <span aria-hidden="true">▤</span> Lessons
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="vocabulary" aria-controls="studio-vocabulary" aria-selected="false">
+            <span aria-hidden="true">Ab</span> Vocabulary
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="quizzes" aria-controls="studio-quizzes" aria-selected="false">
+            <span aria-hidden="true">?</span> Quizzes
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="media" aria-controls="studio-media" aria-selected="false">
+            <span aria-hidden="true">▧</span> Media Library
+          </button>
+          <button class="studio-nav-item" type="button" data-studio-target="settings" aria-controls="studio-settings" aria-selected="false">
+            <span aria-hidden="true">⚙</span> Settings
+          </button>
+        </nav>
+
+        <div class="studio-sidebar-note">
+          <strong>Local mode</strong>
+          <span>Nothing is published to Supabase.</span>
+        </div>
+        <div class="studio-sidebar-links">
+          <a class="studio-view-site" href="index.html">View learner site →</a>
+          <a class="studio-view-site" href="auth.html">Account settings →</a>
+        </div>
+      </aside>
+
+      <div class="studio-main">
+        <header class="studio-topline">
+          <div>
+            <span class="admin-eyebrow" data-studio-eyebrow>Content overview</span>
+            <h1 data-studio-title>Dashboard</h1>
+            <p data-studio-description>Manage local content drafts and preview how they appear in Exprésate.</p>
+          </div>
+          <div class="studio-top-actions">
+            <a class="btn" href="lesson-000-alphabet.html" target="_blank" rel="noopener">Preview Lesson 000</a>
+          </div>
+        </header>
+
+        <div class="admin-status" role="status" aria-live="polite" data-admin-status>
+          Changes are saved only in this browser.
+        </div>
+
+        <section class="studio-panel is-active" id="studio-dashboard" data-studio-panel="dashboard">
+          <div class="studio-hero-card">
             <div>
-              <span class="admin-eyebrow">Editando</span>
-              <h2 data-admin-editor-title>Letra A</h2>
-              <p>Este borrador reemplaza los datos predeterminados solo en este dispositivo.</p>
+              <span class="admin-eyebrow">Your content workspace</span>
+              <h2>Build the foundation, one reusable block at a time.</h2>
+              <p>Alphabet content is editable today. The remaining areas show how the Studio can grow without changing the learner experience.</p>
+            </div>
+            <button class="btn primary" type="button" data-studio-open="alphabet">Edit alphabet</button>
+          </div>
+
+          <div class="studio-metric-grid">
+            <article class="studio-metric-card is-ready">
+              <span class="studio-metric-icon" aria-hidden="true">Aa</span>
+              <small>Lesson 000</small>
+              <strong>Alphabet</strong>
+              <p><b>26</b> editable letters</p>
+              <button type="button" data-studio-open="alphabet">Open editor →</button>
+            </article>
+            <article class="studio-metric-card">
+              <span class="studio-metric-icon" aria-hidden="true">▤</span>
+              <small>Coming soon</small>
+              <strong>Lessons</strong>
+              <p>Composable learning blocks</p>
+              <button type="button" data-studio-open="lessons">View roadmap →</button>
+            </article>
+            <article class="studio-metric-card">
+              <span class="studio-metric-icon" aria-hidden="true">Ab</span>
+              <small>Coming soon</small>
+              <strong>Vocabulary</strong>
+              <p>Reusable word collections</p>
+              <button type="button" data-studio-open="vocabulary">View roadmap →</button>
+            </article>
+            <article class="studio-metric-card">
+              <span class="studio-metric-icon" aria-hidden="true">?</span>
+              <small>Coming soon</small>
+              <strong>Quizzes</strong>
+              <p>Checks, feedback, and answers</p>
+              <button type="button" data-studio-open="quizzes">View roadmap →</button>
+            </article>
+            <article class="studio-metric-card">
+              <span class="studio-metric-icon" aria-hidden="true">▧</span>
+              <small>Coming soon</small>
+              <strong>Media</strong>
+              <p>Images and audio assets</p>
+              <button type="button" data-studio-open="media">View workflow →</button>
+            </article>
+          </div>
+
+          <div class="studio-dashboard-grid">
+            <article class="studio-card">
+              <div class="studio-card-heading">
+                <div>
+                  <span class="admin-eyebrow">Alphabet draft</span>
+                  <h3>Local content status</h3>
+                </div>
+                <span class="studio-status-pill" data-admin-draft-status>Checking…</span>
+              </div>
+              <dl class="studio-summary-list">
+                <div><dt>Storage</dt><dd>Local browser only</dd></div>
+                <div><dt>Records</dt><dd>26 letters</dd></div>
+                <div><dt>Last update</dt><dd data-admin-updated-at>Not edited</dd></div>
+              </dl>
+              <div class="studio-inline-actions">
+                <button class="btn" type="button" data-admin-import>Import Alphabet JSON</button>
+                <button class="btn" type="button" data-admin-export>Export Alphabet Draft</button>
+              </div>
+              <p class="studio-helper-copy">Export this file whenever you want to save, review, or share your changes.</p>
+            </article>
+
+            <article class="studio-card">
+              <span class="admin-eyebrow">Next phase</span>
+              <h3>From local drafts to publishing</h3>
+              <ol class="studio-roadmap">
+                <li class="is-current"><span>1</span> Local content editing</li>
+                <li><span>2</span> Supabase content tables</li>
+                <li><span>3</span> Image and audio uploads</li>
+                <li><span>4</span> Draft and publish workflow</li>
+              </ol>
+            </article>
+          </div>
+        </section>
+
+        <section class="studio-panel" id="studio-alphabet" data-studio-panel="alphabet" hidden>
+          <div class="alphabet-toolbar">
+            <div>
+              <span class="admin-eyebrow">Lesson 000 data</span>
+              <h2>Alphabet editor</h2>
+              <p>Select a letter, update its teaching content, then preview the lesson.</p>
+            </div>
+            <div class="alphabet-toolbar-actions">
+              <button class="btn" type="button" data-admin-import>Import Alphabet JSON</button>
+              <button class="btn" type="button" data-admin-export>Export Alphabet Draft</button>
+              <button class="btn admin-danger" type="button" data-admin-reset>Reset All Alphabet Data</button>
             </div>
           </div>
 
-          <form class="admin-letter-form" data-admin-letter-form novalidate>
-            <label>
-              <span>Letra</span>
-              <input type="text" name="letter" maxlength="1" autocomplete="off" required />
-            </label>
-            <label>
-              <span>Palabra principal</span>
-              <input type="text" name="word" maxlength="80" autocomplete="off" required />
-            </label>
-            <label>
-              <span>Traducción al español</span>
-              <input type="text" name="spanish" maxlength="100" autocomplete="off" required />
-            </label>
-            <label>
-              <span>Etiqueta de sonido</span>
-              <input type="text" name="sound" maxlength="60" autocomplete="off" required />
-            </label>
-            <label>
-              <span>Etiqueta de pronunciación</span>
-              <input type="text" name="pronunciation" maxlength="100" autocomplete="off" required />
-            </label>
-            <label class="admin-field-wide">
-              <span>Ejemplos <small>uno por línea o separados por coma</small></span>
-              <textarea name="examples" rows="3" maxlength="400"></textarea>
-            </label>
-            <label class="admin-field-wide">
-              <span>Ruta local de imagen</span>
-              <input type="text" name="imagePath" maxlength="180" autocomplete="off" placeholder="assets/characters/letter-a-animals.png" />
-              <small>Solo rutas relativas dentro del proyecto. No se permiten URLs externas.</small>
-            </label>
-            <div class="admin-image-preview admin-field-wide" data-admin-image-preview hidden>
-              <img alt="Vista previa del recurso de la letra" data-admin-image />
-              <span data-admin-image-fallback hidden>No se pudo cargar esta imagen.</span>
-            </div>
-            <div class="admin-form-actions admin-field-wide">
-              <button class="btn primary" type="submit">Guardar cambios</button>
-              <span data-admin-save-state>Sin cambios pendientes</span>
-            </div>
-          </form>
-        </section>
-      </div>
+          <div class="admin-workspace">
+            <aside class="admin-letter-nav" aria-label="Alphabet letters">
+              <div class="admin-section-heading">
+                <span>Letters</span>
+                <small>26 records</small>
+              </div>
+              <div class="admin-letter-list" data-admin-letter-list></div>
+            </aside>
 
-      <footer class="admin-future-note">
-        <strong>Próximas fases:</strong>
-        tablas de lecciones en Supabase, imágenes y audio, publicación y constructor completo.
-      </footer>
+            <section class="admin-editor-card">
+              <div class="admin-editor-heading">
+                <div class="admin-letter-preview" aria-hidden="true" data-admin-letter-preview>A</div>
+                <div>
+                  <span class="admin-eyebrow">Editing content</span>
+                  <h2 data-admin-editor-title>Letter A</h2>
+                  <p>This local draft replaces the defaults only on this device.</p>
+                </div>
+              </div>
+
+              <form class="admin-letter-form" data-admin-letter-form novalidate>
+                <fieldset class="admin-form-group">
+                  <legend>General</legend>
+                  <div class="admin-form-grid">
+                    <label>
+                      <span>Letter</span>
+                      <input type="text" name="letter" maxlength="1" autocomplete="off" required />
+                    </label>
+                    <label>
+                      <span>Main word</span>
+                      <input type="text" name="word" maxlength="80" autocomplete="off" required />
+                    </label>
+                    <label class="admin-field-wide">
+                      <span>Spanish translation</span>
+                      <input type="text" name="spanish" maxlength="100" autocomplete="off" required />
+                    </label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="admin-form-group">
+                  <legend>Sound</legend>
+                  <div class="admin-form-grid">
+                    <label>
+                      <span>Sound label</span>
+                      <input type="text" name="sound" maxlength="60" autocomplete="off" required />
+                    </label>
+                    <label>
+                      <span>Pronunciation label</span>
+                      <input type="text" name="pronunciation" maxlength="100" autocomplete="off" required />
+                    </label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="admin-form-group">
+                  <legend>Examples</legend>
+                  <div class="admin-group-heading">
+                    <p class="admin-field-help">These words appear as supporting examples inside the letter exploration modal.</p>
+                    <button class="admin-text-button" type="button" data-admin-add-example>+ Add example</button>
+                  </div>
+                  <div class="admin-example-list" data-admin-example-list></div>
+                </fieldset>
+
+                <fieldset class="admin-form-group">
+                  <legend>Media</legend>
+                  <label>
+                    <span>Local image path</span>
+                    <input type="text" name="imagePath" maxlength="180" autocomplete="off" placeholder="assets/characters/letter-a-animals.png" />
+                    <small>Use a project-relative path. External URLs and scripts are rejected.</small>
+                  </label>
+                  <div class="admin-image-preview" data-admin-image-preview>
+                    <img alt="Letter asset preview" data-admin-image hidden />
+                    <div class="admin-image-empty" data-admin-image-empty>
+                      <strong>Image preview</strong>
+                      <span>Enter an asset path to preview it here.</span>
+                    </div>
+                    <span data-admin-image-fallback hidden>This image could not be loaded.</span>
+                  </div>
+                  <div class="admin-upload-placeholder" aria-disabled="true">
+                    <span aria-hidden="true">↑</span>
+                    <div><strong>Uploads arrive in a future phase</strong><small>For now, add assets to the repository and paste their path above.</small></div>
+                  </div>
+                </fieldset>
+
+                <div class="admin-form-actions">
+                  <button class="btn primary" type="submit">Save draft</button>
+                  <button class="btn" type="button" data-admin-reset-letter>Reset letter</button>
+                  <a class="btn" href="lesson-000-alphabet.html" target="_blank" rel="noopener">Preview Lesson 000</a>
+                  <span data-admin-save-state>No pending changes</span>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="studio-panel" id="studio-lessons" data-studio-panel="lessons" hidden>
+          <div class="studio-placeholder-hero">
+            <span class="studio-placeholder-icon" aria-hidden="true">▤</span>
+            <div><span class="admin-eyebrow">Coming soon</span><h2>Lesson Builder</h2><p>Assemble clear, Spanish-first lessons from reusable learning blocks.</p></div>
+          </div>
+          <div class="studio-block-grid">
+            <article><strong>Explanation block</strong><p>Short Spanish guidance with focused examples.</p></article>
+            <article><strong>Vocabulary block</strong><p>Words, translations, images, and audio.</p></article>
+            <article><strong>Quiz block</strong><p>Questions, answers, and immediate feedback.</p></article>
+            <article><strong>Speech practice block</strong><p>Expected phrases and pronunciation practice.</p></article>
+            <article><strong>Consejo block</strong><p>Optional guidance that supports the active task.</p></article>
+          </div>
+          <button class="btn" type="button" disabled>Create lesson — future phase</button>
+        </section>
+
+        <section class="studio-panel" id="studio-vocabulary" data-studio-panel="vocabulary" hidden>
+          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">Ab</span><div><span class="admin-eyebrow">Coming soon</span><h2>Vocabulary Collections</h2><p>Organize reusable words by topic, difficulty, image, audio, and lesson.</p></div></div>
+          <div class="studio-block-grid"><article><strong>Topic lists</strong><p>Food, home, travel, classroom, and more.</p></article><article><strong>Shared word records</strong><p>Use one source across lessons, games, and quizzes.</p></article><article><strong>Audio status</strong><p>Track which words have recorded or generated audio.</p></article></div>
+        </section>
+
+        <section class="studio-panel" id="studio-quizzes" data-studio-panel="quizzes" hidden>
+          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">?</span><div><span class="admin-eyebrow">Coming soon</span><h2>Quiz Builder</h2><p>Create short checks that reinforce the lesson without interrupting its flow.</p></div></div>
+          <div class="studio-block-grid"><article><strong>Multiple choice</strong><p>One prompt with clear answer options.</p></article><article><strong>Typing practice</strong><p>Expected answers with safe aliases.</p></article><article><strong>Audio prompts</strong><p>Listen, identify, and respond.</p></article></div>
+        </section>
+
+        <section class="studio-panel" id="studio-media" data-studio-panel="media" hidden>
+          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">▧</span><div><span class="admin-eyebrow">Coming soon</span><h2>Media Library</h2><p>A future home for lesson images, pronunciation audio, and reusable visual assets.</p></div></div>
+          <div class="studio-workflow">
+            <article><span>1</span><strong>Upload assets</strong><p>Add letter images and audio safely.</p></article>
+            <article><span>2</span><strong>Organize</strong><p>Group files by lesson, letter, and content type.</p></article>
+            <article><span>3</span><strong>Copy paths</strong><p>Insert validated asset paths into content records.</p></article>
+          </div>
+          <div class="studio-card"><h3>Phase 2 workflow</h3><p>Uploads are intentionally disabled. Add files to the repository, then use the manual image path field in the Alphabet editor.</p><button class="btn" type="button" data-studio-open="alphabet">Open Alphabet media fields</button></div>
+        </section>
+
+        <section class="studio-panel" id="studio-settings" data-studio-panel="settings" hidden>
+          <div class="studio-placeholder-hero"><span class="studio-placeholder-icon" aria-hidden="true">⚙</span><div><span class="admin-eyebrow">Prototype settings</span><h2>Local Studio Configuration</h2><p>Review the current data boundary before future publishing features are introduced.</p></div></div>
+          <div class="studio-card studio-settings-list">
+            <div><span>Storage key</span><code>expresate_admin_lesson000_letters_v1</code></div>
+            <div><span>Storage location</span><strong>This browser only</strong></div>
+            <div><span>Supabase writes</span><strong>Disabled</strong></div>
+            <div><span>Publishing</span><strong>Not available in Phase 2</strong></div>
+          </div>
+        </section>
+
+        <input type="file" accept="application/json,.json" data-admin-import-file hidden />
+      </div>
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <script src="access.js"></script>
-  <script src="nav.js"></script>
   <script src="data/lesson000-letters.js"></script>
   <script src="admin.js"></script>
 </body>
