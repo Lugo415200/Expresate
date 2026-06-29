@@ -58,6 +58,7 @@
   let lastDirection = "next"; // "next" or "back" — drives card enter animation
   let consejoRail = null;
   let consejoPositionFrame = 0;
+  let lessonTransitionCleanupTimer = 0;
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
@@ -372,6 +373,7 @@
         // Step mode: mark this card done, then move to the next one.
         // (showCard handles the scroll; no scrollNext nudge needed.)
         btn.disabled = true;
+        beginLesson000Transition();
         markSectionDone(id);
         await showLesson000Feedback(sec);
         btn.disabled = false;
@@ -517,20 +519,26 @@
     return loader;
   }
 
+  function beginLesson000Transition() {
+    if (lessonId !== "lesson-000-alphabet") return false;
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return false;
+    document.body.classList.add("lesson-transitioning");
+    closeConsejoPanel();
+    return true;
+  }
+
   function runLesson000PageTransition(changeStep, direction) {
     if (lessonId !== "lesson-000-alphabet") {
       changeStep();
       return;
     }
-    const reduceMotion = window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
+    if (!beginLesson000Transition()) {
       changeStep();
       return;
     }
     const loader = getLesson000Loader();
-    document.body.classList.add("lesson-transitioning");
-    closeConsejoPanel();
     loader.classList.toggle("is-back", direction === "back");
     loader.classList.add("loader--active");
     window.setTimeout(changeStep, 620);
@@ -539,9 +547,10 @@
     }, 1120);
     // The loader container keeps its width for 1.35s while the five tiles
     // retract. Keep floating lesson UI hidden until that visual exit ends.
-    window.setTimeout(() => {
+    window.clearTimeout(lessonTransitionCleanupTimer);
+    lessonTransitionCleanupTimer = window.setTimeout(() => {
       document.body.classList.remove("lesson-transitioning");
-    }, 2520);
+    }, 2820);
   }
 
   function showLesson000Feedback(sec) {
