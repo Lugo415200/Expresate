@@ -104,8 +104,11 @@
     const card = baseCard(block);
     appendText(card, "h3", "Palabras de esta práctica");
     const items = vocabularyByIds(block.selectedVocabularyIds, context.vocabularyItems);
+    const resolvedItems = items.length
+      ? items
+      : (Array.isArray(block.resolvedVocabularyItems) ? block.resolvedVocabularyItems : []);
     const list = element("div", `student-preview-vocabulary is-${block.displayMode || "cards"}`);
-    items.forEach((item) => {
+    resolvedItems.forEach((item) => {
       const word = element("section", "student-preview-word");
       if (item.imagePath) word.appendChild(imageNode(item.imagePath, item.english));
       const copy = element("div", "student-preview-word-copy");
@@ -115,7 +118,7 @@
       if (item.audioPath) word.appendChild(audioButton(item.audioPath, item.english));
       list.appendChild(word);
     });
-    if (!items.length) list.appendChild(element("p", "student-preview-empty", "No hay vocabulario seleccionado para este bloque."));
+    if (!resolvedItems.length) list.appendChild(element("p", "student-preview-empty", "No hay vocabulario seleccionado para este bloque."));
     card.appendChild(list);
     return card;
   }

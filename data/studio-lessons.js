@@ -65,7 +65,20 @@
     if (type === "vocabulary") return {
       ...base,
       selectedVocabularyIds: cleanIds(source.selectedVocabularyIds),
-      displayMode: VOCABULARY_DISPLAY_MODES.includes(source.displayMode) ? source.displayMode : "cards"
+      displayMode: VOCABULARY_DISPLAY_MODES.includes(source.displayMode) ? source.displayMode : "cards",
+      // Cloud-published lessons carry a safe snapshot because the Phase 7
+      // vocabulary database remains local-only.
+      resolvedVocabularyItems: (Array.isArray(source.resolvedVocabularyItems) ? source.resolvedVocabularyItems : [])
+        .map((item) => ({
+          id: cleanText(item?.id, "", 100),
+          english: cleanText(item?.english, "", 160),
+          spanish: cleanText(item?.spanish, "", 160),
+          pronunciation: cleanText(item?.pronunciation, "", 180),
+          imagePath: cleanPath(item?.imagePath),
+          audioPath: cleanPath(item?.audioPath)
+        }))
+        .filter((item) => item.id && item.english)
+        .slice(0, 100)
     };
     if (type === "image") return {
       ...base,

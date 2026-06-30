@@ -330,15 +330,21 @@
               <div class="studio-card lesson-builder-empty" data-lesson-builder-empty>
                 <span class="studio-placeholder-icon" aria-hidden="true">▤</span>
                 <h3>Create your first lesson</h3>
-                <p>Crea una lección con bloques: explicación, vocabulario, quiz y práctica de voz.</p>
-                <button class="btn primary" type="button" data-lesson-new>Create lesson</button>
+                <p>Create a lesson with reusable blocks, then preview it like a student before publishing.</p>
+                <div class="lesson-template-launcher" data-lesson-template-launcher>
+                  <button class="btn primary" type="button" data-lesson-new>Create blank lesson</button>
+                  <button class="btn" type="button" data-lesson-template="vocabulary">Vocabulary starter</button>
+                  <button class="btn" type="button" data-lesson-template="pronunciation">Pronunciation starter</button>
+                  <button class="btn" type="button" data-lesson-template="quiz">Quiz starter</button>
+                  <button class="btn" type="button" data-lesson-template="conversation">Conversation starter</button>
+                </div>
               </div>
 
               <div data-lesson-editor hidden>
                 <section class="studio-card lesson-metadata-card">
                   <div class="studio-card-heading">
                     <div><span class="admin-eyebrow">Lesson metadata</span><h3 data-lesson-editor-title>Untitled lesson</h3></div>
-                    <div class="lesson-record-actions"><button class="btn" type="button" data-lesson-duplicate>Duplicate</button><button class="btn admin-danger" type="button" data-lesson-delete>Delete</button></div>
+                    <div class="lesson-record-actions"><span class="lesson-cloud-status is-local" data-lesson-cloud-status>Local only</span><button class="btn" type="button" data-lesson-duplicate>Duplicate</button><button class="btn admin-danger" type="button" data-lesson-delete>Delete</button></div>
                   </div>
                   <form class="lesson-metadata-form" data-lesson-form novalidate>
                     <input type="hidden" name="id" />
@@ -355,40 +361,126 @@
                     <label class="lesson-premium-toggle"><input type="checkbox" name="premium" /><span>Premium lesson</span></label>
                     <label><span>Description</span><textarea name="description" rows="2" maxlength="700"></textarea></label>
                     <label><span>Tags <small>comma-separated</small></span><input type="text" name="tags" maxlength="400" /></label>
-                    <div class="lesson-metadata-actions"><button class="btn primary" type="submit">Save lesson</button><span data-lesson-save-state>No pending changes</span></div>
+                    <div class="lesson-metadata-actions">
+                      <button class="btn" type="submit">Save local draft</button>
+                      <button class="btn primary" type="button" data-lesson-publish>Publish to Supabase</button>
+                      <button class="btn" type="button" data-lesson-unpublish>Unpublish</button>
+                      <button class="btn" type="button" data-lesson-sync>Sync from Supabase</button>
+                      <span data-lesson-save-state>No pending changes</span>
+                    </div>
                   </form>
                 </section>
 
                 <div class="lesson-mode-tabs" role="tablist" aria-label="Lesson builder view">
-                  <button class="is-active" type="button" role="tab" aria-selected="true" data-lesson-mode="builder">Build</button>
-                  <button type="button" role="tab" aria-selected="false" data-lesson-mode="preview">Preview</button>
+                  <button class="is-active" type="button" role="tab" aria-selected="true" data-lesson-mode="builder">Builder</button>
+                  <button type="button" role="tab" aria-selected="false" data-lesson-mode="preview">Focus preview</button>
                 </div>
 
                 <section class="lesson-mode-panel" data-lesson-builder-panel>
-                  <div class="lesson-block-toolbar">
-                    <label><span class="sr-only">Block type</span><select data-lesson-block-type><option value="explanation">Explanation</option><option value="vocabulary">Vocabulary</option><option value="image">Image</option><option value="quiz">Quiz</option><option value="speech">Speech practice</option><option value="completion">Completion</option></select></label>
-                    <button class="btn primary" type="button" data-lesson-add-block>Add block</button>
+                  <div class="lesson-builder-workbench">
+                    <div class="lesson-builder-column lesson-builder-column-editor">
+                      <section class="studio-card lesson-template-card">
+                        <div class="studio-card-heading">
+                          <div><span class="admin-eyebrow">Start faster</span><h3>Lesson template starters</h3></div>
+                        </div>
+                        <div class="lesson-template-grid" data-lesson-template-grid>
+                          <button class="lesson-template-card-button" type="button" data-lesson-template="blank">
+                            <span class="lesson-template-icon" aria-hidden="true">＋</span>
+                            <strong>Blank lesson</strong>
+                            <small>Start from scratch with an empty lesson shell.</small>
+                          </button>
+                          <button class="lesson-template-card-button" type="button" data-lesson-template="vocabulary">
+                            <span class="lesson-template-icon" aria-hidden="true">Ab</span>
+                            <strong>Vocabulary lesson</strong>
+                            <small>Explanation, vocabulary practice, quiz, and completion.</small>
+                          </button>
+                          <button class="lesson-template-card-button" type="button" data-lesson-template="pronunciation">
+                            <span class="lesson-template-icon" aria-hidden="true">◌</span>
+                            <strong>Pronunciation lesson</strong>
+                            <small>Guide the learner through sounds and speech blocks.</small>
+                          </button>
+                          <button class="lesson-template-card-button" type="button" data-lesson-template="quiz">
+                            <span class="lesson-template-icon" aria-hidden="true">?</span>
+                            <strong>Quiz lesson</strong>
+                            <small>Teach, check understanding, then close with feedback.</small>
+                          </button>
+                          <button class="lesson-template-card-button" type="button" data-lesson-template="conversation">
+                            <span class="lesson-template-icon" aria-hidden="true">⇄</span>
+                            <strong>Conversation lesson</strong>
+                            <small>Placeholder sequence for dialogue and speaking practice.</small>
+                          </button>
+                        </div>
+                      </section>
+
+                      <section class="studio-card lesson-block-library-card">
+                        <div class="studio-card-heading">
+                          <div><span class="admin-eyebrow">Block Library</span><h3>Build with reusable lesson blocks</h3></div>
+                          <span class="lesson-inline-meta">Click a card to add it to the current lesson.</span>
+                        </div>
+                        <div class="lesson-block-library" data-lesson-block-library></div>
+                      </section>
+
+                      <section class="studio-card lesson-block-stack-card">
+                        <div class="studio-card-heading">
+                          <div><span class="admin-eyebrow">Lesson flow</span><h3>Arrange and edit the student steps</h3></div>
+                          <span class="lesson-inline-meta" data-lesson-block-summary>No blocks yet</span>
+                        </div>
+                        <div class="lesson-block-list" data-lesson-block-list></div>
+                        <div class="lesson-block-empty" data-lesson-block-empty>No blocks yet. Add the first learning step from the block library.</div>
+                      </section>
+                    </div>
+
+                    <aside class="lesson-builder-column lesson-builder-column-preview">
+                      <section class="studio-card lesson-live-preview-card">
+                        <div class="studio-card-heading">
+                          <div><span class="admin-eyebrow">Live preview</span><h3>Student lesson view</h3></div>
+                          <span class="lesson-inline-meta" data-lesson-preview-status>Updates after edits</span>
+                        </div>
+                        <div class="lesson-preview-toolbar lesson-preview-toolbar-inline">
+                          <div class="lesson-preview-mode" role="group" aria-label="Preview mode">
+                            <button class="is-active" type="button" data-preview-mode="full">Full Preview</button>
+                            <button type="button" data-preview-mode="step">Student Step Preview</button>
+                          </div>
+                          <div class="lesson-preview-devices" role="group" aria-label="Preview device">
+                            <button class="is-active" type="button" data-preview-device="desktop">Desktop</button>
+                            <button type="button" data-preview-device="tablet">Tablet</button>
+                            <button type="button" data-preview-device="phone">Phone</button>
+                          </div>
+                        </div>
+                        <div class="lesson-preview-stage lesson-preview-stage-inline" data-lesson-inline-preview-stage data-preview-device-stage="desktop">
+                          <div data-lesson-inline-preview></div>
+                          <nav class="lesson-preview-step-nav" data-inline-preview-step-nav hidden aria-label="Student preview steps">
+                            <div class="lesson-preview-progress" aria-hidden="true"><span data-inline-preview-progress-bar></span></div>
+                            <button class="btn" type="button" data-inline-preview-step-action="previous">← Back</button>
+                            <span><b data-inline-preview-step-current>1</b> of <b data-inline-preview-step-total>1</b></span>
+                            <button class="btn primary" type="button" data-inline-preview-step-action="next">Next →</button>
+                          </nav>
+                        </div>
+                      </section>
+                    </aside>
                   </div>
-                  <div class="lesson-block-list" data-lesson-block-list></div>
-                  <div class="lesson-block-empty" data-lesson-block-empty>No blocks yet. Choose a block type and add the first step.</div>
                 </section>
 
                 <section class="lesson-mode-panel studio-lesson-preview" data-lesson-preview-panel hidden>
-                  <div class="studio-preview-banner"><span>Studio preview only</span><strong>This lesson is not connected to curso.html.</strong></div>
+                  <div class="studio-preview-banner"><span>Studio preview</span><strong>Publish this lesson to make it available from Curso.</strong></div>
                   <div class="lesson-preview-toolbar">
                     <div class="lesson-preview-mode" role="group" aria-label="Preview mode">
                       <button class="is-active" type="button" data-preview-mode="full">Full Preview</button>
                       <button type="button" data-preview-mode="step">Student Step Preview</button>
                     </div>
-                    <button class="btn lesson-mobile-preview-toggle" type="button" data-preview-mobile aria-pressed="false">Mobile width</button>
+                    <div class="lesson-preview-devices" role="group" aria-label="Preview device">
+                      <button class="is-active" type="button" data-preview-device="desktop">Desktop</button>
+                      <button type="button" data-preview-device="tablet">Tablet</button>
+                      <button type="button" data-preview-device="phone">Phone</button>
+                    </div>
                   </div>
-                  <div class="lesson-preview-stage" data-lesson-preview-stage>
+                  <div class="lesson-preview-stage" data-lesson-preview-stage data-preview-device-stage="desktop">
                     <div data-lesson-preview></div>
                     <nav class="lesson-preview-step-nav" data-preview-step-nav hidden aria-label="Student preview steps">
                       <div class="lesson-preview-progress" aria-hidden="true"><span data-preview-progress-bar></span></div>
-                      <button class="btn" type="button" data-preview-step-action="previous">← Atrás</button>
-                      <span><b data-preview-step-current>1</b> de <b data-preview-step-total>1</b></span>
-                      <button class="btn primary" type="button" data-preview-step-action="next">Siguiente →</button>
+                      <button class="btn" type="button" data-preview-step-action="previous">← Back</button>
+                      <span><b data-preview-step-current>1</b> of <b data-preview-step-total>1</b></span>
+                            <button class="btn primary" type="button" data-preview-step-action="next">Next →</button>
                     </nav>
                   </div>
                 </section>
@@ -540,8 +632,8 @@
             <div><span>Vocabulary storage</span><code>expresate_studio_vocabulary_v1</code></div>
             <div><span>Lesson storage</span><code>expresate_studio_lessons_v1</code></div>
             <div><span>Storage location</span><strong>This browser only</strong></div>
-            <div><span>Supabase writes</span><strong>Disabled</strong></div>
-            <div><span>Publishing</span><strong>Preview-only in Phase 4</strong></div>
+            <div><span>Supabase writes</span><strong>Admin-only lesson publishing</strong></div>
+            <div><span>Publishing</span><strong>Local drafts + cloud lessons</strong></div>
           </div>
         </section>
 
@@ -584,6 +676,7 @@
   <script src="data/studio-media-library.js"></script>
   <script src="data/studio-vocabulary.js"></script>
   <script src="data/studio-lessons.js"></script>
+  <script src="data/studio-publishing.js"></script>
   <script src="data/studio-lesson-renderer.js"></script>
   <script src="admin.js"></script>
 </body>

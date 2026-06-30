@@ -1,4 +1,4 @@
-/* Exprésate Studio - local drafts only; no content is written to Supabase. */
+/* Exprésate Studio - local authoring with explicit Supabase publishing. */
 (function () {
   "use strict";
 
@@ -8,6 +8,7 @@
   const vocabularyStore = window.ExpresateStudioVocabulary;
   const lessonStore = window.ExpresateStudioLessons;
   const lessonRenderer = window.ExpresateStudioLessonRenderer;
+  const lessonPublisher = window.ExpresateStudioPublishing;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
@@ -18,6 +19,126 @@
     media: ["Asset catalog", "Media Library", "Organize local images, audio, animations, textures, and characters."],
     settings: ["Prototype configuration", "Settings", "Review the local-only data boundary for this Studio phase."]
   };
+  const BLOCK_LIBRARY = Object.freeze([
+    { type: "explanation", icon: "Aa", title: "Explanation", description: "Introduce a concept with a clear title, body copy, and optional consejo.", helper: "Use for teaching moments, rules, or context before practice." },
+    { type: "vocabulary", icon: "Ab", title: "Vocabulary", description: "Pull reusable words from the Vocabulary Database and show them as cards, a list, or flashcards.", helper: "Best for reusable content that should stay linked to the vocabulary database." },
+    { type: "image", icon: "Img", title: "Image", description: "Show a visual teaching aid with an optional title and caption.", helper: "Use Media Library assets or type a project-relative path manually." },
+    { type: "quiz", icon: "?", title: "Quiz", description: "Check understanding with one question, several options, and answer feedback.", helper: "Answers stay in memory during preview and live playback." },
+    { type: "speech", icon: "Mic", title: "Speech Practice", description: "Prompt the learner to say a phrase and compare it with expected text.", helper: "Reuse the existing speech practice engine without duplicating audio logic." },
+    { type: "completion", icon: "XP", title: "Completion", description: "Close the lesson with a reward message, XP, and an optional next lesson slug.", helper: "Keep one completion block at the end of the flow." }
+  ]);
+  const LESSON_TEMPLATES = Object.freeze({
+    blank: {
+      title: "Blank lesson",
+      description: "Start from an empty lesson shell.",
+      create(number) {
+        return {
+          title: `New lesson ${number}`,
+          slug: `new-lesson-${number}`,
+          module: "Module 1",
+          level: "A1",
+          status: "draft",
+          xpReward: 10,
+          premium: false,
+          description: "",
+          tags: [],
+          blocks: []
+        };
+      }
+    },
+    vocabulary: {
+      title: "Vocabulary lesson",
+      description: "Explanation, vocabulary practice, quick quiz, and completion.",
+      create(number) {
+        return {
+          title: `Vocabulary lesson ${number}`,
+          slug: `vocabulary-lesson-${number}`,
+          module: "Module 1",
+          level: "A1",
+          status: "draft",
+          xpReward: 15,
+          premium: false,
+          description: "Teach a tight set of reusable words and reinforce them with a quick check.",
+          tags: ["vocabulary"],
+          blocks: [
+            { type: "explanation", title: "What you will learn", body: "Introduce the key words, what they mean, and when to use them." },
+            { type: "vocabulary", displayMode: "cards", selectedVocabularyIds: [] },
+            { type: "quiz", question: "Add your first quiz question", options: ["Option 1", "Option 2"], correctAnswer: "Option 1" },
+            { type: "completion", message: "Lesson complete" }
+          ]
+        };
+      }
+    },
+    pronunciation: {
+      title: "Pronunciation lesson",
+      description: "Explain the sound, practice hearing it, then ask the learner to say it.",
+      create(number) {
+        return {
+          title: `Pronunciation lesson ${number}`,
+          slug: `pronunciation-lesson-${number}`,
+          module: "Module 1",
+          level: "A1",
+          status: "draft",
+          xpReward: 20,
+          premium: false,
+          description: "Teach a sound step by step with examples and speaking practice.",
+          tags: ["pronunciation", "speech"],
+          blocks: [
+            { type: "explanation", title: "Listen first", body: "Explain how the sound works and what the learner should notice." },
+            { type: "speech", phrase: "Repeat the target sound", translation: "Escucha y repite el sonido.", expectedText: "target sound", hint: "Keep the prompt short and specific." },
+            { type: "speech", phrase: "Use it in a short phrase", translation: "Ahora dilo dentro de una frase.", expectedText: "short phrase" },
+            { type: "completion", message: "Sound practice complete" }
+          ]
+        };
+      }
+    },
+    quiz: {
+      title: "Quiz lesson",
+      description: "Teach, test, explain, and close the lesson cleanly.",
+      create(number) {
+        return {
+          title: `Quiz lesson ${number}`,
+          slug: `quiz-lesson-${number}`,
+          module: "Module 1",
+          level: "A1",
+          status: "draft",
+          xpReward: 15,
+          premium: false,
+          description: "Use a short teaching block and several quick checks.",
+          tags: ["quiz"],
+          blocks: [
+            { type: "explanation", title: "Quick review", body: "Summarize what the learner should remember before the quiz starts." },
+            { type: "quiz", question: "Question 1", options: ["Option 1", "Option 2"], correctAnswer: "Option 1" },
+            { type: "quiz", question: "Question 2", options: ["Option 1", "Option 2"], correctAnswer: "Option 1" },
+            { type: "completion", message: "Quiz complete" }
+          ]
+        };
+      }
+    },
+    conversation: {
+      title: "Conversation lesson",
+      description: "Placeholder flow for future dialogue-based lessons.",
+      create(number) {
+        return {
+          title: `Conversation lesson ${number}`,
+          slug: `conversation-lesson-${number}`,
+          module: "Module 1",
+          level: "A1",
+          status: "draft",
+          xpReward: 20,
+          premium: false,
+          description: "Practice turn-based dialogue with context, vocabulary, and speaking prompts.",
+          tags: ["conversation", "speech"],
+          blocks: [
+            { type: "explanation", title: "Set the scene", body: "Explain who is speaking and what the learner should be able to say." },
+            { type: "vocabulary", displayMode: "cards", selectedVocabularyIds: [] },
+            { type: "speech", phrase: "Hello, my name is Ana.", translation: "Hola, me llamo Ana.", expectedText: "Hello, my name is Ana." },
+            { type: "completion", message: "Conversation practice complete" }
+          ]
+        };
+      }
+    }
+  });
 
   const loading = document.querySelector("[data-admin-loading]");
   const denied = document.querySelector("[data-admin-denied]");
@@ -90,7 +211,9 @@
   const lessonForm = document.querySelector("[data-lesson-form]");
   const lessonEditorTitle = document.querySelector("[data-lesson-editor-title]");
   const lessonSaveState = document.querySelector("[data-lesson-save-state]");
-  const lessonBlockType = document.querySelector("[data-lesson-block-type]");
+  const lessonCloudStatus = document.querySelector("[data-lesson-cloud-status]");
+  const lessonBlockLibrary = document.querySelector("[data-lesson-block-library]");
+  const lessonBlockSummary = document.querySelector("[data-lesson-block-summary]");
   const lessonBlockList = document.querySelector("[data-lesson-block-list]");
   const lessonBlockEmpty = document.querySelector("[data-lesson-block-empty]");
   const lessonBuilderPanel = document.querySelector("[data-lesson-builder-panel]");
@@ -101,6 +224,13 @@
   const lessonPreviewStepCurrent = document.querySelector("[data-preview-step-current]");
   const lessonPreviewStepTotal = document.querySelector("[data-preview-step-total]");
   const lessonPreviewProgressBar = document.querySelector("[data-preview-progress-bar]");
+  const lessonInlinePreview = document.querySelector("[data-lesson-inline-preview]");
+  const lessonInlinePreviewStage = document.querySelector("[data-lesson-inline-preview-stage]");
+  const lessonInlinePreviewStepNav = document.querySelector("[data-inline-preview-step-nav]");
+  const lessonInlinePreviewStepCurrent = document.querySelector("[data-inline-preview-step-current]");
+  const lessonInlinePreviewStepTotal = document.querySelector("[data-inline-preview-step-total]");
+  const lessonInlinePreviewProgressBar = document.querySelector("[data-inline-preview-progress-bar]");
+  const lessonPreviewStatus = document.querySelector("[data-lesson-preview-status]");
   const lessonImportFile = document.querySelector("[data-lesson-import-file]");
   const lessonDraftCount = document.querySelector("[data-lesson-draft-count]");
   const lessonPublishedCount = document.querySelector("[data-lesson-published-count]");
@@ -132,8 +262,12 @@
   let vocabularyPickerSelection = new Set();
   let lessonPreviewMode = "full";
   let lessonPreviewStep = 0;
-  let lessonPreviewMobile = false;
+  let lessonPreviewDevice = "desktop";
   let previewLessonId = "";
+  let cloudLessons = [];
+  let cloudLessonsLoaded = false;
+  let lessonDirty = false;
+  let collapsedLessonBlocks = new Set();
 
   function normalizedEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -492,11 +626,18 @@
       preview.addEventListener("error", () => { preview.hidden = true; }, { once: true });
     }
     const body = document.createElement("div");
+    body.className = "media-picker-copy";
+    const meta = document.createElement("div");
+    meta.className = "media-picker-meta";
+    meta.append(
+      textElement("span", "lesson-vocabulary-pill", item.type),
+      textElement("span", "lesson-vocabulary-pill is-muted", item.category || "Uncategorized")
+    );
     const title = document.createElement("strong");
     title.textContent = item.title;
     const path = document.createElement("small");
     path.textContent = item.assetPath;
-    body.append(title, path);
+    body.append(meta, title, path);
     button.append(preview, body);
     return button;
   }
@@ -884,11 +1025,189 @@
     return lessonDocument.lessons.find((lesson) => lesson.id === activeLessonId) || null;
   }
 
+  function cloudLessonFor(lesson) {
+    return lesson ? cloudLessons.find((entry) => entry.slug === lesson.slug) || null : null;
+  }
+
+  function renderCloudStatus(lesson) {
+    if (!lessonCloudStatus) return;
+    const cloudLesson = cloudLessonFor(lesson);
+    const state = lessonPublisher?.statusFor?.(lesson, cloudLesson) || "local-only";
+    const labels = {
+      "local-only": cloudLessonsLoaded ? "Local only" : "Checking cloud…",
+      published: "Published",
+      "cloud-draft": "Draft in cloud",
+      "local-newer": "Updated locally after publish"
+    };
+    lessonCloudStatus.textContent = labels[state] || "Local only";
+    lessonCloudStatus.className = `lesson-cloud-status ${state === "published" ? "is-published" : state === "cloud-draft" ? "is-draft" : state === "local-newer" ? "is-newer" : "is-local"}`;
+    const publishButton = document.querySelector("[data-lesson-publish]");
+    const unpublishButton = document.querySelector("[data-lesson-unpublish]");
+    if (publishButton) publishButton.disabled = !lessonPublisher?.available;
+    if (unpublishButton) unpublishButton.disabled = !lessonPublisher?.available || !cloudLesson || cloudLesson.status !== "published";
+  }
+
+  async function refreshCloudLessons(options = {}) {
+    if (!lessonPublisher?.available) {
+      cloudLessonsLoaded = true;
+      renderCloudStatus(activeLesson());
+      return [];
+    }
+    try {
+      cloudLessons = await lessonPublisher.listAdminLessons();
+      cloudLessonsLoaded = true;
+      renderLessonDatabase();
+      if (!options.silent) showStatus(`Cloud catalog synced: ${cloudLessons.length} lesson${cloudLessons.length === 1 ? "" : "s"}.`);
+      return cloudLessons;
+    } catch (error) {
+      cloudLessonsLoaded = true;
+      renderCloudStatus(activeLesson());
+      if (!options.silent) showStatus(error?.message || "Cloud lessons could not be loaded.", true);
+      return [];
+    }
+  }
+
+  function validateLessonForPublishing(lesson) {
+    if (!lesson?.title?.trim()) return "A lesson title is required.";
+    if (!lesson?.slug?.trim()) return "A lesson slug is required.";
+    if (!lesson.blocks?.length) return "Add at least one lesson block before publishing.";
+    const duplicate = lessonDocument.lessons.find((entry) => entry.id !== lesson.id && entry.slug === lesson.slug);
+    if (duplicate) return `The slug “${lesson.slug}” is already used by another local lesson.`;
+    return "";
+  }
+
+  async function publishActiveLesson() {
+    window.clearTimeout(lessonSaveTimer);
+    saveActiveLesson();
+    let lesson = activeLesson();
+    const validationError = validateLessonForPublishing(lesson);
+    if (validationError) {
+      showStatus(validationError, true);
+      return;
+    }
+    if (!lessonPublisher?.available) {
+      showStatus("Supabase publishing is unavailable. Run supabase/studio_publishing.sql first.", true);
+      return;
+    }
+    try {
+      showStatus("Publishing lesson…");
+      lessonDocument = lessonStore.upsertLesson(lessonDocument, { ...lesson, status: "published" });
+      lesson = activeLesson();
+      const cloudRow = await lessonPublisher.publishLesson(lesson, vocabularyDocument.items, "published");
+      lessonPublisher.saveSyncRecord(lesson.id, {
+        cloudId: cloudRow.id,
+        slug: lesson.slug,
+        status: "published",
+        cloudUpdatedAt: cloudRow.updated_at,
+        localUpdatedAt: lesson.updatedAt
+      });
+      await refreshCloudLessons({ silent: true });
+      renderLessonDatabase();
+      showStatus(`Published “${lesson.title}” to Supabase.`);
+    } catch (error) {
+      showStatus(error?.message || "The lesson could not be published.", true);
+    }
+  }
+
+  async function unpublishActiveLesson() {
+    window.clearTimeout(lessonSaveTimer);
+    saveActiveLesson();
+    let lesson = activeLesson();
+    if (!lesson || !cloudLessonFor(lesson)) {
+      showStatus("This lesson has not been published to Supabase.", true);
+      return;
+    }
+    try {
+      showStatus("Unpublishing lesson…");
+      const cloudRow = await lessonPublisher.unpublishLesson(lesson.slug);
+      lessonDocument = lessonStore.upsertLesson(lessonDocument, { ...lesson, status: "draft" });
+      lesson = activeLesson();
+      lessonPublisher.saveSyncRecord(lesson.id, {
+        cloudId: cloudRow.id,
+        slug: lesson.slug,
+        status: "draft",
+        cloudUpdatedAt: cloudRow.updated_at,
+        localUpdatedAt: lesson.updatedAt
+      });
+      await refreshCloudLessons({ silent: true });
+      renderLessonDatabase();
+      showStatus(`“${lesson.title}” is now a cloud draft and is hidden from learners.`);
+    } catch (error) {
+      showStatus(error?.message || "The lesson could not be unpublished.", true);
+    }
+  }
+
+  async function syncLessonsFromSupabase() {
+    if (!lessonPublisher?.available) {
+      showStatus("Supabase publishing is unavailable. Run supabase/studio_publishing.sql first.", true);
+      return;
+    }
+    if (!window.confirm("Sync cloud lessons into this browser? Matching local lessons will be replaced by their cloud versions.")) return;
+    try {
+      showStatus("Syncing cloud lessons…");
+      const cloud = await lessonPublisher.listAdminLessons();
+      cloud.forEach((cloudLesson) => {
+        const existing = lessonDocument.lessons.find((entry) => entry.slug === cloudLesson.slug);
+        lessonDocument = lessonStore.upsertLesson(lessonDocument, {
+          ...cloudLesson,
+          id: existing?.id || cloudLesson.id,
+          createdAt: existing?.createdAt || cloudLesson.createdAt
+        });
+        const local = lessonDocument.lessons.find((entry) => entry.slug === cloudLesson.slug);
+        lessonPublisher.saveSyncRecord(local.id, {
+          cloudId: cloudLesson.id,
+          slug: cloudLesson.slug,
+          status: cloudLesson.status,
+          cloudUpdatedAt: cloudLesson.updatedAt,
+          localUpdatedAt: local.updatedAt
+        });
+      });
+      cloudLessons = cloud;
+      cloudLessonsLoaded = true;
+      if (!activeLessonId && lessonDocument.lessons[0]) activeLessonId = lessonDocument.lessons[0].id;
+      renderLessonDatabase();
+      showStatus(`Synced ${cloud.length} cloud lesson${cloud.length === 1 ? "" : "s"} into local Studio.`);
+    } catch (error) {
+      showStatus(error?.message || "Cloud lessons could not be synced.", true);
+    }
+  }
+
   function textElement(tag, className, value) {
     const element = document.createElement(tag);
     if (className) element.className = className;
     element.textContent = value;
     return element;
+  }
+
+  function blockDefinition(type) {
+    return BLOCK_LIBRARY.find((item) => item.type === type) || BLOCK_LIBRARY[0];
+  }
+
+  function updateLessonSaveLabel(message, isError) {
+    if (lessonSaveState) {
+      lessonSaveState.textContent = message;
+      lessonSaveState.classList.toggle("is-error", Boolean(isError));
+      lessonSaveState.classList.toggle("is-success", !isError && /saved/i.test(message));
+      lessonSaveState.classList.toggle("is-pending", !isError && /unsaved|saving/i.test(message));
+    }
+    if (lessonPreviewStatus) {
+      lessonPreviewStatus.textContent = lessonDirty ? "Unsaved changes" : "In sync with local draft";
+      lessonPreviewStatus.classList.toggle("is-dirty", lessonDirty);
+    }
+  }
+
+  function markLessonDirty(message) {
+    lessonDirty = true;
+    updateLessonSaveLabel(message || "Unsaved changes", false);
+  }
+
+  function validateLessonDraft(lesson, options) {
+    const titleValue = String(lesson?.title || "").trim();
+    const slugValue = String(lesson?.slug || "").trim();
+    if (titleValue && slugValue) return true;
+    updateLessonSaveLabel("Title and slug are required", true);
+    if (!options?.silent) showStatus("Add both a lesson title and slug before saving or publishing.", true);
+    return false;
   }
 
   function lessonField(labelText, field, value, options) {
@@ -915,6 +1234,7 @@
     input.dataset.blockField = field;
     if (options?.placeholder) input.placeholder = options.placeholder;
     label.appendChild(input);
+    if (options?.help) label.appendChild(textElement("small", "lesson-block-help", options.help));
     return label;
   }
 
@@ -932,12 +1252,31 @@
       return wrap;
     }
     items.forEach((item) => {
-      const chip = document.createElement("div");
-      const words = document.createElement("span");
-      words.append(textElement("strong", "", item.english), document.createTextNode(` — ${item.spanish}`));
-      const indicators = document.createElement("small");
-      indicators.textContent = [item.imagePath ? "image" : "", item.audioPath ? "audio" : ""].filter(Boolean).join(" + ") || item.difficulty;
-      chip.append(words, indicators);
+      const chip = document.createElement("article");
+      chip.className = "lesson-selected-vocabulary-card";
+      if (item.imagePath && mediaStore.isImagePath(item.imagePath)) {
+        const image = document.createElement("img");
+        image.src = item.imagePath;
+        image.alt = item.english;
+        image.addEventListener("error", () => image.remove(), { once: true });
+        chip.appendChild(image);
+      }
+      const copy = document.createElement("div");
+      copy.className = "lesson-selected-vocabulary-copy";
+      copy.append(
+        textElement("strong", "", item.english),
+        textElement("span", "", item.spanish)
+      );
+      if (item.pronunciation) copy.appendChild(textElement("small", "", item.pronunciation));
+      const meta = document.createElement("div");
+      meta.className = "lesson-selected-vocabulary-meta";
+      meta.append(
+        textElement("span", "lesson-vocabulary-pill", item.difficulty || "A1"),
+        textElement("span", "lesson-vocabulary-pill is-muted", item.category || item.partOfSpeech || "Vocabulary")
+      );
+      if (item.audioPath) meta.appendChild(textElement("span", "lesson-vocabulary-pill is-audio", "Audio"));
+      copy.appendChild(meta);
+      chip.appendChild(copy);
       wrap.appendChild(chip);
     });
     return wrap;
@@ -949,23 +1288,24 @@
     if (block.type === "explanation") {
       fields.append(
         lessonField("Title", "title", block.title),
-        lessonField("Body", "body", block.body, { textarea: true, rows: 5, wide: true }),
-        lessonField("Consejo (optional)", "consejo", block.consejo, { textarea: true, wide: true })
+        lessonField("Body", "body", block.body, { textarea: true, rows: 5, wide: true, help: "Keep the explanation short and learner-facing." }),
+        lessonField("Consejo (optional)", "consejo", block.consejo, { textarea: true, wide: true, help: "Use this for a side tip or extra support." })
       );
     } else if (block.type === "vocabulary") {
-      fields.appendChild(lessonField("Display mode", "displayMode", block.displayMode, { select: [["cards", "Cards"], ["list", "List"], ["flashcards", "Flashcards"]] }));
+      fields.appendChild(lessonField("Display mode", "displayMode", block.displayMode, { select: [["cards", "Cards"], ["list", "List"], ["flashcards", "Flashcards"]], help: "Cards work best for most beginner lessons." }));
       const pickerButton = document.createElement("button");
       pickerButton.type = "button";
       pickerButton.className = "btn lesson-vocabulary-picker-button";
       pickerButton.dataset.openVocabularyPicker = "";
       pickerButton.dataset.blockId = block.id;
-      pickerButton.textContent = "Select vocabulary";
-      fields.append(pickerButton, renderSelectedVocabulary(block));
+      pickerButton.textContent = "Choose vocabulary";
+      const helper = textElement("p", "lesson-field-inline-help", "Select from the Vocabulary Database. The lesson stores only the item IDs.");
+      fields.append(pickerButton, helper, renderSelectedVocabulary(block));
     } else if (block.type === "image") {
       fields.append(
         lessonField("Title (optional)", "title", block.title),
-        lessonField("Image path", "imagePath", block.imagePath, { placeholder: "assets/..." }),
-        lessonField("Caption (optional)", "caption", block.caption, { textarea: true, wide: true })
+        lessonField("Image path", "imagePath", block.imagePath, { placeholder: "assets/...", help: "Project-relative path. Use the media picker when possible." }),
+        lessonField("Caption (optional)", "caption", block.caption, { textarea: true, wide: true, help: "Use the caption to explain what the learner should notice." })
       );
       const pickerButton = document.createElement("button");
       pickerButton.type = "button";
@@ -974,53 +1314,92 @@
       pickerButton.dataset.mediaPickerTarget = "lesson-image";
       pickerButton.dataset.blockId = block.id;
       pickerButton.textContent = "Choose from Media Library";
-      fields.appendChild(pickerButton);
+      fields.append(pickerButton, textElement("p", "lesson-field-inline-help", "Visual picker uses thumbnails and fills the image path automatically."));
     } else if (block.type === "quiz") {
       fields.append(
-        lessonField("Question", "question", block.question, { textarea: true, wide: true }),
-        lessonField("Options (one per line)", "options", (block.options || []).join("\n"), { textarea: true, rows: 5 }),
+        lessonField("Question", "question", block.question, { textarea: true, wide: true, help: "Write exactly what the learner should answer." }),
+        lessonField("Options (one per line)", "options", (block.options || []).join("\n"), { textarea: true, rows: 5, help: "One answer option per line." }),
         lessonField("Correct answer", "correctAnswer", block.correctAnswer),
-        lessonField("Explanation (optional)", "explanation", block.explanation, { textarea: true, wide: true })
+        lessonField("Explanation (optional)", "explanation", block.explanation, { textarea: true, wide: true, help: "Shown after the learner answers." })
       );
     } else if (block.type === "speech") {
       fields.append(
-        lessonField("Phrase", "phrase", block.phrase, { textarea: true }),
-        lessonField("Translation", "translation", block.translation, { textarea: true }),
-        lessonField("Expected text", "expectedText", block.expectedText),
-        lessonField("Hint (optional)", "hint", block.hint)
+        lessonField("Phrase", "phrase", block.phrase, { textarea: true, help: "Displayed as the spoken prompt." }),
+        lessonField("Translation", "translation", block.translation, { textarea: true, help: "Keep the learner guidance in plain Spanish." }),
+        lessonField("Expected text", "expectedText", block.expectedText, { help: "Used by the speech engine for matching." }),
+        lessonField("Hint (optional)", "hint", block.hint, { help: "Short learner hint for pronunciation or context." })
       );
     } else {
       fields.append(
-        lessonField("Completion message", "message", block.message, { textarea: true, wide: true }),
-        lessonField("Next lesson slug (optional)", "nextLessonSlug", block.nextLessonSlug)
+        lessonField("Completion message", "message", block.message, { textarea: true, wide: true, help: "The student sees this at the end of the lesson." }),
+        lessonField("Next lesson slug (optional)", "nextLessonSlug", block.nextLessonSlug, { help: "Optional future handoff into another Studio lesson." })
       );
     }
     return fields;
+  }
+
+  function createBlockHeaderBadge(type) {
+    const meta = blockDefinition(type);
+    const badge = document.createElement("span");
+    badge.className = "lesson-block-type-badge";
+    badge.textContent = meta.title;
+    return badge;
   }
 
   function createBlockCard(block, index, total) {
     const card = document.createElement("article");
     card.className = "studio-card lesson-block-card";
     card.dataset.blockId = block.id;
+    card.classList.toggle("is-collapsed", collapsedLessonBlocks.has(block.id));
     const header = document.createElement("header");
     const identity = document.createElement("div");
-    identity.append(textElement("span", "lesson-block-index", `Step ${index + 1}`), textElement("h4", "", block.type));
+    identity.className = "lesson-block-identity";
+    const meta = blockDefinition(block.type);
+    identity.append(
+      textElement("span", "lesson-block-index", `Step ${index + 1}`),
+      createBlockHeaderBadge(block.type),
+      textElement("h4", "", meta.title)
+    );
+    identity.appendChild(textElement("p", "lesson-block-description", meta.description));
     const actions = document.createElement("div");
     actions.className = "lesson-block-actions";
-    [["up", "Move up", "↑"], ["down", "Move down", "↓"], ["delete", "Delete block", "×"]].forEach(([action, label, symbol]) => {
+    [["collapse", collapsedLessonBlocks.has(block.id) ? "Expand block" : "Collapse block", collapsedLessonBlocks.has(block.id) ? "+" : "–"], ["up", "Move up", "↑"], ["down", "Move down", "↓"], ["duplicate", "Duplicate block", "⧉"], ["delete", "Delete block", "×"]].forEach(([action, label, symbol]) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = action === "delete" ? "admin-icon-button is-danger" : "admin-icon-button";
       button.dataset.blockAction = action;
       button.dataset.blockId = block.id;
       button.setAttribute("aria-label", label);
+      button.title = label;
       button.textContent = symbol;
       if ((action === "up" && index === 0) || (action === "down" && index === total - 1)) button.disabled = true;
       actions.appendChild(button);
     });
     header.append(identity, actions);
-    card.append(header, createBlockFields(block));
+    const body = document.createElement("div");
+    body.className = "lesson-block-body";
+    const helper = textElement("p", "lesson-block-helper", meta.helper);
+    body.append(helper, createBlockFields(block));
+    if (collapsedLessonBlocks.has(block.id)) body.hidden = true;
+    card.append(header, body);
     return card;
+  }
+
+  function renderLessonBlockLibrary() {
+    if (!lessonBlockLibrary) return;
+    lessonBlockLibrary.replaceChildren(...BLOCK_LIBRARY.map((block) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "lesson-block-library-item";
+      button.dataset.addBlockType = block.type;
+      button.append(
+        textElement("span", "lesson-block-library-icon", block.icon),
+        textElement("strong", "", block.title),
+        textElement("p", "", block.description),
+        textElement("span", "lesson-block-library-add", "Add")
+      );
+      return button;
+    }));
   }
 
   function renderLessonBlocks() {
@@ -1030,13 +1409,37 @@
     lessonBlockList.replaceChildren(...blocks.map((block, index) => createBlockCard(block, index, blocks.length)));
     lessonBlockList.hidden = blocks.length === 0;
     lessonBlockEmpty.hidden = blocks.length !== 0;
+    if (lessonBlockSummary) lessonBlockSummary.textContent = blocks.length ? `${blocks.length} ${blocks.length === 1 ? "step" : "steps"} in this lesson` : "No blocks yet";
+  }
+
+  function previewTargets() {
+    return [
+      {
+        container: lessonPreview,
+        stage: lessonPreviewStage,
+        stepNav: lessonPreviewStepNav,
+        current: lessonPreviewStepCurrent,
+        total: lessonPreviewStepTotal,
+        progress: lessonPreviewProgressBar
+      },
+      {
+        container: lessonInlinePreview,
+        stage: lessonInlinePreviewStage,
+        stepNav: lessonInlinePreviewStepNav,
+        current: lessonInlinePreviewStepCurrent,
+        total: lessonInlinePreviewStepTotal,
+        progress: lessonInlinePreviewProgressBar
+      }
+    ].filter((entry) => entry.container && entry.stage);
   }
 
   function renderLessonPreview() {
-    if (!lessonPreview || !lessonRenderer) return;
+    if (!lessonRenderer) return;
     const lesson = activeLesson();
+    const targets = previewTargets();
+    if (!targets.length) return;
     if (!lesson) {
-      lessonPreview.replaceChildren();
+      targets.forEach((target) => target.container.replaceChildren());
       return;
     }
     if (previewLessonId !== lesson.id) {
@@ -1045,31 +1448,35 @@
     }
     const blockCount = lesson.blocks.length;
     lessonPreviewStep = Math.max(0, Math.min(lessonPreviewStep, Math.max(0, blockCount - 1)));
-    lessonPreviewStage?.classList.toggle("is-mobile-width", lessonPreviewMobile);
-    lessonRenderer.render(lessonPreview, lesson, {
-      mode: lessonPreviewMode,
-      stepIndex: lessonPreviewStep,
-      vocabularyItems: vocabularyDocument.items
+    targets.forEach((target) => {
+      target.stage.dataset.previewDeviceStage = lessonPreviewDevice;
+      target.stage.classList.toggle("is-phone-width", lessonPreviewDevice === "phone");
+      target.stage.classList.toggle("is-tablet-width", lessonPreviewDevice === "tablet");
+      lessonRenderer.render(target.container, lesson, {
+        mode: lessonPreviewMode,
+        stepIndex: lessonPreviewStep,
+        vocabularyItems: vocabularyDocument.items
+      });
+      const stepMode = lessonPreviewMode === "step";
+      if (target.stepNav) target.stepNav.hidden = !stepMode;
+      if (target.current) target.current.textContent = String(blockCount ? lessonPreviewStep + 1 : 0);
+      if (target.total) target.total.textContent = String(blockCount);
+      if (target.progress) target.progress.style.width = `${blockCount ? ((lessonPreviewStep + 1) / blockCount) * 100 : 0}%`;
+      const previous = target.stepNav?.querySelector('[data-preview-step-action="previous"], [data-inline-preview-step-action="previous"]');
+      const next = target.stepNav?.querySelector('[data-preview-step-action="next"], [data-inline-preview-step-action="next"]');
+      if (previous) previous.disabled = lessonPreviewStep <= 0;
+      if (next) next.disabled = !blockCount || lessonPreviewStep >= blockCount - 1;
     });
-    const stepMode = lessonPreviewMode === "step";
-    if (lessonPreviewStepNav) lessonPreviewStepNav.hidden = !stepMode;
-    if (lessonPreviewStepCurrent) lessonPreviewStepCurrent.textContent = String(blockCount ? lessonPreviewStep + 1 : 0);
-    if (lessonPreviewStepTotal) lessonPreviewStepTotal.textContent = String(blockCount);
-    if (lessonPreviewProgressBar) lessonPreviewProgressBar.style.width = `${blockCount ? ((lessonPreviewStep + 1) / blockCount) * 100 : 0}%`;
-    const previous = lessonPreviewStepNav?.querySelector('[data-preview-step-action="previous"]');
-    const next = lessonPreviewStepNav?.querySelector('[data-preview-step-action="next"]');
-    if (previous) previous.disabled = lessonPreviewStep <= 0;
-    if (next) next.disabled = !blockCount || lessonPreviewStep >= blockCount - 1;
     document.querySelectorAll("[data-preview-mode]").forEach((button) => {
       const active = button.dataset.previewMode === lessonPreviewMode;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", active ? "true" : "false");
     });
-    const mobileToggle = document.querySelector("[data-preview-mobile]");
-    if (mobileToggle) {
-      mobileToggle.classList.toggle("is-active", lessonPreviewMobile);
-      mobileToggle.setAttribute("aria-pressed", lessonPreviewMobile ? "true" : "false");
-    }
+    document.querySelectorAll("[data-preview-device]").forEach((button) => {
+      const active = button.dataset.previewDevice === lessonPreviewDevice;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
   }
 
   function renderLessonDashboard() {
@@ -1085,7 +1492,7 @@
       button.className = "lesson-recent-item";
       button.dataset.previewLessonId = lesson.id;
       const copy = document.createElement("span");
-      copy.append(textElement("strong", "", lesson.title), textElement("small", "", `${lesson.module} · ${lesson.level} · ${lesson.blocks.length} blocks`));
+      copy.append(textElement("strong", "", lesson.title), textElement("small", "", `${lesson.module} · ${lesson.level} · ${lesson.blocks.length} ${lesson.blocks.length === 1 ? "step" : "steps"}`));
       button.append(copy, textElement("span", "", "Preview →"));
       return button;
     }));
@@ -1108,8 +1515,12 @@
     const lesson = activeLesson();
     lessonBuilderEmpty.hidden = Boolean(lesson);
     lessonEditor.hidden = !lesson;
-    if (!lesson) return;
+    if (!lesson) {
+      updateLessonSaveLabel("No lesson selected", false);
+      return;
+    }
     setLessonForm(lesson);
+    renderCloudStatus(lesson);
     renderLessonBlocks();
     renderLessonPreview();
   }
@@ -1151,7 +1562,7 @@
     button.setAttribute("aria-pressed", lesson.id === activeLessonId ? "true" : "false");
     const top = document.createElement("span");
     top.append(textElement("strong", "", lesson.title), textElement("small", "", lesson.status));
-    const meta = textElement("span", "lesson-list-meta", `${lesson.module} · ${lesson.level} · ${lesson.blocks.length} blocks${lesson.premium ? " · Premium" : ""}`);
+    const meta = textElement("span", "lesson-list-meta", `${lesson.module} · ${lesson.level} · ${lesson.blocks.length} ${lesson.blocks.length === 1 ? "step" : "steps"}${lesson.premium ? " · Premium" : ""}`);
     button.append(top, meta);
     return button;
   }
@@ -1186,12 +1597,31 @@
     };
   }
 
-  function saveActiveLesson(message, rerender) {
+  function syncActiveLessonDraftFromForm() {
+    const lesson = activeLesson();
+    const draft = readLessonForm();
+    if (!lesson || !draft) return null;
+    const next = lessonStore.normalizeLesson({
+      ...lesson,
+      ...draft,
+      blocks: lesson.blocks,
+      createdAt: lesson.createdAt,
+      updatedAt: lesson.updatedAt
+    }, lesson, false);
+    const index = lessonDocument.lessons.findIndex((entry) => entry.id === lesson.id);
+    if (index >= 0) lessonDocument.lessons[index] = next;
+    if (lessonEditorTitle) lessonEditorTitle.textContent = next.title || "Untitled lesson";
+    return next;
+  }
+
+  function saveActiveLesson(message, rerender, options) {
     const lesson = readLessonForm();
-    if (!lesson) return;
+    if (!lesson) return false;
+    if (!validateLessonDraft(lesson, { silent: options?.silentValidation })) return false;
     lessonDocument = lessonStore.upsertLesson(lessonDocument, lesson);
     activeLessonId = lesson.id;
-    if (lessonSaveState) lessonSaveState.textContent = "Saved locally";
+    lessonDirty = false;
+    updateLessonSaveLabel(message || "Saved locally", false);
     if (rerender) renderLessonDatabase();
     else {
       renderLessonModuleFilter();
@@ -1203,23 +1633,29 @@
       renderLessonPreview();
     }
     if (message) showStatus(message);
+    return true;
   }
 
   function scheduleLessonSave() {
-    if (lessonSaveState) lessonSaveState.textContent = "Saving…";
+    markLessonDirty("Saving...");
     window.clearTimeout(lessonSaveTimer);
-    lessonSaveTimer = window.setTimeout(() => saveActiveLesson(), 450);
+    lessonSaveTimer = window.setTimeout(() => saveActiveLesson("", false, { silentValidation: true }), 450);
   }
 
-  function createLesson() {
+  function createLesson(templateKey) {
+    const template = LESSON_TEMPLATES[templateKey] || LESSON_TEMPLATES.blank;
     const number = lessonDocument.lessons.length + 1;
-    const lesson = lessonStore.normalizeLesson({ title: `New lesson ${number}`, slug: `new-lesson-${number}`, module: "Module 1", level: "A1", status: "draft", xpReward: 10, blocks: [] });
+    const lesson = lessonStore.normalizeLesson(template.create(number));
     lessonDocument = lessonStore.upsertLesson(lessonDocument, lesson);
     activeLessonId = lesson.id;
+    collapsedLessonBlocks = new Set();
+    lessonDirty = false;
     renderLessonDatabase();
     activateSection("lessons");
+    setLessonMode("builder");
     lessonForm?.elements?.namedItem("title")?.focus();
-    showStatus("New local lesson created.");
+    updateLessonSaveLabel("Saved locally", false);
+    showStatus(`${template.title} created locally.`);
   }
 
   function duplicateLesson() {
@@ -1228,7 +1664,10 @@
     const copy = lessonStore.normalizeLesson({ ...source, id: "", title: `${source.title} (Copy)`, slug: `${source.slug}-copy`, status: "draft", blocks: source.blocks.map((block) => ({ ...block, id: "" })), createdAt: "", updatedAt: "" });
     lessonDocument = lessonStore.upsertLesson(lessonDocument, copy);
     activeLessonId = copy.id;
+    collapsedLessonBlocks = new Set();
+    lessonDirty = false;
     renderLessonDatabase();
+    setLessonMode("builder");
     showStatus("Lesson duplicated as a local draft.");
   }
 
@@ -1241,10 +1680,11 @@
     showStatus("Local lesson deleted.");
   }
 
-  function addLessonBlock() {
+  function addLessonBlock(type) {
+    if (!activeLesson()) createLesson("blank");
     const lesson = activeLesson();
     if (!lesson) return;
-    lesson.blocks.push(lessonStore.createBlock(lessonBlockType?.value || "explanation"));
+    lesson.blocks.push(lessonStore.createBlock(type || "explanation"));
     saveActiveLesson("Block added.", true);
   }
 
@@ -1256,6 +1696,7 @@
     block[target.dataset.blockField] = target.dataset.blockField === "options"
       ? target.value.split("\n").map((option) => option.trim()).filter(Boolean)
       : target.value;
+    renderLessonPreview();
     scheduleLessonSave();
   }
 
@@ -1263,10 +1704,22 @@
     const lesson = activeLesson();
     const index = lesson?.blocks.findIndex((block) => block.id === id) ?? -1;
     if (!lesson || index < 0) return;
+    if (action === "collapse") {
+      if (collapsedLessonBlocks.has(id)) collapsedLessonBlocks.delete(id);
+      else collapsedLessonBlocks.add(id);
+      renderLessonBlocks();
+      return;
+    }
+    if (action === "delete" && !window.confirm("Delete this block from the lesson?")) return;
     if (action === "delete") lesson.blocks.splice(index, 1);
     if (action === "up" && index > 0) [lesson.blocks[index - 1], lesson.blocks[index]] = [lesson.blocks[index], lesson.blocks[index - 1]];
     if (action === "down" && index < lesson.blocks.length - 1) [lesson.blocks[index + 1], lesson.blocks[index]] = [lesson.blocks[index], lesson.blocks[index + 1]];
-    saveActiveLesson(action === "delete" ? "Block deleted." : "Block order updated.", true);
+    if (action === "duplicate") {
+      const duplicate = lessonStore.createBlock(lesson.blocks[index].type);
+      const cloned = lessonStore.normalizeBlock({ ...lesson.blocks[index], id: duplicate.id });
+      lesson.blocks.splice(index + 1, 0, cloned);
+    }
+    saveActiveLesson(action === "delete" ? "Block deleted." : action === "duplicate" ? "Block duplicated." : "Block order updated.", true);
   }
 
   function setLessonMode(mode) {
@@ -1284,6 +1737,11 @@
   function setStudentPreviewMode(mode) {
     lessonPreviewMode = mode === "step" ? "step" : "full";
     lessonPreviewStep = 0;
+    renderLessonPreview();
+  }
+
+  function setPreviewDevice(device) {
+    lessonPreviewDevice = ["desktop", "tablet", "phone"].includes(device) ? device : "desktop";
     renderLessonPreview();
   }
 
@@ -1340,6 +1798,8 @@
     if (!window.confirm("Delete every local Studio lesson?")) return;
     lessonDocument = lessonStore.resetDatabase();
     activeLessonId = "";
+    collapsedLessonBlocks = new Set();
+    lessonDirty = false;
     renderLessonDatabase();
     showStatus("The local Lesson Builder database was reset.");
   }
@@ -1358,7 +1818,30 @@
       button.classList.toggle("is-selected", vocabularyPickerSelection.has(item.id));
       button.dataset.pickVocabularyId = item.id;
       button.setAttribute("aria-pressed", vocabularyPickerSelection.has(item.id) ? "true" : "false");
-      button.append(textElement("strong", "", item.english), textElement("span", "", item.spanish), textElement("small", "", `${item.difficulty} · ${item.category}`));
+      if (item.imagePath && mediaStore.isImagePath(item.imagePath)) {
+        const preview = document.createElement("img");
+        preview.className = "vocabulary-picker-thumb";
+        preview.src = item.imagePath;
+        preview.alt = "";
+        preview.addEventListener("error", () => preview.remove(), { once: true });
+        button.appendChild(preview);
+      }
+      const copy = document.createElement("div");
+      copy.className = "vocabulary-picker-copy";
+      copy.append(
+        textElement("strong", "", item.english),
+        textElement("span", "", item.spanish),
+        textElement("small", "", item.pronunciation || `${item.difficulty} · ${item.category}`)
+      );
+      const meta = document.createElement("div");
+      meta.className = "vocabulary-picker-meta";
+      meta.append(
+        textElement("span", "lesson-vocabulary-pill", item.difficulty || "A1"),
+        textElement("span", "lesson-vocabulary-pill is-muted", item.category || item.partOfSpeech || "Vocabulary")
+      );
+      if (item.audioPath) meta.appendChild(textElement("span", "lesson-vocabulary-pill is-audio", "Audio"));
+      copy.appendChild(meta);
+      button.appendChild(copy);
       return button;
     }));
     vocabularyPickerGrid.hidden = items.length === 0;
@@ -1565,6 +2048,7 @@
     vocabularyDocument = vocabularyStore.loadDocument();
     lessonDocument = lessonStore.loadDocument();
     activeLessonId = lessonDocument.lessons[0]?.id || "";
+    renderLessonBlockLibrary();
     renderLetterList();
     renderEditor(activeKey);
     clearMediaForm();
@@ -1581,6 +2065,7 @@
     showStatus(override
       ? "Local Alphabet draft loaded. Lesson 000 is using these changes on this device."
       : "Alphabet is using default data. Edit a letter to create a local draft.");
+    void refreshCloudLessons({ silent: true });
   }
 
   function exportJson() {
@@ -1679,15 +2164,21 @@
       activateSection(sectionButton.dataset.studioTarget || sectionButton.dataset.studioOpen);
       return;
     }
+    const lessonTemplateButton = event.target.closest("[data-lesson-template]");
+    if (lessonTemplateButton) {
+      createLesson(lessonTemplateButton.dataset.lessonTemplate);
+      return;
+    }
     if (event.target.closest("[data-lesson-new]")) {
-      createLesson();
+      createLesson("blank");
       return;
     }
     const lessonItem = event.target.closest("[data-lesson-id]");
     if (lessonItem) {
       window.clearTimeout(lessonSaveTimer);
-      if (activeLesson()) saveActiveLesson();
+      if (activeLesson() && !saveActiveLesson("", false, { silentValidation: true })) return;
       activeLessonId = lessonItem.dataset.lessonId;
+      lessonDirty = false;
       renderLessonDatabase();
       return;
     }
@@ -1704,8 +2195,21 @@
       deleteLesson();
       return;
     }
-    if (event.target.closest("[data-lesson-add-block]")) {
-      addLessonBlock();
+    if (event.target.closest("[data-lesson-publish]")) {
+      void publishActiveLesson();
+      return;
+    }
+    if (event.target.closest("[data-lesson-unpublish]")) {
+      void unpublishActiveLesson();
+      return;
+    }
+    if (event.target.closest("[data-lesson-sync]")) {
+      void syncLessonsFromSupabase();
+      return;
+    }
+    const addBlockButton = event.target.closest("[data-add-block-type]");
+    if (addBlockButton) {
+      addLessonBlock(addBlockButton.dataset.addBlockType);
       return;
     }
     const blockAction = event.target.closest("[data-block-action]");
@@ -1723,13 +2227,15 @@
       setStudentPreviewMode(previewMode.dataset.previewMode);
       return;
     }
-    const previewStepAction = event.target.closest("[data-preview-step-action]");
-    if (previewStepAction) {
-      moveStudentPreview(previewStepAction.dataset.previewStepAction === "next" ? 1 : -1);
+    const previewDevice = event.target.closest("[data-preview-device]");
+    if (previewDevice) {
+      setPreviewDevice(previewDevice.dataset.previewDevice);
       return;
     }
-    if (event.target.closest("[data-preview-mobile]")) {
-      lessonPreviewMobile = !lessonPreviewMobile;
+    const previewStepAction = event.target.closest("[data-preview-step-action], [data-inline-preview-step-action]");
+    if (previewStepAction) {
+      const action = previewStepAction.dataset.previewStepAction || previewStepAction.dataset.inlinePreviewStepAction;
+      moveStudentPreview(action === "next" ? 1 : -1);
       renderLessonPreview();
       return;
     }
@@ -1907,7 +2413,11 @@
     window.clearTimeout(lessonSaveTimer);
     saveActiveLesson("Lesson saved locally.", true);
   });
-  lessonForm?.addEventListener("input", scheduleLessonSave);
+  lessonForm?.addEventListener("input", () => {
+    syncActiveLessonDraftFromForm();
+    renderLessonPreview();
+    scheduleLessonSave();
+  });
   lessonBlockList?.addEventListener("input", (event) => {
     if (event.target.matches("[data-block-field]")) updateLessonBlockField(event.target);
   });
