@@ -57,6 +57,9 @@
           <button class="studio-nav-item" type="button" data-studio-target="media" aria-controls="studio-media" aria-selected="false">
             <span aria-hidden="true">▧</span> Media Library
           </button>
+          <button class="studio-nav-item" type="button" data-studio-target="creative" aria-controls="studio-creative" aria-selected="false">
+            <span aria-hidden="true">✦</span> Creative Libraries
+          </button>
           <button class="studio-nav-item" type="button" data-studio-target="settings" aria-controls="studio-settings" aria-selected="false">
             <span aria-hidden="true">⚙</span> Settings
           </button>
@@ -621,6 +624,79 @@
                 <p>Export an image or audio file from Canva or another tool, place it in the repository, then add its relative asset path here.</p>
               </div>
             </section>
+          </div>
+        </section>
+
+        <section class="studio-panel" id="studio-creative" data-studio-panel="creative" hidden>
+          <div class="creative-library-header">
+            <div>
+              <span class="admin-eyebrow">Creative system</span>
+              <h2>Creative Libraries</h2>
+              <p>Browse the reusable building blocks that shape future learning experiences, activities, themes, and motion.</p>
+            </div>
+          </div>
+
+          <div class="creative-library-toolbar studio-card">
+            <div class="creative-library-tabs" role="tablist" aria-label="Creative library categories">
+              <button class="is-active" type="button" role="tab" aria-selected="true" data-creative-category="experiences">Experiences</button>
+              <button type="button" role="tab" aria-selected="false" data-creative-category="activities">Activities</button>
+              <button type="button" role="tab" aria-selected="false" data-creative-category="themes">Themes</button>
+              <button type="button" role="tab" aria-selected="false" data-creative-category="animations">Animations</button>
+            </div>
+            <div class="creative-library-filters">
+              <label class="creative-search">
+                <span class="sr-only">Search creative library</span>
+                <input type="search" data-creative-search placeholder="Search titles, summaries, tags, or notes…" />
+              </label>
+              <label>
+                <span class="sr-only">Filter creative library status</span>
+                <select data-creative-status>
+                  <option value="all">All statuses</option>
+                  <option value="ready">Ready</option>
+                  <option value="planned">Planned</option>
+                  <option value="experimental">Experimental</option>
+                  <option value="needs-renderer">Needs renderer</option>
+                  <option value="active">Active</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="creative-library-layout">
+            <section class="creative-library-catalog">
+              <div class="creative-library-grid" data-creative-grid></div>
+              <div class="creative-library-empty studio-card" data-creative-empty hidden>
+                <h3>No library entries match these filters.</h3>
+                <p>Try a different category or remove the current search and status filters.</p>
+              </div>
+            </section>
+
+            <aside class="creative-preview-card studio-card" data-creative-preview>
+              <div class="studio-card-heading">
+                <div>
+                  <span class="admin-eyebrow">Selection preview</span>
+                  <h3 data-creative-preview-title>Choose a library entry</h3>
+                </div>
+                <span class="studio-status-pill" data-creative-preview-status>Read only</span>
+              </div>
+              <p class="creative-preview-summary" data-creative-preview-summary>Select an experience, activity, theme, or animation to inspect its intended use and compatibility.</p>
+              <div class="creative-preview-swatch-row" data-creative-preview-swatches hidden></div>
+              <div class="creative-preview-meta" data-creative-preview-meta></div>
+              <div class="creative-preview-tags">
+                <div>
+                  <span>Best for</span>
+                  <div data-creative-preview-bestfor></div>
+                </div>
+                <div>
+                  <span>Compatible with</span>
+                  <div data-creative-preview-compatible></div>
+                </div>
+              </div>
+              <div class="creative-preview-notes">
+                <span>Implementation notes</span>
+                <p data-creative-preview-notes>This panel is intentionally read-only for now.</p>
+              </div>
+            </aside>
           </div>
         </section>
 

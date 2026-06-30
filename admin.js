@@ -9,6 +9,10 @@
   const lessonStore = window.ExpresateStudioLessons;
   const lessonRenderer = window.ExpresateStudioLessonRenderer;
   const lessonPublisher = window.ExpresateStudioPublishing;
+  const experienceLibrary = window.ExpresateStudioExperiences;
+  const themeLibrary = window.ExpresateStudioThemes;
+  const activityLibrary = window.ExpresateStudioActivities;
+  const animationLibrary = window.ExpresateStudioAnimations;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
@@ -17,6 +21,7 @@
     vocabulary: ["Reusable content", "Vocabulary", "Create structured words and phrases for lessons, quizzes, and practice."],
     quizzes: ["Future builder", "Quizzes", "Plan quick checks, answer feedback, and audio prompts."],
     media: ["Asset catalog", "Media Library", "Organize local images, audio, animations, textures, and characters."],
+    creative: ["Creative system", "Creative Libraries", "Browse reusable experiences, activities, themes, and animations before they become editable Studio tools."],
     settings: ["Prototype configuration", "Settings", "Review the local-only data boundary for this Studio phase."]
   };
   const BLOCK_LIBRARY = Object.freeze([
@@ -242,6 +247,18 @@
   const vocabularyPickerGrid = document.querySelector("[data-vocabulary-picker-grid]");
   const vocabularyPickerEmpty = document.querySelector("[data-vocabulary-picker-empty]");
   const vocabularyPickerCount = document.querySelector("[data-vocabulary-picker-count]");
+  const creativeGrid = document.querySelector("[data-creative-grid]");
+  const creativeEmpty = document.querySelector("[data-creative-empty]");
+  const creativeSearch = document.querySelector("[data-creative-search]");
+  const creativeStatus = document.querySelector("[data-creative-status]");
+  const creativePreviewTitle = document.querySelector("[data-creative-preview-title]");
+  const creativePreviewStatus = document.querySelector("[data-creative-preview-status]");
+  const creativePreviewSummary = document.querySelector("[data-creative-preview-summary]");
+  const creativePreviewSwatches = document.querySelector("[data-creative-preview-swatches]");
+  const creativePreviewMeta = document.querySelector("[data-creative-preview-meta]");
+  const creativePreviewBestFor = document.querySelector("[data-creative-preview-bestfor]");
+  const creativePreviewCompatible = document.querySelector("[data-creative-preview-compatible]");
+  const creativePreviewNotes = document.querySelector("[data-creative-preview-notes]");
 
   let documentState = null;
   let activeKey = "a";
@@ -269,6 +286,8 @@
   let cloudLessonsLoaded = false;
   let lessonDirty = false;
   let collapsedLessonBlocks = new Set();
+  let activeCreativeCategory = "experiences";
+  let activeCreativeSelection = "";
 
   function normalizedEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -1941,8 +1960,207 @@
     if (section === "lessons") renderLessonDatabase();
     if (section === "media") renderMediaLibrary();
     if (section === "vocabulary") renderVocabularyDatabase();
+    if (section === "creative") renderCreativeLibraries();
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+  }
+
+  function creativeRegistry(category) {
+    if (category === "activities") return activityLibrary?.list?.() || activityLibrary?.all || [];
+    if (category === "themes") return themeLibrary?.list?.() || themeLibrary?.all || [];
+    if (category === "animations") return animationLibrary?.list?.() || animationLibrary?.all || [];
+    return experienceLibrary?.listDefinitions?.() || experienceLibrary?.definitions || [];
+  }
+
+  function creativeCategoryLabel(category) {
+    return ({
+      experiences: "Experience",
+      activities: "Activity",
+      themes: "Theme",
+      animations: "Animation"
+    })[category] || "Library";
+  }
+
+  function normalizeCreativeText(value) {
+    if (Array.isArray(value)) return value.join(" ");
+    if (value && typeof value === "object") return Object.values(value).join(" ");
+    return String(value || "");
+  }
+
+  function creativeMatchesFilters(entry) {
+    const query = String(creativeSearch?.value || "").trim().toLowerCase();
+    const statusFilter = creativeStatus?.value || "all";
+    const haystack = [
+      entry.title,
+      entry.summary,
+      entry.category,
+      entry.studentGoal,
+      entry.notes,
+      normalizeCreativeText(entry.recommendedFor),
+      normalizeCreativeText(entry.supportedThemes),
+      normalizeCreativeText(entry.supportedAnimations),
+      normalizeCreativeText(entry.requiredInputs),
+      normalizeCreativeText(entry.layoutTags),
+      normalizeCreativeText(entry.effectTags),
+      normalizeCreativeText(entry.intendedUse)
+    ].join(" ").toLowerCase();
+    const entryStatus = String(entry.status || "").toLowerCase();
+    return (!query || haystack.includes(query))
+      && (statusFilter === "all" || entryStatus === statusFilter);
+  }
+
+  function createBadge(text, className) {
+    const badge = document.createElement("span");
+    badge.className = className || "creative-pill";
+    badge.textContent = text;
+    return badge;
+  }
+
+  function createCreativeCard(entry, category) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "creative-library-card";
+    button.dataset.creativeId = entry.id;
+    button.dataset.creativeCategory = category;
+    button.classList.toggle("is-active", activeCreativeSelection === entry.id);
+
+    const header = document.createElement("div");
+    header.className = "creative-library-card-top";
+    header.append(
+      createBadge(creativeCategoryLabel(category), "creative-type-pill"),
+      createBadge(entry.status || "planned", `creative-status-pill is-${String(entry.status || "planned").toLowerCase()}`)
+    );
+
+    const titleNode = document.createElement("h3");
+    titleNode.textContent = entry.title || entry.id;
+    const summaryNode = document.createElement("p");
+    summaryNode.textContent = entry.summary || "No summary yet.";
+
+    const meta = document.createElement("div");
+    meta.className = "creative-library-meta";
+    const metaValues = [];
+    if (entry.category) metaValues.push(entry.category);
+    if (entry.interactionType) metaValues.push(entry.interactionType);
+    if (entry.motionType) metaValues.push(entry.motionType);
+    if (entry.trigger) metaValues.push(`Trigger: ${entry.trigger}`);
+    if (entry.intendedUse) metaValues.push(`Use: ${normalizeCreativeText(entry.intendedUse)}`);
+    metaValues.slice(0, 3).forEach((value) => meta.appendChild(createBadge(value)));
+
+    const helper = document.createElement("div");
+    helper.className = "creative-library-helper";
+    const helperText = entry.studentGoal
+      || entry.tone
+      || entry.typography
+      || normalizeCreativeText(entry.requiredInputs)
+      || entry.notes
+      || "";
+    helper.textContent = helperText;
+
+    button.append(header, titleNode, summaryNode);
+    if (meta.childElementCount) button.appendChild(meta);
+    if (helperText) button.appendChild(helper);
+    return button;
+  }
+
+  function fillPreviewTags(container, values, emptyText) {
+    if (!container) return;
+    container.replaceChildren();
+    const list = Array.isArray(values)
+      ? values.filter(Boolean)
+      : (values ? [String(values)] : []);
+    if (!list.length) {
+      container.appendChild(createBadge(emptyText || "Not specified"));
+      return;
+    }
+    list.forEach((value) => container.appendChild(createBadge(String(value))));
+  }
+
+  function renderCreativePreview(entry, category) {
+    if (!creativePreviewTitle) return;
+    if (!entry) {
+      creativePreviewTitle.textContent = "Choose a library entry";
+      creativePreviewStatus.textContent = "Read only";
+      creativePreviewSummary.textContent = "Select an experience, activity, theme, or animation to inspect its intended use and compatibility.";
+      creativePreviewMeta.replaceChildren();
+      creativePreviewSwatches.hidden = true;
+      creativePreviewSwatches.replaceChildren();
+      fillPreviewTags(creativePreviewBestFor, [], "Select an entry");
+      fillPreviewTags(creativePreviewCompatible, [], "Read-only preview");
+      creativePreviewNotes.textContent = "This panel is intentionally read-only for now.";
+      return;
+    }
+
+    creativePreviewTitle.textContent = entry.title || entry.id;
+    creativePreviewStatus.textContent = `${creativeCategoryLabel(category)} · ${entry.status || "planned"}`;
+    creativePreviewSummary.textContent = entry.summary || "No summary available.";
+
+    const metaRows = [];
+    if (entry.studentGoal) metaRows.push(["Purpose", entry.studentGoal]);
+    if (entry.requiredInputs) metaRows.push(["Required inputs", normalizeCreativeText(entry.requiredInputs)]);
+    if (entry.contentInputs) metaRows.push(["Content inputs", normalizeCreativeText(entry.contentInputs)]);
+    if (entry.interactionType) metaRows.push(["Interaction", entry.interactionType]);
+    if (entry.motionType) metaRows.push(["Motion", entry.motionType]);
+    if (entry.trigger) metaRows.push(["Trigger", entry.trigger]);
+    if (entry.typography) metaRows.push(["Typography", entry.typography]);
+    if (entry.shell) metaRows.push(["Shell", entry.shell]);
+    if (entry.textureUsage) metaRows.push(["Texture", entry.textureUsage]);
+    if (entry.intendedUse) metaRows.push(["Use", normalizeCreativeText(entry.intendedUse)]);
+
+    creativePreviewMeta.replaceChildren(...metaRows.map(([label, value]) => {
+      const row = document.createElement("div");
+      row.className = "creative-preview-row";
+      const labelNode = document.createElement("span");
+      labelNode.textContent = label;
+      const valueNode = document.createElement("strong");
+      valueNode.textContent = value;
+      row.append(labelNode, valueNode);
+      return row;
+    }));
+
+    const swatches = Array.isArray(entry.swatches) ? entry.swatches.filter(Boolean) : [];
+    creativePreviewSwatches.hidden = swatches.length === 0;
+    creativePreviewSwatches.replaceChildren(...swatches.map((value) => {
+      const chip = document.createElement("span");
+      chip.className = "creative-swatch";
+      chip.style.setProperty("--swatch", value);
+      chip.title = value;
+      const code = document.createElement("small");
+      code.textContent = value;
+      chip.appendChild(code);
+      return chip;
+    }));
+
+    fillPreviewTags(
+      creativePreviewBestFor,
+      entry.recommendedFor || entry.intendedUse || entry.layoutTags,
+      "No usage notes"
+    );
+
+    const compatible = [];
+    if (entry.supportedThemes) compatible.push(...entry.supportedThemes);
+    if (entry.supportedAnimations) compatible.push(...entry.supportedAnimations);
+    if (entry.effectTags) compatible.push(...entry.effectTags);
+    fillPreviewTags(creativePreviewCompatible, compatible, "No compatibility data");
+
+    creativePreviewNotes.textContent = entry.notes || "No implementation notes.";
+  }
+
+  function renderCreativeLibraries() {
+    if (!creativeGrid || !creativeEmpty) return;
+    const category = activeCreativeCategory;
+    const items = creativeRegistry(category).filter(creativeMatchesFilters);
+    if (!activeCreativeSelection || !items.some((entry) => entry.id === activeCreativeSelection)) {
+      activeCreativeSelection = items[0]?.id || "";
+    }
+    creativeGrid.replaceChildren(...items.map((entry) => createCreativeCard(entry, category)));
+    creativeGrid.hidden = items.length === 0;
+    creativeEmpty.hidden = items.length !== 0;
+    document.querySelectorAll("[data-creative-category]").forEach((button) => {
+      const active = button.dataset.creativeCategory === category;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    renderCreativePreview(items.find((entry) => entry.id === activeCreativeSelection) || null, category);
   }
 
   function setField(name, value) {
@@ -2096,6 +2314,7 @@
     renderMediaLibrary();
     clearVocabularyForm();
     renderVocabularyDatabase();
+    renderCreativeLibraries();
     renderLessonDatabase();
     updateDraftSummary();
     loading.hidden = true;
@@ -2211,6 +2430,19 @@
     const sectionButton = event.target.closest("[data-studio-target], [data-studio-open]");
     if (sectionButton) {
       activateSection(sectionButton.dataset.studioTarget || sectionButton.dataset.studioOpen);
+      return;
+    }
+    const creativeCategoryButton = event.target.closest("[data-creative-category]");
+    if (creativeCategoryButton) {
+      activeCreativeCategory = creativeCategoryButton.dataset.creativeCategory;
+      activeCreativeSelection = "";
+      renderCreativeLibraries();
+      return;
+    }
+    const creativeCard = event.target.closest("[data-creative-id]");
+    if (creativeCard) {
+      activeCreativeSelection = creativeCard.dataset.creativeId;
+      renderCreativeLibraries();
       return;
     }
     const lessonTemplateButton = event.target.closest("[data-lesson-template]");
@@ -2480,6 +2712,8 @@
   lessonPremiumFilter?.addEventListener("change", renderLessonDatabase);
   lessonImportFile?.addEventListener("change", () => importLessons(lessonImportFile.files?.[0]));
   vocabularyPickerSearch?.addEventListener("input", renderVocabularyPicker);
+  creativeSearch?.addEventListener("input", renderCreativeLibraries);
+  creativeStatus?.addEventListener("change", renderCreativeLibraries);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeMediaPicker();

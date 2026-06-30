@@ -134,6 +134,16 @@ When you give Codex a request, Codex should:
 3. implement the new feature in that shared vocabulary
 4. avoid inventing a fresh pattern when an existing library entry already fits
 
+## Studio view
+
+Exprésate Studio includes a read-only Creative Libraries view that reads these registries directly.
+
+Use that view to:
+
+- sanity-check whether an idea has already been structured
+- compare themes and activities before implementation
+- inspect compatibility notes before asking for a new feature
+
 ## Recommended next habit
 
 Whenever you collect:

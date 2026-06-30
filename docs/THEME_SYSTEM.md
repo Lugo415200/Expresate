@@ -71,6 +71,8 @@ Studio should eventually let a creator choose:
 
 The stored lesson data should stay mostly content-first, with explicit references to activity and presentation layers.
 
+The Creative Libraries Studio view is the current read-only foundation for browsing these theme, activity, experience, and animation registries before they become editable authoring tools.
+
 ## How this connects to Preview Renderer
 
 The Preview Renderer should be able to apply:
