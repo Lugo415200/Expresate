@@ -7,6 +7,7 @@
   const mediaStore = window.ExpresateStudioMedia;
   const vocabularyStore = window.ExpresateStudioVocabulary;
   const lessonStore = window.ExpresateStudioLessons;
+  const lessonRenderer = window.ExpresateStudioLessonRenderer;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
@@ -95,7 +96,16 @@
   const lessonBuilderPanel = document.querySelector("[data-lesson-builder-panel]");
   const lessonPreviewPanel = document.querySelector("[data-lesson-preview-panel]");
   const lessonPreview = document.querySelector("[data-lesson-preview]");
+  const lessonPreviewStage = document.querySelector("[data-lesson-preview-stage]");
+  const lessonPreviewStepNav = document.querySelector("[data-preview-step-nav]");
+  const lessonPreviewStepCurrent = document.querySelector("[data-preview-step-current]");
+  const lessonPreviewStepTotal = document.querySelector("[data-preview-step-total]");
+  const lessonPreviewProgressBar = document.querySelector("[data-preview-progress-bar]");
   const lessonImportFile = document.querySelector("[data-lesson-import-file]");
+  const lessonDraftCount = document.querySelector("[data-lesson-draft-count]");
+  const lessonPublishedCount = document.querySelector("[data-lesson-published-count]");
+  const lessonRecentList = document.querySelector("[data-lesson-recent-list]");
+  const lessonRecentEmpty = document.querySelector("[data-lesson-recent-empty]");
   const vocabularyPicker = document.querySelector("[data-vocabulary-picker]");
   const vocabularyPickerSearch = document.querySelector("[data-vocabulary-picker-search]");
   const vocabularyPickerGrid = document.querySelector("[data-vocabulary-picker-grid]");
@@ -120,6 +130,10 @@
   let vocabularyPickerBlockId = "";
   let vocabularyPickerReturnFocus = null;
   let vocabularyPickerSelection = new Set();
+  let lessonPreviewMode = "full";
+  let lessonPreviewStep = 0;
+  let lessonPreviewMobile = false;
+  let previewLessonId = "";
 
   function normalizedEmail(email) {
     return String(email || "").trim().toLowerCase();
@@ -1018,83 +1032,65 @@
     lessonBlockEmpty.hidden = blocks.length !== 0;
   }
 
-  function appendPreviewText(parent, tag, value, className) {
-    if (!value) return;
-    parent.appendChild(textElement(tag, className || "", value));
-  }
-
-  function createLessonPreviewBlock(block) {
-    const card = document.createElement("article");
-    card.className = `studio-preview-block is-${block.type}`;
-    appendPreviewText(card, "span", block.type, "studio-preview-type");
-    if (block.type === "explanation") {
-      appendPreviewText(card, "h3", block.title);
-      appendPreviewText(card, "p", block.body);
-      appendPreviewText(card, "aside", block.consejo, "studio-preview-consejo");
-    } else if (block.type === "vocabulary") {
-      appendPreviewText(card, "h3", "Vocabulary");
-      const grid = document.createElement("div");
-      grid.className = `studio-preview-vocabulary is-${block.displayMode}`;
-      selectedVocabularyItems(block).forEach((item) => {
-        const itemCard = document.createElement("div");
-        if (item.imagePath) {
-          const image = document.createElement("img");
-          image.src = item.imagePath;
-          image.alt = "";
-          image.addEventListener("error", () => { image.hidden = true; }, { once: true });
-          itemCard.appendChild(image);
-        }
-        itemCard.append(textElement("strong", "", item.english), textElement("span", "", item.spanish));
-        if (item.audioPath) itemCard.appendChild(textElement("small", "", "Audio available"));
-        grid.appendChild(itemCard);
-      });
-      if (!grid.children.length) appendPreviewText(grid, "p", "No vocabulary selected.");
-      card.appendChild(grid);
-    } else if (block.type === "image") {
-      appendPreviewText(card, "h3", block.title);
-      if (block.imagePath) {
-        const image = document.createElement("img");
-        image.src = block.imagePath;
-        image.alt = block.caption || block.title || "Lesson image";
-        image.addEventListener("error", () => { image.replaceWith(textElement("p", "lesson-inline-empty", "Image could not be loaded.")); }, { once: true });
-        card.appendChild(image);
-      }
-      appendPreviewText(card, "p", block.caption);
-    } else if (block.type === "quiz") {
-      appendPreviewText(card, "h3", block.question);
-      const options = document.createElement("div");
-      options.className = "studio-preview-options";
-      (block.options || []).forEach((option) => options.appendChild(textElement("div", option === block.correctAnswer ? "is-correct" : "", option)));
-      card.appendChild(options);
-      appendPreviewText(card, "p", block.explanation);
-    } else if (block.type === "speech") {
-      appendPreviewText(card, "h3", block.phrase || "Speech practice");
-      appendPreviewText(card, "p", block.translation);
-      appendPreviewText(card, "strong", block.expectedText ? `Expected: ${block.expectedText}` : "");
-      appendPreviewText(card, "small", block.hint);
-    } else {
-      appendPreviewText(card, "h3", block.message || "Lesson complete");
-      appendPreviewText(card, "p", block.nextLessonSlug ? `Next lesson: ${block.nextLessonSlug}` : "");
-    }
-    return card;
-  }
-
   function renderLessonPreview() {
-    if (!lessonPreview) return;
+    if (!lessonPreview || !lessonRenderer) return;
     const lesson = activeLesson();
     if (!lesson) {
       lessonPreview.replaceChildren();
       return;
     }
-    const header = document.createElement("header");
-    header.className = "studio-preview-lesson-header";
-    header.append(textElement("span", "admin-eyebrow", `${lesson.module} · ${lesson.level}`), textElement("h2", "", lesson.title), textElement("p", "", lesson.description || "No description yet."));
-    const badges = document.createElement("div");
-    badges.className = "studio-preview-badges";
-    badges.append(textElement("span", "", lesson.status), textElement("span", "", `${lesson.xpReward} XP`));
-    if (lesson.premium) badges.appendChild(textElement("span", "is-premium", "Premium"));
-    header.appendChild(badges);
-    lessonPreview.replaceChildren(header, ...(lesson.blocks || []).map(createLessonPreviewBlock));
+    if (previewLessonId !== lesson.id) {
+      previewLessonId = lesson.id;
+      lessonPreviewStep = 0;
+    }
+    const blockCount = lesson.blocks.length;
+    lessonPreviewStep = Math.max(0, Math.min(lessonPreviewStep, Math.max(0, blockCount - 1)));
+    lessonPreviewStage?.classList.toggle("is-mobile-width", lessonPreviewMobile);
+    lessonRenderer.render(lessonPreview, lesson, {
+      mode: lessonPreviewMode,
+      stepIndex: lessonPreviewStep,
+      vocabularyItems: vocabularyDocument.items
+    });
+    const stepMode = lessonPreviewMode === "step";
+    if (lessonPreviewStepNav) lessonPreviewStepNav.hidden = !stepMode;
+    if (lessonPreviewStepCurrent) lessonPreviewStepCurrent.textContent = String(blockCount ? lessonPreviewStep + 1 : 0);
+    if (lessonPreviewStepTotal) lessonPreviewStepTotal.textContent = String(blockCount);
+    if (lessonPreviewProgressBar) lessonPreviewProgressBar.style.width = `${blockCount ? ((lessonPreviewStep + 1) / blockCount) * 100 : 0}%`;
+    const previous = lessonPreviewStepNav?.querySelector('[data-preview-step-action="previous"]');
+    const next = lessonPreviewStepNav?.querySelector('[data-preview-step-action="next"]');
+    if (previous) previous.disabled = lessonPreviewStep <= 0;
+    if (next) next.disabled = !blockCount || lessonPreviewStep >= blockCount - 1;
+    document.querySelectorAll("[data-preview-mode]").forEach((button) => {
+      const active = button.dataset.previewMode === lessonPreviewMode;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    const mobileToggle = document.querySelector("[data-preview-mobile]");
+    if (mobileToggle) {
+      mobileToggle.classList.toggle("is-active", lessonPreviewMobile);
+      mobileToggle.setAttribute("aria-pressed", lessonPreviewMobile ? "true" : "false");
+    }
+  }
+
+  function renderLessonDashboard() {
+    if (lessonDraftCount) lessonDraftCount.textContent = String(lessonDocument.lessons.filter((lesson) => lesson.status === "draft").length);
+    if (lessonPublishedCount) lessonPublishedCount.textContent = String(lessonDocument.lessons.filter((lesson) => lesson.status === "published").length);
+    if (!lessonRecentList || !lessonRecentEmpty) return;
+    const recent = [...lessonDocument.lessons]
+      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      .slice(0, 4);
+    lessonRecentList.replaceChildren(...recent.map((lesson) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "lesson-recent-item";
+      button.dataset.previewLessonId = lesson.id;
+      const copy = document.createElement("span");
+      copy.append(textElement("strong", "", lesson.title), textElement("small", "", `${lesson.module} · ${lesson.level} · ${lesson.blocks.length} blocks`));
+      button.append(copy, textElement("span", "", "Preview →"));
+      return button;
+    }));
+    lessonRecentList.hidden = recent.length === 0;
+    lessonRecentEmpty.hidden = recent.length !== 0;
   }
 
   function setLessonForm(lesson) {
@@ -1168,6 +1164,7 @@
     lessonListEmpty.hidden = lessons.length !== 0;
     lessonCount.textContent = String(lessonDocument.lessons.length);
     if (lessonDashboardCount) lessonDashboardCount.textContent = String(lessonDocument.lessons.length);
+    renderLessonDashboard();
     renderLessonEditor();
   }
 
@@ -1202,6 +1199,7 @@
       lessonList.replaceChildren(...lessons.map(createLessonListItem));
       lessonList.hidden = lessons.length === 0;
       lessonListEmpty.hidden = lessons.length !== 0;
+      renderLessonDashboard();
       renderLessonPreview();
     }
     if (message) showStatus(message);
@@ -1281,6 +1279,30 @@
       button.setAttribute("aria-selected", active ? "true" : "false");
     });
     if (previewing) renderLessonPreview();
+  }
+
+  function setStudentPreviewMode(mode) {
+    lessonPreviewMode = mode === "step" ? "step" : "full";
+    lessonPreviewStep = 0;
+    renderLessonPreview();
+  }
+
+  function moveStudentPreview(direction) {
+    const lesson = activeLesson();
+    if (!lesson?.blocks.length) return;
+    lessonPreviewStep = Math.max(0, Math.min(lessonPreviewStep + direction, lesson.blocks.length - 1));
+    renderLessonPreview();
+  }
+
+  function previewDashboardLesson(id) {
+    const lesson = lessonDocument.lessons.find((entry) => entry.id === id);
+    if (!lesson) return;
+    activeLessonId = lesson.id;
+    lessonPreviewMode = "step";
+    lessonPreviewStep = 0;
+    previewLessonId = lesson.id;
+    activateSection("lessons");
+    setLessonMode("preview");
   }
 
   function exportLessons() {
@@ -1634,7 +1656,7 @@
   }
 
   async function init() {
-    if (!store || !mediaStore || !vocabularyStore || !lessonStore) {
+    if (!store || !mediaStore || !vocabularyStore || !lessonStore || !lessonRenderer) {
       showDenied("The content module could not be loaded.");
       return;
     }
@@ -1669,6 +1691,11 @@
       renderLessonDatabase();
       return;
     }
+    const recentLesson = event.target.closest("[data-preview-lesson-id]");
+    if (recentLesson) {
+      previewDashboardLesson(recentLesson.dataset.previewLessonId);
+      return;
+    }
     if (event.target.closest("[data-lesson-duplicate]")) {
       duplicateLesson();
       return;
@@ -1689,6 +1716,21 @@
     const lessonMode = event.target.closest("[data-lesson-mode]");
     if (lessonMode) {
       setLessonMode(lessonMode.dataset.lessonMode);
+      return;
+    }
+    const previewMode = event.target.closest("[data-preview-mode]");
+    if (previewMode) {
+      setStudentPreviewMode(previewMode.dataset.previewMode);
+      return;
+    }
+    const previewStepAction = event.target.closest("[data-preview-step-action]");
+    if (previewStepAction) {
+      moveStudentPreview(previewStepAction.dataset.previewStepAction === "next" ? 1 : -1);
+      return;
+    }
+    if (event.target.closest("[data-preview-mobile]")) {
+      lessonPreviewMobile = !lessonPreviewMobile;
+      renderLessonPreview();
       return;
     }
     const vocabularyPickerOpen = event.target.closest("[data-open-vocabulary-picker]");

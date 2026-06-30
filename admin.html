@@ -33,7 +33,7 @@
           <span class="studio-brand-mark" aria-hidden="true">E</span>
           <div>
             <strong>Exprésate Studio</strong>
-            <small>Local prototype · Phase 4</small>
+            <small>Local prototype · Phase 5</small>
           </div>
         </div>
 
@@ -174,6 +174,16 @@
               </div>
               <div class="vocab-recent-list" data-vocab-recent-list></div>
               <div class="vocab-recent-empty" data-vocab-recent-empty>No vocabulary items yet.</div>
+            </article>
+
+            <article class="studio-card studio-recent-lessons">
+              <div class="studio-card-heading">
+                <div><span class="admin-eyebrow">Lessons</span><h3>Recently updated</h3></div>
+                <button class="admin-text-button" type="button" data-studio-open="lessons">Open builder →</button>
+              </div>
+              <div class="lesson-dashboard-summary"><span><b data-lesson-draft-count>0</b> drafts</span><span><b data-lesson-published-count>0</b> published</span></div>
+              <div class="lesson-recent-list" data-lesson-recent-list></div>
+              <div class="vocab-recent-empty" data-lesson-recent-empty>No lessons yet.</div>
             </article>
           </div>
         </section>
@@ -364,7 +374,22 @@
 
                 <section class="lesson-mode-panel studio-lesson-preview" data-lesson-preview-panel hidden>
                   <div class="studio-preview-banner"><span>Studio preview only</span><strong>This lesson is not connected to curso.html.</strong></div>
-                  <div data-lesson-preview></div>
+                  <div class="lesson-preview-toolbar">
+                    <div class="lesson-preview-mode" role="group" aria-label="Preview mode">
+                      <button class="is-active" type="button" data-preview-mode="full">Full Preview</button>
+                      <button type="button" data-preview-mode="step">Student Step Preview</button>
+                    </div>
+                    <button class="btn lesson-mobile-preview-toggle" type="button" data-preview-mobile aria-pressed="false">Mobile width</button>
+                  </div>
+                  <div class="lesson-preview-stage" data-lesson-preview-stage>
+                    <div data-lesson-preview></div>
+                    <nav class="lesson-preview-step-nav" data-preview-step-nav hidden aria-label="Student preview steps">
+                      <div class="lesson-preview-progress" aria-hidden="true"><span data-preview-progress-bar></span></div>
+                      <button class="btn" type="button" data-preview-step-action="previous">← Atrás</button>
+                      <span><b data-preview-step-current>1</b> de <b data-preview-step-total>1</b></span>
+                      <button class="btn primary" type="button" data-preview-step-action="next">Siguiente →</button>
+                    </nav>
+                  </div>
                 </section>
               </div>
             </section>
@@ -558,6 +583,7 @@
   <script src="data/studio-media-library.js"></script>
   <script src="data/studio-vocabulary.js"></script>
   <script src="data/studio-lessons.js"></script>
+  <script src="data/studio-lesson-renderer.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>
