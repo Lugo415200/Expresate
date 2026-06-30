@@ -3,6 +3,7 @@
   "use strict";
 
   const cleanupByContainer = new WeakMap();
+  const experienceLibrary = window.ExpresateStudioExperiences;
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -36,7 +37,8 @@
       image: "Imagen",
       quiz: "Pregunta",
       speech: "Práctica de voz",
-      completion: "Cierre"
+      completion: "Cierre",
+      experience: "Experiencia"
     })[type] || "Contenido";
   }
 
@@ -211,12 +213,21 @@
     return card;
   }
 
+  function renderExperience(block, context) {
+    if (experienceLibrary?.render) return experienceLibrary.render(block, context);
+    const card = baseCard(block);
+    appendText(card, "h3", block.title || "Experiencia");
+    appendText(card, "p", "No se pudo cargar esta experiencia.");
+    return card;
+  }
+
   function renderBlock(block, context) {
     if (block.type === "explanation") return renderExplanation(block, context);
     if (block.type === "vocabulary") return renderVocabulary(block, context);
     if (block.type === "image") return renderImage(block, context);
     if (block.type === "quiz") return renderQuiz(block, context);
     if (block.type === "speech") return renderSpeech(block, context);
+    if (block.type === "experience") return renderExperience(block, context);
     return renderCompletion(block, context);
   }
 

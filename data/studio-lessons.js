@@ -6,7 +6,7 @@
   const VERSION = 1;
   const LEVELS = Object.freeze(["A1", "A2", "B1", "B2", "C1", "C2"]);
   const STATUSES = Object.freeze(["draft", "published"]);
-  const BLOCK_TYPES = Object.freeze(["explanation", "vocabulary", "image", "quiz", "speech", "completion"]);
+  const BLOCK_TYPES = Object.freeze(["explanation", "vocabulary", "image", "quiz", "speech", "completion", "experience"]);
   const VOCABULARY_DISPLAY_MODES = Object.freeze(["cards", "list", "flashcards"]);
 
   function cleanText(value, fallback, maxLength) {
@@ -100,6 +100,16 @@
       expectedText: cleanText(source.expectedText, "", 400),
       hint: cleanText(source.hint, "", 400)
     };
+    if (type === "experience") return {
+      ...base,
+      experienceType: cleanText(source.experienceType, "alphabet-explorer", 80),
+      title: cleanText(source.title, "Alphabet Explorer", 140),
+      subtitle: cleanText(source.subtitle, "Tap a letter to hear it and explore an example.", 240),
+      showVowels: source.showVowels !== false && source.showVowels !== "false",
+      enableLetterModal: source.enableLetterModal !== false && source.enableLetterModal !== "false",
+      theme: cleanText(source.theme, "workbook-green", 60),
+      dataset: cleanText(source.dataset, "lesson000-alphabet", 120)
+    };
     const nextLessonSlug = source.nextLessonSlug ? cleanSlug(source.nextLessonSlug, "") : "";
     return {
       ...base,
@@ -185,6 +195,18 @@
   }
 
   function createBlock(type) {
+    if (type === "experience") {
+      return normalizeBlock({
+        type,
+        experienceType: "alphabet-explorer",
+        title: "Alphabet Explorer",
+        subtitle: "Tap a letter to hear it and open the mini lesson.",
+        showVowels: true,
+        enableLetterModal: true,
+        theme: "workbook-green",
+        dataset: "lesson000-alphabet"
+      });
+    }
     return normalizeBlock({ type });
   }
 

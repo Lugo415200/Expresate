@@ -25,6 +25,7 @@
     { type: "image", icon: "Img", title: "Image", description: "Show a visual teaching aid with an optional title and caption.", helper: "Use Media Library assets or type a project-relative path manually." },
     { type: "quiz", icon: "?", title: "Quiz", description: "Check understanding with one question, several options, and answer feedback.", helper: "Answers stay in memory during preview and live playback." },
     { type: "speech", icon: "Mic", title: "Speech Practice", description: "Prompt the learner to say a phrase and compare it with expected text.", helper: "Reuse the existing speech practice engine without duplicating audio logic." },
+    { type: "experience", icon: "Exp", title: "Experience", description: "Drop in a reusable learning experience such as the Alphabet Explorer.", helper: "Use this for richer interactions that go beyond generic blocks." },
     { type: "completion", icon: "XP", title: "Completion", description: "Close the lesson with a reward message, XP, and an optional next lesson slug.", helper: "Keep one completion block at the end of the flow." }
   ]);
   const LESSON_TEMPLATES = Object.freeze({
@@ -287,6 +288,12 @@
     app.hidden = true;
     denied.hidden = false;
     if (message) denied.querySelector("p").textContent = message;
+  }
+
+  function failAdminLoad(error, message) {
+    console.error("[StudioAdmin]", error);
+    showDenied(message || "Studio could not finish loading.");
+    showStatus(message || "Studio could not finish loading.", true);
   }
 
   function showStatus(message, isError) {
@@ -1329,6 +1336,35 @@
         lessonField("Expected text", "expectedText", block.expectedText, { help: "Used by the speech engine for matching." }),
         lessonField("Hint (optional)", "hint", block.hint, { help: "Short learner hint for pronunciation or context." })
       );
+    } else if (block.type === "experience") {
+      fields.append(
+        lessonField("Experience type", "experienceType", block.experienceType, {
+          select: [["alphabet-explorer", "Alphabet Explorer"]],
+          help: "Phase 9 starts with one reusable experience."
+        }),
+        lessonField("Title", "title", block.title, { wide: true }),
+        lessonField("Subtitle", "subtitle", block.subtitle, {
+          textarea: true,
+          wide: true,
+          help: "This becomes the learner-facing intro above the experience."
+        }),
+        lessonField("Theme", "theme", block.theme, {
+          select: [["workbook-green", "Workbook green"], ["default", "Default"]],
+          help: "Workbook green matches the Lesson 000 alphabet experience."
+        }),
+        lessonField("Dataset", "dataset", block.dataset, {
+          select: [["lesson000-alphabet", "Lesson 000 alphabet data"]],
+          help: "Future phases can add more reusable datasets."
+        }),
+        lessonField("Show vowels", "showVowels", block.showVowels ? "true" : "false", {
+          select: [["true", "Yes"], ["false", "No"]],
+          help: "Highlights A, E, I, O, and U in the grid."
+        }),
+        lessonField("Enable letter modal", "enableLetterModal", block.enableLetterModal ? "true" : "false", {
+          select: [["true", "Yes"], ["false", "No"]],
+          help: "Opens the detailed mini-lesson when a learner taps a letter."
+        })
+      );
     } else {
       fields.append(
         lessonField("Completion message", "message", block.message, { textarea: true, wide: true, help: "The student sees this at the end of the lesson." }),
@@ -1693,9 +1729,14 @@
     const lesson = activeLesson();
     const block = lesson?.blocks.find((entry) => entry.id === card?.dataset.blockId);
     if (!block) return;
-    block[target.dataset.blockField] = target.dataset.blockField === "options"
-      ? target.value.split("\n").map((option) => option.trim()).filter(Boolean)
-      : target.value;
+    const field = target.dataset.blockField;
+    if (field === "options") {
+      block[field] = target.value.split("\n").map((option) => option.trim()).filter(Boolean);
+    } else if (field === "showVowels" || field === "enableLetterModal") {
+      block[field] = target.value === "true";
+    } else {
+      block[field] = target.value;
+    }
     renderLessonPreview();
     scheduleLessonSave();
   }
@@ -2141,21 +2182,29 @@
   }
 
   async function init() {
-    if (!store || !mediaStore || !vocabularyStore || !lessonStore || !lessonRenderer) {
-      showDenied("The content module could not be loaded.");
-      return;
+    try {
+      if (!store || !mediaStore || !vocabularyStore || !lessonStore || !lessonRenderer) {
+        showDenied("The content module could not be loaded.");
+        return;
+      }
+      if (!sb?.auth?.getSession) {
+        showDenied("The Supabase session could not be verified.");
+        return;
+      }
+      const { data, error } = await sb.auth.getSession();
+      if (error) {
+        showDenied("The Supabase session could not be verified.");
+        return;
+      }
+      await applySession(data?.session);
+      sb.auth.onAuthStateChange((_event, session) => {
+        Promise.resolve(applySession(session)).catch((authError) => {
+          failAdminLoad(authError, "The admin session could not be refreshed.");
+        });
+      });
+    } catch (error) {
+      failAdminLoad(error, "Studio could not finish loading.");
     }
-    if (!sb?.auth?.getSession) {
-      showDenied("The Supabase session could not be verified.");
-      return;
-    }
-    const { data, error } = await sb.auth.getSession();
-    if (error) {
-      showDenied("The Supabase session could not be verified.");
-      return;
-    }
-    await applySession(data?.session);
-    sb.auth.onAuthStateChange((_event, session) => applySession(session));
   }
 
   document.addEventListener("click", (event) => {
