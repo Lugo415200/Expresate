@@ -33,7 +33,7 @@
           <span class="studio-brand-mark" aria-hidden="true">E</span>
           <div>
             <strong>Exprésate Studio</strong>
-            <small>Local prototype · Phase 3</small>
+            <small>Local prototype · Phase 4</small>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
             <div>
               <span class="admin-eyebrow">Your content workspace</span>
               <h2>Build the foundation, one reusable block at a time.</h2>
-              <p>Alphabet, Vocabulary, and the local Media Library are editable today. The remaining areas show how the Studio can grow safely.</p>
+              <p>Alphabet, Lessons, Vocabulary, and the local Media Library are editable today. Quizzes and publishing remain future phases.</p>
             </div>
             <button class="btn primary" type="button" data-studio-open="alphabet">Edit alphabet</button>
           </div>
@@ -105,12 +105,12 @@
               <p><b>26</b> editable letters</p>
               <button type="button" data-studio-open="alphabet">Open editor →</button>
             </article>
-            <article class="studio-metric-card">
+            <article class="studio-metric-card is-ready">
               <span class="studio-metric-icon" aria-hidden="true">▤</span>
-              <small>Coming soon</small>
+              <small>Phase 4 ready</small>
               <strong>Lessons</strong>
-              <p>Composable learning blocks</p>
-              <button type="button" data-studio-open="lessons">View roadmap →</button>
+              <p><b data-lesson-dashboard-count>0</b> local lessons</p>
+              <button type="button" data-studio-open="lessons">Open builder →</button>
             </article>
             <article class="studio-metric-card is-ready">
               <span class="studio-metric-icon" aria-hidden="true">Ab</span>
@@ -287,18 +287,88 @@
         </section>
 
         <section class="studio-panel" id="studio-lessons" data-studio-panel="lessons" hidden>
-          <div class="studio-placeholder-hero">
-            <span class="studio-placeholder-icon" aria-hidden="true">▤</span>
-            <div><span class="admin-eyebrow">Coming soon</span><h2>Lesson Builder</h2><p>Assemble clear, Spanish-first lessons from reusable learning blocks.</p></div>
+          <div class="lesson-builder-header">
+            <div><span class="admin-eyebrow">Local lesson prototypes</span><h2>Lesson Builder</h2><p>Create guided lessons from reusable explanation, vocabulary, image, quiz, speech, and completion blocks.</p></div>
+            <div class="lesson-builder-actions">
+              <button class="btn primary" type="button" data-lesson-new>New lesson</button>
+              <button class="btn" type="button" data-lesson-import>Import Lessons JSON</button>
+              <button class="btn" type="button" data-lesson-export>Export Lessons</button>
+              <button class="btn admin-danger" type="button" data-lesson-reset>Reset Database</button>
+            </div>
           </div>
-          <div class="studio-block-grid">
-            <article><strong>Explanation block</strong><p>Short Spanish guidance with focused examples.</p></article>
-            <article><strong>Vocabulary block</strong><p>Words, translations, images, and audio.</p></article>
-            <article><strong>Quiz block</strong><p>Questions, answers, and immediate feedback.</p></article>
-            <article><strong>Speech practice block</strong><p>Expected phrases and pronunciation practice.</p></article>
-            <article><strong>Consejo block</strong><p>Optional guidance that supports the active task.</p></article>
+
+          <div class="lesson-builder-layout">
+            <aside class="studio-card lesson-catalog-card">
+              <div class="studio-card-heading"><div><span class="admin-eyebrow">Local database</span><h3>Lessons <span class="media-count" data-lesson-count>0</span></h3></div></div>
+              <div class="lesson-filter-stack">
+                <label><span class="sr-only">Search lessons</span><input type="search" data-lesson-search placeholder="Search title or tags…" /></label>
+                <div>
+                  <label><span class="sr-only">Filter lesson module</span><select data-lesson-module-filter><option value="all">All modules</option></select></label>
+                  <label><span class="sr-only">Filter lesson level</span><select data-lesson-level-filter><option value="all">All levels</option><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option></select></label>
+                </div>
+                <div>
+                  <label><span class="sr-only">Filter lesson status</span><select data-lesson-status-filter><option value="all">All statuses</option><option value="draft">Draft</option><option value="published">Published</option></select></label>
+                  <label><span class="sr-only">Filter premium lessons</span><select data-lesson-premium-filter><option value="all">Free + Premium</option><option value="free">Free only</option><option value="premium">Premium only</option></select></label>
+                </div>
+              </div>
+              <div class="lesson-list" data-lesson-list></div>
+              <div class="lesson-catalog-empty" data-lesson-list-empty>No lessons match these filters.</div>
+            </aside>
+
+            <section class="lesson-builder-surface">
+              <div class="studio-card lesson-builder-empty" data-lesson-builder-empty>
+                <span class="studio-placeholder-icon" aria-hidden="true">▤</span>
+                <h3>Create your first lesson</h3>
+                <p>Crea una lección con bloques: explicación, vocabulario, quiz y práctica de voz.</p>
+                <button class="btn primary" type="button" data-lesson-new>Create lesson</button>
+              </div>
+
+              <div data-lesson-editor hidden>
+                <section class="studio-card lesson-metadata-card">
+                  <div class="studio-card-heading">
+                    <div><span class="admin-eyebrow">Lesson metadata</span><h3 data-lesson-editor-title>Untitled lesson</h3></div>
+                    <div class="lesson-record-actions"><button class="btn" type="button" data-lesson-duplicate>Duplicate</button><button class="btn admin-danger" type="button" data-lesson-delete>Delete</button></div>
+                  </div>
+                  <form class="lesson-metadata-form" data-lesson-form novalidate>
+                    <input type="hidden" name="id" />
+                    <div class="lesson-form-grid">
+                      <label><span>Title</span><input type="text" name="title" maxlength="160" required /></label>
+                      <label><span>Slug</span><input type="text" name="slug" maxlength="100" required /></label>
+                    </div>
+                    <div class="lesson-form-grid lesson-form-grid-four">
+                      <label><span>Module</span><input type="text" name="module" maxlength="100" placeholder="Module 1" /></label>
+                      <label><span>Level</span><select name="level"><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option></select></label>
+                      <label><span>Status</span><select name="status"><option value="draft">Draft</option><option value="published">Published</option></select></label>
+                      <label><span>XP reward</span><input type="number" name="xpReward" min="0" max="1000" step="5" /></label>
+                    </div>
+                    <label class="lesson-premium-toggle"><input type="checkbox" name="premium" /><span>Premium lesson</span></label>
+                    <label><span>Description</span><textarea name="description" rows="2" maxlength="700"></textarea></label>
+                    <label><span>Tags <small>comma-separated</small></span><input type="text" name="tags" maxlength="400" /></label>
+                    <div class="lesson-metadata-actions"><button class="btn primary" type="submit">Save lesson</button><span data-lesson-save-state>No pending changes</span></div>
+                  </form>
+                </section>
+
+                <div class="lesson-mode-tabs" role="tablist" aria-label="Lesson builder view">
+                  <button class="is-active" type="button" role="tab" aria-selected="true" data-lesson-mode="builder">Build</button>
+                  <button type="button" role="tab" aria-selected="false" data-lesson-mode="preview">Preview</button>
+                </div>
+
+                <section class="lesson-mode-panel" data-lesson-builder-panel>
+                  <div class="lesson-block-toolbar">
+                    <label><span class="sr-only">Block type</span><select data-lesson-block-type><option value="explanation">Explanation</option><option value="vocabulary">Vocabulary</option><option value="image">Image</option><option value="quiz">Quiz</option><option value="speech">Speech practice</option><option value="completion">Completion</option></select></label>
+                    <button class="btn primary" type="button" data-lesson-add-block>Add block</button>
+                  </div>
+                  <div class="lesson-block-list" data-lesson-block-list></div>
+                  <div class="lesson-block-empty" data-lesson-block-empty>No blocks yet. Choose a block type and add the first step.</div>
+                </section>
+
+                <section class="lesson-mode-panel studio-lesson-preview" data-lesson-preview-panel hidden>
+                  <div class="studio-preview-banner"><span>Studio preview only</span><strong>This lesson is not connected to curso.html.</strong></div>
+                  <div data-lesson-preview></div>
+                </section>
+              </div>
+            </section>
           </div>
-          <button class="btn" type="button" disabled>Create lesson — future phase</button>
         </section>
 
         <section class="studio-panel" id="studio-vocabulary" data-studio-panel="vocabulary" hidden>
@@ -442,15 +512,17 @@
             <div><span>Alphabet storage</span><code>expresate_admin_lesson000_letters_v1</code></div>
             <div><span>Media storage</span><code>expresate_studio_media_library_v1</code></div>
             <div><span>Vocabulary storage</span><code>expresate_studio_vocabulary_v1</code></div>
+            <div><span>Lesson storage</span><code>expresate_studio_lessons_v1</code></div>
             <div><span>Storage location</span><strong>This browser only</strong></div>
             <div><span>Supabase writes</span><strong>Disabled</strong></div>
-            <div><span>Publishing</span><strong>Not available in Phase 2.5</strong></div>
+            <div><span>Publishing</span><strong>Preview-only in Phase 4</strong></div>
           </div>
         </section>
 
         <input type="file" accept="application/json,.json" data-admin-import-file hidden />
         <input type="file" accept="application/json,.json" data-media-import-file hidden />
         <input type="file" accept="application/json,.json" data-vocab-import-file hidden />
+        <input type="file" accept="application/json,.json" data-lesson-import-file hidden />
       </div>
     </section>
   </main>
@@ -468,12 +540,24 @@
     </section>
   </div>
 
+  <div class="studio-modal" data-vocabulary-picker hidden role="dialog" aria-modal="true" aria-labelledby="vocabulary-picker-title">
+    <div class="studio-modal-backdrop" data-close-vocabulary-picker></div>
+    <section class="studio-modal-card vocabulary-picker-card">
+      <header><div><span class="admin-eyebrow">Vocabulary block</span><h2 id="vocabulary-picker-title">Select vocabulary</h2><p>Choose existing Vocabulary Database items. The lesson stores only their IDs.</p></div><button class="admin-icon-button" type="button" data-close-vocabulary-picker aria-label="Close vocabulary picker">×</button></header>
+      <label class="media-picker-search"><span class="sr-only">Search vocabulary picker</span><input type="search" data-vocabulary-picker-search placeholder="Search English, Spanish, or tags…" /></label>
+      <div class="vocabulary-picker-grid" data-vocabulary-picker-grid></div>
+      <div class="media-empty-state" data-vocabulary-picker-empty hidden><h3>No vocabulary available</h3><p>Add items to the Vocabulary Database first.</p></div>
+      <footer class="vocabulary-picker-footer"><span data-vocabulary-picker-count>0 selected</span><button class="btn" type="button" data-close-vocabulary-picker>Cancel</button><button class="btn primary" type="button" data-apply-vocabulary-picker>Apply selection</button></footer>
+    </section>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <script src="access.js"></script>
   <script src="data/lesson000-letters.js"></script>
   <script src="data/studio-media-library.js"></script>
   <script src="data/studio-vocabulary.js"></script>
+  <script src="data/studio-lessons.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>
