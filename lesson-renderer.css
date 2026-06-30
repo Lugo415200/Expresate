@@ -816,6 +816,66 @@
   line-height: .92;
 }
 
+.alphabet-experience-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.alphabet-experience-example-count {
+  flex: 0 0 auto;
+  padding: .3rem .7rem;
+  color: #4358f4;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  background: rgba(193, 206, 255, .72);
+  border-radius: 999px;
+}
+
+.alphabet-experience-example-browser {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .55rem;
+  align-items: center;
+}
+
+.alphabet-experience-example-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .45rem;
+}
+
+.alphabet-experience-example-chip {
+  min-height: 2.3rem;
+  padding: .45rem .75rem;
+  color: #243255;
+  font: inherit;
+  font-weight: 800;
+  background:
+    linear-gradient(rgba(255,255,255,.94), rgba(235,241,255,.82)),
+    url("assets/textures/paper-white.jpg") center / cover;
+  border: 1px solid rgba(162, 182, 241, .34);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.alphabet-experience-example-chip:hover,
+.alphabet-experience-example-chip:focus-visible,
+.alphabet-experience-example-chip.is-active {
+  transform: translateY(-1px);
+  border-color: rgba(67, 88, 244, .44);
+  box-shadow: 0 .55rem 1.3rem rgba(67, 88, 244, .14);
+}
+
+.alphabet-experience-example-chip.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, #4f64f4, #7d58eb);
+}
+
 .alphabet-experience-facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -919,6 +979,20 @@
 
   .alphabet-experience-facts {
     grid-template-columns: 1fr;
+  }
+
+  .alphabet-experience-title-row,
+  .alphabet-experience-example-browser {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .alphabet-experience-example-count {
+    justify-self: start;
+  }
+
+  .alphabet-experience-example-chips {
+    justify-content: flex-start;
   }
 
   .alphabet-experience-actions {

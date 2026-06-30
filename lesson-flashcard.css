@@ -4023,6 +4023,15 @@ body.lesson-guide-open {
   font-weight: 950;
 }
 
+.letter-visual-words span.is-active {
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(79, 100, 244, .92), rgba(125, 88, 235, .88)),
+    var(--texture-paper-blue);
+  background-size: auto, cover;
+  border-color: rgba(79, 100, 244, .44);
+}
+
 .letter-explore-content {
   min-width: 0;
   display: grid;
@@ -4093,6 +4102,71 @@ body.lesson-guide-open {
   color: #111827;
   font-size: clamp(3rem, 9vw, 5.5rem);
   line-height: .88;
+}
+
+.letter-example-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.letter-example-count {
+  flex: 0 0 auto;
+  padding: .3rem .7rem;
+  color: #4358f4;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  background: rgba(67, 88, 244, .11);
+  border-radius: 999px;
+}
+
+.letter-example-browser {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .55rem;
+  align-items: center;
+}
+
+.letter-example-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .45rem;
+}
+
+.letter-example-tab {
+  min-height: 2.3rem;
+  padding: .45rem .75rem;
+  color: #2a3352;
+  font: inherit;
+  font-weight: 850;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.94), rgba(235,241,255,.82)),
+    var(--texture-paper-white);
+  background-size: auto, cover;
+  border: 1px solid rgba(67, 88, 244, .16);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.letter-example-tab:hover,
+.letter-example-tab:focus-visible,
+.letter-example-tab.is-active {
+  transform: translateY(-1px);
+  border-color: rgba(67, 88, 244, .45);
+  box-shadow: 0 .5rem 1.2rem rgba(67, 88, 244, .14);
+}
+
+.letter-example-tab.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, #4f64f4, #7d58eb);
+}
+
+.letter-example-shift {
+  min-width: 7.25rem;
 }
 
 .letter-facts {
@@ -4317,6 +4391,25 @@ body[data-lesson-id="lesson-000-alphabet"] .flashcard[data-fc-id="alphabet-grid"
 
   .letter-mini-lesson {
     padding: .85rem;
+  }
+
+  .letter-example-header,
+  .letter-example-browser {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .letter-example-count {
+    justify-self: start;
+  }
+
+  .letter-example-tabs {
+    justify-content: flex-start;
+  }
+
+  .letter-example-tab,
+  .letter-example-shift {
+    width: 100%;
   }
 
   .letter-explore-actions {

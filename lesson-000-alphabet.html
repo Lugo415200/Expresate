@@ -413,7 +413,16 @@
 
         <div class="letter-mini-lesson">
           <span class="letter-kicker">Explora la letra</span>
-          <h2 id="letterExploreTitle" data-letter-title>A</h2>
+          <div class="letter-example-header">
+            <h2 id="letterExploreTitle" data-letter-title>A</h2>
+            <span class="letter-example-count" data-letter-example-count>1 de 1</span>
+          </div>
+
+          <div class="letter-example-browser">
+            <button class="btn letter-example-shift" type="button" data-letter-example-prev>← Ejemplo</button>
+            <div class="letter-example-tabs" data-letter-example-tabs></div>
+            <button class="btn letter-example-shift" type="button" data-letter-example-next>Ejemplo →</button>
+          </div>
 
           <dl class="letter-facts">
             <div>
@@ -876,11 +885,10 @@
       var grid = document.querySelector('[data-fc-id="alphabet-grid"] .alphabet-grid-compact');
       if (!modal || !grid) return;
 
-      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var activeTrigger = null;
       var modalTimer = null;
-      var audioTimer = null;
       var currentLetter = "a";
+      var currentExampleIndex = 0;
 
       var letterStore = window.ExpresateLesson000Letters;
       if (!letterStore) {
@@ -888,6 +896,7 @@
         return;
       }
       var letters = letterStore.getEffectiveLetters();
+      var letterKeys = Object.keys(letters);
       grid.querySelectorAll(".letter-btn[data-letter]").forEach(function (button) {
         var item = letters[safeKey(button.dataset.letter)];
         if (item) button.textContent = item.letter;
@@ -897,13 +906,64 @@
         return String(letter || "").toLowerCase().trim().slice(0, 1);
       }
 
+      function slugifyWord(value) {
+        return String(value || "")
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
       function setText(selector, value) {
         var el = modal.querySelector(selector);
         if (el) el.textContent = value || "";
       }
 
+      function normalizeExample(example, fallback) {
+        if (example && typeof example === "object" && !Array.isArray(example)) {
+          return {
+            word: String(example.word || fallback.word || "").trim(),
+            spanish: String(example.spanish || fallback.spanish || "").trim(),
+            pronunciation: String(example.pronunciation || fallback.pronunciation || example.word || fallback.word || "").trim(),
+            imagePath: String(example.imagePath || example.image || fallback.imagePath || "").trim(),
+            audioPath: String(example.audioPath || example.audio || fallback.audioPath || "").trim(),
+            tip: String(example.tip || fallback.tip || "").trim()
+          };
+        }
+        return {
+          word: String(example || fallback.word || "").trim(),
+          spanish: String(fallback.spanish || "").trim(),
+          pronunciation: String(fallback.pronunciation || example || fallback.word || "").trim(),
+          imagePath: String(fallback.imagePath || "").trim(),
+          audioPath: String(fallback.audioPath || "").trim(),
+          tip: String(fallback.tip || "").trim()
+        };
+      }
+
+      function getLetterExamples(item) {
+        var source = Array.isArray(item.examples) ? item.examples : [];
+        var examples = source
+          .map(function (example, index) {
+            return normalizeExample(example, index === 0 ? {
+              word: item.word,
+              spanish: item.spanish,
+              pronunciation: item.pronunciation,
+              imagePath: item.imagePath
+            } : {});
+          })
+          .filter(function (example) { return example.word; });
+
+        if (examples.length) return examples;
+
+        return [normalizeExample({
+          word: item.word,
+          spanish: item.spanish,
+          pronunciation: item.pronunciation,
+          imagePath: item.imagePath
+        }, {})];
+      }
+
       function playLetterName(item, trigger) {
-        clearTimeout(audioTimer);
         window.ExpresateAudio?.play?.("audio/alphabet/" + item.letter.toLowerCase() + ".mp3", {
           trigger: trigger || null,
           fallbackText: item.letter,
@@ -911,36 +971,56 @@
         });
       }
 
-      function playLetterAndWord(item, trigger) {
-        playLetterName(item, trigger);
-        audioTimer = setTimeout(function () {
-          window.ExpresateAudio?.play?.("assets/audio/words/" + item.word.toLowerCase() + ".mp3", {
-            trigger: trigger || null,
-            fallbackText: item.word.toLowerCase(),
-            speechType: "word"
-          });
-        }, reduceMotion ? 500 : 900);
+      function playExampleWord(example, trigger) {
+        var guessedPath = example.audioPath || "assets/audio/words/" + slugifyWord(example.word) + ".mp3";
+        window.ExpresateAudio?.play?.(guessedPath, {
+          trigger: trigger || null,
+          fallbackText: [example.word, example.pronunciation].filter(Boolean).join(". "),
+          speechType: "word"
+        });
       }
 
-      function renderLetter(key) {
-        var item = letters[key] || letters.a;
-        currentLetter = key;
-        setText("[data-letter-art]", item.letter);
-        setText("[data-letter-title]", item.letter);
-        setText("[data-letter-name]", item.letter);
-        setText("[data-letter-sound]", item.sound);
-        setText("[data-letter-word]", item.word);
-        setText("[data-letter-spanish]", item.spanish);
-        setText("[data-letter-pronunciation]", item.pronunciation);
-        setText("[data-letter-tip]", item.tip);
-        setText("[data-letter-speech]", "Letra " + item.letter + ": escucha el nombre, luego la palabra " + item.word + ".");
+      function renderExampleTabs(item, exampleIndex) {
+        var tabs = modal.querySelector("[data-letter-example-tabs]");
+        if (!tabs) return;
+        tabs.replaceChildren();
+        getLetterExamples(item).forEach(function (example, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "letter-example-tab";
+          button.dataset.exampleIndex = String(index);
+          button.textContent = example.word;
+          button.classList.toggle("is-active", index === exampleIndex);
+          button.setAttribute("aria-pressed", index === exampleIndex ? "true" : "false");
+          tabs.appendChild(button);
+        });
+      }
 
+      function renderExample(key, exampleIndex) {
+        var item = letters[key] || letters.a;
+        var examples = getLetterExamples(item);
+        var boundedExampleIndex = Math.max(0, Math.min(exampleIndex, examples.length - 1));
+        var example = examples[boundedExampleIndex] || examples[0];
         var scene = modal.querySelector("[data-letter-scene]");
         var art = modal.querySelector("[data-letter-art]");
         var expansion = modal.querySelector("[data-letter-expansion]");
         var visualWords = modal.querySelector("[data-letter-visual-words]");
-        var imagePath = item.imagePath || "";
-        var examples = Array.isArray(item.examples) ? item.examples.filter(Boolean) : [];
+        var count = modal.querySelector("[data-letter-example-count]");
+        var prevButton = modal.querySelector("[data-letter-example-prev]");
+        var nextButton = modal.querySelector("[data-letter-example-next]");
+        var imagePath = example.imagePath || item.imagePath || "";
+
+        currentExampleIndex = boundedExampleIndex;
+        setText("[data-letter-word]", example.word || item.word);
+        setText("[data-letter-spanish]", example.spanish || item.spanish);
+        setText("[data-letter-pronunciation]", example.pronunciation || item.pronunciation || example.word);
+        setText("[data-letter-tip]", example.tip || item.tip);
+        setText("[data-letter-speech]", "Letra " + item.letter + ": escucha el nombre y luego la palabra " + (example.word || item.word) + ".");
+
+        if (count) count.textContent = (boundedExampleIndex + 1) + " de " + examples.length;
+        if (prevButton) prevButton.disabled = boundedExampleIndex <= 0;
+        if (nextButton) nextButton.disabled = boundedExampleIndex >= examples.length - 1;
+
         if (scene && art) {
           if (imagePath && scene.getAttribute("src") !== imagePath) {
             scene.setAttribute("src", imagePath);
@@ -952,9 +1032,10 @@
         if (visualWords) {
           visualWords.hidden = examples.length === 0;
           if (examples.length) {
-            visualWords.replaceChildren.apply(visualWords, examples.map(function (word) {
+            visualWords.replaceChildren.apply(visualWords, examples.map(function (entry, index) {
               var chip = document.createElement("span");
-              chip.textContent = word;
+              chip.textContent = entry.word;
+              chip.classList.toggle("is-active", index === boundedExampleIndex);
               return chip;
             }));
           }
@@ -962,8 +1043,19 @@
         if (expansion) {
           expansion.hidden = examples.length === 0;
           var strong = expansion.querySelector("strong");
-          if (strong) strong.textContent = examples.join(" · ");
+          if (strong) strong.textContent = examples.map(function (entry) { return entry.word; }).join(" · ");
         }
+        renderExampleTabs(item, boundedExampleIndex);
+      }
+
+      function renderLetter(key) {
+        var item = letters[key] || letters.a;
+        currentLetter = key;
+        setText("[data-letter-art]", item.letter);
+        setText("[data-letter-title]", item.letter);
+        setText("[data-letter-name]", item.letter);
+        setText("[data-letter-sound]", item.sound);
+        renderExample(key, 0);
       }
 
       function openLetterModal(key, trigger) {
@@ -983,7 +1075,6 @@
 
       function closeLetterModal() {
         if (modal.hidden) return;
-        clearTimeout(audioTimer);
         window.ExpresateAudio?.stop?.();
         modal.classList.remove("is-open");
         document.body.classList.remove("lesson-guide-open", "letter-explore-open");
@@ -993,7 +1084,7 @@
           document.querySelector(".shell")?.removeAttribute("inert");
           activeTrigger && activeTrigger.focus();
           activeTrigger = null;
-        }, reduceMotion ? 0 : 240);
+        }, 240);
       }
 
       grid.addEventListener("click", function (event) {
@@ -1008,15 +1099,33 @@
       modal.querySelectorAll("[data-letter-close]").forEach(function (button) {
         button.addEventListener("click", closeLetterModal);
       });
+
       modal.querySelector("[data-letter-audio]")?.addEventListener("click", function () {
-        playLetterAndWord(letters[currentLetter] || letters.a, this);
+        var item = letters[currentLetter] || letters.a;
+        var example = getLetterExamples(item)[currentExampleIndex] || getLetterExamples(item)[0];
+        if (example) playExampleWord(example, this);
       });
+
       modal.querySelector("[data-letter-next]")?.addEventListener("click", function () {
-        var keys = Object.keys(letters);
-        var next = keys[(keys.indexOf(currentLetter) + 1) % keys.length];
+        var next = letterKeys[(letterKeys.indexOf(currentLetter) + 1) % letterKeys.length];
         renderLetter(next);
         playLetterName(letters[next], modal.querySelector("[data-letter-next]"));
       });
+
+      modal.querySelector("[data-letter-example-prev]")?.addEventListener("click", function () {
+        renderExample(currentLetter, currentExampleIndex - 1);
+      });
+
+      modal.querySelector("[data-letter-example-next]")?.addEventListener("click", function () {
+        renderExample(currentLetter, currentExampleIndex + 1);
+      });
+
+      modal.querySelector("[data-letter-example-tabs]")?.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-example-index]");
+        if (!button) return;
+        renderExample(currentLetter, Number(button.dataset.exampleIndex || 0));
+      });
+
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && !modal.hidden) closeLetterModal();
       });

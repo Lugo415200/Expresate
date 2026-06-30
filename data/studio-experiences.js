@@ -1,4 +1,4 @@
-/* Exprésate Experience Library foundation.
+/* Expresate Experience Library foundation.
    Phase 9 starts with one reusable experience: alphabet-explorer. */
 (function () {
   "use strict";
@@ -17,6 +17,14 @@
     return JSON.parse(JSON.stringify(value));
   }
 
+  function slugifyWord(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
   function getLetterDataset() {
     const provider = window.ExpresateLesson000Letters;
     if (!provider?.getEffectiveLetters) return {};
@@ -28,22 +36,66 @@
     return getLetterDataset();
   }
 
+  function normalizeExample(example, fallback) {
+    const source = example && typeof example === "object" && !Array.isArray(example)
+      ? example
+      : { word: example };
+    const base = fallback && typeof fallback === "object" ? fallback : {};
+    const word = String(source.word || base.word || "").trim();
+    return {
+      word,
+      spanish: String(source.spanish || base.spanish || "").trim(),
+      pronunciation: String(source.pronunciation || base.pronunciation || word).trim(),
+      imagePath: String(source.imagePath || source.image || base.imagePath || "").trim(),
+      audioPath: String(source.audioPath || source.audio || base.audioPath || "").trim(),
+      tip: String(source.tip || base.tip || "").trim()
+    };
+  }
+
+  function buildExamples(item) {
+    const sourceExamples = Array.isArray(item.examples) ? item.examples : [];
+    const normalized = sourceExamples
+      .map((entry, index) => normalizeExample(entry, index === 0 ? {
+        word: item.word,
+        spanish: item.spanish,
+        pronunciation: item.pronunciation,
+        imagePath: item.imagePath
+      } : {}))
+      .filter((entry) => entry.word);
+
+    if (normalized.length) return normalized;
+
+    return [normalizeExample({
+      word: item.word || item.letter,
+      spanish: item.spanish,
+      pronunciation: item.pronunciation || item.word || item.letter,
+      imagePath: item.imagePath
+    }, {})];
+  }
+
   function safeLetters(dataset) {
     const source = dataset && typeof dataset === "object" ? dataset : {};
     return LETTER_KEYS.map((key) => {
       const fallback = source[key] || {};
+      const examples = buildExamples(fallback);
+      const primaryExample = examples[0];
       return {
         key,
         letter: String(fallback.letter || key.toUpperCase()).slice(0, 1).toUpperCase(),
         sound: String(fallback.sound || "").trim(),
-        word: String(fallback.word || key.toUpperCase()).trim(),
-        pronunciation: String(fallback.pronunciation || fallback.word || key.toUpperCase()).trim(),
-        spanish: String(fallback.spanish || "").trim(),
-        imagePath: String(fallback.imagePath || "").trim(),
-        examples: Array.isArray(fallback.examples) ? clone(fallback.examples).slice(0, 4) : [],
+        word: String(fallback.word || primaryExample.word || key.toUpperCase()).trim(),
+        pronunciation: String(fallback.pronunciation || primaryExample.pronunciation || fallback.word || key.toUpperCase()).trim(),
+        spanish: String(fallback.spanish || primaryExample.spanish || "").trim(),
+        imagePath: String(fallback.imagePath || primaryExample.imagePath || "").trim(),
+        examples,
         tip: String(fallback.tip || "").trim()
       };
     });
+  }
+
+  function buildWordAudioPath(example) {
+    const slug = slugifyWord(example.word);
+    return slug ? `assets/audio/words/${slug}.mp3` : "";
   }
 
   function playLetter(letter, trigger) {
@@ -51,16 +103,18 @@
     if (!normalized || !window.ExpresateAudio?.play) return;
     window.ExpresateAudio.play(`audio/alphabet/${normalized}.mp3`, {
       trigger,
-      fallbackText: String(letter || "").trim().toUpperCase()
+      fallbackText: String(letter || "").trim().toUpperCase(),
+      speechType: "letter"
     });
   }
 
-  function playExample(item, trigger) {
+  function playExample(example, trigger) {
     if (!window.ExpresateAudio?.play) return;
-    const fallback = [item.word, item.pronunciation].filter(Boolean).join(". ");
-    window.ExpresateAudio.play("", {
+    const fallback = [example.word, example.pronunciation].filter(Boolean).join(". ");
+    window.ExpresateAudio.play(example.audioPath || buildWordAudioPath(example), {
       trigger,
-      fallbackText: fallback || item.word || item.letter
+      fallbackText: fallback || example.word,
+      speechType: "word"
     });
   }
 
@@ -78,7 +132,7 @@
       element(
         "p",
         "alphabet-experience-preview-tip",
-        active.tip || "Toca una letra para escucharla y abrir su mini lección."
+        active.tip || "Toca una letra para escucharla y abrir su mini leccion."
       )
     );
     return panel;
@@ -95,23 +149,31 @@
           <div class="alphabet-experience-visual texture-workbook-green" data-exp-visual></div>
           <div class="alphabet-experience-copy texture-learning-card">
             <div class="alphabet-experience-speech-bubble" data-exp-bubble></div>
-            <span class="alphabet-experience-eyebrow">Explora la letra</span>
+            <div class="alphabet-experience-title-row">
+              <span class="alphabet-experience-eyebrow">Explora la letra</span>
+              <span class="alphabet-experience-example-count" data-exp-example-count>1 de 1</span>
+            </div>
             <h3 id="alphabet-experience-modal-title" data-exp-letter-title></h3>
+            <div class="alphabet-experience-example-browser">
+              <button type="button" class="btn" data-exp-example-prev>← Ejemplo</button>
+              <div class="alphabet-experience-example-chips" data-exp-example-chips></div>
+              <button type="button" class="btn" data-exp-example-next>Ejemplo →</button>
+            </div>
             <div class="alphabet-experience-facts">
               <article><span>Nombre de la letra</span><strong data-exp-letter-name></strong></article>
               <article><span>Sonido</span><strong data-exp-letter-sound></strong></article>
               <article><span>Palabra ejemplo</span><strong data-exp-letter-word></strong><small data-exp-letter-spanish></small></article>
-              <article><span>Pronunciación</span><strong data-exp-letter-pronunciation></strong></article>
+              <article><span>Pronunciacion</span><strong data-exp-letter-pronunciation></strong></article>
             </div>
             <p class="alphabet-experience-tip" data-exp-tip></p>
             <div class="alphabet-experience-extra texture-workbook-green">
-              <span>Más palabras</span>
+              <span>Mas palabras</span>
               <strong data-exp-examples></strong>
             </div>
             <div class="alphabet-experience-actions">
-              <button type="button" class="btn" data-exp-prev>← Anterior</button>
+              <button type="button" class="btn" data-exp-close>← Volver</button>
               <button type="button" class="btn" data-exp-audio>Escuchar</button>
-              <button type="button" class="btn primary" data-exp-next>Siguiente →</button>
+              <button type="button" class="btn primary" data-exp-next-letter>Siguiente letra →</button>
             </div>
           </div>
         </div>
@@ -120,44 +182,65 @@
     return host;
   }
 
-  function renderVisual(container, item) {
+  function renderVisual(container, item, activeExample) {
     container.replaceChildren();
     container.appendChild(element("span", "alphabet-experience-visual-letter", item.letter));
 
-    if (item.imagePath) {
+    const imagePath = activeExample.imagePath || item.imagePath;
+    if (imagePath) {
       const image = document.createElement("img");
       image.className = "alphabet-experience-visual-image";
-      image.src = item.imagePath;
-      image.alt = `${item.word || item.letter} illustration`;
+      image.src = imagePath;
+      image.alt = `${activeExample.word || item.word || item.letter} illustration`;
       image.addEventListener("error", () => image.remove(), { once: true });
       container.appendChild(image);
     }
 
-    container.appendChild(element("span", "alphabet-experience-visual-word", item.word || item.letter));
+    container.appendChild(element("span", "alphabet-experience-visual-word", activeExample.word || item.word || item.letter));
 
     const tags = element("div", "alphabet-experience-visual-tags");
-    (Array.isArray(item.examples) ? item.examples : []).slice(0, 4).forEach((entry) => {
-      tags.appendChild(element("span", "", entry));
+    item.examples.forEach((entry) => {
+      tags.appendChild(element("span", "", entry.word));
     });
-    if (!tags.children.length) tags.appendChild(element("span", "", item.word || item.letter));
     container.appendChild(tags);
   }
 
-  function updateModal(host, items, index) {
-    const item = items[index] || items[0];
-    host.dataset.openIndex = String(index);
-    host.querySelector("[data-exp-bubble]").textContent = `Letra ${item.letter}: escucha el nombre y luego la palabra ${item.word || item.letter}.`;
+  function renderExampleChips(host, item, exampleIndex) {
+    const chipWrap = host.querySelector("[data-exp-example-chips]");
+    chipWrap.replaceChildren();
+    item.examples.forEach((entry, index) => {
+      const button = element("button", "alphabet-experience-example-chip", entry.word);
+      button.type = "button";
+      button.dataset.exampleIndex = String(index);
+      button.classList.toggle("is-active", index === exampleIndex);
+      button.setAttribute("aria-pressed", index === exampleIndex ? "true" : "false");
+      chipWrap.appendChild(button);
+    });
+  }
+
+  function updateModal(host, items, letterIndex, exampleIndex) {
+    const item = items[letterIndex] || items[0];
+    const boundedExampleIndex = Math.max(0, Math.min(exampleIndex, item.examples.length - 1));
+    const activeExample = item.examples[boundedExampleIndex] || item.examples[0];
+
+    host.dataset.openLetterIndex = String(letterIndex);
+    host.dataset.openExampleIndex = String(boundedExampleIndex);
+    host.querySelector("[data-exp-bubble]").textContent = `Letra ${item.letter}: escucha el nombre y luego la palabra ${activeExample.word || item.word || item.letter}.`;
     host.querySelector("[data-exp-letter-title]").textContent = item.letter;
     host.querySelector("[data-exp-letter-name]").textContent = item.letter;
     host.querySelector("[data-exp-letter-sound]").textContent = item.sound || "Escucha";
-    host.querySelector("[data-exp-letter-word]").textContent = item.word || item.letter;
-    host.querySelector("[data-exp-letter-spanish]").textContent = item.spanish || "";
-    host.querySelector("[data-exp-letter-pronunciation]").textContent = item.pronunciation || item.word || item.letter;
-    host.querySelector("[data-exp-tip]").textContent = item.tip || "En inglés una misma letra puede cambiar de sonido según la palabra.";
-    host.querySelector("[data-exp-examples]").textContent = (item.examples || []).join(" · ") || item.word || item.letter;
-    host.querySelector("[data-exp-prev]").disabled = index <= 0;
-    host.querySelector("[data-exp-next]").textContent = index >= items.length - 1 ? "Cerrar →" : "Siguiente →";
-    renderVisual(host.querySelector("[data-exp-visual]"), item);
+    host.querySelector("[data-exp-letter-word]").textContent = activeExample.word || item.word || item.letter;
+    host.querySelector("[data-exp-letter-spanish]").textContent = activeExample.spanish || item.spanish || "";
+    host.querySelector("[data-exp-letter-pronunciation]").textContent = activeExample.pronunciation || item.pronunciation || activeExample.word || item.letter;
+    host.querySelector("[data-exp-tip]").textContent = activeExample.tip || item.tip || "En ingles una misma letra puede cambiar de sonido segun la palabra.";
+    host.querySelector("[data-exp-examples]").textContent = item.examples.map((entry) => entry.word).join(" · ");
+    host.querySelector("[data-exp-example-count]").textContent = `${boundedExampleIndex + 1} de ${item.examples.length}`;
+    host.querySelector("[data-exp-example-prev]").disabled = boundedExampleIndex <= 0;
+    host.querySelector("[data-exp-example-next]").disabled = boundedExampleIndex >= item.examples.length - 1;
+    host.querySelector("[data-exp-next-letter]").textContent = letterIndex >= items.length - 1 ? "Cerrar →" : "Siguiente letra →";
+
+    renderExampleChips(host, item, boundedExampleIndex);
+    renderVisual(host.querySelector("[data-exp-visual]"), item, activeExample);
   }
 
   function createAlphabetExplorerCard(block, context) {
@@ -167,7 +250,6 @@
     const copy = element("div", "alphabet-experience-copy-block");
     let previewPanel = createPreviewPanel(items[0]);
     let modalHost = null;
-    let activeIndex = 0;
 
     copy.append(
       element("span", "student-preview-type", "Experiencia"),
@@ -175,15 +257,15 @@
       element("p", "student-preview-body", block.subtitle || "Toca una letra para escucharla y explorarla.")
     );
     if (block.showVowels) {
-      copy.appendChild(element("p", "alphabet-experience-vowel-note", "Estas letras marcadas son las vocales del inglés."));
+      copy.appendChild(element("p", "alphabet-experience-vowel-note", "Estas letras marcadas son las vocales del ingles."));
     }
     header.append(copy, previewPanel);
 
     const grid = element("div", "alphabet-experience-grid");
 
     function setPreview(index) {
-      activeIndex = index;
-      const nextPreview = createPreviewPanel(items[index] || items[0]);
+      const active = items[index] || items[0];
+      const nextPreview = createPreviewPanel(active);
       header.replaceChild(nextPreview, previewPanel);
       previewPanel = nextPreview;
       grid.querySelectorAll("[data-letter-key]").forEach((button, buttonIndex) => {
@@ -200,28 +282,50 @@
     function ensureModal() {
       if (modalHost) return modalHost;
       modalHost = createModalHost();
+
       modalHost.addEventListener("click", (event) => {
         if (event.target.closest("[data-exp-close]")) closeModal();
       });
-      modalHost.querySelector("[data-exp-prev]").addEventListener("click", () => {
-        const nextIndex = Math.max(0, Number(modalHost.dataset.openIndex || 0) - 1);
-        updateModal(modalHost, items, nextIndex);
-        setPreview(nextIndex);
+
+      modalHost.querySelector("[data-exp-example-prev]").addEventListener("click", () => {
+        const letterIndex = Number(modalHost.dataset.openLetterIndex || 0);
+        const exampleIndex = Math.max(0, Number(modalHost.dataset.openExampleIndex || 0) - 1);
+        updateModal(modalHost, items, letterIndex, exampleIndex);
       });
-      modalHost.querySelector("[data-exp-next]").addEventListener("click", () => {
-        const currentIndex = Number(modalHost.dataset.openIndex || 0);
-        if (currentIndex >= items.length - 1) {
+
+      modalHost.querySelector("[data-exp-example-next]").addEventListener("click", () => {
+        const letterIndex = Number(modalHost.dataset.openLetterIndex || 0);
+        const item = items[letterIndex] || items[0];
+        const exampleIndex = Math.min(item.examples.length - 1, Number(modalHost.dataset.openExampleIndex || 0) + 1);
+        updateModal(modalHost, items, letterIndex, exampleIndex);
+      });
+
+      modalHost.querySelector("[data-exp-example-chips]").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-example-index]");
+        if (!button) return;
+        const letterIndex = Number(modalHost.dataset.openLetterIndex || 0);
+        updateModal(modalHost, items, letterIndex, Number(button.dataset.exampleIndex || 0));
+      });
+
+      modalHost.querySelector("[data-exp-next-letter]").addEventListener("click", (event) => {
+        const currentLetterIndex = Number(modalHost.dataset.openLetterIndex || 0);
+        if (currentLetterIndex >= items.length - 1) {
           closeModal();
           return;
         }
-        const nextIndex = Math.min(items.length - 1, currentIndex + 1);
-        updateModal(modalHost, items, nextIndex);
-        setPreview(nextIndex);
+        const nextLetterIndex = currentLetterIndex + 1;
+        updateModal(modalHost, items, nextLetterIndex, 0);
+        setPreview(nextLetterIndex);
+        playLetter(items[nextLetterIndex].letter, event.currentTarget);
       });
+
       modalHost.querySelector("[data-exp-audio]").addEventListener("click", (event) => {
-        const currentIndex = Number(modalHost.dataset.openIndex || 0);
-        playExample(items[currentIndex] || items[0], event.currentTarget);
+        const letterIndex = Number(modalHost.dataset.openLetterIndex || 0);
+        const exampleIndex = Number(modalHost.dataset.openExampleIndex || 0);
+        const example = (items[letterIndex] || items[0]).examples[exampleIndex];
+        if (example) playExample(example, event.currentTarget);
       });
+
       modalHost._escapeHandler = (event) => {
         if (event.key === "Escape") closeModal();
       };
@@ -232,7 +336,7 @@
 
     function openModal(index) {
       const host = ensureModal();
-      updateModal(host, items, index);
+      updateModal(host, items, index, 0);
       host.hidden = false;
       requestAnimationFrame(() => host.classList.add("is-open"));
     }
@@ -283,7 +387,7 @@
     empty.append(
       element("span", "student-preview-type", "Experiencia"),
       element("h3", "", block.title || "Experiencia"),
-      element("p", "student-preview-body", "Esta experiencia todavía no está disponible.")
+      element("p", "student-preview-body", "Esta experiencia todavia no esta disponible.")
     );
     return empty;
   }
