@@ -13,6 +13,8 @@
   const themeLibrary = window.ExpresateStudioThemes;
   const activityLibrary = window.ExpresateStudioActivities;
   const animationLibrary = window.ExpresateStudioAnimations;
+  const storyCharacterLibrary = window.ExpresateStudioCharacters;
+  const storySceneLibrary = window.ExpresateStudioStoryScenes;
   const sb = window.supabaseClient;
   const SECTION_COPY = {
     dashboard: ["Content overview", "Dashboard", "Manage local content drafts and preview how they appear in Exprésate."],
@@ -1969,6 +1971,7 @@
     if (category === "activities") return activityLibrary?.list?.() || activityLibrary?.all || [];
     if (category === "themes") return themeLibrary?.list?.() || themeLibrary?.all || [];
     if (category === "animations") return animationLibrary?.list?.() || animationLibrary?.all || [];
+    if (category === "story") return storySceneLibrary?.list?.() || storySceneLibrary?.all || [];
     return experienceLibrary?.listDefinitions?.() || experienceLibrary?.definitions || [];
   }
 
@@ -1977,7 +1980,8 @@
       experiences: "Experience",
       activities: "Activity",
       themes: "Theme",
-      animations: "Animation"
+      animations: "Animation",
+      story: "Story scene"
     })[category] || "Library";
   }
 
@@ -2002,7 +2006,12 @@
       normalizeCreativeText(entry.requiredInputs),
       normalizeCreativeText(entry.layoutTags),
       normalizeCreativeText(entry.effectTags),
-      normalizeCreativeText(entry.intendedUse)
+      normalizeCreativeText(entry.intendedUse),
+      normalizeCreativeText(entry.characters),
+      entry.setting,
+      entry.lessonSlug,
+      entry.teachingPoint,
+      entry.activityPrompt
     ].join(" ").toLowerCase();
     const entryStatus = String(entry.status || "").toLowerCase();
     return (!query || haystack.includes(query))
@@ -2042,6 +2051,8 @@
     if (entry.category) metaValues.push(entry.category);
     if (entry.interactionType) metaValues.push(entry.interactionType);
     if (entry.motionType) metaValues.push(entry.motionType);
+    if (entry.chapter) metaValues.push(entry.chapter);
+    if (entry.module) metaValues.push(entry.module);
     if (entry.trigger) metaValues.push(`Trigger: ${entry.trigger}`);
     if (entry.intendedUse) metaValues.push(`Use: ${normalizeCreativeText(entry.intendedUse)}`);
     metaValues.slice(0, 3).forEach((value) => meta.appendChild(createBadge(value)));
@@ -2049,6 +2060,7 @@
     const helper = document.createElement("div");
     helper.className = "creative-library-helper";
     const helperText = entry.studentGoal
+      || entry.teachingPoint
       || entry.tone
       || entry.typography
       || normalizeCreativeText(entry.requiredInputs)
@@ -2105,6 +2117,14 @@
     if (entry.shell) metaRows.push(["Shell", entry.shell]);
     if (entry.textureUsage) metaRows.push(["Texture", entry.textureUsage]);
     if (entry.intendedUse) metaRows.push(["Use", normalizeCreativeText(entry.intendedUse)]);
+    if (entry.lessonSlug) metaRows.push(["Lesson slug", entry.lessonSlug]);
+    if (entry.setting) metaRows.push(["Setting", entry.setting]);
+    if (entry.teachingPoint) metaRows.push(["Teaching point", entry.teachingPoint]);
+    if (entry.activityPrompt) metaRows.push(["Activity prompt", entry.activityPrompt]);
+    if (Array.isArray(entry.characters) && entry.characters.length) {
+      const names = entry.characters.map((id) => storyCharacterLibrary?.get?.(id)?.name || id);
+      metaRows.push(["Characters", names.join(", ")]);
+    }
 
     creativePreviewMeta.replaceChildren(...metaRows.map(([label, value]) => {
       const row = document.createElement("div");
@@ -2132,7 +2152,7 @@
 
     fillPreviewTags(
       creativePreviewBestFor,
-      entry.recommendedFor || entry.intendedUse || entry.layoutTags,
+      entry.recommendedFor || entry.intendedUse || entry.layoutTags || entry.characters,
       "No usage notes"
     );
 
@@ -2140,6 +2160,9 @@
     if (entry.supportedThemes) compatible.push(...entry.supportedThemes);
     if (entry.supportedAnimations) compatible.push(...entry.supportedAnimations);
     if (entry.effectTags) compatible.push(...entry.effectTags);
+    if (entry.suggestedTheme) compatible.push(entry.suggestedTheme);
+    if (entry.suggestedAnimations) compatible.push(...entry.suggestedAnimations);
+    if (entry.suggestedActivity) compatible.push(entry.suggestedActivity);
     fillPreviewTags(creativePreviewCompatible, compatible, "No compatibility data");
 
     creativePreviewNotes.textContent = entry.notes || "No implementation notes.";
