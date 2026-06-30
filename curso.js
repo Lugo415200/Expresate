@@ -9,6 +9,8 @@
 // animations only when values actually change (not on every re-render).
 let   _lastRenderedXP;          // undefined until first render
 const _doneStepsBefore = new Set(); // step ids that were already .isDone
+let _cloudStudioLessons = [];
+let _studioCloudError = "";
 
 // Thin wrappers so the existing code below reads cleanly. They all
 // delegate to the unified Progress API.
@@ -47,7 +49,14 @@ function getLessons() {
     : { modules: [] };
   const studioStore = window.ExpresateStudioLessons;
   if (!studioStore?.loadDocument) return base;
-  const published = studioStore.loadDocument().lessons.filter((lesson) => lesson.status === "published");
+  const isLocalMode = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const localPublished = isLocalMode
+    ? studioStore.loadDocument().lessons.filter((lesson) => lesson.status === "published")
+    : [];
+  const bySlug = new Map();
+  localPublished.forEach((lesson) => bySlug.set(lesson.slug, lesson));
+  _cloudStudioLessons.forEach((lesson) => bySlug.set(lesson.slug, lesson));
+  const published = Array.from(bySlug.values());
   if (!published.length) return base;
   const studioModule = {
     id: "studio-published-lessons",
@@ -56,7 +65,7 @@ function getLessons() {
     style: "numbered",
     open: true,
     steps: published.map((lesson) => ({
-      id: `studio-${lesson.slug}`,
+      id: `studio:${lesson.slug}`,
       type: "lesson",
       title: lesson.title,
       subtitle: lesson.description || `${lesson.level} · ${lesson.xpReward} XP`,
@@ -188,6 +197,25 @@ function renderCourse() {
     return;
   }
   container.innerHTML = data.modules.map(renderModule).join("\n");
+  if (_studioCloudError) {
+    const notice = document.createElement("p");
+    notice.className = "small studio-cloud-notice";
+    notice.setAttribute("role", "status");
+    notice.textContent = "Las lecciones de Studio no se pudieron actualizar. El curso principal sigue disponible.";
+    container.appendChild(notice);
+  }
+}
+
+async function loadCloudStudioLessons() {
+  const publisher = window.ExpresateStudioPublishing;
+  if (!publisher?.available) return;
+  try {
+    _cloudStudioLessons = await publisher.listPublishedLessons();
+    _studioCloudError = "";
+  } catch (error) {
+    _studioCloudError = error?.message || "Studio cloud unavailable";
+    console.warn("[Curso] Published Studio lessons could not be loaded.", error);
+  }
 }
 
 /** ---------------------------
@@ -637,6 +665,14 @@ document.addEventListener("DOMContentLoaded", () => {
   applyLocks();
   updateProgressUI();
   renderProgressPanel();
+
+  // Handcrafted lessons render immediately. Cloud lessons are additive and
+  // never block the existing course if Supabase is unavailable.
+  void loadCloudStudioLessons().then(() => {
+    renderCourse();
+    applyLocks();
+    renderProgressPanel();
+  });
 
   // Re-apply locks once Access.ready() resolves so premium state is
   // accurate (not just a guess from before getSession() completes).

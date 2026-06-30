@@ -3,6 +3,7 @@
   "use strict";
 
   const lessonStore = window.ExpresateStudioLessons;
+  const lessonPublisher = window.ExpresateStudioPublishing;
   const vocabularyStore = window.ExpresateStudioVocabulary;
   const renderer = window.ExpresateStudioLessonRenderer;
   const loading = document.querySelector("[data-live-loading]");
@@ -29,7 +30,7 @@
   const quizAnswers = new Map();
 
   function progressId() {
-    return lesson ? `studio-${lesson.slug}` : "";
+    return lesson ? `studio:${lesson.slug}` : "";
   }
 
   function showMessage(titleText, copyText, actions) {
@@ -167,6 +168,18 @@
     return documentState.lessons.find((entry) => entry.slug === slug && entry.status === "published") || null;
   }
 
+  async function loadPublishedLesson(slug) {
+    if (lessonPublisher?.available) {
+      try {
+        const cloudLesson = await lessonPublisher.getPublishedLesson(slug);
+        if (cloudLesson) return cloudLesson;
+      } catch (error) {
+        console.warn("[LiveLesson] Cloud lesson lookup failed; trying local content.", error);
+      }
+    }
+    return publishedLesson(slug);
+  }
+
   async function init() {
     if (!lessonStore || !vocabularyStore || !renderer || !window.Progress) {
       showMessage("No se pudo abrir la lección", "Falta un componente necesario. Vuelve a intentarlo.", [actionLink("Volver al curso", "curso.html", true)]);
@@ -174,7 +187,7 @@
     }
     const rawSlug = new URLSearchParams(window.location.search).get("slug") || "";
     const slug = rawSlug ? lessonStore.cleanSlug(rawSlug, "") : "";
-    lesson = slug ? publishedLesson(slug) : null;
+    lesson = slug ? await loadPublishedLesson(slug) : null;
     if (!lesson) {
       showMissing();
       return;
