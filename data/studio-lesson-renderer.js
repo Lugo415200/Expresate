@@ -4,6 +4,8 @@
 
   const cleanupByContainer = new WeakMap();
   const experienceLibrary = window.ExpresateStudioExperiences;
+  const storySceneLibrary = window.ExpresateStudioStoryScenes;
+  const storyCharacterLibrary = window.ExpresateStudioCharacters;
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -37,6 +39,7 @@
       image: "Imagen",
       quiz: "Pregunta",
       speech: "Práctica de voz",
+      "story-scene": "Escena",
       completion: "Cierre",
       experience: "Experiencia"
     })[type] || "Contenido";
@@ -201,6 +204,66 @@
     return card;
   }
 
+  function resolveStoryScene(block) {
+    if (!block?.sceneId || !storySceneLibrary?.get) return null;
+    return storySceneLibrary.get(block.sceneId);
+  }
+
+  function renderStoryCharacterList(scene) {
+    const wrap = element("div", "student-preview-story-characters");
+    const ids = Array.isArray(scene?.characters) ? scene.characters : [];
+    const names = ids.map((id) => storyCharacterLibrary?.get?.(id)?.name || id).filter(Boolean);
+    if (!names.length) return wrap;
+    names.forEach((name) => wrap.appendChild(element("span", "student-preview-story-pill", name)));
+    return wrap;
+  }
+
+  function renderStoryDialogue(scene) {
+    const list = element("div", "student-preview-story-dialogue");
+    const lines = Array.isArray(scene?.dialogue) ? scene.dialogue : [];
+    if (!lines.length) {
+      list.appendChild(element("p", "student-preview-empty", "No hay diálogo disponible para esta escena todavía."));
+      return list;
+    }
+    lines.forEach((line) => list.appendChild(element("p", "student-preview-story-line", line)));
+    return list;
+  }
+
+  function storyFact(label, value, extraClass) {
+    if (!value) return null;
+    const card = element("div", `student-preview-story-fact${extraClass ? ` ${extraClass}` : ""}`);
+    card.append(element("span", "student-preview-story-fact-label", label), element("strong", "student-preview-story-fact-value", value));
+    return card;
+  }
+
+  function renderStoryScene(block) {
+    const card = baseCard(block);
+    const scene = resolveStoryScene(block);
+    appendText(card, "h3", block.title || scene?.title || "Story scene");
+    if (!scene) {
+      card.appendChild(element("p", "student-preview-empty", "This story scene is missing from the current registry."));
+      return card;
+    }
+
+    const shell = element("div", "student-preview-story-scene");
+    const intro = element("div", "student-preview-story-intro");
+    if (scene.setting) intro.appendChild(element("span", "student-preview-story-setting", scene.setting));
+    const goal = storyFact("Student goal", scene.studentGoal, "is-highlight");
+    if (goal) intro.appendChild(goal);
+    const teaching = storyFact("Teaching point", scene.teachingPoint);
+    if (teaching) intro.appendChild(teaching);
+    shell.append(intro, renderStoryCharacterList(scene), renderStoryDialogue(scene));
+
+    const meta = element("div", "student-preview-story-meta");
+    const mistake = storyFact("Mistake moment", scene.mistakeMoment, "is-warning");
+    const prompt = storyFact("Activity prompt", scene.activityPrompt, "is-accent");
+    const outro = storyFact("Outro", scene.outro);
+    [mistake, prompt, outro].filter(Boolean).forEach((entry) => meta.appendChild(entry));
+    shell.appendChild(meta);
+    card.appendChild(shell);
+    return card;
+  }
+
   function renderCompletion(block, context) {
     const card = baseCard(block);
     card.classList.add("is-celebration");
@@ -227,6 +290,7 @@
     if (block.type === "image") return renderImage(block, context);
     if (block.type === "quiz") return renderQuiz(block, context);
     if (block.type === "speech") return renderSpeech(block, context);
+    if (block.type === "story-scene") return renderStoryScene(block, context);
     if (block.type === "experience") return renderExperience(block, context);
     return renderCompletion(block, context);
   }

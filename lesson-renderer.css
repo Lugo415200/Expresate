@@ -330,6 +330,98 @@
   transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
 }
 
+.student-preview-story-scene {
+  display: grid;
+  gap: .9rem;
+}
+
+.student-preview-story-intro,
+.student-preview-story-meta {
+  display: grid;
+  gap: .7rem;
+}
+
+.student-preview-story-setting {
+  display: inline-flex;
+  width: fit-content;
+  padding: .32rem .62rem;
+  color: #4b58d9;
+  background: rgba(221, 228, 255, .86);
+  border: 1px solid rgba(160, 173, 239, .78);
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.student-preview-story-characters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.student-preview-story-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .65rem;
+  color: #253257;
+  background: rgba(229, 237, 255, .84);
+  border: 1px solid rgba(181, 195, 238, .8);
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.student-preview-story-dialogue {
+  display: grid;
+  gap: .55rem;
+}
+
+.student-preview-story-line {
+  padding: .72rem .82rem;
+  background: rgba(243, 246, 255, .92);
+  border: 1px solid rgba(200, 210, 241, .84);
+  border-radius: .8rem;
+  line-height: 1.55;
+}
+
+.student-preview-story-fact {
+  display: grid;
+  gap: .22rem;
+  padding: .82rem .9rem;
+  background: rgba(233, 239, 255, .84);
+  border: 1px solid rgba(194, 206, 241, .88);
+  border-radius: .82rem;
+}
+
+.student-preview-story-fact.is-highlight {
+  background: rgba(219, 241, 255, .9);
+}
+
+.student-preview-story-fact.is-warning {
+  background: rgba(255, 242, 209, .9);
+  border-color: rgba(231, 196, 106, .72);
+}
+
+.student-preview-story-fact.is-accent {
+  background: rgba(231, 226, 255, .92);
+}
+
+.student-preview-story-fact-label {
+  color: #6a7593;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.student-preview-story-fact-value {
+  color: var(--preview-ink);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
 .student-preview-audio:hover,
 .student-preview-speech-button:hover,
 .student-preview-option:hover {

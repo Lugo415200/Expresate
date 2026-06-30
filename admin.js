@@ -32,6 +32,7 @@
     { type: "image", icon: "Img", title: "Image", description: "Show a visual teaching aid with an optional title and caption.", helper: "Use Media Library assets or type a project-relative path manually." },
     { type: "quiz", icon: "?", title: "Quiz", description: "Check understanding with one question, several options, and answer feedback.", helper: "Answers stay in memory during preview and live playback." },
     { type: "speech", icon: "Mic", title: "Speech Practice", description: "Prompt the learner to say a phrase and compare it with expected text.", helper: "Reuse the existing speech practice engine without duplicating audio logic." },
+    { type: "story-scene", icon: "Story", title: "Story Scene", description: "Attach one short story beat from the shared registry.", helper: "Use this for story-guided context without making the lesson depend on branching logic." },
     { type: "experience", icon: "Exp", title: "Experience", description: "Drop in a reusable learning experience such as the Alphabet Explorer.", helper: "Use this for richer interactions that go beyond generic blocks." },
     { type: "completion", icon: "XP", title: "Completion", description: "Close the lesson with a reward message, XP, and an optional next lesson slug.", helper: "Keep one completion block at the end of the flow." }
   ]);
@@ -1271,6 +1272,34 @@
     return vocabularyDocument.items.filter((item) => selected.has(item.id));
   }
 
+  function storySceneOptions() {
+    const scenes = storySceneLibrary?.list?.() || storySceneLibrary?.all || [];
+    return scenes.map((scene) => [scene.id, `${scene.title} (${scene.lessonSlug || "no lesson"})`]);
+  }
+
+  function selectedStoryScene(block) {
+    return storySceneLibrary?.get?.(block.sceneId) || null;
+  }
+
+  function renderSelectedStoryScene(block) {
+    const wrap = document.createElement("div");
+    wrap.className = "lesson-selected-story";
+    const scene = selectedStoryScene(block);
+    if (!scene) {
+      wrap.appendChild(textElement("p", "lesson-inline-empty", "No story scene selected or the registry entry is missing."));
+      return wrap;
+    }
+    const names = (scene.characters || []).map((id) => storyCharacterLibrary?.get?.(id)?.name || id).filter(Boolean);
+    wrap.append(
+      textElement("strong", "", scene.title),
+      textElement("span", "", scene.setting || "No setting yet."),
+      textElement("p", "", scene.studentGoal || scene.teachingPoint || "No story guidance yet.")
+    );
+    if (names.length) wrap.appendChild(textElement("small", "", `Characters: ${names.join(", ")}`));
+    if (scene.activityPrompt) wrap.appendChild(textElement("small", "", `Activity: ${scene.activityPrompt}`));
+    return wrap;
+  }
+
   function renderSelectedVocabulary(block) {
     const wrap = document.createElement("div");
     wrap.className = "lesson-selected-vocabulary";
@@ -1356,6 +1385,19 @@
         lessonField("Translation", "translation", block.translation, { textarea: true, help: "Keep the learner guidance in plain Spanish." }),
         lessonField("Expected text", "expectedText", block.expectedText, { help: "Used by the speech engine for matching." }),
         lessonField("Hint (optional)", "hint", block.hint, { help: "Short learner hint for pronunciation or context." })
+      );
+    } else if (block.type === "story-scene") {
+      fields.append(
+        lessonField("Scene", "sceneId", block.sceneId, {
+          select: storySceneOptions(),
+          wide: true,
+          help: "Read-only picker sourced from data/studio-story-scenes.js."
+        }),
+        lessonField("Block title (optional)", "title", block.title, {
+          wide: true,
+          help: "Optional override for how the scene appears inside the lesson."
+        }),
+        renderSelectedStoryScene(block)
       );
     } else if (block.type === "experience") {
       fields.append(

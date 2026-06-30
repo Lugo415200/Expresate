@@ -6,7 +6,7 @@
   const VERSION = 1;
   const LEVELS = Object.freeze(["A1", "A2", "B1", "B2", "C1", "C2"]);
   const STATUSES = Object.freeze(["draft", "published"]);
-  const BLOCK_TYPES = Object.freeze(["explanation", "vocabulary", "image", "quiz", "speech", "completion", "experience"]);
+  const BLOCK_TYPES = Object.freeze(["explanation", "vocabulary", "image", "quiz", "speech", "story-scene", "completion", "experience"]);
   const VOCABULARY_DISPLAY_MODES = Object.freeze(["cards", "list", "flashcards"]);
 
   function cleanText(value, fallback, maxLength) {
@@ -99,6 +99,11 @@
       translation: cleanText(source.translation, "", 500),
       expectedText: cleanText(source.expectedText, "", 400),
       hint: cleanText(source.hint, "", 400)
+    };
+    if (type === "story-scene") return {
+      ...base,
+      sceneId: cleanText(source.sceneId, "", 120),
+      title: cleanText(source.title, "", 140)
     };
     if (type === "experience") return {
       ...base,
@@ -195,6 +200,13 @@
   }
 
   function createBlock(type) {
+    if (type === "story-scene") {
+      return normalizeBlock({
+        type,
+        sceneId: "scene-lesson000-spell-your-name",
+        title: "Story scene"
+      });
+    }
     if (type === "experience") {
       return normalizeBlock({
         type,
