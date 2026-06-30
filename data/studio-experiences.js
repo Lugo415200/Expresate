@@ -5,6 +5,98 @@
 
   const VOWELS = new Set(["a", "e", "i", "o", "u"]);
   const LETTER_KEYS = "abcdefghijklmnopqrstuvwxyz".split("");
+  const EXPERIENCE_DEFINITIONS = Object.freeze([
+    {
+      id: "alphabet-explorer",
+      title: "Alphabet Explorer",
+      summary: "Interactive letter grid with audio, vowel highlighting, and letter exploration modals.",
+      category: "foundation",
+      rendererKey: "alphabet-explorer",
+      studioBlockType: "experience",
+      status: "active",
+      studentGoal: "Recognize letters, hear their names, and connect them to examples.",
+      contentInputs: ["alphabet dataset", "example words", "images", "audio", "tips"],
+      settingsSchema: ["title", "subtitle", "showVowels", "enableLetterModal", "theme", "dataset"],
+      supportedThemes: ["workbook-blue", "playful-purple", "minimal-clean"],
+      supportedAnimations: ["slide-fade", "soft-pop"],
+      notes: "Used in Lesson 000 and by the Studio experience block."
+    },
+    {
+      id: "flashcards",
+      title: "Flashcards",
+      summary: "Card-based reveal and repetition pattern for vocabulary.",
+      category: "practice",
+      rendererKey: "flashcards",
+      studioBlockType: "activity",
+      status: "planned",
+      studentGoal: "Build quick recognition through paced reveal.",
+      contentInputs: ["vocabulary items", "optional images", "optional audio"],
+      settingsSchema: ["title", "displayMode", "theme"],
+      supportedThemes: ["workbook-blue", "playful-purple", "minimal-clean"],
+      supportedAnimations: ["slide-fade", "soft-pop"],
+      notes: "Placeholder definition for future Studio activities."
+    },
+    {
+      id: "pronunciation-lab",
+      title: "Pronunciation Lab",
+      summary: "Listen-first speaking practice with pronunciation feedback.",
+      category: "speaking",
+      rendererKey: "pronunciation-lab",
+      studioBlockType: "activity",
+      status: "planned",
+      studentGoal: "Hear and produce target sounds clearly.",
+      contentInputs: ["target phrase", "translation", "expected text", "hint", "audio optional"],
+      settingsSchema: ["title", "phrase", "translation", "expectedText", "hint", "theme"],
+      supportedThemes: ["workbook-blue", "playful-purple"],
+      supportedAnimations: ["soft-pop", "correct-confetti", "wrong-shake"],
+      notes: "Should reuse the existing speech practice engine."
+    },
+    {
+      id: "picture-match",
+      title: "Picture Match",
+      summary: "Match prompts to images or images to words.",
+      category: "practice",
+      rendererKey: "picture-match",
+      studioBlockType: "activity",
+      status: "planned",
+      studentGoal: "Connect visual meaning to language quickly.",
+      contentInputs: ["prompt", "choices", "correct answer", "optional media"],
+      settingsSchema: ["title", "choices", "correctAnswer", "theme"],
+      supportedThemes: ["workbook-blue", "playful-purple"],
+      supportedAnimations: ["soft-pop", "correct-confetti", "wrong-shake"],
+      notes: "Strong candidate for future vocabulary lessons."
+    },
+    {
+      id: "sentence-builder",
+      title: "Sentence Builder",
+      summary: "Assemble a sentence from tokens or chunks.",
+      category: "grammar",
+      rendererKey: "sentence-builder",
+      studioBlockType: "activity",
+      status: "planned",
+      studentGoal: "Practice word order and grammar structure.",
+      contentInputs: ["tokens", "target sentence", "translation optional"],
+      settingsSchema: ["title", "tokens", "targetSentence", "theme"],
+      supportedThemes: ["workbook-blue", "minimal-clean"],
+      supportedAnimations: ["slide-fade", "wrong-shake"],
+      notes: "Good fit for guided grammar practice."
+    },
+    {
+      id: "story-mode",
+      title: "Story Mode",
+      summary: "Scene-based guided story with vocabulary and interaction beats.",
+      category: "context",
+      rendererKey: "story-mode",
+      studioBlockType: "experience",
+      status: "planned",
+      studentGoal: "Understand language in context and move through a simple narrative.",
+      contentInputs: ["scenes", "dialogue", "prompts", "optional media"],
+      settingsSchema: ["title", "scenes", "theme", "animationPreset"],
+      supportedThemes: ["playful-purple", "workbook-blue"],
+      supportedAnimations: ["slide-fade", "soft-pop", "correct-confetti"],
+      notes: "Placeholder for a richer future mode."
+    }
+  ]);
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -393,6 +485,15 @@
   }
 
   window.ExpresateStudioExperiences = Object.freeze({
+    version: 1,
+    definitions: EXPERIENCE_DEFINITIONS,
+    listDefinitions() {
+      return EXPERIENCE_DEFINITIONS.map((entry) => clone(entry));
+    },
+    getDefinition(id) {
+      const entry = EXPERIENCE_DEFINITIONS.find((item) => item.id === id);
+      return entry ? clone(entry) : null;
+    },
     render,
     getDataset
   });
