@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#4358f4" />
+  <meta name="application-name" content="Exprésate" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <title>Lección | Exprésate</title>
+  <link rel="stylesheet" href="layout.css" />
+  <link rel="stylesheet" href="theme-light.css" />
+  <link rel="stylesheet" href="gamify.css" />
+  <link rel="stylesheet" href="speech-practice.css" />
+  <link rel="stylesheet" href="lesson-renderer.css" />
+  <link rel="stylesheet" href="lesson-live.css" />
+</head>
+<body class="studio-live-lesson" data-page="curso">
+  <div class="topbar"></div>
+
+  <main class="live-lesson-page">
+    <section class="live-lesson-loading" data-live-loading role="status">
+      <span class="live-loader" aria-hidden="true"></span>
+      <p>Cargando la lección…</p>
+    </section>
+
+    <section class="live-lesson-message" data-live-message hidden>
+      <span class="live-message-icon" aria-hidden="true">i</span>
+      <h1 data-live-message-title>Lección no encontrada</h1>
+      <p data-live-message-copy>Esta lección no está disponible.</p>
+      <div class="live-message-actions" data-live-message-actions>
+        <a class="btn primary" href="curso.html">Volver al curso</a>
+      </div>
+    </section>
+
+    <section class="live-lesson-app" data-live-app hidden>
+      <header class="live-lesson-toolbar">
+        <a class="live-exit" href="curso.html" aria-label="Salir de la lección">← <span>Salir</span></a>
+        <div class="live-lesson-identity">
+          <span data-live-module>Módulo</span>
+          <strong data-live-title>Lección</strong>
+        </div>
+        <div class="live-lesson-meta">
+          <span data-live-premium hidden>Premium</span>
+          <span data-live-xp>+10 XP</span>
+        </div>
+      </header>
+
+      <div class="live-progress" aria-label="Progreso de la lección">
+        <span data-live-progress-bar></span>
+      </div>
+      <p class="live-progress-copy"><span data-live-step-current>1</span> de <span data-live-step-total>1</span></p>
+
+      <div class="live-lesson-stage" data-live-renderer></div>
+
+      <nav class="live-lesson-controls" aria-label="Controles de la lección">
+        <button class="btn" type="button" data-live-back>← Atrás</button>
+        <button class="btn primary" type="button" data-live-next>Siguiente →</button>
+      </nav>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="access.js"></script>
+  <script src="progress.js"></script>
+  <script src="sync.js"></script>
+  <script src="alerts.js"></script>
+  <script src="nav.js"></script>
+  <script src="speech-practice.js"></script>
+  <script src="data/studio-vocabulary.js"></script>
+  <script src="data/studio-lessons.js"></script>
+  <script src="data/studio-lesson-renderer.js"></script>
+  <script src="app.js"></script>
+  <script src="lesson-live.js"></script>
+</body>
+</html>

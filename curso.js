@@ -42,9 +42,29 @@ function getQuizzes() {
 }
 
 function getLessons() {
-  return (window.ExpresateLessons && typeof window.ExpresateLessons === "object")
+  const base = (window.ExpresateLessons && typeof window.ExpresateLessons === "object")
     ? window.ExpresateLessons
     : { modules: [] };
+  const studioStore = window.ExpresateStudioLessons;
+  if (!studioStore?.loadDocument) return base;
+  const published = studioStore.loadDocument().lessons.filter((lesson) => lesson.status === "published");
+  if (!published.length) return base;
+  const studioModule = {
+    id: "studio-published-lessons",
+    title: "Studio · Lecciones publicadas",
+    hint: "Lecciones creadas con el nuevo motor de Exprésate.",
+    style: "numbered",
+    open: true,
+    steps: published.map((lesson) => ({
+      id: `studio-${lesson.slug}`,
+      type: "lesson",
+      title: lesson.title,
+      subtitle: lesson.description || `${lesson.level} · ${lesson.xpReward} XP`,
+      href: `lesson.html?slug=${encodeURIComponent(lesson.slug)}`,
+      premium: lesson.premium === true
+    }))
+  };
+  return { ...base, modules: [...(base.modules || []), studioModule] };
 }
 
 /** ---------------------------

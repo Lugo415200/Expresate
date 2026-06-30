@@ -2,6 +2,8 @@
 (function () {
   "use strict";
 
+  const cleanupByContainer = new WeakMap();
+
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -80,18 +82,21 @@
     const button = element("button", "student-preview-audio", "Escuchar");
     button.type = "button";
     button.setAttribute("aria-label", `Escuchar ${label || "audio"}`);
-    const audio = new Audio(String(path || ""));
-    audio.preload = "none";
     button.addEventListener("click", async () => {
+      if (window.ExpresateAudio?.play) {
+        window.ExpresateAudio.play(String(path || ""), { trigger: button, fallbackText: label || "" });
+        return;
+      }
+      const audio = new Audio(String(path || ""));
+      audio.preload = "none";
       try {
-        audio.currentTime = 0;
         await audio.play();
         button.classList.add("is-playing");
+        audio.addEventListener("ended", () => button.classList.remove("is-playing"), { once: true });
       } catch (_error) {
         button.textContent = "Audio no disponible";
       }
     });
-    audio.addEventListener("ended", () => button.classList.remove("is-playing"));
     return button;
   }
 
@@ -124,15 +129,22 @@
     return card;
   }
 
-  function renderQuiz(block) {
+  function renderQuiz(block, context) {
     const card = baseCard(block);
     appendText(card, "h3", block.question || "Elige una respuesta");
     const options = element("div", "student-preview-quiz-options");
     const feedback = element("div", "student-preview-feedback");
     feedback.setAttribute("role", "status");
+    const savedAnswer = contextAnswer(context, block.id);
+    if (savedAnswer) {
+      feedback.classList.add(savedAnswer.correct ? "is-correct" : "is-error");
+      feedback.textContent = savedAnswer.correct ? "¡Correcto!" : "Inténtalo otra vez.";
+      if (block.explanation) feedback.appendChild(element("small", "", block.explanation));
+    }
     (Array.isArray(block.options) ? block.options : []).forEach((option) => {
       const button = element("button", "student-preview-option", option);
       button.type = "button";
+      if (savedAnswer?.option === option) button.classList.add(savedAnswer.correct ? "is-correct" : "is-error");
       button.addEventListener("click", () => {
         const correct = String(option).trim().toLowerCase() === String(block.correctAnswer || "").trim().toLowerCase();
         options.querySelectorAll("button").forEach((entry) => entry.classList.remove("is-correct", "is-error"));
@@ -140,6 +152,7 @@
         feedback.className = `student-preview-feedback ${correct ? "is-correct" : "is-error"}`;
         feedback.textContent = correct ? "¡Correcto!" : "Inténtalo otra vez.";
         if (block.explanation) feedback.appendChild(element("small", "", block.explanation));
+        context?.onQuizAnswer?.({ blockId: block.id, option, correct });
       });
       options.appendChild(button);
     });
@@ -148,7 +161,13 @@
     return card;
   }
 
-  function renderSpeech(block) {
+  function contextAnswer(context, blockId) {
+    if (!context?.quizAnswers) return null;
+    if (context.quizAnswers instanceof Map) return context.quizAnswers.get(blockId) || null;
+    return context.quizAnswers[blockId] || null;
+  }
+
+  function renderSpeech(block, context) {
     const card = baseCard(block);
     const prompt = element("div", "student-preview-speech-prompt");
     prompt.append(element("span", "student-preview-mic", "●"), element("h3", "", block.phrase || "Práctica de voz"));
@@ -156,13 +175,24 @@
     appendText(card, "p", block.translation);
     if (block.expectedText) appendText(card, "div", `Texto esperado: ${block.expectedText}`, "student-preview-expected");
     if (block.hint) appendText(card, "small", block.hint, "student-preview-hint");
-    const button = element("button", "student-preview-speech-button", "Hablar (vista previa)");
-    button.type = "button";
-    button.addEventListener("click", () => {
-      button.textContent = "La voz no se guarda en Studio";
-      window.setTimeout(() => { button.textContent = "Hablar (vista previa)"; }, 1800);
-    });
-    card.append(button, element("p", "student-preview-safety-note", "Esta vista previa no graba audio ni guarda progreso."));
+    if (context.environment === "live" && window.ExpresateSpeechPractice?.create) {
+      const root = element("div", "student-preview-speech-live");
+      card.appendChild(root);
+      const practice = window.ExpresateSpeechPractice.create({
+        root,
+        expected: block.expectedText || block.phrase || "",
+        formatTarget: (value) => `Di: “${value}”`
+      });
+      context.cleanups.push(() => practice.destroy());
+    } else {
+      const button = element("button", "student-preview-speech-button", "Hablar (vista previa)");
+      button.type = "button";
+      button.addEventListener("click", () => {
+        button.textContent = "La voz no se guarda en Studio";
+        window.setTimeout(() => { button.textContent = "Hablar (vista previa)"; }, 1800);
+      });
+      card.append(button, element("p", "student-preview-safety-note", "Esta vista previa no graba audio ni guarda progreso."));
+    }
     return card;
   }
 
@@ -172,7 +202,9 @@
     card.append(element("span", "student-preview-celebration", "✦"), element("h3", "", block.message || "Lección completada"));
     card.appendChild(element("strong", "student-preview-xp", `+${Number(context.lesson?.xpReward || 0)} XP`));
     appendText(card, "p", block.nextLessonSlug ? `Siguiente lección: ${block.nextLessonSlug}` : "Has llegado al final de la vista previa.");
-    card.appendChild(element("small", "student-preview-safety-note", "Vista previa: no se actualizan XP, racha ni progreso."));
+    if (context.environment !== "live") {
+      card.appendChild(element("small", "student-preview-safety-note", "Vista previa: no se actualizan XP, racha ni progreso."));
+    }
     return card;
   }
 
@@ -185,9 +217,9 @@
     return renderCompletion(block, context);
   }
 
-  function lessonHeader(lesson, compact) {
+  function lessonHeader(lesson, compact, environment) {
     const header = element("header", compact ? "student-preview-header is-compact" : "student-preview-header");
-    header.append(element("span", "student-preview-kicker", "Vista previa de estudiante"), element("h2", "", lesson.title || "Lección sin título"));
+    header.append(element("span", "student-preview-kicker", environment === "live" ? "Lección interactiva" : "Vista previa de estudiante"), element("h2", "", lesson.title || "Lección sin título"));
     if (!compact) appendText(header, "p", lesson.description || "Sin descripción todavía.");
     const badges = element("div", "student-preview-badges");
     badges.append(element("span", "", lesson.module || "Sin módulo"), element("span", "", lesson.level || "A1"));
@@ -198,21 +230,30 @@
 
   function render(container, lesson, options) {
     if (!container) return;
+    (cleanupByContainer.get(container) || []).forEach((cleanup) => {
+      try { cleanup(); } catch (_error) {}
+    });
+    const cleanups = [];
     const context = {
       lesson: lesson || {},
-      vocabularyItems: Array.isArray(options?.vocabularyItems) ? options.vocabularyItems : []
+      vocabularyItems: Array.isArray(options?.vocabularyItems) ? options.vocabularyItems : [],
+      environment: options?.environment === "live" ? "live" : "preview",
+      quizAnswers: options?.quizAnswers || null,
+      onQuizAnswer: typeof options?.onQuizAnswer === "function" ? options.onQuizAnswer : null,
+      cleanups
     };
     const mode = options?.mode === "step" ? "step" : "full";
     const blocks = Array.isArray(lesson?.blocks) ? lesson.blocks : [];
     const stepIndex = Math.max(0, Math.min(Number(options?.stepIndex || 0), Math.max(0, blocks.length - 1)));
     const shell = element("div", `student-preview-shell is-${mode}`);
-    shell.appendChild(lessonHeader(context.lesson, mode === "step"));
+    shell.appendChild(lessonHeader(context.lesson, mode === "step", context.environment));
     const content = element("div", "student-preview-content");
     const visibleBlocks = mode === "step" ? blocks.slice(stepIndex, stepIndex + 1) : blocks;
     visibleBlocks.forEach((block) => content.appendChild(renderBlock(block, context)));
     if (!visibleBlocks.length) content.appendChild(element("div", "student-preview-empty-state", "Añade bloques para ver la experiencia del estudiante."));
     shell.appendChild(content);
     container.replaceChildren(shell);
+    cleanupByContainer.set(container, cleanups);
     return { blockCount: blocks.length, stepIndex };
   }
 

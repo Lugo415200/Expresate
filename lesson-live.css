@@ -1,0 +1,229 @@
+.studio-live-lesson {
+  min-height: 100vh;
+  color: #eef2ff;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(45, 174, 231, .2), transparent 30%),
+    radial-gradient(circle at 88% 8%, rgba(136, 83, 240, .24), transparent 32%),
+    linear-gradient(145deg, #070d22, #10183c 60%, #151037);
+}
+
+.live-lesson-page {
+  width: min(100% - 1.5rem, 72rem);
+  min-height: calc(100vh - 4.5rem);
+  margin-inline: auto;
+  padding: clamp(.75rem, 2vw, 1.5rem) 0 1.5rem;
+}
+
+.live-lesson-loading,
+.live-lesson-message {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: min(38rem, calc(100vh - 7rem));
+  padding: 2rem;
+  text-align: center;
+  background: rgba(13, 20, 52, .82);
+  border: 1px solid rgba(145, 158, 255, .22);
+  border-radius: 1rem;
+  box-shadow: 0 24px 70px rgba(0, 3, 18, .35);
+}
+
+.live-lesson-loading[hidden],
+.live-lesson-message[hidden],
+.live-lesson-app[hidden],
+[data-live-premium][hidden] {
+  display: none !important;
+}
+
+.live-loader {
+  width: 2.5rem;
+  aspect-ratio: 1;
+  border: .25rem solid rgba(255,255,255,.2);
+  border-top-color: #7f91ff;
+  border-radius: 50%;
+  animation: live-loader-spin .8s linear infinite;
+}
+
+.live-message-icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  aspect-ratio: 1;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4358f4, #8a55ec);
+  border-radius: 50%;
+}
+
+.live-lesson-message h1,
+.live-lesson-message p {
+  margin: .4rem 0;
+}
+
+.live-message-actions,
+.live-lesson-meta,
+.live-lesson-controls {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+
+.live-message-actions {
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.live-lesson-app {
+  display: grid;
+  gap: .65rem;
+}
+
+.live-lesson-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: rgba(10, 16, 43, .78);
+  border: 1px solid rgba(145, 158, 255, .22);
+  border-radius: .85rem;
+  backdrop-filter: blur(12px);
+}
+
+.live-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  color: #e7ebff;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.live-lesson-identity {
+  display: grid;
+  min-width: 0;
+  text-align: center;
+}
+
+.live-lesson-identity span {
+  color: #aeb8dc;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+.live-lesson-identity strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.live-lesson-meta span {
+  padding: .35rem .55rem;
+  color: #e9edff;
+  background: rgba(94, 109, 222, .2);
+  border: 1px solid rgba(145, 158, 255, .22);
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 800;
+}
+
+.live-lesson-meta [data-live-premium] {
+  color: #382906;
+  background: #ffe28a;
+  border-color: #e8c65d;
+}
+
+.live-progress {
+  height: .45rem;
+  overflow: hidden;
+  background: rgba(207, 217, 255, .14);
+  border-radius: 999px;
+}
+
+.live-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #5367f5, #995df0, #3fc9e8);
+  border-radius: inherit;
+  transition: width .25s ease;
+}
+
+.live-progress-copy {
+  margin: 0;
+  color: #b8c1dd;
+  font-size: .78rem;
+  text-align: center;
+}
+
+.live-lesson-stage {
+  overflow: hidden;
+  border: 1px solid rgba(145, 158, 255, .22);
+  border-radius: 1rem;
+  box-shadow: 0 22px 65px rgba(0, 3, 20, .35);
+}
+
+.live-lesson-stage .student-preview-shell {
+  min-height: min(40rem, calc(100vh - 15rem));
+}
+
+.live-lesson-controls {
+  justify-content: space-between;
+  padding: .75rem 1rem;
+  background: rgba(9, 15, 41, .8);
+  border: 1px solid rgba(145, 158, 255, .2);
+  border-radius: .85rem;
+}
+
+.live-lesson-controls .btn {
+  min-width: 8rem;
+}
+
+.live-lesson-controls .btn:last-child {
+  margin-left: auto;
+}
+
+.live-lesson-app.is-complete .live-progress span {
+  width: 100% !important;
+}
+
+@keyframes live-loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+  .live-lesson-page {
+    width: min(100% - .75rem, 72rem);
+    padding-top: .4rem;
+  }
+
+  .live-lesson-toolbar {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .live-lesson-meta {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .live-exit span {
+    display: none;
+  }
+
+  .live-lesson-stage .student-preview-shell {
+    min-height: 31rem;
+    padding: .7rem;
+  }
+
+  .live-lesson-controls .btn {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-loader { animation: none; }
+  .live-progress span { transition: none; }
+}

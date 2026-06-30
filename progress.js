@@ -94,7 +94,10 @@
     const lessons = state.lessons && typeof state.lessons === "object" ? state.lessons : {};
     Object.entries(lessons).forEach(([rawId, entry]) => {
       if (!entry || entry.done !== true) return;
-      clean.lessons[canonId(rawId)] = { done: true, ts: validTimestamp(entry.ts) };
+      const lesson = { done: true, ts: validTimestamp(entry.ts) };
+      const reward = Number(entry.xpReward);
+      if (Number.isFinite(reward)) lesson.xpReward = Math.max(0, Math.min(1000, Math.round(reward)));
+      clean.lessons[canonId(rawId)] = lesson;
     });
 
     const quizzes = state.quizzes && typeof state.quizzes === "object" ? state.quizzes : {};
@@ -270,11 +273,17 @@
       const state = load();
       return !!state.lessons[canonId(id)]?.done;
     },
-    setLessonDone(id, done = true) {
+    setLessonDone(id, done = true, options = {}) {
       const state = load();
       const cid = canonId(id);
       if (done) {
+        const requestedReward = typeof options === "number" ? options : options?.xpReward;
+        const parsedReward = Number(requestedReward);
+        const xpReward = Number.isFinite(parsedReward)
+          ? Math.max(0, Math.min(1000, Math.round(parsedReward)))
+          : undefined;
         state.lessons[cid] = { done: true, ts: Date.now() };
+        if (xpReward !== undefined) state.lessons[cid].xpReward = xpReward;
       } else {
         delete state.lessons[cid];
       }
@@ -357,7 +366,7 @@
       const state = load();
       let xp = 0;
       Object.values(state.lessons || {}).forEach((e) => {
-        if (e && e.done) xp += XP_PER_LESSON;
+        if (e && e.done) xp += Number.isFinite(e.xpReward) ? e.xpReward : XP_PER_LESSON;
       });
       Object.values(state.quizzes || {}).forEach((e) => {
         if (e && e.passed) xp += XP_PER_QUIZ;
@@ -369,7 +378,7 @@
       const state = load();
       let xp = 0;
       Object.values(state.lessons || {}).forEach((e) => {
-        if (e && e.done && e.ts && dayKey(e.ts) === today) xp += XP_PER_LESSON;
+        if (e && e.done && e.ts && dayKey(e.ts) === today) xp += Number.isFinite(e.xpReward) ? e.xpReward : XP_PER_LESSON;
       });
       Object.values(state.quizzes || {}).forEach((e) => {
         if (e && e.passed && e.ts && dayKey(e.ts) === today) xp += XP_PER_QUIZ;
