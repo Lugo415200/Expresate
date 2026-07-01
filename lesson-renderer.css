@@ -466,6 +466,30 @@
   line-height: 1.55;
 }
 
+.student-preview-story-quiz-meta {
+  display: grid;
+  gap: .35rem;
+}
+
+.student-preview-story-quiz-meta > p {
+  margin: 0;
+  color: #445277;
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.student-preview-story-quiz-list {
+  margin: 0;
+  padding-left: 1rem;
+  color: #445277;
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.student-preview-story-quiz-list li + li {
+  margin-top: .22rem;
+}
+
 .student-preview-audio:hover,
 .student-preview-speech-button:hover,
 .student-preview-option:hover {

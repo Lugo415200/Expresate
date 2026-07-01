@@ -285,6 +285,26 @@
     return card;
   }
 
+  function renderQuizPromptMetadata(meta) {
+    if (!meta || typeof meta !== "object") return null;
+    const card = element("div", "student-preview-story-fact");
+    card.appendChild(element("span", "student-preview-story-fact-label", "Checkpoint focus"));
+    const wrap = element("div", "student-preview-story-quiz-meta");
+    if (Array.isArray(meta.multipleChoiceExamples) && meta.multipleChoiceExamples.length) {
+      const list = element("ul", "student-preview-story-quiz-list");
+      meta.multipleChoiceExamples.forEach((item) => list.appendChild(element("li", "", item)));
+      wrap.append(element("strong", "student-preview-story-fact-value", "Example prompts"), list);
+    }
+    if (Array.isArray(meta.skillsChecked) && meta.skillsChecked.length) {
+      wrap.appendChild(element("p", "", `Skills checked: ${meta.skillsChecked.join(", ")}`));
+    }
+    if (Array.isArray(meta.futureModes) && meta.futureModes.length) {
+      wrap.appendChild(element("p", "", `Future modes: ${meta.futureModes.join(", ")}`));
+    }
+    card.appendChild(wrap);
+    return card;
+  }
+
   function renderStoryScene(block) {
     const card = baseCard(block);
     const scene = resolveStoryScene(block);
@@ -305,9 +325,11 @@
 
     const meta = element("div", "student-preview-story-meta");
     const mistake = storyFact("Mistake moment", scene.mistakeMoment, "is-warning");
+    const userPrompt = storyFact("User prompt", scene.userPrompt, "is-highlight");
     const prompt = storyFact("Activity prompt", scene.activityPrompt, "is-accent");
     const outro = storyFact("Outro", scene.outro);
-    [mistake, prompt, outro].filter(Boolean).forEach((entry) => meta.appendChild(entry));
+    const quizMeta = renderQuizPromptMetadata(scene.quizPromptMetadata);
+    [mistake, userPrompt, prompt, outro, quizMeta].filter(Boolean).forEach((entry) => meta.appendChild(entry));
     shell.appendChild(meta);
     card.appendChild(shell);
     return card;
