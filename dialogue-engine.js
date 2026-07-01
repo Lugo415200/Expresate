@@ -44,7 +44,7 @@
       '    <div class="exp-dialogue__nameplate" data-dialogue-speaker></div>',
       '    <p class="exp-dialogue__text" data-dialogue-text></p>',
       '    <div class="exp-dialogue__controls">',
-      '      <button class="exp-dialogue__next" type="button" data-dialogue-next>Next →</button>',
+      '      <button class="exp-dialogue__next" type="button" data-dialogue-next>Siguiente →</button>',
       "    </div>",
       "  </div>",
       "</section>"
@@ -74,6 +74,8 @@
     const nextButton = root.querySelector("[data-dialogue-next]");
     const location = root.querySelector("[data-dialogue-location]");
     const box = root.querySelector("[data-dialogue-box]");
+    const nextLabel = scene?.nextLabel || "Siguiente →";
+    const completeLabel = scene?.completeLabel || "Start lesson →";
 
     let currentLine = 0;
     let typingTimer = null;
@@ -129,36 +131,46 @@
     }
 
     function setPortrait(line) {
-      const ref = normalizeCharacterRef(registry, line?.speaker || line?.character);
-      const characterId = ref?.id || "narrator";
-      const pose = line?.pose || ref?.pose || "neutral";
-      const name = line?.speakerLabel || displayCharacterName(registry, characterId);
-      const posePath = line?.posePath || registry?.getPosePath?.(characterId, pose) || "";
+  const ref = normalizeCharacterRef(registry, line?.speaker || line?.character);
+  const characterId = ref?.id || "narrator";
+  const pose = line?.pose || ref?.pose || "neutral";
+  const name = line?.speakerLabel || displayCharacterName(registry, characterId);
+  const posePath = line?.posePath || registry?.getPosePath?.(characterId, pose) || "";
 
-      speaker.textContent = name;
-      location.textContent = line?.location || scene?.location || "Exprésate";
-      fallback.textContent = line?.fallback || fallbackInitial(name);
-      fallback.hidden = false;
-      portrait.hidden = true;
-      portrait.removeAttribute("src");
-      portrait.alt = name;
+  speaker.textContent = name;
+  location.textContent = line?.location || scene?.location || "Exprésate";
 
-      if (!posePath) return;
-      const probe = new Image();
-      probe.onload = function () {
-        if (destroyed) return;
-        portrait.onload = null;
-        portrait.onerror = null;
-        portrait.src = posePath;
-        portrait.hidden = false;
-        fallback.hidden = true;
-      };
-      probe.onerror = function () {
-        portrait.hidden = true;
-        fallback.hidden = false;
-      };
-      probe.src = posePath;
-    }
+  fallback.textContent = line?.fallback || fallbackInitial(name);
+
+  // Hide both while deciding what to show
+  fallback.hidden = true;
+  portrait.hidden = true;
+
+  portrait.removeAttribute("src");
+  portrait.alt = name;
+
+  if (!posePath) {
+    fallback.hidden = false;
+    return;
+  }
+
+  const probe = new Image();
+
+  probe.onload = function () {
+    if (destroyed) return;
+
+    portrait.src = posePath;
+    portrait.hidden = false;
+    fallback.hidden = true;
+  };
+
+  probe.onerror = function () {
+    portrait.hidden = true;
+    fallback.hidden = false;
+  };
+
+  probe.src = posePath;
+}
 
     function renderLine() {
       if (!lines[currentLine]) return;
@@ -168,7 +180,7 @@
       const swap = function () {
         setPortrait(line);
         typeWriter(line?.text || "");
-        nextButton.textContent = currentLine === lines.length - 1 ? "Start lesson →" : "Next →";
+        nextButton.textContent = currentLine === lines.length - 1 ? completeLabel : nextLabel;
         sceneEl.classList.remove("is-changing");
       };
 

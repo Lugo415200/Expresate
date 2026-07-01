@@ -1,17 +1,18 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#4358f4" />
-  <meta name="application-name" content="Exprésate" />
+  <meta name="application-name" content="ExprÃ©sate" />
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
-  <title>Lección 000 | Alfabeto | Exprésate</title>
+  <title>LecciÃ³n 000 | Alfabeto | ExprÃ©sate</title>
   <link rel="stylesheet" href="layout.css" />
   <link rel="stylesheet" href="theme-light.css" />
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
+  <link rel="stylesheet" href="dialogue-engine.css" />
 </head>
 
 <body class="lesson-step-mode" data-lesson-id="lesson-000-alphabet" data-page="curso">
@@ -30,112 +31,83 @@
       </div>
 
       <header class="lesson-stage-hero">
-        <p class="lesson-stage-kicker">Inicio · Lección 000</p>
+        <p class="lesson-stage-kicker">Inicio Â· LecciÃ³n 000</p>
         <h1>El alfabeto</h1>
         <p class="sub">
-          Usa letras para decir información exacta, practicar vocales y deletrear tu nombre.
+          Usa letras para decir informaciÃ³n exacta, practicar vocales y deletrear tu nombre.
         </p>
       </header>
 
       <div data-lesson-progress></div>
 
       <section class="flashcard block lesson-story-intro-card" data-story-intro-card hidden>
-        <div class="fc-head">
-          <div class="fc-num">0</div>
-          <div class="fc-titles">
-            <strong class="fc-title" data-story-title>Bienvenida a clase</strong>
-            <span class="fc-sub" data-story-setting>La historia aparece aquí si existe una escena lista.</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
         <div class="fc-body">
-          <div class="lesson-story-intro-shell">
-            <div class="lesson-story-cast" data-story-cast aria-label="Personajes de la escena"></div>
-            <div class="lesson-story-copy">
-              <span class="phrase-label" data-story-episode>Escena inicial</span>
-              <div class="lesson-story-dialogue" data-story-dialogue></div>
-              <div class="lesson-story-support">
-                <div class="lesson-story-note" data-story-user-prompt hidden>
-                  <strong>Tu papel</strong>
-                  <p data-story-user-prompt-text></p>
-                </div>
-                <div class="lesson-story-note" data-story-teaching-point hidden>
-                  <strong>Punto clave</strong>
-                  <p data-story-teaching-point-text></p>
-                </div>
-                <div class="lesson-story-note" data-story-activity-prompt hidden>
-                  <strong>Prepárate</strong>
-                  <p data-story-activity-prompt-text></p>
-                </div>
-              </div>
-              <p class="lesson-story-outro" data-story-outro hidden></p>
-            </div>
-          </div>
+          <div class="lesson-story-dialogue-mount" data-story-dialogue-mount></div>
         </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Entrar a la clase</button>
+        <div class="fc-foot" hidden aria-hidden="true">
+          <button class="btn fc-listo" type="button" data-fc-listo tabindex="-1">Continuar episodio</button>
         </div>
       </section>
 
-      <!-- CARD 1 — Welcome / how to use Exprésate -->
+      <!-- CARD 1 â€” Welcome / how to use ExprÃ©sate -->
       <section class="flashcard block" data-fc-id="welcome" data-fc-title="Bienvenida"
                data-fc-type="intro"
                data-focus-mode="true"
-               data-fc-tip="Cada lección te guía paso a paso. Lee, toca, escucha y avanza cuando estés listo.">
+               data-fc-tip="Cada lecciÃ³n te guÃ­a paso a paso. Lee, toca, escucha y avanza cuando estÃ©s listo.">
         <div class="fc-head">
           <div class="fc-num">1</div>
           <div class="fc-titles">
-            <strong class="fc-title">Bienvenido a Exprésate</strong>
-            <span class="fc-sub">Aprende inglés paso a paso con ejemplos, audio y práctica.</span>
+            <strong class="fc-title">Bienvenido a ExprÃ©sate</strong>
+            <span class="fc-sub">Aprende inglÃ©s paso a paso con ejemplos, audio y prÃ¡ctica.</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <div class="lesson-welcome-panel">
             <div class="lesson-welcome-copy">
-              <span class="phrase-label">Tu primera lección</span>
-              <p class="alphabet-big-idea">Aquí aprenderás cómo funciona cada lección.</p>
+              <span class="phrase-label">Tu primera lecciÃ³n</span>
+              <p class="alphabet-big-idea">AquÃ­ aprenderÃ¡s cÃ³mo funciona cada lecciÃ³n.</p>
               <ul class="lesson-welcome-list">
-                <li>Lee la explicación.</li>
+                <li>Lee la explicaciÃ³n.</li>
                 <li>Toca los ejemplos.</li>
-                <li>Escucha la pronunciación.</li>
+                <li>Escucha la pronunciaciÃ³n.</li>
                 <li>Repite en voz alta.</li>
                 <li>Completa actividades.</li>
-                <li>Gana XP y mantén tu racha.</li>
+                <li>Gana XP y mantÃ©n tu racha.</li>
               </ul>
             </div>
-            <div class="lesson-key-guide" aria-label="Guía rápida de iconos">
-              <div><span>🔊</span><strong>Escuchar</strong><small>Oye la palabra o frase.</small></div>
-              <div><span>🎤</span><strong>Hablar</strong><small>Practica pronunciación.</small></div>
-              <div><span>💡</span><strong>Consejo</strong><small>Ayuda rápida.</small></div>
-              <div><span>⭐</span><strong>XP</strong><small>Puntos por practicar.</small></div>
-              <div><span>🔥</span><strong>Racha</strong><small>Días seguidos.</small></div>
-              <div><span>✅</span><strong>Completado</strong><small>Actividad terminada.</small></div>
+            <div class="lesson-key-guide" aria-label="GuÃ­a rÃ¡pida de iconos">
+              <div><span>ðŸ”Š</span><strong>Escuchar</strong><small>Oye la palabra o frase.</small></div>
+              <div><span>ðŸŽ¤</span><strong>Hablar</strong><small>Practica pronunciaciÃ³n.</small></div>
+              <div><span>ðŸ’¡</span><strong>Consejo</strong><small>Ayuda rÃ¡pida.</small></div>
+              <div><span>â­</span><strong>XP</strong><small>Puntos por practicar.</small></div>
+              <div><span>ðŸ”¥</span><strong>Racha</strong><small>DÃ­as seguidos.</small></div>
+              <div><span>âœ…</span><strong>Completado</strong><small>Actividad terminada.</small></div>
             </div>
           </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Comenzar lección</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Comenzar lecciÃ³n</button>
         </div>
       </section>
 
-      <!-- CARD 2 — Optional personalization -->
+      <!-- CARD 2 â€” Optional personalization -->
       <section class="flashcard block" data-fc-id="personalize" data-fc-title="Personaliza"
                data-fc-type="practice"
                data-focus-mode="true"
-               data-fc-tip="Esta información se queda en este dispositivo. Sirve para que los ejemplos de la lección se sientan tuyos.">
+               data-fc-tip="Esta informaciÃ³n se queda en este dispositivo. Sirve para que los ejemplos de la lecciÃ³n se sientan tuyos.">
         <div class="fc-head">
           <div class="fc-num">2</div>
           <div class="fc-titles">
             <strong class="fc-title">Personaliza tus ejemplos</strong>
-            <span class="fc-sub">Usaremos esta información solo para practicar dentro de la lección.</span>
+            <span class="fc-sub">Usaremos esta informaciÃ³n solo para practicar dentro de la lecciÃ³n.</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <form class="lesson-profile-form" data-onboarding-profile-form novalidate>
             <p class="lesson-profile-help">
-              Ejemplo: si escribes tu nombre, practicarás cómo deletrearlo en inglés.
+              Ejemplo: si escribes tu nombre, practicarÃ¡s cÃ³mo deletrearlo en inglÃ©s.
             </p>
             <div class="lesson-profile-grid">
               <label>
@@ -143,11 +115,11 @@
                 <input class="input" type="text" name="name" autocomplete="name" placeholder="Daniel" data-profile-name />
               </label>
               <label>
-                <span>Correo electrónico</span>
+                <span>Correo electrÃ³nico</span>
                 <input class="input" type="email" name="email" autocomplete="email" placeholder="daniel@gmail.com" data-profile-email />
               </label>
               <label>
-                <span>Dirección o ciudad <small>(opcional)</small></span>
+                <span>DirecciÃ³n o ciudad <small>(opcional)</small></span>
                 <input class="input" type="text" name="address" autocomplete="street-address" placeholder="12th Street" data-profile-address />
               </label>
             </div>
@@ -159,23 +131,23 @@
           </form>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo hidden>Continuar →</button>
+          <button class="btn fc-listo" type="button" data-fc-listo hidden>Continuar â†’</button>
         </div>
       </section>
 
-      <!-- CARD 3 — Alphabet overview -->
+      <!-- CARD 3 â€” Alphabet overview -->
       <section class="flashcard block" data-fc-id="alphabet-grid" data-fc-title="A-Z"
                data-fc-tip="No tienes que memorizar todo hoy. Toca varias letras, escucha y repite. Las vocales aparecen destacadas dentro del alfabeto.">
         <div class="fc-head">
           <div class="fc-num">3</div>
           <div class="fc-titles">
             <strong class="fc-title">A-Z: toca y escucha</strong>
-            <span class="fc-sub">Las 26 letras del inglés</span>
+            <span class="fc-sub">Las 26 letras del inglÃ©s</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
-          <p class="alphabet-big-idea">Toca una letra. Escucha su nombre en inglés y repítelo en voz alta.</p>
+          <p class="alphabet-big-idea">Toca una letra. Escucha su nombre en inglÃ©s y repÃ­telo en voz alta.</p>
           <div class="fc-letter-grid alphabet-grid-compact" aria-label="Alfabeto A-Z">
             <button class="fc-letter letter-btn vowel" type="button" data-letter="a">A</button>
             <button class="fc-letter letter-btn" type="button" data-letter="b">B</button>
@@ -206,33 +178,33 @@
           </div>
           <p class="alphabet-vowel-note">
             <strong>A E I O U</strong>
-            <span>Estas son las vocales del inglés.</span>
+            <span>Estas son las vocales del inglÃ©s.</span>
           </p>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo âœ“</button>
         </div>
       </section>
 
-      <!-- CARD 4 — Phonics introduction -->
-      <section class="flashcard block" data-fc-id="phonics-intro" data-fc-title="Sonidos del inglés"
-               data-fc-tip="En español las letras suelen ser más constantes. En inglés aprenderemos patrones de sonido paso a paso.">
+      <!-- CARD 4 â€” Phonics introduction -->
+      <section class="flashcard block" data-fc-id="phonics-intro" data-fc-title="Sonidos del inglÃ©s"
+               data-fc-tip="En espaÃ±ol las letras suelen ser mÃ¡s constantes. En inglÃ©s aprenderemos patrones de sonido paso a paso.">
         <div class="fc-head">
           <div class="fc-num">4</div>
           <div class="fc-titles">
-            <strong class="fc-title">Los sonidos del inglés</strong>
-            <span class="fc-sub">Las letras pueden sonar de diferentes maneras según la palabra.</span>
+            <strong class="fc-title">Los sonidos del inglÃ©s</strong>
+            <span class="fc-sub">Las letras pueden sonar de diferentes maneras segÃºn la palabra.</span>
           </div>
           <div class="fc-status"></div>
         </div>
         <div class="fc-body">
           <div class="phonics-guide-card">
             <span class="phrase-label">Idea clave</span>
-            <p>En inglés una misma letra puede tener varios sonidos.</p>
-            <button class="btn" type="button" data-phonics-guide>Escuchar al guía</button>
+            <p>En inglÃ©s una misma letra puede tener varios sonidos.</p>
+            <button class="btn" type="button" data-phonics-guide>Escuchar al guÃ­a</button>
           </div>
 
-          <div class="phonics-card-grid" aria-label="Ejemplos iniciales de sonidos en inglés">
+          <div class="phonics-card-grid" aria-label="Ejemplos iniciales de sonidos en inglÃ©s">
             <article class="phonics-sound-card texture-learning-card">
               <span class="phrase-label">Letra A</span>
               <strong>A</strong>
@@ -264,22 +236,22 @@
 
           <div class="fc-note-card phonics-next-note">
             <strong>No lo memorices todo hoy.</strong>
-            <span>Solo nota el patrón: la letra tiene nombre, pero dentro de palabras puede cambiar de sonido.</span>
+            <span>Solo nota el patrÃ³n: la letra tiene nombre, pero dentro de palabras puede cambiar de sonido.</span>
           </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo âœ“</button>
         </div>
       </section>
 
-      <!-- CARD 5 — Spelling exact information -->
-      <section class="flashcard block" data-fc-id="exact-info" data-fc-title="Información exacta"
+      <!-- CARD 5 â€” Spelling exact information -->
+      <section class="flashcard block" data-fc-id="exact-info" data-fc-title="InformaciÃ³n exacta"
                data-focus-mode="true"
-               data-fc-tip="Deletrear no es solo decir letras: es poder dar información exacta cuando alguien la necesita.">
+               data-fc-tip="Deletrear no es solo decir letras: es poder dar informaciÃ³n exacta cuando alguien la necesita.">
         <div class="fc-head">
           <div class="fc-num">5</div>
           <div class="fc-titles">
-            <strong class="fc-title">El alfabeto te ayuda a decir información exacta</strong>
+            <strong class="fc-title">El alfabeto te ayuda a decir informaciÃ³n exacta</strong>
             <span class="fc-sub">Nombres, correos y direcciones</span>
           </div>
           <div class="fc-status"></div>
@@ -288,8 +260,8 @@
           <div class="alphabet-stage-preview alphabet-focus-strip" aria-hidden="true">
             <span>A</span><span>B</span><span>C</span><span>D</span>
           </div>
-          <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o dirección puede quedar mal.</p>
-          <p class="alphabet-tap-hint">Toca una tarjeta para ver cómo cambia el ejemplo.</p>
+          <p class="alphabet-big-idea">Si una letra cambia, un nombre, correo o direcciÃ³n puede quedar mal.</p>
+          <p class="alphabet-tap-hint">Toca una tarjeta para ver cÃ³mo cambia el ejemplo.</p>
           <div class="alphabet-use-cases" data-alpha-examples>
             <button type="button" data-alpha-example="name" class="is-selected" aria-pressed="true">
               <strong>Nombre</strong>
@@ -300,21 +272,21 @@
               <span>G-M-A-I-L</span>
             </button>
             <button type="button" data-alpha-example="address" aria-pressed="false">
-              <strong>Dirección</strong>
-              <span>calle / código</span>
+              <strong>DirecciÃ³n</strong>
+              <span>calle / cÃ³digo</span>
             </button>
           </div>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo âœ“</button>
         </div>
       </section>
 
-      <!-- CARD 6 — Name spelling -->
+      <!-- CARD 6 â€” Name spelling -->
       <section class="flashcard block" data-fc-id="name-spelling" data-fc-title="Tu nombre"
                data-fc-type="practice"
                data-focus-mode="true"
-               data-fc-tip="Si tu nombre tiene acento o ñ, escribe una versión simple para deletrear en inglés. Ejemplo: José → JOSE.">
+               data-fc-tip="Si tu nombre tiene acento o Ã±, escribe una versiÃ³n simple para deletrear en inglÃ©s. Ejemplo: JosÃ© â†’ JOSE.">
         <div class="fc-head">
           <div class="fc-num">6</div>
           <div class="fc-titles">
@@ -326,7 +298,7 @@
         <div class="fc-body">
           <div class="name-flow-intro">
             <span class="phrase-label">Practica</span>
-            <p>Después escucha cómo se deletrea en inglés, letra por letra.</p>
+            <p>DespuÃ©s escucha cÃ³mo se deletrea en inglÃ©s, letra por letra.</p>
           </div>
           <div class="name-speller lesson-flow-task" data-name-speller>
             <label for="learnerName">Escribe tu nombre</label>
@@ -335,7 +307,7 @@
               <button class="btn" type="button" data-name-clear>Limpiar</button>
             </div>
             <p class="name-listen-instruction floating-instruction" data-name-listen-instruction hidden>
-              Ahora escucha cómo se deletrea tu nombre.
+              Ahora escucha cÃ³mo se deletrea tu nombre.
             </p>
             <div class="name-output" data-name-output aria-live="polite">
               <span class="small">Escribe arriba para ver tus letras.</span>
@@ -349,11 +321,11 @@
           <p class="small name-flow-note muted-context">Toca cada letra grande. Escucha y repite despacio.</p>
         </div>
         <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Listo ✓</button>
+          <button class="btn fc-listo" type="button" data-fc-listo>Listo âœ“</button>
         </div>
       </section>
 
-      <!-- CARD 7 — Transition -->
+      <!-- CARD 7 â€” Transition -->
       <section class="flashcard fc-summary block"
                data-fc-id="transition"
                data-fc-title="Siguiente"
@@ -368,14 +340,14 @@
         </div>
         <div class="fc-body">
           <div class="fc-summary-banner">
-            <span class="fc-summary-emoji">✓</span>
+            <span class="fc-summary-emoji">âœ“</span>
             <div>
               <div class="fc-summary-headline">Ya puedes reconocer letras, notar vocales y entender que el sonido cambia por palabra.</div>
-              <div class="fc-summary-sub">La siguiente lección entrena sonidos clave para hablar con más claridad.</div>
+              <div class="fc-summary-sub">La siguiente lecciÃ³n entrena sonidos clave para hablar con mÃ¡s claridad.</div>
             </div>
           </div>
           <a class="fc-summary-next lesson-next-cta" href="lesson-001-sounds.html">
-            <span class="label">A continuación</span>
+            <span class="label">A continuaciÃ³n</span>
             <span class="title">Ir a Sonidos clave</span>
           </a>
         </div>
@@ -383,20 +355,20 @@
       </section>
 
       <div class="actions" style="margin-top:18px;">
-        <a class="btn" href="curso.html">← Volver al curso</a>
+        <a class="btn" href="curso.html">â† Volver al curso</a>
         <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
           Marcar como completada
         </button>
       </div>
       <p class="small" id="lessonStatus" style="margin-top:8px;"></p>
 
-      <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
+      <p class="small" style="margin-top:18px;">Â© <span id="year"></span> ExprÃ©sate</p>
     </main>
 
     <aside class="panel right">
-      <h3>Tu lección</h3>
+      <h3>Tu lecciÃ³n</h3>
       <div data-lesson-rightpanel style="padding:4px 4px 8px;">
-        <p class="small">Cargando…</p>
+        <p class="small">Cargandoâ€¦</p>
       </div>
     </aside>
   </div>
@@ -405,11 +377,11 @@
        aria-labelledby="guideModalTitle" aria-describedby="guideModalExplanation">
     <button class="lesson-guide-backdrop" type="button" data-guide-close aria-label="Cerrar ejemplo"></button>
     <section class="lesson-guide-dialog" tabindex="-1">
-      <button class="lesson-guide-close" type="button" data-guide-close aria-label="Cerrar ejemplo">×</button>
+      <button class="lesson-guide-close" type="button" data-guide-close aria-label="Cerrar ejemplo">Ã—</button>
 
       <div class="lesson-guide-character" aria-hidden="true">
         <img src="assets/characters/teacher-guide.png" alt="" data-guide-character />
-        <div class="lesson-guide-character-fallback" data-guide-character-fallback hidden>Guía</div>
+        <div class="lesson-guide-character-fallback" data-guide-character-fallback hidden>GuÃ­a</div>
       </div>
 
       <div class="lesson-guide-content">
@@ -419,10 +391,10 @@
         <p id="guideModalExplanation" class="lesson-guide-explanation" data-guide-explanation></p>
 
         <div class="lesson-guide-actions">
-          <button class="btn lesson-guide-back" type="button" data-guide-close>← Volver</button>
+          <button class="btn lesson-guide-back" type="button" data-guide-close>â† Volver</button>
           <button class="btn lesson-guide-audio" type="button" data-guide-audio
                   data-audio="" data-audio-fallback="">Escuchar</button>
-          <button class="btn primary lesson-guide-continue" type="button" data-guide-continue>Continuar →</button>
+          <button class="btn primary lesson-guide-continue" type="button" data-guide-continue>Continuar â†’</button>
         </div>
       </div>
     </section>
@@ -432,7 +404,7 @@
        aria-labelledby="letterExploreTitle" aria-describedby="letterExploreTip">
     <button class="letter-explore-backdrop" type="button" data-letter-close aria-label="Cerrar letra"></button>
     <section class="letter-explore-dialog texture-workbook" tabindex="-1">
-      <button class="letter-explore-close" type="button" data-letter-close aria-label="Cerrar letra">×</button>
+      <button class="letter-explore-close" type="button" data-letter-close aria-label="Cerrar letra">Ã—</button>
 
       <div class="letter-explore-visual">
         <div class="letter-art" data-letter-art>A</div>
@@ -457,9 +429,9 @@
           </div>
 
           <div class="letter-example-browser">
-            <button class="btn letter-example-shift" type="button" data-letter-example-prev>← Ejemplo</button>
+            <button class="btn letter-example-shift" type="button" data-letter-example-prev>â† Ejemplo</button>
             <div class="letter-example-tabs" data-letter-example-tabs></div>
-            <button class="btn letter-example-shift" type="button" data-letter-example-next>Ejemplo →</button>
+            <button class="btn letter-example-shift" type="button" data-letter-example-next>Ejemplo â†’</button>
           </div>
 
           <dl class="letter-facts">
@@ -476,7 +448,7 @@
               <dd><strong data-letter-word>Apple</strong> <span data-letter-spanish>Manzana</span></dd>
             </div>
             <div>
-              <dt>Pronunciación</dt>
+              <dt>PronunciaciÃ³n</dt>
               <dd data-letter-pronunciation>APPLE</dd>
             </div>
           </dl>
@@ -486,15 +458,15 @@
           </p>
 
           <div class="letter-expansion" data-letter-expansion hidden>
-            <span>Más palabras con A</span>
-            <strong>Ant · Alligator · Animal</strong>
+            <span>MÃ¡s palabras con A</span>
+            <strong>Ant Â· Alligator Â· Animal</strong>
           </div>
         </div>
 
         <div class="letter-explore-actions">
-          <button class="btn letter-explore-back" type="button" data-letter-close>← Volver</button>
+          <button class="btn letter-explore-back" type="button" data-letter-close>â† Volver</button>
           <button class="btn letter-explore-audio" type="button" data-letter-audio>Escuchar</button>
-          <button class="btn primary letter-explore-next" type="button" data-letter-next>Siguiente →</button>
+          <button class="btn primary letter-explore-next" type="button" data-letter-next>Siguiente â†’</button>
         </div>
       </div>
     </section>
@@ -511,12 +483,14 @@
   <script src="data/studio-characters.js"></script>
   <script src="data/studio-story-scenes.js"></script>
   <script src="data/lesson000-letters.js"></script>
+  <script src="dialogue-engine.js"></script>
   <script>
     (function () {
       var storyStore = window.ExpresateStudioStoryScenes;
-      var characterStore = window.ExpresateStudioCharacters;
       var card = document.querySelector("[data-story-intro-card]");
-      if (!storyStore || !characterStore || !card) {
+      var mount = document.querySelector("[data-story-dialogue-mount]");
+      var engine = window.ExpresateDialogueEngine;
+      if (!storyStore || !card || !mount || !engine || typeof engine.start !== "function") {
         card && card.remove();
         return;
       }
@@ -534,96 +508,85 @@
         scenes = [];
       }
 
-      var scene = scenes[0];
-      if (!scene) {
+      if (!scenes[0]) {
         card.remove();
         return;
       }
 
-      function setText(selector, value) {
-        var node = card.querySelector(selector);
-        if (node) node.textContent = value || "";
-      }
-
-      function setOptional(selector, value, childSelector) {
-        var wrap = card.querySelector(selector);
-        if (!wrap) return;
-        var text = String(value || "").trim();
-        wrap.hidden = !text;
-        if (!text) return;
-        var child = childSelector ? wrap.querySelector(childSelector) : wrap;
-        if (child) child.textContent = text;
-      }
-
-      function renderCharacters(list) {
-        var cast = card.querySelector("[data-story-cast]");
-        if (!cast) return;
-        cast.replaceChildren();
-        (Array.isArray(list) ? list : []).forEach(function (entry) {
-          var ref = characterStore.normalizeRef ? characterStore.normalizeRef(entry) : null;
-          if (!ref) return;
-          var meta = characterStore.get ? characterStore.get(ref.id) : null;
-          var figure = document.createElement("article");
-          figure.className = "lesson-story-character";
-
-          var portrait = document.createElement("div");
-          portrait.className = "lesson-story-portrait";
-          var posePath = characterStore.getPosePath ? characterStore.getPosePath(ref.id, ref.pose) : null;
-          if (posePath) {
-            var img = document.createElement("img");
-            img.src = posePath;
-            img.alt = meta ? meta.name : ref.id;
-            img.loading = "lazy";
-            img.onerror = function () {
-              portrait.classList.add("is-fallback");
-              portrait.textContent = (meta && meta.name ? meta.name : ref.id).slice(0, 1).toUpperCase();
-            };
-            portrait.appendChild(img);
-          } else {
-            portrait.classList.add("is-fallback");
-            portrait.textContent = (meta && meta.name ? meta.name : ref.id).slice(0, 1).toUpperCase();
-          }
-
-          var info = document.createElement("div");
-          info.className = "lesson-story-character-copy";
-          var name = document.createElement("strong");
-          name.textContent = meta ? meta.name : ref.id;
-          var role = document.createElement("span");
-          role.textContent = meta ? (meta.role || "personaje") : "personaje";
-          info.append(name, role);
-          figure.append(portrait, info);
-          cast.appendChild(figure);
-        });
-      }
-
-      function renderDialogue(lines) {
-        var host = card.querySelector("[data-story-dialogue]");
-        if (!host) return;
-        host.replaceChildren();
-        (Array.isArray(lines) ? lines : []).forEach(function (line) {
-          var item = document.createElement("p");
-          item.className = "lesson-story-line";
-          item.textContent = line;
-          host.appendChild(item);
-        });
-      }
+      var listoButton = card.querySelector("[data-fc-listo]");
+      var completed = false;
+      var introScene = scenes[0];
 
       card.hidden = false;
       card.setAttribute("data-fc-id", "story-intro");
-      card.setAttribute("data-fc-title", scene.title || "Historia");
+      card.setAttribute("data-fc-title", "Bienvenida a clase");
       card.setAttribute("data-fc-type", "story");
       card.setAttribute("data-focus-mode", "true");
-      card.setAttribute("data-fc-tip", "Esta escena te da contexto antes de empezar la práctica. Puedes leerla y continuar cuando estés listo.");
+      card.setAttribute("data-fc-tip", "Esta escena te da contexto antes de empezar la práctica. Avanza cuando termine el diálogo.");
 
-      setText("[data-story-title]", scene.title || "Bienvenida a clase");
-      setText("[data-story-setting]", scene.setting || "La historia introduce la lección.");
-      setText("[data-story-episode]", scene.episodeId ? String(scene.episodeId).replace(/-/g, " ") : "Escena inicial");
-      renderCharacters(scene.characters);
-      renderDialogue(scene.dialogue);
-      setOptional("[data-story-user-prompt]", scene.userPrompt, "[data-story-user-prompt-text]");
-      setOptional("[data-story-teaching-point]", scene.teachingPoint, "[data-story-teaching-point-text]");
-      setOptional("[data-story-activity-prompt]", scene.activityPrompt, "[data-story-activity-prompt-text]");
-      setOptional("[data-story-outro]", scene.outro);
+      function finishIntro() {
+        if (completed) return;
+        completed = true;
+        if (listoButton) {
+          listoButton.click();
+        } else {
+          card.remove();
+        }
+      }
+
+      function buildDialogueLines(scene) {
+        var characterMap = {};
+        (scene.characters || []).forEach(function (entry) {
+          if (!entry || !entry.id) return;
+          characterMap[String(entry.id).toLowerCase()] = entry;
+        });
+
+        return (scene.dialogue || []).map(function (line) {
+          var raw = String(line || "");
+          var parts = raw.split(":");
+          var speakerName = parts.length > 1 ? parts.shift().trim() : "Narrador";
+          var text = parts.length > 0 ? parts.join(":").trim() : raw.trim();
+          var normalized = speakerName.toLowerCase();
+          var speakerRef = characterMap[normalized] || characterMap[normalized.replace(/[íi]/g, "i")] || null;
+
+          if (!speakerRef && normalized === "teacher") {
+            speakerRef = { id: "community-teacher", pose: "neutral" };
+          }
+          if (!speakerRef && normalized === "sofia") {
+            speakerRef = { id: "sofia", pose: "happy" };
+          }
+
+          return {
+            speaker: speakerRef || { id: normalized || "narrator", pose: "neutral" },
+            speakerLabel: normalized === "teacher" ? "Profesor" : normalized === "sofia" ? "Sofía" : speakerName,
+            location: scene.setting || "Exprésate",
+            text: text
+          };
+        }).filter(function (line) {
+          return line.text;
+        });
+      }
+
+      var introDialogue = buildDialogueLines(introScene);
+      if (!introDialogue.length) {
+        card.remove();
+        return;
+      }
+
+      try {
+        engine.start({
+          mount: mount,
+          scene: {
+            location: introScene.setting || "Exprésate",
+            nextLabel: "Siguiente →",
+            completeLabel: "Comenzar lección →",
+            dialogue: introDialogue
+          },
+          onComplete: finishIntro
+        });
+      } catch (_error) {
+        card.remove();
+      }
     })();
   </script>
   <script src="lesson.js"></script>
@@ -743,7 +706,7 @@
           value: spellOutValue(nameValue),
           audio: "assets/audio/phrases/name-example.mp3",
           fallback: spokenFallback(nameValue),
-          speech: "Tu nombre puede deletrearse así cuando alguien lo necesita exacto.",
+          speech: "Tu nombre puede deletrearse asÃ­ cuando alguien lo necesita exacto.",
           note: "Deletrear evita que escriban tu nombre como otra palabra."
           },
           email: {
@@ -751,16 +714,16 @@
           value: spellOutValue(emailValue),
           audio: "assets/audio/phrases/email-example.mp3",
           fallback: spokenFallback(emailValue),
-          speech: "Los correos electrónicos suelen deletrearse letra por letra para evitar errores.",
+          speech: "Los correos electrÃ³nicos suelen deletrearse letra por letra para evitar errores.",
           note: "Una letra o punto incorrecto puede mandar el correo a otra persona."
           },
           address: {
-          label: "Dirección",
+          label: "DirecciÃ³n",
           value: spellOutValue(addressValue),
           audio: "assets/audio/phrases/address-example.mp3",
           fallback: addressValue,
-          speech: "Las direcciones también se pueden deletrear cuando alguien necesita información exacta.",
-          note: "En direcciones y códigos, cada letra ayuda a confirmar el dato exacto."
+          speech: "Las direcciones tambiÃ©n se pueden deletrear cuando alguien necesita informaciÃ³n exacta.",
+          note: "En direcciones y cÃ³digos, cada letra ayuda a confirmar el dato exacto."
           }
         };
       }
@@ -835,7 +798,7 @@
         renderModalLetters(item.value);
         if (modalContinue) {
           var index = exampleOrder.indexOf(selectedKey);
-          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo →" : "Continuar →";
+          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo â†’" : "Continuar â†’";
         }
 
         clearTimeout(modalTimer);
@@ -852,14 +815,14 @@
         if (!modal) return;
         guideMode = "phonics";
         activeTrigger = trigger || null;
-        modalSpeech.textContent = "En español normalmente cada letra tiene un sonido bastante consistente. En inglés algunas letras pueden sonar diferente dependiendo de la palabra. No te preocupes. Lo aprenderemos paso a paso.";
+        modalSpeech.textContent = "En espaÃ±ol normalmente cada letra tiene un sonido bastante consistente. En inglÃ©s algunas letras pueden sonar diferente dependiendo de la palabra. No te preocupes. Lo aprenderemos paso a paso.";
         modalCategory.textContent = "Sonidos";
-        modalExplanation.textContent = "Hoy solo necesitas notar el patrón: una letra puede tener más de un sonido.";
+        modalExplanation.textContent = "Hoy solo necesitas notar el patrÃ³n: una letra puede tener mÃ¡s de un sonido.";
         modalAudio.setAttribute("data-audio", "assets/audio/phrases/english-sounds-intro.mp3");
         modalAudio.setAttribute("data-audio-fallback", modalSpeech.textContent);
-        renderModalLetters("A · E");
+        renderModalLetters("A Â· E");
         if (modalContinue) {
-          modalContinue.textContent = "Entendido →";
+          modalContinue.textContent = "Entendido â†’";
         }
 
         clearTimeout(modalTimer);
@@ -905,7 +868,7 @@
         renderModalLetters(item.value);
         if (modalContinue) {
           var index = exampleOrder.indexOf(selectedKey);
-          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo →" : "Continuar →";
+          modalContinue.textContent = index >= 0 && index < exampleOrder.length - 1 ? "Siguiente ejemplo â†’" : "Continuar â†’";
         }
         modalDialog && modalDialog.focus();
       }
@@ -945,12 +908,12 @@
             return;
           }
           saveProfile(nextProfile);
-          completeProfileStep("Listo. Usaremos tus ejemplos en la lección.");
+          completeProfileStep("Listo. Usaremos tus ejemplos en la lecciÃ³n.");
         });
       }
 
       document.querySelector("[data-profile-skip]")?.addEventListener("click", function () {
-        completeProfileStep("Sin problema. Usaremos ejemplos de práctica.");
+        completeProfileStep("Sin problema. Usaremos ejemplos de prÃ¡ctica.");
       });
 
       modal?.querySelectorAll("[data-guide-close]").forEach(function (button) {
@@ -1198,7 +1161,7 @@
         if (expansion) {
           expansion.hidden = examples.length === 0;
           var strong = expansion.querySelector("strong");
-          if (strong) strong.textContent = examples.map(function (entry) { return entry.word; }).join(" · ");
+          if (strong) strong.textContent = examples.map(function (entry) { return entry.word; }).join(" Â· ");
         }
         renderExampleTabs(item, boundedExampleIndex);
       }
