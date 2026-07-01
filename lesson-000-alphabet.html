@@ -39,6 +39,44 @@
 
       <div data-lesson-progress></div>
 
+      <section class="flashcard block lesson-story-intro-card" data-story-intro-card hidden>
+        <div class="fc-head">
+          <div class="fc-num">0</div>
+          <div class="fc-titles">
+            <strong class="fc-title" data-story-title>Bienvenida a clase</strong>
+            <span class="fc-sub" data-story-setting>La historia aparece aquí si existe una escena lista.</span>
+          </div>
+          <div class="fc-status"></div>
+        </div>
+        <div class="fc-body">
+          <div class="lesson-story-intro-shell">
+            <div class="lesson-story-cast" data-story-cast aria-label="Personajes de la escena"></div>
+            <div class="lesson-story-copy">
+              <span class="phrase-label" data-story-episode>Escena inicial</span>
+              <div class="lesson-story-dialogue" data-story-dialogue></div>
+              <div class="lesson-story-support">
+                <div class="lesson-story-note" data-story-user-prompt hidden>
+                  <strong>Tu papel</strong>
+                  <p data-story-user-prompt-text></p>
+                </div>
+                <div class="lesson-story-note" data-story-teaching-point hidden>
+                  <strong>Punto clave</strong>
+                  <p data-story-teaching-point-text></p>
+                </div>
+                <div class="lesson-story-note" data-story-activity-prompt hidden>
+                  <strong>Prepárate</strong>
+                  <p data-story-activity-prompt-text></p>
+                </div>
+              </div>
+              <p class="lesson-story-outro" data-story-outro hidden></p>
+            </div>
+          </div>
+        </div>
+        <div class="fc-foot">
+          <button class="btn fc-listo" type="button" data-fc-listo>Entrar a la clase</button>
+        </div>
+      </section>
+
       <!-- CARD 1 — Welcome / how to use Exprésate -->
       <section class="flashcard block" data-fc-id="welcome" data-fc-title="Bienvenida"
                data-fc-type="intro"
@@ -470,7 +508,124 @@
   <script src="alerts.js"></script>
   <script src="nav.js"></script>
   <script src="data/lessons.js"></script>
+  <script src="data/studio-characters.js"></script>
+  <script src="data/studio-story-scenes.js"></script>
   <script src="data/lesson000-letters.js"></script>
+  <script>
+    (function () {
+      var storyStore = window.ExpresateStudioStoryScenes;
+      var characterStore = window.ExpresateStudioCharacters;
+      var card = document.querySelector("[data-story-intro-card]");
+      if (!storyStore || !characterStore || !card) {
+        card && card.remove();
+        return;
+      }
+
+      var scenes = [];
+      try {
+        scenes = (storyStore.list ? storyStore.list() : storyStore.all || [])
+          .filter(function (scene) {
+            return scene && scene.lessonSlug === "lesson-000-alphabet" && scene.status === "ready";
+          })
+          .sort(function (a, b) {
+            return Number(a.sceneOrder || 0) - Number(b.sceneOrder || 0);
+          });
+      } catch (_error) {
+        scenes = [];
+      }
+
+      var scene = scenes[0];
+      if (!scene) {
+        card.remove();
+        return;
+      }
+
+      function setText(selector, value) {
+        var node = card.querySelector(selector);
+        if (node) node.textContent = value || "";
+      }
+
+      function setOptional(selector, value, childSelector) {
+        var wrap = card.querySelector(selector);
+        if (!wrap) return;
+        var text = String(value || "").trim();
+        wrap.hidden = !text;
+        if (!text) return;
+        var child = childSelector ? wrap.querySelector(childSelector) : wrap;
+        if (child) child.textContent = text;
+      }
+
+      function renderCharacters(list) {
+        var cast = card.querySelector("[data-story-cast]");
+        if (!cast) return;
+        cast.replaceChildren();
+        (Array.isArray(list) ? list : []).forEach(function (entry) {
+          var ref = characterStore.normalizeRef ? characterStore.normalizeRef(entry) : null;
+          if (!ref) return;
+          var meta = characterStore.get ? characterStore.get(ref.id) : null;
+          var figure = document.createElement("article");
+          figure.className = "lesson-story-character";
+
+          var portrait = document.createElement("div");
+          portrait.className = "lesson-story-portrait";
+          var posePath = characterStore.getPosePath ? characterStore.getPosePath(ref.id, ref.pose) : null;
+          if (posePath) {
+            var img = document.createElement("img");
+            img.src = posePath;
+            img.alt = meta ? meta.name : ref.id;
+            img.loading = "lazy";
+            img.onerror = function () {
+              portrait.classList.add("is-fallback");
+              portrait.textContent = (meta && meta.name ? meta.name : ref.id).slice(0, 1).toUpperCase();
+            };
+            portrait.appendChild(img);
+          } else {
+            portrait.classList.add("is-fallback");
+            portrait.textContent = (meta && meta.name ? meta.name : ref.id).slice(0, 1).toUpperCase();
+          }
+
+          var info = document.createElement("div");
+          info.className = "lesson-story-character-copy";
+          var name = document.createElement("strong");
+          name.textContent = meta ? meta.name : ref.id;
+          var role = document.createElement("span");
+          role.textContent = meta ? (meta.role || "personaje") : "personaje";
+          info.append(name, role);
+          figure.append(portrait, info);
+          cast.appendChild(figure);
+        });
+      }
+
+      function renderDialogue(lines) {
+        var host = card.querySelector("[data-story-dialogue]");
+        if (!host) return;
+        host.replaceChildren();
+        (Array.isArray(lines) ? lines : []).forEach(function (line) {
+          var item = document.createElement("p");
+          item.className = "lesson-story-line";
+          item.textContent = line;
+          host.appendChild(item);
+        });
+      }
+
+      card.hidden = false;
+      card.setAttribute("data-fc-id", "story-intro");
+      card.setAttribute("data-fc-title", scene.title || "Historia");
+      card.setAttribute("data-fc-type", "story");
+      card.setAttribute("data-focus-mode", "true");
+      card.setAttribute("data-fc-tip", "Esta escena te da contexto antes de empezar la práctica. Puedes leerla y continuar cuando estés listo.");
+
+      setText("[data-story-title]", scene.title || "Bienvenida a clase");
+      setText("[data-story-setting]", scene.setting || "La historia introduce la lección.");
+      setText("[data-story-episode]", scene.episodeId ? String(scene.episodeId).replace(/-/g, " ") : "Escena inicial");
+      renderCharacters(scene.characters);
+      renderDialogue(scene.dialogue);
+      setOptional("[data-story-user-prompt]", scene.userPrompt, "[data-story-user-prompt-text]");
+      setOptional("[data-story-teaching-point]", scene.teachingPoint, "[data-story-teaching-point-text]");
+      setOptional("[data-story-activity-prompt]", scene.activityPrompt, "[data-story-activity-prompt-text]");
+      setOptional("[data-story-outro]", scene.outro);
+    })();
+  </script>
   <script src="lesson.js"></script>
   <script src="app.js"></script>
   <script>
