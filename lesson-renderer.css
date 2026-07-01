@@ -356,21 +356,65 @@
 }
 
 .student-preview-story-characters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: .65rem;
 }
 
 .student-preview-story-pill {
   display: inline-flex;
   align-items: center;
-  padding: .35rem .65rem;
+  gap: .6rem;
+  min-height: 4rem;
+  padding: .55rem .7rem;
   color: #253257;
   background: rgba(229, 237, 255, .84);
   border: 1px solid rgba(181, 195, 238, .8);
-  border-radius: 999px;
-  font-size: .82rem;
-  font-weight: 700;
+  border-radius: 1rem;
+  box-shadow: 0 .7rem 1.4rem rgba(32, 44, 87, .08);
+}
+
+.student-preview-story-pill-copy {
+  display: grid;
+  gap: .12rem;
+}
+
+.student-preview-story-pill-copy strong {
+  font-size: .92rem;
+}
+
+.student-preview-story-pill-copy small {
+  color: #6f7ca2;
+  font-size: .72rem;
+  text-transform: capitalize;
+}
+
+.student-preview-story-portrait {
+  flex: 0 0 3rem;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  border-radius: .9rem;
+  background: linear-gradient(180deg, rgba(223, 239, 255, .95), rgba(205, 225, 255, .9));
+  border: 1px solid rgba(166, 187, 235, .7);
+}
+
+.student-preview-story-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-preview-story-portrait.is-fallback {
+  background: linear-gradient(180deg, rgba(122, 108, 255, .16), rgba(75, 163, 255, .18));
+}
+
+.student-preview-story-avatar {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #3147b5;
 }
 
 .student-preview-story-dialogue {

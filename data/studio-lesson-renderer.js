@@ -209,12 +209,61 @@
     return storySceneLibrary.get(block.sceneId);
   }
 
+  function normalizeStoryCharacterRef(entry) {
+    return storyCharacterLibrary?.normalizeRef?.(entry) || null;
+  }
+
+  function storyCharacterName(entry) {
+    const ref = normalizeStoryCharacterRef(entry);
+    if (!ref) return "";
+    return storyCharacterLibrary?.get?.(ref.id)?.name || ref.id;
+  }
+
+  function storyCharacterPoseLabel(entry) {
+    const ref = normalizeStoryCharacterRef(entry);
+    if (!ref || !ref.pose || ref.pose === "neutral") return "";
+    return ref.pose.replace(/[-_]/g, " ");
+  }
+
+  function storyCharacterPortrait(entry) {
+    const ref = normalizeStoryCharacterRef(entry);
+    if (!ref) return null;
+    const record = storyCharacterLibrary?.get?.(ref.id);
+    if (!record) return null;
+    const portrait = element("div", "student-preview-story-portrait");
+    const path = storyCharacterLibrary?.getPosePath?.(ref.id, ref.pose);
+    if (path) {
+      const img = document.createElement("img");
+      img.src = path;
+      img.alt = `${record.name}${storyCharacterPoseLabel(entry) ? ` - ${storyCharacterPoseLabel(entry)}` : ""}`;
+      img.loading = "lazy";
+      img.addEventListener("error", () => {
+        portrait.classList.add("is-fallback");
+        portrait.replaceChildren(element("span", "student-preview-story-avatar", record.name.slice(0, 1).toUpperCase()));
+      }, { once: true });
+      portrait.appendChild(img);
+    } else {
+      portrait.classList.add("is-fallback");
+      portrait.appendChild(element("span", "student-preview-story-avatar", record.name.slice(0, 1).toUpperCase()));
+    }
+    return portrait;
+  }
+
   function renderStoryCharacterList(scene) {
     const wrap = element("div", "student-preview-story-characters");
-    const ids = Array.isArray(scene?.characters) ? scene.characters : [];
-    const names = ids.map((id) => storyCharacterLibrary?.get?.(id)?.name || id).filter(Boolean);
-    if (!names.length) return wrap;
-    names.forEach((name) => wrap.appendChild(element("span", "student-preview-story-pill", name)));
+    const refs = Array.isArray(scene?.characters) ? scene.characters.map((entry) => normalizeStoryCharacterRef(entry)).filter(Boolean) : [];
+    if (!refs.length) return wrap;
+    refs.forEach((ref) => {
+      const pill = element("div", "student-preview-story-pill");
+      const portrait = storyCharacterPortrait(ref);
+      const copy = element("div", "student-preview-story-pill-copy");
+      copy.appendChild(element("strong", "", storyCharacterName(ref)));
+      const pose = storyCharacterPoseLabel(ref);
+      if (pose) copy.appendChild(element("small", "", pose));
+      if (portrait) pill.append(portrait, copy);
+      else pill.appendChild(copy);
+      wrap.appendChild(pill);
+    });
     return wrap;
   }
 

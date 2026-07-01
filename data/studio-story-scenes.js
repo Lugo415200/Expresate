@@ -10,7 +10,11 @@
       lessonSlug: "lesson-000-alphabet",
       chapter: "foundation",
       module: "module-0",
-      characters: ["sofia", "alex", "community-teacher"],
+      characters: [
+        { id: "sofia", pose: "thinking" },
+        { id: "alex", pose: "explaining" },
+        "community-teacher"
+      ],
       setting: "first class introduction",
       studentGoal: "Understand that the alphabet helps you give exact information.",
       dialogue: [
@@ -33,7 +37,11 @@
       lessonSlug: "greetings-introductions",
       chapter: "survival-english",
       module: "module-1",
-      characters: ["sofia", "alex", "community-neighbor"],
+      characters: [
+        { id: "sofia", pose: "speaking" },
+        { id: "alex", pose: "pointing" },
+        "community-neighbor"
+      ],
       setting: "meeting someone new",
       studentGoal: "Use simple greetings and introduce yourself.",
       dialogue: [
@@ -56,7 +64,10 @@
       lessonSlug: "i-am-yo-estoy",
       chapter: "survival-english",
       module: "module-1",
-      characters: ["sofia", "alex"],
+      characters: [
+        { id: "sofia", pose: "confused" },
+        { id: "alex", pose: "explaining" }
+      ],
       setting: "school break",
       studentGoal: "Say how you feel with I am.",
       dialogue: [
@@ -79,7 +90,11 @@
       lessonSlug: "ordering-food-basics",
       chapter: "everyday-english",
       module: "module-2",
-      characters: ["sofia", "emma", "community-waiter"],
+      characters: [
+        { id: "sofia", pose: "speaking" },
+        { id: "emma", pose: "listening" },
+        "community-waiter"
+      ],
       setting: "casual restaurant counter",
       studentGoal: "Use short food-request phrases politely.",
       dialogue: [
@@ -104,7 +119,9 @@
     list() {
       return STORY_SCENES.map((entry) => ({
         ...entry,
-        characters: Array.isArray(entry.characters) ? [...entry.characters] : []
+        characters: Array.isArray(entry.characters)
+          ? entry.characters.map((character) => (typeof character === "object" && character ? { ...character } : character))
+          : []
       }));
     },
     get(id) {

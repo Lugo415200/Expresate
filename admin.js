@@ -1277,6 +1277,12 @@
     return scenes.map((scene) => [scene.id, `${scene.title} (${scene.lessonSlug || "no lesson"})`]);
   }
 
+  function storyCharacterName(value) {
+    const ref = storyCharacterLibrary?.normalizeRef?.(value) || null;
+    if (!ref) return "";
+    return storyCharacterLibrary?.get?.(ref.id)?.name || ref.id;
+  }
+
   function selectedStoryScene(block) {
     return storySceneLibrary?.get?.(block.sceneId) || null;
   }
@@ -1289,7 +1295,7 @@
       wrap.appendChild(textElement("p", "lesson-inline-empty", "No story scene selected or the registry entry is missing."));
       return wrap;
     }
-    const names = (scene.characters || []).map((id) => storyCharacterLibrary?.get?.(id)?.name || id).filter(Boolean);
+    const names = (scene.characters || []).map((entry) => storyCharacterName(entry)).filter(Boolean);
     wrap.append(
       textElement("strong", "", scene.title),
       textElement("span", "", scene.setting || "No setting yet."),
@@ -2028,7 +2034,7 @@
   }
 
   function normalizeCreativeText(value) {
-    if (Array.isArray(value)) return value.join(" ");
+    if (Array.isArray(value)) return value.map((entry) => normalizeCreativeText(entry)).join(" ");
     if (value && typeof value === "object") return Object.values(value).join(" ");
     return String(value || "");
   }
@@ -2164,7 +2170,7 @@
     if (entry.teachingPoint) metaRows.push(["Teaching point", entry.teachingPoint]);
     if (entry.activityPrompt) metaRows.push(["Activity prompt", entry.activityPrompt]);
     if (Array.isArray(entry.characters) && entry.characters.length) {
-      const names = entry.characters.map((id) => storyCharacterLibrary?.get?.(id)?.name || id);
+      const names = entry.characters.map((entry) => storyCharacterName(entry));
       metaRows.push(["Characters", names.join(", ")]);
     }
 

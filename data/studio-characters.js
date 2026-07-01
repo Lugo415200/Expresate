@@ -8,6 +8,15 @@
       id: "sofia",
       name: "Sofia",
       role: "learner",
+      assetBase: "assets/characters/sofia/",
+      poses: {
+        neutral: "assets/characters/sofia/neutral.webp",
+        happy: "assets/characters/sofia/happy.webp",
+        confused: "assets/characters/sofia/confused.webp",
+        thinking: "assets/characters/sofia/thinking.webp",
+        celebrating: "assets/characters/sofia/celebrating.webp",
+        speaking: "assets/characters/sofia/speaking.webp"
+      },
       languages: ["es", "basic-en"],
       levelContext: "beginner",
       personality: "Curious, realistic, occasionally unsure, willing to try.",
@@ -20,6 +29,14 @@
       id: "alex",
       name: "Alex",
       role: "bilingual-guide",
+      assetBase: "assets/characters/alex/",
+      poses: {
+        neutral: "assets/characters/alex/neutral.webp",
+        explaining: "assets/characters/alex/explaining.webp",
+        pointing: "assets/characters/alex/pointing.webp",
+        listening: "assets/characters/alex/listening.webp",
+        celebrating: "assets/characters/alex/celebrating.webp"
+      },
       languages: ["es", "en"],
       levelContext: "all beginner modules",
       personality: "Patient, clear, encouraging, direct.",
@@ -32,6 +49,14 @@
       id: "emma",
       name: "Emma",
       role: "native-speaker",
+      assetBase: "assets/characters/emma/",
+      poses: {
+        neutral: "assets/characters/emma/neutral.webp",
+        greeting: "assets/characters/emma/greeting.webp",
+        listening: "assets/characters/emma/listening.webp",
+        speaking: "assets/characters/emma/speaking.webp",
+        surprised: "assets/characters/emma/surprised.webp"
+      },
       languages: ["en"],
       levelContext: "listening and natural phrase exposure",
       personality: "Warm, natural, supportive, calm.",
@@ -98,6 +123,20 @@
     },
     get(id) {
       return CHARACTERS.find((entry) => entry.id === id) || null;
+    },
+    normalizeRef(value) {
+      if (!value) return null;
+      if (typeof value === "string") return { id: value, pose: "neutral" };
+      if (typeof value === "object" && typeof value.id === "string" && value.id.trim()) {
+        return { id: value.id.trim(), pose: typeof value.pose === "string" && value.pose.trim() ? value.pose.trim() : "neutral" };
+      }
+      return null;
+    },
+    getPosePath(id, pose) {
+      const entry = CHARACTERS.find((character) => character.id === id);
+      if (!entry) return null;
+      if (pose && entry.poses && entry.poses[pose]) return entry.poses[pose];
+      return entry.poses?.neutral || null;
     }
   });
 })();
