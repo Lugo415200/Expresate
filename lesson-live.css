@@ -158,6 +158,41 @@
   text-align: center;
 }
 
+.live-story-intro {
+  display: grid;
+  gap: .8rem;
+  padding: 1rem;
+  background: rgba(8, 14, 38, .82);
+  border: 1px solid rgba(145, 158, 255, .18);
+  border-radius: 1rem;
+  box-shadow: 0 18px 45px rgba(0, 4, 20, .28);
+}
+
+.live-story-intro[hidden] {
+  display: none !important;
+}
+
+.live-story-intro .student-preview-shell,
+.live-story-intro .student-preview-header {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.live-story-intro .student-preview-content {
+  gap: 0;
+}
+
+.live-story-intro .student-preview-card {
+  margin: 0;
+}
+
+.live-story-intro-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .live-lesson-stage {
   overflow: hidden;
   border: 1px solid rgba(145, 158, 255, .22);
@@ -215,6 +250,14 @@
   .live-lesson-stage .student-preview-shell {
     min-height: 31rem;
     padding: .7rem;
+  }
+
+  .live-story-intro {
+    padding: .8rem;
+  }
+
+  .live-story-intro-actions .btn {
+    width: 100%;
   }
 
   .live-lesson-controls .btn {

@@ -6,6 +6,7 @@
   const lessonPublisher = window.ExpresateStudioPublishing;
   const vocabularyStore = window.ExpresateStudioVocabulary;
   const renderer = window.ExpresateStudioLessonRenderer;
+  const storySceneLibrary = window.ExpresateStudioStoryScenes;
   const loading = document.querySelector("[data-live-loading]");
   const message = document.querySelector("[data-live-message]");
   const messageTitle = document.querySelector("[data-live-message-title]");
@@ -20,6 +21,9 @@
   const progressBar = document.querySelector("[data-live-progress-bar]");
   const currentStep = document.querySelector("[data-live-step-current]");
   const totalSteps = document.querySelector("[data-live-step-total]");
+  const storyIntro = document.querySelector("[data-live-story-intro]");
+  const storyIntroRender = document.querySelector("[data-live-story-intro-render]");
+  const storyIntroContinue = document.querySelector("[data-live-story-intro-continue]");
   const backButton = document.querySelector("[data-live-back]");
   const nextButton = document.querySelector("[data-live-next]");
 
@@ -27,6 +31,7 @@
   let vocabularyItems = [];
   let stepIndex = 0;
   let completed = false;
+  let introScene = null;
   const quizAnswers = new Map();
 
   function progressId() {
@@ -121,6 +126,49 @@
     updateControls();
   }
 
+  function lessonStoryScenes(slug) {
+    const scenes = storySceneLibrary?.list?.() || storySceneLibrary?.all || [];
+    return scenes
+      .filter((scene) => scene?.lessonSlug === slug && scene?.status === "ready")
+      .sort((a, b) => Number(a?.sceneOrder || 0) - Number(b?.sceneOrder || 0));
+  }
+
+  function hasExplicitStoryScene(sceneId) {
+    return Array.isArray(lesson?.blocks) && lesson.blocks.some((block) => block?.type === "story-scene" && block?.sceneId === sceneId);
+  }
+
+  function renderStoryIntro() {
+    if (!storyIntro || !storyIntroRender) return;
+    storyIntro.classList.remove("is-dismissed");
+    if (!introScene || hasExplicitStoryScene(introScene.id)) {
+      storyIntro.hidden = true;
+      storyIntroRender.replaceChildren();
+      return;
+    }
+    const introBlock = {
+      id: `auto-story-intro:${introScene.id}`,
+      type: "story-scene",
+      sceneId: introScene.id,
+      title: introScene.title
+    };
+    const card = renderer.renderBlock(introBlock, {
+      lesson,
+      vocabularyItems,
+      environment: "live",
+      quizAnswers,
+      cleanups: []
+    });
+    storyIntroRender.replaceChildren(card);
+    storyIntro.hidden = false;
+  }
+
+  function dismissStoryIntro() {
+    if (!storyIntro) return;
+    storyIntro.hidden = true;
+    storyIntro.classList.add("is-dismissed");
+    stage?.scrollIntoView?.({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
+
   function completeLesson() {
     if (completed) return;
     const id = progressId();
@@ -200,6 +248,7 @@
     }
 
     vocabularyItems = vocabularyStore.loadDocument().items;
+    introScene = lessonStoryScenes(lesson.slug)[0] || null;
     // A completed lesson can still be reviewed. The existing progress record
     // prevents duplicate XP when the learner reaches the end again.
     completed = false;
@@ -212,11 +261,13 @@
     loading.hidden = true;
     message.hidden = true;
     app.hidden = false;
+    renderStoryIntro();
     render();
   }
 
   backButton?.addEventListener("click", back);
   nextButton?.addEventListener("click", next);
+  storyIntroContinue?.addEventListener("click", dismissStoryIntro);
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
   else init();
