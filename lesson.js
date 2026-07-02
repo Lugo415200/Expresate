@@ -482,6 +482,11 @@
     updateProgressBar();
     updateRightPanel();
     const active = cards[currentIndex];
+    const introLocked = document.body.getAttribute("data-story-intro-active") === "true";
+    document.body.classList.toggle(
+      "lesson-story-scene-active",
+      introLocked || !!(active && active.getAttribute("data-fc-id") === "story-intro")
+    );
     setConsejoForCard(active);
     // Bring the new card under the topbar so it feels like a real "step".
     if (active) {

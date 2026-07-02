@@ -328,3 +328,293 @@
     width: 100%;
   }
 }
+
+/* Full scene / visual novel mode */
+.exp-dialogue--scene {
+  padding: 0;
+  background: #0f172a;
+}
+
+.exp-dialogue--scene .exp-dialogue__scene {
+  width: min(1440px, 100%);
+  min-height: 810px;
+  border-radius: 0;
+  padding: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.03), rgba(15, 23, 42, 0.22)),
+    var(--dialogue-background, linear-gradient(135deg, #eef2ff, #dbeafe));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.exp-dialogue--scene .exp-dialogue__location {
+  top: 26px;
+  left: 28px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.exp-dialogue--scene .exp-dialogue__stage {
+  min-height: 590px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 90px 44px 175px;
+}
+
+.exp-dialogue--scene .exp-dialogue__portrait {
+  max-height: 500px;
+  max-width: min(390px, 38vw);
+  object-fit: contain;
+  transform: translateY(24px);
+}
+
+.exp-dialogue--scene .exp-dialogue__box {
+  left: 36%;
+  right: 54px;
+  bottom: 62px;
+  min-height: 190px;
+  padding: 38px 42px 32px;
+  border: 0;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.32);
+}
+
+.exp-dialogue--scene .exp-dialogue__nameplate {
+  top: 28px;
+  left: 42px;
+}
+
+.exp-dialogue--scene .exp-dialogue__text {
+  margin-top: 62px;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+}
+
+@media (max-width: 760px) {
+  .exp-dialogue--scene .exp-dialogue__scene {
+    min-height: 640px;
+  }
+
+  .exp-dialogue--scene .exp-dialogue__stage {
+    justify-content: center;
+    padding: 86px 20px 220px;
+  }
+
+  .exp-dialogue--scene .exp-dialogue__portrait {
+    max-height: 380px;
+    max-width: 78vw;
+  }
+
+  .exp-dialogue--scene .exp-dialogue__box {
+    left: 18px;
+    right: 18px;
+    bottom: 28px;
+    min-height: 170px;
+    padding: 34px 24px 28px;
+  }
+
+  .exp-dialogue--scene .exp-dialogue__text {
+    margin-top: 54px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Lesson 000 uses scene mode inside the handcrafted lesson shell.
+   These overrides intentionally win over the generic in-card mount rules above. */
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__scene {
+  width: 100%;
+  min-height: clamp(640px, 74vh, 780px);
+  display: block;
+  padding: 0;
+  border-radius: 34px;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.18);
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.12) 72%, rgba(15, 23, 42, 0.22)),
+    radial-gradient(circle at 70% 76%, rgba(255, 255, 255, 0.06), transparent 26%);
+  pointer-events: none;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__location {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  margin: 0;
+  z-index: 4;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__stage {
+  grid-area: auto;
+  min-height: clamp(500px, 58vw, 670px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 66px 34px 94px;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__portrait {
+  position: relative;
+  z-index: 2;
+  max-height: clamp(380px, 44vw, 590px);
+  max-width: min(31vw, 390px);
+  transform: translateY(14px);
+  filter: drop-shadow(0 20px 32px rgba(15, 23, 42, 0.2));
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__box {
+  position: absolute;
+  left: clamp(350px, 44%, 560px);
+  right: 34px;
+  bottom: 30px;
+  display: block;
+  grid-area: auto;
+  min-height: 0;
+  max-width: none;
+  padding: 28px 32px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 26px 52px rgba(15, 23, 42, 0.2);
+  overflow: hidden;
+  z-index: 3;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__nameplate {
+  position: absolute;
+  top: 26px;
+  left: 34px;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__text {
+  margin: 60px 0 16px;
+  max-width: 100%;
+  font-size: clamp(1.02rem, 1.18vw, 1.28rem);
+  line-height: 1.52;
+  color: rgba(15, 23, 42, 0.92);
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__controls {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__next {
+  min-width: 180px;
+  min-height: 50px;
+}
+
+@media (max-width: 1100px) {
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__box {
+    left: clamp(280px, 40%, 420px);
+    right: 26px;
+    bottom: 24px;
+    padding: 24px 24px 20px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__stage {
+    padding: 68px 24px 108px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__portrait {
+    max-width: min(30vw, 320px);
+    max-height: 450px;
+  }
+}
+
+@media (max-width: 860px) {
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__scene {
+    min-height: 700px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__stage {
+    justify-content: center;
+    padding: 74px 20px 248px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__portrait {
+    max-width: min(48vw, 280px);
+    max-height: 340px;
+    transform: none;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__box {
+    inset: auto 18px 18px 18px;
+    max-width: none;
+    padding: 22px 20px 20px;
+    border-radius: 24px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__nameplate {
+    top: 18px;
+    left: 20px;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__text {
+    margin-top: 50px;
+    font-size: 1.05rem;
+  }
+
+  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__next {
+    width: 100%;
+  }
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card {
+  width: min(100%, 74rem);
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 34px;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card .fc-meta,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card .fc-head,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card .fc-foot,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card [data-fc-listo],
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-scene > [data-fc-listo],
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] #lessonStatus,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-stage > p.small:last-of-type,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .flashcard:not(.lesson-story-intro-card),
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] [data-lesson-progress],
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-bottom-bar,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-complete-status,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .consejo-rail,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] #guestAccountReminder,
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-stage-hero,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card .fc-meta,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card .fc-head,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card .fc-foot,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card [data-fc-listo],
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-scene > [data-fc-listo],
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active #lessonStatus,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-stage > p.small:last-of-type,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .flashcard:not(.lesson-story-intro-card),
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active [data-lesson-progress],
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-bottom-bar,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-complete-status,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .consejo-rail,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active #guestAccountReminder,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-stage-hero {
+  display: none !important;
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card .fc-body,
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-intro-card .fc-body {
+  padding: 0;
+}
