@@ -10,9 +10,10 @@
       role: "learner",
       assetBase: "assets/characters/sofia/",
       poses: {
-        neutral: "assets/characters/sofia/neutral.webp",
+        greeting: "assets/characters/sofia/greeting.webp",
         happy: "assets/characters/sofia/happy.webp",
         confused: "assets/characters/sofia/confused.webp",
+        questioning: "assets/characters/sofia/questioning.webp",
         thinking: "assets/characters/sofia/thinking.webp",
         celebrating: "assets/characters/sofia/celebrating.webp",
         speaking: "assets/characters/sofia/speaking.webp"
@@ -66,6 +67,24 @@
       status: "ready"
     },
     {
+      id: "professor",
+      name: "Professor",
+      role: "community",
+      assetBase: "assets/characters/professor/",
+      poses: {
+        neutral: "assets/characters/professor/neutral.webp",
+        pointing: "assets/characters/professor/pointing.webp",
+        celebrating: "assets/characters/professor/celebrating.webp"
+      },
+      languages: ["en"],
+      levelContext: "classroom and school scenarios",
+      personality: "Structured, welcoming, patient.",
+      teachingFunction: "Supports lessons about introductions, spelling, and classroom language.",
+      useFor: ["spelling names", "classroom phrases", "introductions"],
+      avoidFor: ["casual street dialogue", "dense conversation scenes"],
+      status: "ready"
+    },
+    {
       id: "community-cashier",
       name: "Community Cashier",
       role: "community",
@@ -75,18 +94,6 @@
       teachingFunction: "Creates real-world purchase and ordering situations.",
       useFor: ["ordering food", "shopping basics", "price questions"],
       avoidFor: ["long explanations", "grammar teaching"],
-      status: "planned"
-    },
-    {
-      id: "community-teacher",
-      name: "Community Teacher",
-      role: "community",
-      languages: ["en"],
-      levelContext: "classroom and school scenarios",
-      personality: "Structured, welcoming, patient.",
-      teachingFunction: "Supports lessons about introductions, spelling, and classroom language.",
-      useFor: ["spelling names", "classroom phrases", "introductions"],
-      avoidFor: ["casual street dialogue", "dense conversation scenes"],
       status: "planned"
     },
     {
@@ -114,6 +121,14 @@
       status: "planned"
     }
   ]);
+  // Retain compatibility with saved Studio scenes created before Professor became canonical.
+  const CHARACTER_ALIASES = Object.freeze({
+    "community-teacher": "professor"
+  });
+
+  function canonicalId(id) {
+    return CHARACTER_ALIASES[id] || id;
+  }
 
   window.ExpresateStudioCharacters = Object.freeze({
     version: 1,
@@ -122,21 +137,24 @@
       return CHARACTERS.map((entry) => ({ ...entry }));
     },
     get(id) {
-      return CHARACTERS.find((entry) => entry.id === id) || null;
+      return CHARACTERS.find((entry) => entry.id === canonicalId(id)) || null;
     },
     normalizeRef(value) {
       if (!value) return null;
-      if (typeof value === "string") return { id: value, pose: "neutral" };
+      if (typeof value === "string") return { id: canonicalId(value), pose: "neutral" };
       if (typeof value === "object" && typeof value.id === "string" && value.id.trim()) {
-        return { id: value.id.trim(), pose: typeof value.pose === "string" && value.pose.trim() ? value.pose.trim() : "neutral" };
+        return {
+          id: canonicalId(value.id.trim()),
+          pose: typeof value.pose === "string" && value.pose.trim() ? value.pose.trim() : "neutral"
+        };
       }
       return null;
     },
     getPosePath(id, pose) {
-      const entry = CHARACTERS.find((character) => character.id === id);
+      const entry = CHARACTERS.find((character) => character.id === canonicalId(id));
       if (!entry) return null;
       if (pose && entry.poses && entry.poses[pose]) return entry.poses[pose];
-      return entry.poses?.neutral || null;
+      return entry.poses?.neutral || entry.poses?.happy || Object.values(entry.poses || {})[0] || null;
     }
   });
 })();

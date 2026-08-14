@@ -15,7 +15,7 @@
     if (!id) return "Exprésate";
     const entry = registry?.get?.(id);
     if (entry?.name) return entry.name;
-    if (id === "community-teacher") return "Teacher";
+    if (id === "professor" || id === "community-teacher") return "Professor";
     return id;
   }
 
@@ -63,10 +63,19 @@
 
     const registry = window.ExpresateStudioCharacters || null;
     const root = createMarkup();
+
+    if (options?.mode === "scene") {
+      root.classList.add("exp-dialogue--scene");
+    }
     mount.replaceChildren(root);
 
     const lines = resolveLines(scene);
     const sceneEl = root.querySelector("[data-dialogue-scene]");
+
+    if (scene?.background) {
+      sceneEl.style.setProperty("--dialogue-background", `url("${scene.background}")`);
+    }
+
     const portrait = root.querySelector("[data-dialogue-portrait]");
     const fallback = root.querySelector("[data-dialogue-fallback]");
     const speaker = root.querySelector("[data-dialogue-speaker]");
@@ -203,31 +212,55 @@
         return;
       }
 
+      cleanup();
       onComplete();
     }
 
+    function isEditableTarget(target) {
+      return !!target?.closest?.("input, textarea, select, [contenteditable='true'], [contenteditable='']");
+    }
+
+    function isDialogueControl(target) {
+      return root.contains(target) && !!target?.closest?.("[data-dialogue-box], [data-dialogue-next]");
+    }
+
+    function shouldHandleKeydown(event) {
+      if (event.key !== "Enter" && event.key !== " ") return false;
+      if (event.altKey || event.ctrlKey || event.metaKey) return false;
+      if (isEditableTarget(event.target)) return false;
+      if (event.target?.closest?.("button, a, [role='button']") && !isDialogueControl(event.target)) return false;
+      return true;
+    }
+
     function onKeydown(event) {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        advance();
-      }
+      if (!shouldHandleKeydown(event)) return;
+      event.preventDefault();
+      advance();
+    }
+
+    function cleanup() {
+      if (destroyed) return;
+      destroyed = true;
+      clearTyping();
+      nextButton.removeEventListener("click", advance);
+      box.removeEventListener("click", onBoxClick);
+      document.removeEventListener("keydown", onKeydown);
+    }
+
+    function onBoxClick(event) {
+      if (event.target === nextButton) return;
+      advance();
     }
 
     nextButton.addEventListener("click", advance);
-    box.addEventListener("click", function (event) {
-      if (event.target === nextButton) return;
-      advance();
-    });
-    box.addEventListener("keydown", onKeydown);
+    box.addEventListener("click", onBoxClick);
+    document.addEventListener("keydown", onKeydown);
 
     renderLine();
 
     return {
       destroy() {
-        destroyed = true;
-        clearTyping();
-        nextButton.removeEventListener("click", advance);
-        box.removeEventListener("keydown", onKeydown);
+        cleanup();
         mount.replaceChildren();
       }
     };

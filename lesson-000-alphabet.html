@@ -1,7 +1,7 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#4358f4" />
   <meta name="application-name" content="Exprésate" />
@@ -41,11 +41,68 @@
       <div data-lesson-progress></div>
 
       <section class="lesson-story-scene" data-story-intro-card hidden>
-  <div class="lesson-story-dialogue-mount" data-story-dialogue-mount></div>
-  <button class="btn fc-listo" type="button" data-fc-listo hidden tabindex="-1">
-    Continuar episodio
-  </button>
-</section>
+        <div class="lesson-story-scene-shell">
+          <div class="lesson-story-orientation" data-story-orientation hidden>
+            <div class="lesson-story-orientation-card">
+              <span class="lesson-story-orientation-kicker" data-orientation-target-label></span>
+              <h2 class="lesson-story-orientation-title" data-orientation-title></h2>
+              <p class="lesson-story-orientation-copy" data-orientation-explanation></p>
+              <div class="lesson-story-orientation-meta">
+                <span class="lesson-story-orientation-flag" data-orientation-required hidden>
+                  Interacción requerida
+                </span>
+              </div>
+              <button class="btn primary lesson-story-orientation-start" type="button" data-orientation-start>
+                Entrar a la escena
+              </button>
+            </div>
+          </div>
+
+          <div class="lesson-story-scene-topbar">
+            <a class="lesson-story-scene-exit" href="curso.html">← Salir</a>
+            <div class="lesson-story-scene-metrics" aria-label="Resumen de actividad">
+              <div class="lesson-story-scene-metric lesson-story-scene-metric--streak">
+                <span class="lesson-story-scene-metric-icon" aria-hidden="true">🔥</span>
+                <span class="lesson-story-scene-metric-copy">
+                  <strong data-story-streak-value>0</strong>
+                  <small>Racha</small>
+                </span>
+              </div>
+              <div class="lesson-story-scene-metric lesson-story-scene-metric--xp">
+                <span class="lesson-story-scene-metric-icon" aria-hidden="true">XP</span>
+                <span class="lesson-story-scene-metric-copy">
+                  <strong data-story-xp-value>0</strong>
+                  <small>Total</small>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lesson-story-dialogue-mount" data-story-dialogue-mount></div>
+
+          <div class="lesson-story-scene-hud" aria-hidden="true">
+            <div class="lesson-story-scene-hud-lesson">
+              <span class="lesson-story-scene-hud-label">Lección 000</span>
+              <strong>El alfabeto</strong>
+            </div>
+            <div class="lesson-story-scene-hud-progress">
+              <span class="lesson-story-scene-hud-label">Progreso de la lección</span>
+              <div class="lesson-story-scene-progressbar">
+                <span style="width:12%"></span>
+              </div>
+              <strong>12%</strong>
+            </div>
+            <div class="lesson-story-scene-hud-tools">
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">🔊</span> Escuchar</span>
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">🎙️</span> Hablar</span>
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">💡</span> Consejo</span>
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">⭐</span> XP</span>
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">🔥</span> Racha</span>
+              <span class="lesson-story-scene-pill"><span aria-hidden="true">✅</span> Completado</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- CARD 1 — Welcome / how to use Exprésate -->
       <section class="flashcard block" data-fc-id="welcome" data-fc-title="Bienvenida"
@@ -487,15 +544,27 @@
       var storyStore = window.ExpresateStudioStoryScenes;
       var card = document.querySelector("[data-story-intro-card]");
       var mount = document.querySelector("[data-story-dialogue-mount]");
+      var orientationShell = document.querySelector("[data-story-orientation]");
+      var orientationLabel = document.querySelector("[data-orientation-target-label]");
+      var orientationTitle = document.querySelector("[data-orientation-title]");
+      var orientationExplanation = document.querySelector("[data-orientation-explanation]");
+      var orientationRequired = document.querySelector("[data-orientation-required]");
+      var orientationStart = document.querySelector("[data-orientation-start]");
       var engine = window.ExpresateDialogueEngine;
-      if (!storyStore || !card || !mount || !engine || typeof engine.start !== "function") {
+      if (!card || !mount) {
         card && card.remove();
         return;
       }
 
+      var orientationSteps = [{
+        targetLabel: "Orientación",
+        title: "Primero verás una escena corta, luego entrarás a la lección",
+        explanation: "Usa esta introducción para ubicarte. Después pasarás al alfabeto, los sonidos y la práctica normal de Lesson 000.",
+        requiredInteraction: true
+      }];
       var scenes = [];
       try {
-        scenes = (storyStore.list ? storyStore.list() : storyStore.all || [])
+        scenes = ((storyStore && storyStore.list ? storyStore.list() : storyStore && storyStore.all) || [])
           .filter(function (scene) {
             return scene && scene.lessonSlug === "lesson-000-alphabet" && scene.status === "ready";
           })
@@ -506,16 +575,18 @@
         scenes = [];
       }
 
-      if (!scenes[0]) {
+      if (!scenes[0] || !engine || typeof engine.start !== "function") {
         card.remove();
         return;
       }
 
-      var listoButton = card.querySelector("[data-fc-listo]");
       var completed = false;
       var introScene = scenes[0];
       var hiddenChrome = [];
       var storyChromeObserver = null;
+      var streakValue = card.querySelector("[data-story-streak-value]");
+      var xpValue = card.querySelector("[data-story-xp-value]");
+      var hasOrientation = !!(orientationShell && orientationStart && orientationSteps[0]);
 
       card.hidden = false;
       card.setAttribute("data-fc-id", "story-intro");
@@ -577,18 +648,88 @@
         hiddenChrome = [];
       }
 
+      function setLessonPhase(phase) {
+        if (phase) {
+          document.body.setAttribute("data-lesson000-phase", phase);
+        } else {
+          document.body.removeAttribute("data-lesson000-phase");
+        }
+      }
+
       function finishIntro() {
         if (completed) return;
         completed = true;
         document.body.removeAttribute("data-story-intro-active");
-        document.body.classList.remove("lesson-story-scene-active");
+        document.body.classList.remove("lesson-story-scene-active", "lesson-story-scene-ready");
+        setLessonPhase("lesson");
         setStoryChromeHidden(false);
-        if (listoButton) {
-          listoButton.hidden = true;
-          listoButton.style.display = "none";
-        }
         mount.replaceChildren();
         card.remove();
+      }
+
+      function hydrateStoryStats() {
+        var streak = 0;
+        var xp = 0;
+        if (window.Progress) {
+          try {
+            streak = Number(window.Progress.getStreak()) || 0;
+            xp = Number(window.Progress.getXP()) || 0;
+          } catch (_error) {
+            streak = 0;
+            xp = 0;
+          }
+        }
+        if (streakValue) streakValue.textContent = String(streak);
+        if (xpValue) xpValue.textContent = String(xp);
+      }
+
+      function startStoryIntroTransition(callback) {
+        var reduceMotion = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduceMotion) {
+          callback();
+          return;
+        }
+
+        var loader = document.querySelector("[data-lesson-page-loader]");
+        if (!loader) {
+          loader = document.createElement("div");
+          loader.className = "lesson-page-loader";
+          loader.setAttribute("data-lesson-page-loader", "");
+          loader.setAttribute("aria-hidden", "true");
+          loader.innerHTML = [
+            '<div class="lesson-page-loader__tile"></div>',
+            '<div class="lesson-page-loader__tile"></div>',
+            '<div class="lesson-page-loader__tile"></div>',
+            '<div class="lesson-page-loader__tile"></div>',
+            '<div class="lesson-page-loader__tile"></div>',
+            '<div class="lesson-page-loader__mark">Exprésate</div>'
+          ].join("");
+          document.body.appendChild(loader);
+        }
+
+        document.body.classList.add("lesson-transitioning");
+        loader.classList.remove("is-back");
+        loader.classList.add("loader--active");
+
+        window.setTimeout(callback, 620);
+        window.setTimeout(function () {
+          loader.classList.remove("loader--active");
+        }, 1120);
+        window.setTimeout(function () {
+          document.body.classList.remove("lesson-transitioning");
+        }, 2820);
+      }
+
+      function renderOrientation(step) {
+        if (!hasOrientation || !step) return false;
+        orientationLabel.textContent = step.targetLabel || "Orientación";
+        orientationTitle.textContent = step.title || "Prepárate para la escena";
+        orientationExplanation.textContent = step.explanation || "Verás una introducción breve antes de comenzar la lección.";
+        orientationRequired.hidden = !step.requiredInteraction;
+        orientationShell.hidden = false;
+        mount.hidden = true;
+        return true;
       }
 
       function buildDialogueLines(scene) {
@@ -606,9 +747,9 @@
           var normalized = speakerName.toLowerCase();
           var speakerRef = characterMap[normalized] || characterMap[normalized.replace(/[íi]/g, "i")] || null;
 
-          if (!speakerRef && normalized === "teacher") {
-            speakerRef = { id: "community-teacher", pose: "neutral" };
-          }
+         if (!speakerRef && normalized === "teacher") {
+  speakerRef = { id: "professor", pose: "neutral" };
+}
           if (!speakerRef && normalized === "sofia") {
             speakerRef = { id: "sofia", pose: "happy" };
           }
@@ -630,34 +771,48 @@
         return;
       }
 
-      try {
-        document.body.setAttribute("data-story-intro-active", "true");
-        document.body.classList.add("lesson-story-scene-active");
-        setStoryChromeHidden(true);
-        if (listoButton) {
-          listoButton.hidden = true;
-          listoButton.style.display = "none";
+      function beginStoryScene() {
+        orientationShell && (orientationShell.hidden = true);
+        mount.hidden = false;
+        setLessonPhase("story");
+
+        try {
+          engine.start({
+            mount: mount,
+            mode: "scene",
+            scene: {
+              background: "assets/backgrounds/classroom/classroom-day.webp",
+              location: introScene.setting || "English Classroom",
+              nextLabel: "Siguiente →",
+              completeLabel: "Comenzar lección →",
+              dialogue: introDialogue
+            },
+            onComplete: finishIntro
+          });
+        } catch (_error) {
+          document.body.removeAttribute("data-story-intro-active");
+          document.body.classList.remove("lesson-story-scene-active", "lesson-story-scene-ready");
+          setLessonPhase("lesson");
+          setStoryChromeHidden(false);
+          card.remove();
+          return;
         }
-        engine.start({
-  mount: mount,
-  mode: "scene",
-  scene: {
-    background: "assets/backgrounds/classroom/classroom-day.webp",
-    location: introScene.setting || "English Classroom",
-    nextLabel: "Siguiente →",
-    completeLabel: "Comenzar lección →",
-    dialogue: introDialogue
-  },
-  onComplete: finishIntro
-});
-      } catch (_error) {
-        document.body.removeAttribute("data-story-intro-active");
-        setStoryChromeHidden(false);
-        if (listoButton) {
-          listoButton.hidden = true;
-          listoButton.style.display = "";
-        }
-        card.remove();
+
+        startStoryIntroTransition(function () {
+          document.body.classList.add("lesson-story-scene-ready");
+        });
+      }
+
+      document.body.setAttribute("data-story-intro-active", "true");
+      document.body.classList.add("lesson-story-scene-active");
+      setStoryChromeHidden(true);
+      hydrateStoryStats();
+      setLessonPhase(hasOrientation ? "orientation" : "story");
+
+      if (renderOrientation(orientationSteps[0])) {
+        orientationStart.addEventListener("click", beginStoryScene, { once: true });
+      } else {
+        beginStoryScene();
       }
     })();
   </script>
@@ -890,7 +1045,7 @@
         modalSpeech.textContent = "En español normalmente cada letra tiene un sonido bastante consistente. En inglés algunas letras pueden sonar diferente dependiendo de la palabra. No te preocupes. Lo aprenderemos paso a paso.";
         modalCategory.textContent = "Sonidos";
         modalExplanation.textContent = "Hoy solo necesitas notar el patrón: una letra puede tener más de un sonido.";
-        modalAudio.setAttribute("data-audio", "assets/audio/phrases/english-sounds-intro.mp3");
+        modalAudio.setAttribute("data-audio", "");
         modalAudio.setAttribute("data-audio-fallback", modalSpeech.textContent);
         renderModalLetters("A · E");
         if (modalContinue) {

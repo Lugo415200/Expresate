@@ -17,6 +17,7 @@ Thumbs.db
 
 # Local generated previews and CLI state
 _tmp_english_assets_preview/
+/_tmp_*
 supabase/.temp/
 
 # Source collage used to crop/prepare food assets; not a production asset

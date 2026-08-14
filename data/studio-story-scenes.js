@@ -14,16 +14,16 @@
       module: "module-0",
       characters: [
         { id: "sofia", pose: "happy" },
-        { id: "community-teacher", pose: "neutral" }
+        { id: "professor", pose: "neutral" }
       ],
       setting: "English class on the first day",
       studentGoal: "Understand that this course will teach English through guided practice and exact communication.",
       dialogue: [
-        "Sofia: Hola. Soy Sofia y hoy es mi primer dia aprendiendo ingles.",
-        "Sofia: Tu tambien estas aqui para empezar conmigo, verdad?",
-        "Teacher: Welcome to class. Today we start with the alphabet so everyone can share information clearly."
+        "Sofia: Hola. Soy Sofía y hoy es mi primer día aprendiendo inglés.",
+        "Sofia: ¿Tú también estás aquí para empezar conmigo, verdad?",
+        "Teacher: Bienvenidos a clase. Hoy empezamos con el alfabeto para compartir información con claridad."
       ],
-      userPrompt: "Identificate como nuevo estudiante y preparate para trabajar con Sofia durante la clase.",
+      userPrompt: "Identifícate como nuevo estudiante y prepárate para trabajar con Sofía durante la clase.",
       mistakeMoment: "Sofia can introduce herself in Spanish, but she still needs English building blocks before she can participate with confidence.",
       teachingPoint: "The class begins with the alphabet because exact information comes before longer conversation.",
       activityPrompt: "Get ready to tap letters, hear their names, and notice how English class will guide each step.",
@@ -42,7 +42,7 @@
       chapter: "season-1",
       module: "module-0",
       characters: [
-        { id: "community-teacher", pose: "neutral" },
+        { id: "professor", pose: "neutral" },
         { id: "sofia", pose: "thinking" },
         { id: "alex", pose: "pointing" }
       ],
@@ -72,7 +72,7 @@
       chapter: "season-1",
       module: "module-0",
       characters: [
-        { id: "community-teacher", pose: "neutral" },
+        { id: "professor", pose: "neutral" },
         { id: "alex", pose: "explaining" },
         { id: "sofia", pose: "confused" }
       ],
@@ -102,7 +102,7 @@
       chapter: "season-1",
       module: "module-0",
       characters: [
-        { id: "community-teacher", pose: "neutral" },
+        { id: "professor", pose: "neutral" },
         { id: "sofia", pose: "speaking" },
         { id: "alex", pose: "listening" }
       ],
@@ -132,7 +132,7 @@
       chapter: "season-1",
       module: "module-0",
       characters: [
-        { id: "community-teacher", pose: "neutral" },
+        { id: "professor", pose: "neutral" },
         { id: "sofia", pose: "thinking" },
         { id: "alex", pose: "explaining" }
       ],

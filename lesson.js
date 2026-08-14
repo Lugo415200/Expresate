@@ -373,8 +373,13 @@
         // Step mode: mark this card done, then move to the next one.
         // (showCard handles the scroll; no scrollNext nudge needed.)
         btn.disabled = true;
-        beginLesson000Transition();
         markSectionDone(id);
+        if (lessonId === "lesson-000-alphabet" && id === "welcome") {
+          btn.disabled = false;
+          advanceCard();
+          return;
+        }
+        beginLesson000Transition();
         await showLesson000Feedback(sec);
         btn.disabled = false;
         runLesson000PageTransition(advanceCard);
@@ -482,6 +487,9 @@
     updateProgressBar();
     updateRightPanel();
     const active = cards[currentIndex];
+    if (lessonId === "lesson-000-alphabet") {
+      document.body.setAttribute("data-lesson000-current-card", active?.getAttribute("data-fc-id") || "");
+    }
     const introLocked = document.body.getAttribute("data-story-intro-active") === "true";
     document.body.classList.toggle(
       "lesson-story-scene-active",

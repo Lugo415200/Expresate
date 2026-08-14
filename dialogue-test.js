@@ -1,6 +1,7 @@
 const mount = document.querySelector("[data-dialogue-demo]");
 
 const scene = {
+  background: "assets/backgrounds/classroom/classroom-day.webp",
   location: "English Classroom",
   dialogue: [
     {
@@ -14,8 +15,8 @@ const scene = {
       text: "Hoy también es mi primer día aprendiendo inglés."
     },
     {
-      speaker: { id: "community-teacher", pose: "neutral" },
-      speakerLabel: "Teacher",
+      speaker: { id: "professor", pose: "neutral" },
+      speakerLabel: "Professor",
       text: "Welcome to class. Today we start with the alphabet."
     },
     {
@@ -33,6 +34,7 @@ const scene = {
 
 window.ExpresateDialogueEngine.start({
   mount,
+  mode: "scene",
   scene,
   onComplete() {
     alert("Dialogue complete. Lesson would begin here.");
