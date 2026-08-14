@@ -1,0 +1,21 @@
+/* Focused composition for the Lesson 001 pronunciation lab. */
+.lesson001-story { position: fixed; inset: 0; z-index: 1400; display: grid; place-items: center; padding: 1rem; background: #eef4ff; }
+.lesson001-story[hidden] { display: none; }
+.lesson001-story-orientation { width: min(100%, 34rem); padding: 2rem; border-radius: .75rem; background: #fff; box-shadow: 0 1.25rem 3rem rgba(15,23,42,.18); text-align: center; }
+.lesson001-story-kicker { display: block; margin-bottom: .5rem; color: #4358f4; font-weight: 800; }
+.lesson001-story-mount { width: min(100%, 70rem); }
+.lesson001-story .exp-dialogue__scene { min-height: min(46rem, calc(100vh - 2rem)); }
+.sounds-lab-intro { display: grid; gap: .85rem; padding: 1rem; border: 1px solid rgba(67,88,244,.16); border-radius: .65rem; background: #f5f7ff; }
+.contrast-card .fc-body { display: grid; gap: 1rem; }
+.contrast-play { width: fit-content; min-height: 44px; }
+.contrast-options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .75rem; }
+.contrast-options button { min-height: 58px; padding: .75rem; border: 2px solid #cbd5e1; border-radius: .6rem; background: #fff; color: #0f172a; font: inherit; font-weight: 800; cursor: pointer; }
+.contrast-options button.is-correct { border-color: #059669; background: #ecfdf5; }
+.contrast-options button.is-wrong { border-color: #dc2626; background: #fef2f2; }
+.contrast-feedback { min-height: 1.5rem; margin: 0; font-weight: 700; }
+.contrast-feedback[data-state="correct"] { color: #047857; }
+.contrast-feedback[data-state="retry"] { color: #b45309; }
+.contrast-reveal { display: grid; gap: .75rem; padding-top: .25rem; border-top: 1px solid #dbe4f0; }
+.mouth-cue { display: grid; grid-template-columns: auto 1fr; gap: .4rem .75rem; padding: .85rem 1rem; border-left: 4px solid #4358f4; background: #f5f7ff; }
+.speech-guidance { display: grid; gap: .35rem; padding: .85rem 1rem; border-left: 4px solid #4358f4; background: #f5f7ff; font-size: .92rem; }
+@media (max-width: 760px) { .lesson001-story-orientation { padding: 1.5rem 1rem; } .lesson001-story .exp-dialogue__scene { min-height: calc(100svh - 2rem); } .contrast-options { grid-template-columns: 1fr; } .contrast-options button { min-height: 52px; } }

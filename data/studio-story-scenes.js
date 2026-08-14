@@ -80,10 +80,10 @@
       studentGoal: "Notice that English letters and sound combinations do not always behave like Spanish.",
       dialogue: [
         "Teacher: English sounds can change depending on the letter pair.",
-        "Sofia: En espanol espero un sonido mas fijo.",
-        "Alex: Exacto. Por eso hoy veremos SH, CH y TH con ejemplos faciles."
+        "Sofia: En español espero un sonido más fijo.",
+        "Alex: Exacto. Por eso hoy veremos SH, CH y TH con ejemplos fáciles."
       ],
-      userPrompt: "Escucha los sonidos clave y compara como cambian entre palabras parecidas.",
+      userPrompt: "Escucha los sonidos clave y compara cómo cambian entre palabras parecidas.",
       mistakeMoment: "Sofia expects one stable sound per letter because that is usually closer to Spanish reading patterns.",
       teachingPoint: "English needs explicit phonetic practice because one spelling pattern can sound different from what a Spanish-speaking learner first expects.",
       activityPrompt: "Practice key sound pairs, then test yourself with simple examples and repeats.",

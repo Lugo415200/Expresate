@@ -13,375 +13,91 @@
   <link rel="stylesheet" href="gamify.css" />
   <link rel="stylesheet" href="lesson-flashcard.css" />
   <link rel="stylesheet" href="speech-practice.css" />
+  <link rel="stylesheet" href="dialogue-engine.css" />
+  <link rel="stylesheet" href="lesson-001-sounds.css" />
 </head>
 <body class="lesson-step-mode" data-lesson-id="lesson-001-sounds" data-page="curso">
-
   <div class="topbar"></div>
+
+  <section class="lesson001-story" data-lesson001-story aria-label="Introducción de la lección">
+    <div class="lesson001-story-orientation" data-story-orientation>
+      <span class="lesson001-story-kicker">Orientación</span>
+      <h2>Primero, escucha una escena corta</h2>
+      <p>Hoy entrenarás sonidos que el español puede interpretar de otra manera.</p>
+      <button class="btn primary" type="button" data-story-start>Entrar a la escena</button>
+    </div>
+    <div class="lesson001-story-mount" data-story-mount></div>
+  </section>
 
   <div class="shell">
     <aside class="panel sidebar"></aside>
-
     <main class="content">
       <h1>Lección 001 — Sonidos clave</h1>
-      <p class="sub">Mejora tu pronunciación con los sonidos que más cambian el significado.</p>
-
+      <p class="sub">Entrena tu oído y tu boca con contrastes que cambian el significado.</p>
       <div data-lesson-progress></div>
 
-      <!-- 1 — Intro / Cómo usar -->
-      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida"
-               data-fc-tip="No busques perfección. Busca claridad — que la otra persona te entienda.">
-        <div class="fc-head">
-          <div class="fc-num">1</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Cómo usar esta lección</strong>
-            <span class="fc-sub">Método de 4 pasos para cada sonido</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p>En esta lección vas a entrenar los sonidos que <strong>cambian el significado</strong> en inglés.</p>
-          <div class="fc-mini-grid">
-            <div class="fc-mini-card">
-              <strong>Meta</strong>
-              <span>Sonar claro, no perfecto.</span>
-            </div>
-            <div class="fc-mini-card">
-              <strong>Por qué importa</strong>
-              <span>Un sonido pequeño puede cambiar la palabra.</span>
-            </div>
-            <div class="fc-mini-card">
-              <strong>Para hispanohablantes</strong>
-              <span>No leas todo como se escribe en español.</span>
-            </div>
-          </div>
-          <ol>
-            <li>Escucha el audio (1–2 segundos).</li>
-            <li>Repite <strong>5 veces lento</strong>.</li>
-            <li>Luego repite <strong>5 veces normal</strong>.</li>
-            <li>Grábate (opcional) y compárate.</li>
-          </ol>
-          <p class="small">El oído mejora con repetición, no con velocidad. Mismas frases, muchas veces.</p>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block" data-fc-id="intro" data-fc-title="Bienvenida" data-fc-tip="No busques perfección. Busca claridad: que la otra persona te entienda.">
+        <div class="fc-head"><div class="fc-num">1</div><div class="fc-titles"><strong class="fc-title">Tu laboratorio de sonidos</strong><span class="fc-sub">Escucha, elige y repite</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><div class="sounds-lab-intro"><strong>Meta: sonar claro, no perfecto.</strong><span>Un sonido pequeño puede cambiar una palabra.</span><p>En cada paso: <strong>escucha, elige y repite.</strong></p></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Comenzar →</button></div>
       </section>
 
-      <!-- 2 — Digraphs (SH + CH + TH) -->
-      <section class="flashcard block" data-fc-id="digraphs" data-fc-title="Digraphs SH · CH · TH"
-               data-fc-tip="En inglés, dos letras juntas pueden representar UN solo sonido. En español solemos leer letra por letra.">
-        <div class="fc-head">
-          <div class="fc-num">2</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Combinaciones de 2 letras</strong>
-            <span class="fc-sub">SH · CH · TH</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-
-          <!-- SH -->
-          <div class="block" style="margin-top:0;">
-            <h3 style="margin-top:0;">A) SH = "shhh"</h3>
-            <pre>she /ʃiː/    shop /ʃɑp/    English /ˈɪŋɡlɪʃ/</pre>
-            <div class="actions">
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/she.mp3" data-audio-fallback="she"><strong>she</strong><span>/shii/</span></button>
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/shop.mp3" data-audio-fallback="shop"><strong>shop</strong><span>/shop/</span></button>
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/english.mp3" data-audio-fallback="English"><strong>English</strong><span>termina con SH</span></button>
-            </div>
-            <p class="small">Pista: no es "si". Haz el sonido "shhh" como pidiendo silencio.</p>
-          </div>
-
-          <!-- CH -->
-          <div class="block" style="margin-top:12px;">
-            <h3 style="margin-top:0;">B) CH = "ch"</h3>
-            <pre>chair /tʃer/    check /tʃɛk/    teacher /ˈtiː.tʃɚ/</pre>
-            <div class="actions">
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/chair.mp3" data-audio-fallback="chair"><strong>chair</strong><span>/cher/</span></button>
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/check.mp3" data-audio-fallback="check"><strong>check</strong><span>/chek/</span></button>
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/teacher.mp3" data-audio-fallback="teacher"><strong>teacher</strong><span>CH en medio</span></button>
-            </div>
-            <p class="small">Pista: casi igual al "ch" del español. Mantén el aire fuerte.</p>
-          </div>
-
-          <!-- TH -->
-          <div class="block" style="margin-top:12px;">
-            <h3 style="margin-top:0;">C) TH = 2 sonidos</h3>
-            <pre>think (θ) — sin vibración    this (ð) — con vibración</pre>
-            <div class="actions">
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/think.mp3" data-audio-fallback="think"><strong>think</strong><span>sin vibración</span></button>
-              <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/this.mp3" data-audio-fallback="this"><strong>this</strong><span>con vibración</span></button>
-            </div>
-            <p class="small"><strong>Truco:</strong> pon la mano en tu garganta. Si vibra al decir la palabra, es <strong>ð</strong> (this). Si no vibra, es <strong>θ</strong> (think).</p>
-          </div>
-
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block contrast-card" data-fc-id="digraphs" data-fc-title="SH y CH" data-contrast data-contrast-answer="she" data-contrast-success="¡Exacto! Oíste SH en she." data-fc-tip="Dos letras juntas pueden producir un solo sonido. Escucha primero y repite cuando lo necesites.">
+        <div class="fc-head"><div class="fc-num">2</div><div class="fc-titles"><strong class="fc-title">Escucha: SH o CH</strong><span class="fc-sub">Elige la palabra que oyes</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><button class="btn contrast-play" type="button" data-contrast-play data-contrast-audio="assets/audio/words/she.mp3" data-contrast-fallback="she">Escuchar</button><div class="contrast-options" data-contrast-options><button type="button" data-contrast-option="she">she</button><button type="button" data-contrast-option="chair">chair</button></div><p class="contrast-feedback" data-contrast-feedback aria-live="polite"></p><div class="contrast-reveal" data-contrast-reveal hidden><p><strong>SH</strong> suena como “shhh”. <strong>CH</strong> empieza como el “ch” de <em>chair</em>.</p><div class="actions"><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/she.mp3" data-audio-fallback="she">Repite she</button><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/chair.mp3" data-audio-fallback="chair">Repite chair</button></div></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button></div>
       </section>
 
-      <!-- 3 — ee vs i (sheep vs ship) -->
-      <section class="flashcard block" data-fc-id="ee-vs-i" data-fc-title="ee vs i"
-               data-fc-tip="Para 'ee' (largo), sonríe más al pronunciar. Para 'i' (corto), boca relajada.">
-        <div class="fc-head">
-          <div class="fc-num">3</div>
-          <div class="fc-titles">
-            <strong class="fc-title">"ee" vs "i" · sheep vs ship</strong>
-            <span class="fc-sub">Dos sonidos que sí cambian el significado</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p class="small">En español la "i" casi siempre suena igual. En inglés hay <strong>dos</strong> sonidos parecidos — y cambian la palabra.</p>
-          <pre>sheep (oveja)  /iː/   ← largo (ee)
-ship  (barco)  /ɪ/    ← corto (i)</pre>
-          <div class="actions">
-            <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/sheep.mp3" data-audio-fallback="sheep"><strong>sheep</strong><span>ee largo</span></button>
-            <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/ship.mp3" data-audio-fallback="ship"><strong>ship</strong><span>i corta</span></button>
-          </div>
-
-          <p><strong>Pares mínimos para practicar:</strong></p>
-          <ul>
-            <li>sheep — ship</li>
-            <li>leave — live</li>
-            <li>beach — bitch <span class="small">(cuidado: cambia mucho)</span></li>
-          </ul>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block contrast-card" data-fc-id="th" data-fc-title="TH" data-contrast data-contrast-answer="think" data-contrast-success="¡Bien! En think no vibra la garganta." data-fc-tip="Pon la mano en la garganta: this vibra; think no vibra.">
+        <div class="fc-head"><div class="fc-num">3</div><div class="fc-titles"><strong class="fc-title">Escucha: dos tipos de TH</strong><span class="fc-sub">La garganta te da una pista</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><button class="btn contrast-play" type="button" data-contrast-play data-contrast-audio="assets/audio/words/think.mp3" data-contrast-fallback="think">Escuchar</button><div class="contrast-options" data-contrast-options><button type="button" data-contrast-option="think">think</button><button type="button" data-contrast-option="this">this</button></div><p class="contrast-feedback" data-contrast-feedback aria-live="polite"></p><div class="contrast-reveal" data-contrast-reveal hidden><p><strong>think:</strong> lengua suave entre los dientes, sin vibración. <strong>this:</strong> misma posición, con vibración.</p><div class="actions"><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/think.mp3" data-audio-fallback="think">Repite think</button><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/this.mp3" data-audio-fallback="this">Repite this</button></div></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button></div>
       </section>
 
-      <!-- 4 — V vs B -->
-      <section class="flashcard block" data-fc-id="v-vs-b" data-fc-title="V vs B"
-               data-fc-tip="Para la V, toca tu labio inferior con tus dientes de arriba. Eso solo ya hace la diferencia.">
-        <div class="fc-head">
-          <div class="fc-num">4</div>
-          <div class="fc-titles">
-            <strong class="fc-title">V vs B</strong>
-            <span class="fc-sub">En inglés son sonidos distintos</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p class="small">En español B y V suenan iguales. En inglés <strong>no</strong>. Tu boca hace algo distinto en cada una.</p>
-
-          <pre>V — labio inferior toca los dientes de arriba (aire pasa)
-B — los labios se cierran y se abren (sin dientes)</pre>
-
-          <p><strong>Pares mínimos:</strong></p>
-          <ul>
-            <li>very — berry</li>
-            <li>vet — bet</li>
-            <li>vase — base</li>
-          </ul>
-
-          <div class="actions">
-            <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/very.mp3" data-audio-fallback="very"><strong>very</strong><span>V con dientes</span></button>
-            <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/berry.mp3" data-audio-fallback="berry"><strong>berry</strong><span>B con labios</span></button>
-          </div>
-          <p class="small">Mira tus dientes en el espejo cuando dices "very" — deberías ver los dientes superiores tocando el labio.</p>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block contrast-card" data-fc-id="ee-vs-i" data-fc-title="ee y i" data-contrast data-contrast-answer="sheep" data-contrast-success="¡Buen oído! Sheep lleva el sonido largo." data-fc-tip="Para el sonido largo, sonríe un poco más. Para el corto, deja la boca más relajada.">
+        <div class="fc-head"><div class="fc-num">4</div><div class="fc-titles"><strong class="fc-title">Escucha: sheep o ship</strong><span class="fc-sub">Un sonido cambia el significado</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><button class="btn contrast-play" type="button" data-contrast-play data-contrast-audio="assets/audio/words/sheep.mp3" data-contrast-fallback="sheep">Escuchar</button><div class="contrast-options" data-contrast-options><button type="button" data-contrast-option="sheep">sheep · oveja</button><button type="button" data-contrast-option="ship">ship · barco</button></div><p class="contrast-feedback" data-contrast-feedback aria-live="polite"></p><div class="contrast-reveal" data-contrast-reveal hidden><p><strong>sheep</strong> tiene “ee” largo; <strong>ship</strong> tiene “i” corta.</p><div class="actions"><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/sheep.mp3" data-audio-fallback="sheep">Repite sheep</button><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/ship.mp3" data-audio-fallback="ship">Repite ship</button></div></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button></div>
       </section>
 
-      <!-- 5 — Mini-drill (practice repetition) -->
-      <section class="flashcard block" data-fc-id="mini-drill" data-fc-title="Mini-drill"
-               data-fc-tip="El oído mejora con repetición, no con velocidad. Mismas frases, muchas veces.">
-        <div class="fc-head">
-          <div class="fc-num">5</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Mini-drill (2 minutos)</strong>
-            <span class="fc-sub">Junta todos los sonidos en una sola frase</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p>Di esta frase <strong>3 veces lento</strong>, luego <strong>3 veces normal</strong>:</p>
-          <pre>I think this is very good.</pre>
-          <p class="small">Esa frase tiene los 3 sonidos que practicaste: <strong>th</strong> (think + this), <strong>v</strong> (very), y la <strong>i corta</strong> (this, is).</p>
-
-          <div class="actions">
-            <button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/phrases/i-think-this-is-very-good.mp3" data-audio-fallback="I think this is very good."><strong>Frase completa</strong><span>I think this is very good.</span></button>
-          </div>
-
-          <p><strong>Auto-evaluación rápida:</strong></p>
-          <ul>
-            <li>¿Tu garganta vibra en <em>this</em> y NO en <em>think</em>?</li>
-            <li>¿Tus dientes tocan el labio en <em>very</em>?</li>
-            <li>¿Dices <em>ship</em>, no <em>sheep</em>, cuando ves la palabra "is" (sonido corto)?</li>
-          </ul>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block contrast-card" data-fc-id="v-vs-b" data-fc-title="V y B" data-contrast data-contrast-answer="very" data-contrast-success="¡Exacto! Oíste V en very." data-fc-tip="Para V, los dientes de arriba tocan el labio inferior y el aire pasa.">
+        <div class="fc-head"><div class="fc-num">5</div><div class="fc-titles"><strong class="fc-title">Escucha: very o berry</strong><span class="fc-sub">Mira la posición de tu boca</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><div class="mouth-cue"><strong>V</strong><span>Dientes arriba sobre el labio inferior.</span><strong>B</strong><span>Labios juntos y se abren.</span></div><button class="btn contrast-play" type="button" data-contrast-play data-contrast-audio="assets/audio/words/very.mp3" data-contrast-fallback="very">Escuchar</button><div class="contrast-options" data-contrast-options><button type="button" data-contrast-option="very">very</button><button type="button" data-contrast-option="berry">berry</button></div><p class="contrast-feedback" data-contrast-feedback aria-live="polite"></p><div class="contrast-reveal" data-contrast-reveal hidden><div class="actions"><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/very.mp3" data-audio-fallback="very">Repite very</button><button class="btn pronunciation-word-card" type="button" data-audio="assets/audio/words/berry.mp3" data-audio-fallback="berry">Repite berry</button></div></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button></div>
       </section>
 
-      <!-- 6 — Speech practice -->
-      <section class="flashcard block" data-fc-id="speech-practice" data-fc-title="Práctica de voz"
-               data-fc-type="practice"
-               data-fc-tip="La práctica de voz es opcional. Si tu navegador no la permite, puedes leer las frases en voz alta y continuar normal.">
-        <div class="fc-head">
-          <div class="fc-num">6</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Práctica de voz: claridad primero</strong>
-            <span class="fc-sub">Di palabras cortas y una frase completa</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <p>Ahora junta oído, boca y significado. Presiona <strong>Hablar</strong> y di la palabra o frase en inglés.</p>
-          <div class="speech-drill-grid">
-            <div class="speech-drill-card">
-              <span class="phrase-label">SH largo</span>
-              <div data-speech-expected="she"></div>
-              <p class="small">Piensa en el sonido “shhh”, no en la sí del español.</p>
-            </div>
-            <div class="speech-drill-card">
-              <span class="phrase-label">TH sin vibración</span>
-              <div data-speech-expected="think"></div>
-              <p class="small">Lengua suave entre los dientes. La garganta no vibra.</p>
-            </div>
-            <div class="speech-drill-card">
-              <span class="phrase-label">Frase corta</span>
-              <div data-speech-expected="I think this is very good"></div>
-              <p class="small">Lento primero. Luego repite con ritmo natural.</p>
-            </div>
-          </div>
-          <div class="fc-note-card">
-            <strong>Nota:</strong>
-            <span>Si ves “No disponible”, tu navegador no soporta SpeechRecognition aquí. La lección sigue funcionando: lee en voz alta y continúa.</span>
-          </div>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block" data-fc-id="mini-drill" data-fc-title="Repite" data-fc-tip="Escucha una vez, repite lento y después a ritmo natural.">
+        <div class="fc-head"><div class="fc-num">6</div><div class="fc-titles"><strong class="fc-title">Junta los sonidos</strong><span class="fc-sub">Una frase corta</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><p>Escucha y repite: primero lento, luego normal.</p><button class="btn pronunciation-word-card phrase-audio" type="button" data-audio="assets/audio/phrases/i-think-this-is-very-good.mp3" data-audio-fallback="I think this is very good."><strong>I think this is very good.</strong><span>TH + V + i corta</span></button><p class="small">Fíjate: <em>think</em> no vibra, <em>this</em> sí; en <em>very</em> los dientes tocan el labio.</p></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Listo →</button></div>
       </section>
 
-      <!-- 7 — Mini Reto (multiple-choice) -->
-      <section class="flashcard fc-reto block"
-               data-fc-id="reto"
-               data-fc-title="Mini reto"
-               data-fc-tip="Repasa los pares mínimos: sheep / ship, very / berry, think / this. Esos cambios pequeños son los que la otra persona oye."
-               data-reto-type="multiple-choice">
-        <div class="fc-head">
-          <div class="fc-num">7</div>
-          <div class="fc-titles">
-            <strong class="fc-title">Mini reto: ¿cuál es correcto?</strong>
-            <span class="fc-sub">Una sola opción correcta</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <div class="fc-reto-prompt">
-            <p class="fc-reto-question">Para decir <strong>"oveja"</strong> (sheep) y NO <strong>"barco"</strong> (ship), ¿qué sonido usas?</p>
-            <div class="fc-reto-options" data-reto-options>
-              <button type="button" class="fc-letter" data-reto-correct>Sonido "ee" largo (sonriendo más).</button>
-              <button type="button" class="fc-letter">Sonido "i" corto (boca relajada).</button>
-              <button type="button" class="fc-letter">Cualquiera de los dos sonidos sirve.</button>
-            </div>
-            <p class="fc-reto-feedback" data-reto-feedback></p>
-          </div>
-        </div>
-        <div class="fc-foot">
-          <button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button>
-        </div>
+      <section class="flashcard block" data-fc-id="speech-practice" data-fc-title="Práctica de voz" data-fc-type="practice" data-fc-tip="La respuesta muestra lo que el navegador entendió. Úsala para repetir, no como una medición completa de pronunciación.">
+        <div class="fc-head"><div class="fc-num">7</div><div class="fc-titles"><strong class="fc-title">Di lo que escuchas</strong><span class="fc-sub">La voz es opcional</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><p>Escucha primero. Luego presiona <strong>Hablar</strong> y di el objetivo en inglés.</p><div class="speech-guidance"><strong>Tu navegador puede pedir permiso para usar el micrófono.</strong><span>“Casi” o “Intenta otra vez” significa: escucha y prueba de nuevo. El resultado compara lo que el navegador entendió; no mide toda tu pronunciación.</span></div><div class="speech-drill-grid"><div class="speech-drill-card"><span class="phrase-label">Frase con los contrastes</span><div data-speech-expected="I think this is very good"></div><p class="small">Escucha la frase, repítela lento y luego a ritmo natural.</p></div></div><div class="fc-note-card"><strong>Sin micrófono:</strong><span>Usa Escuchar, lee el objetivo en voz alta y continúa. La lección sigue funcionando.</span></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Continuar →</button></div>
       </section>
 
-      <!-- 8 — Summary -->
-      <section class="flashcard fc-summary block"
-               data-fc-id="resumen"
-               data-fc-title="Resumen"
-               data-fc-summary="true">
-        <div class="fc-head">
-          <div class="fc-num">8</div>
-          <div class="fc-titles">
-            <strong class="fc-title">¡Felicidades!</strong>
-            <span class="fc-sub">Resumen de la Lección 001</span>
-          </div>
-          <div class="fc-status"></div>
-        </div>
-        <div class="fc-body">
-          <div class="fc-summary-banner">
-            <span class="fc-summary-emoji">✓</span>
-            <div>
-              <div class="fc-summary-headline">¡Terminaste Lección 001!</div>
-              <div class="fc-summary-sub">Ya distingues los sonidos que más cambian el significado.</div>
-            </div>
-          </div>
+      <section class="flashcard fc-reto block" data-fc-id="reto" data-fc-title="Comprueba" data-reto-type="multiple-choice" data-fc-tip="Escucha de nuevo si hace falta. La meta es distinguir el contraste, no adivinar.">
+        <div class="fc-head"><div class="fc-num">8</div><div class="fc-titles"><strong class="fc-title">Comprueba tu oído</strong><span class="fc-sub">Una opción correcta</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><div class="fc-reto-prompt"><p class="fc-reto-question">Para decir <strong>“oveja”</strong>, ¿qué sonido eliges?</p><div class="fc-reto-options" data-reto-options><button type="button" class="fc-letter" data-reto-correct>sheep · “ee” largo</button><button type="button" class="fc-letter">ship · “i” corta</button><button type="button" class="fc-letter">Los dos significan lo mismo</button></div><p class="fc-reto-feedback" data-reto-feedback aria-live="polite"></p></div></div>
+        <div class="fc-foot"><button class="btn fc-listo" type="button" data-fc-listo>Ver resumen →</button></div>
+      </section>
 
-          <div class="fc-summary-grid">
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">XP ganado</div>
-              <div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div>
-            </div>
-            <div class="fc-summary-stat">
-              <div class="fc-summary-stat-label">Secciones</div>
-              <div class="fc-summary-stat-value">8 <span style="color:rgba(15,23,42,.4); font-weight:600; font-size:.78em;">/ 8</span></div>
-            </div>
-          </div>
-
-          <p class="small">En esta lección lograste:</p>
-          <ul class="fc-summary-list">
-            <li>Reconocer los digraphs SH · CH · TH</li>
-            <li>Distinguir "ee" largo vs "i" corto</li>
-            <li>Pronunciar V con dientes en el labio</li>
-            <li>Practicar palabras y una frase con el micrófono</li>
-            <li>Identificar las 3 trampas más comunes</li>
-          </ul>
-
-          <div class="fc-summary-next">
-            <span class="label">A continuación</span>
-            <span class="title">Lección 002 — Sílabas y Acento</span>
-          </div>
-        </div>
+      <section class="flashcard fc-summary block" data-fc-id="resumen" data-fc-title="Resumen" data-fc-summary="true">
+        <div class="fc-head"><div class="fc-num">9</div><div class="fc-titles"><strong class="fc-title">¡Laboratorio completado!</strong><span class="fc-sub">Resumen de la Lección 001</span></div><div class="fc-status"></div></div>
+        <div class="fc-body"><div class="fc-summary-banner"><span class="fc-summary-emoji">✓</span><div><div class="fc-summary-headline">Ya entrenaste tu oído para contrastes clave.</div><div class="fc-summary-sub">SH / CH / TH, ee / i y V / B.</div></div></div><div class="fc-summary-grid"><div class="fc-summary-stat"><div class="fc-summary-stat-label">XP ganado</div><div class="fc-summary-stat-value"><span class="accent-amber">+10</span></div></div><div class="fc-summary-stat"><div class="fc-summary-stat-label">Siguiente</div><div class="fc-summary-stat-value">Sílabas</div></div></div><a class="fc-summary-next lesson-next-cta" data-next-lesson href="Syllables.html"><span class="label">A continuación</span><span class="title">Lección 002 — Sílabas y Acento</span></a></div>
         <div class="fc-foot"></div>
       </section>
 
-      <!-- COMPLETION -->
-      <div class="actions" style="margin-top:18px;">
-        <a class="btn" href="curso.html">← Volver al curso</a>
-        <button class="btn primary" type="button" id="markComplete" aria-disabled="true">
-          Marcar como completada
-        </button>
-      </div>
-      <p class="small" id="lessonStatus" style="margin-top:8px;"></p>
-
-      <p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
+      <div class="actions" style="margin-top:18px;"><a class="btn" href="curso.html">← Volver al curso</a><button class="btn primary" type="button" id="markComplete" aria-disabled="true">Marcar como completada</button></div>
+      <p class="small" id="lessonStatus" style="margin-top:8px;"></p><p class="small" style="margin-top:18px;">© <span id="year"></span> Exprésate</p>
     </main>
-
-    <aside class="panel right">
-      <h3>Tu lección</h3>
-      <div data-lesson-rightpanel style="padding:4px 4px 8px;">
-        <p class="small">Cargando…</p>
-      </div>
-    </aside>
+    <aside class="panel right"><h3>Tu lección</h3><div data-lesson-rightpanel style="padding:4px 4px 8px;"><p class="small">Cargando…</p></div></aside>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabaseClient.js"></script>
-  <script src="access.js"></script>
-  <script src="progress.js"></script>
-  <script src="sync.js"></script>
-  <script src="alerts.js"></script>
-  <script src="nav.js"></script>
-  <script src="data/lessons.js"></script>
-  <script src="speech-practice.js"></script>
-  <script src="lesson.js"></script>
-  <script src="app.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (!window.ExpresateSpeechPractice) return;
-      document.querySelectorAll("[data-speech-expected]").forEach(function (root) {
-        window.ExpresateSpeechPractice.create({
-          root: root,
-          expected: root.getAttribute("data-speech-expected") || ""
-        });
-      });
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabaseClient.js"></script><script src="access.js"></script><script src="progress.js"></script><script src="sync.js"></script><script src="alerts.js"></script><script src="nav.js"></script><script src="data/lessons.js"></script><script src="data/studio-characters.js"></script><script src="data/studio-story-scenes.js"></script><script src="dialogue-engine.js"></script><script src="speech-practice.js"></script><script src="lesson-contrast.js"></script><script src="lesson.js"></script><script src="app.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () { if (!window.ExpresateSpeechPractice) return; document.querySelectorAll("[data-speech-expected]").forEach(function (root) { window.ExpresateSpeechPractice.create({ root: root, expected: root.getAttribute("data-speech-expected") || "" }); }); });</script>
+  <script src="lesson-001-sounds.js"></script>
 </body>
 </html>
