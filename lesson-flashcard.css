@@ -4855,6 +4855,12 @@ body[data-lesson-id="lesson-000-alphabet"] .floating-continue {
   box-shadow: 0 1rem 2rem rgba(16, 185, 129, .20);
 }
 
+@media (max-width: 760px) {
+  body.consejo-open #guestAccountReminder {
+    display: none;
+  }
+}
+
 body[data-lesson-id="lesson-000-alphabet"][data-lesson000-current-card="alphabet-grid"] #guestAccountReminder,
 body[data-lesson-id="lesson-000-alphabet"][data-lesson000-current-card="phonics-intro"] #guestAccountReminder,
 body[data-lesson-id="lesson-000-alphabet"][data-lesson000-current-card="exact-info"] #guestAccountReminder,
@@ -5640,7 +5646,6 @@ body[data-lesson-id="lesson-000-alphabet"][data-lesson000-current-card="transiti
 
   body[data-lesson-id="lesson-000-alphabet"] .fc-vowel-row,
   body[data-lesson-id="lesson-000-alphabet"] .fc-reto-options,
-  body[data-lesson-id="lesson-000-alphabet"] .alphabet-grid-compact,
   body[data-lesson-id="lesson-000-alphabet"] .phonics-card-grid,
   .alphabet-use-cases,
   .vowel-hint-grid,
@@ -5650,6 +5655,10 @@ body[data-lesson-id="lesson-000-alphabet"][data-lesson000-current-card="transiti
 
   body[data-lesson-id="lesson-000-alphabet"] .phonics-guide-card {
     grid-template-columns: 1fr;
+  }
+
+  body[data-lesson-id="lesson-000-alphabet"] .alphabet-grid-compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   body[data-lesson-id="lesson-000-alphabet"] .phonics-guide-card .btn {
@@ -6392,6 +6401,12 @@ body[data-lesson-id="lesson-014-ing-pattern"] .fc-listo {
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 28px 80px rgba(15, 23, 42, 0.18);
+}
+
+@media (max-width: 360px) {
+  body[data-lesson-id="lesson-000-alphabet"] .alphabet-grid-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-stage-hero,

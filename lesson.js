@@ -86,6 +86,7 @@
     if (!panel || !toggle) return;
     panel.classList.remove("is-open");
     consejoRail.classList.remove("is-open");
+    document.body.classList.remove("consejo-open");
     panel.setAttribute("aria-hidden", "true");
     toggle.setAttribute("aria-expanded", "false");
     if (options && options.focusToggle) toggle.focus();
@@ -151,6 +152,7 @@
       });
       panel.classList.add("is-open");
       consejoRail.classList.add("is-open");
+      document.body.classList.add("consejo-open");
       panel.setAttribute("aria-hidden", "false");
       toggle.setAttribute("aria-expanded", "true");
     });

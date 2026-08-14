@@ -59,6 +59,7 @@
         <nav class="topbar-nav" aria-label="Navegación principal">
           ${topLinks}
         </nav>
+        <button id="mobileNavToggle" class="mobile-nav-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false">Menú</button>
         <div class="topbar-actions">
           <button id="profileBtn" class="topbar-link" type="button" style="display:none;">Iniciar sesión</button>
           <div id="profileMenu" class="panel profile-menu" style="display:none;">
@@ -178,11 +179,28 @@
     const profileBtn = document.getElementById("profileBtn");
     const profileMenu = document.getElementById("profileMenu");
     const logoutBtn = document.getElementById("logoutBtnGlobal");
+    const mobileNavToggle = document.getElementById("mobileNavToggle");
+    const topbarInner = profileBtn?.closest(".topbar-inner");
     const sb = window.supabaseClient;
 
     if (!profileBtn) return;
     if (profileBtn.dataset.navAuthReady === "1") return;
     profileBtn.dataset.navAuthReady = "1";
+
+    mobileNavToggle?.addEventListener("click", () => {
+      const expanded = mobileNavToggle.getAttribute("aria-expanded") === "true";
+      mobileNavToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+      mobileNavToggle.setAttribute("aria-label", expanded ? "Abrir navegación" : "Cerrar navegación");
+      topbarInner?.classList.toggle("is-mobile-menu-open", !expanded);
+    });
+
+    document.querySelectorAll(".topbar-nav a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileNavToggle?.setAttribute("aria-expanded", "false");
+        mobileNavToggle?.setAttribute("aria-label", "Abrir navegación");
+        topbarInner?.classList.remove("is-mobile-menu-open");
+      });
+    });
 
     profileBtn.addEventListener("click", (event) => {
       event.stopPropagation();
