@@ -648,7 +648,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const serviceWorkerUrl = new URL("service-worker.js", window.location.href);
     const scopeUrl = new URL("./", serviceWorkerUrl);
 
-    navigator.serviceWorker.register(serviceWorkerUrl.pathname, { scope: scopeUrl.pathname })
+    navigator.serviceWorker.register(serviceWorkerUrl.pathname, {
+      scope: scopeUrl.pathname,
+      updateViaCache: "none"
+    })
       .catch((error) => console.warn("PWA service worker registration failed:", error));
   });
 })();

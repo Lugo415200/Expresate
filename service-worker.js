@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v72";
+const CACHE_VERSION = "v73";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -213,6 +213,13 @@ self.addEventListener("fetch", (event) => {
   if (!precacheUrls.has(cacheKey)) return;
 
   if (request.mode === "navigate") {
+    event.respondWith(networkFirst(request, cacheKey));
+    return;
+  }
+
+  // App code must update promptly after a deployment. Keep the cached version
+  // strictly as an offline fallback instead of serving stale JavaScript or CSS.
+  if (request.destination === "script" || request.destination === "style") {
     event.respondWith(networkFirst(request, cacheKey));
     return;
   }
