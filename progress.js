@@ -267,6 +267,12 @@
     hasStoredState() {
       try { return localStorage.getItem(activeKey) !== null; } catch (_) { return false; }
     },
+    getGuestSnapshot() {
+      return JSON.parse(JSON.stringify(sanitizeState(readRaw(GUEST_KEY))));
+    },
+    clearGuestState() {
+      try { localStorage.removeItem(GUEST_KEY); } catch (_) {}
+    },
 
     // Lessons
     isLessonDone(id) {

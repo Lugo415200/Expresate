@@ -2,8 +2,8 @@
    Load after: progress.js and access.js
 
    Guest progress and each authenticated user's progress use separate keys.
-   Guest data is never imported into an account automatically. Returning
-   users merge only their own user-scoped cache with their Supabase row.
+   On successful sign-in, meaningful guest progress is safely merged into the
+   user's existing scoped state and then persisted through this same bridge.
 */
 (function () {
   "use strict";
@@ -13,18 +13,36 @@
   let activeUserId = null;
   let switchVersion = 0;
   let suppressUploads = false;
+  const GUEST_MIGRATION_CLAIM_KEY = "expresate_progress_v2:guest-migration-claim";
 
   function emptyState() {
     return { schemaVersion: 2, lessons: {}, quizzes: {}, activities: {} };
   }
 
-  function mergeEntries(cloudEntries, localEntries) {
+  function newerEntry(first, second) {
+    return (Number(second?.ts) || 0) > (Number(first?.ts) || 0) ? second : first;
+  }
+
+  function mergeCompletionEntries(cloudEntries, localEntries, kind) {
     const merged = { ...(cloudEntries || {}) };
     Object.entries(localEntries || {}).forEach(([id, localEntry]) => {
       const cloudEntry = merged[id];
-      const localTs = Number(localEntry?.ts) || 0;
-      const cloudTs = Number(cloudEntry?.ts) || 0;
-      if (!cloudEntry || localTs > cloudTs) merged[id] = localEntry;
+      const completionKey = kind === "quizzes" ? "passed" : "done";
+      if (!cloudEntry || localEntry?.[completionKey] === true && cloudEntry?.[completionKey] !== true) {
+        merged[id] = localEntry;
+      } else if (cloudEntry?.[completionKey] === true && localEntry?.[completionKey] !== true) {
+        merged[id] = cloudEntry;
+      } else {
+        merged[id] = newerEntry(cloudEntry, localEntry);
+      }
+    });
+    return merged;
+  }
+
+  function mergeEntries(cloudEntries, localEntries) {
+    const merged = { ...(cloudEntries || {}) };
+    Object.entries(localEntries || {}).forEach(([id, localEntry]) => {
+      merged[id] = merged[id] ? newerEntry(merged[id], localEntry) : localEntry;
     });
     return merged;
   }
@@ -32,10 +50,36 @@
   function mergeProgress(cloud, local) {
     return {
       schemaVersion: 2,
-      lessons: mergeEntries(cloud?.lessons, local?.lessons),
-      quizzes: mergeEntries(cloud?.quizzes, local?.quizzes),
+      lessons: mergeCompletionEntries(cloud?.lessons, local?.lessons, "lessons"),
+      quizzes: mergeCompletionEntries(cloud?.quizzes, local?.quizzes, "quizzes"),
       activities: mergeEntries(cloud?.activities, local?.activities)
     };
+  }
+
+  function hasMeaningfulProgress(state) {
+    return Object.values(state?.lessons || {}).some((entry) => entry?.done === true)
+      || Object.values(state?.quizzes || {}).some((entry) => entry?.passed === true)
+      || Object.keys(state?.activities || {}).length > 0;
+  }
+
+  function guestFingerprint(state) {
+    try { return JSON.stringify(state); } catch (_) { return ""; }
+  }
+
+  function getGuestMigrationClaim() {
+    try { return JSON.parse(localStorage.getItem(GUEST_MIGRATION_CLAIM_KEY) || "null"); } catch (_) { return null; }
+  }
+
+  function claimGuestMigration(userId, fingerprint) {
+    const claim = getGuestMigrationClaim();
+    if (claim && claim.userId !== userId) return false;
+    try { localStorage.setItem(GUEST_MIGRATION_CLAIM_KEY, JSON.stringify({ userId, fingerprint })); } catch (_) {}
+    return true;
+  }
+
+  function finishGuestMigration() {
+    Progress.clearGuestState();
+    try { localStorage.removeItem(GUEST_MIGRATION_CLAIM_KEY); } catch (_) {}
   }
 
   async function downloadProgress(userId) {
@@ -62,16 +106,21 @@
 
   async function uploadProgress(userId) {
     const sb = window.supabaseClient;
-    if (!sb || !userId || userId !== activeUserId) return;
+    if (!sb || !userId || userId !== activeUserId) return false;
     try {
       const { error } = await sb.from("user_progress").upsert({
         user_id: userId,
         progress: Progress.snapshot(),
         updated_at: new Date().toISOString()
       }, { onConflict: "user_id" });
-      if (error) console.warn("[Sync] upload error:", error.message);
+      if (error) {
+        console.warn("[Sync] upload error:", error.message);
+        return false;
+      }
+      return true;
     } catch (error) {
       console.warn("[Sync] upload failed:", error?.message || error);
+      return false;
     }
   }
 
@@ -98,6 +147,11 @@
       return;
     }
 
+    const guest = Progress.getGuestSnapshot();
+    const guestHasProgress = hasMeaningfulProgress(guest);
+    const guestFingerprintValue = guestHasProgress ? guestFingerprint(guest) : "";
+    const canMigrateGuest = guestHasProgress && claimGuestMigration(userId, guestFingerprintValue);
+
     activeUserId = userId;
     Progress.useUserScope(userId);
     const hadUserCache = Progress.hasStoredState();
@@ -108,18 +162,23 @@
 
     if (!cloudResult.ok) {
       // Preserve this user's own cache when Supabase is temporarily unavailable.
+      // Guest data remains intact so it can be migrated after a verified sync.
       suppressUploads = false;
       return;
     }
 
-    const nextState = cloudResult.found
+    const accountState = cloudResult.found
       ? mergeProgress(cloudResult.state, local)
       : (hadUserCache ? local : emptyState());
+    const nextState = canMigrateGuest ? mergeProgress(accountState, guest) : accountState;
     Progress.replace(nextState);
     suppressUploads = false;
 
     // Create a clean cloud row for new users or persist a same-user merge.
-    await uploadProgress(userId);
+    const uploaded = await uploadProgress(userId);
+    if (uploaded && canMigrateGuest && version === switchVersion && activeUserId === userId) {
+      finishGuestMigration();
+    }
   }
 
   Progress.on("change", () => {

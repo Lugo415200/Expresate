@@ -177,7 +177,14 @@
     });
 
     if (window.Progress && typeof window.Progress.on === "function") {
-      window.Progress.on("change", updateHub);
+      window.Progress.on("change", function () {
+        updateHub();
+        if (hasMeaningfulProgress()) {
+          showHub();
+        } else if (!isOnboardingDone() && !window.Access?.isLoggedIn?.()) {
+          showFlow();
+        }
+      });
     }
 
     watchAuthChanges();
@@ -246,13 +253,18 @@
   }
 
   function chooseInitialView() {
+    if (hasMeaningfulProgress()) {
+      showHub();
+      return;
+    }
+
     if (isOnboardingDone()) {
       showHub();
       return;
     }
 
     getSessionWithTimeout().then(function (session) {
-      if (session && session.user) {
+      if (session && session.user && (hasMeaningfulProgress() || isOnboardingDone())) {
         showHub();
       } else if (!isOnboardingDone()) {
         showFlow();
@@ -335,7 +347,7 @@
   }
 
   function updateHub() {
-    var action = readLastAction();
+    var action = findResumeAction() || readLastAction();
     var titleEl = document.getElementById("hubRecommendedTitle");
     var textEl = document.getElementById("hubRecommendedText");
     var ctaEl = document.getElementById("hubRecommendedCta");
@@ -365,6 +377,53 @@
         }
       } catch (_) {}
     }
+  }
+
+  function hasMeaningfulProgress() {
+    var progress = window.Progress;
+    if (!progress || typeof progress.snapshot !== "function") return false;
+    try {
+      var state = progress.snapshot();
+      return Object.keys(state.lessons || {}).some(function (id) { return state.lessons[id] && state.lessons[id].done === true; })
+        || Object.keys(state.quizzes || {}).some(function (id) { return state.quizzes[id] && state.quizzes[id].passed === true; })
+        || Object.keys(state.activities || {}).length > 0;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function findResumeAction() {
+    var progress = window.Progress;
+    var course = window.ExpresateLessons;
+    if (!hasMeaningfulProgress() || !progress || !course || !Array.isArray(course.modules)) return null;
+
+    for (var i = 0; i < course.modules.length; i += 1) {
+      var module = course.modules[i];
+      if (module.lockOnQuiz && !progress.isQuizPassed(module.lockOnQuiz)) continue;
+      var stepsInModule = module.steps || [];
+      for (var j = 0; j < stepsInModule.length; j += 1) {
+        var step = stepsInModule[j];
+        var done = step.type === "quiz" ? progress.isQuizPassed(step.id) : progress.isLessonDone(step.id);
+        if (done) continue;
+        var requirementMet = !step.requires || (step.requires.indexOf("quiz-") === 0
+          ? progress.isQuizPassed(step.requires)
+          : progress.isLessonDone(step.requires));
+        if (!requirementMet) continue;
+        if (step.type !== "lesson" || !step.href) return null;
+        return {
+          title: "Continuar con " + step.title,
+          text: "Retoma tu ruta desde donde la dejaste.",
+          href: step.href,
+          label: "Continuar aprendiendo →"
+        };
+      }
+    }
+    return {
+      title: "Ver tu curso",
+      text: "Revisa tu progreso y elige tu siguiente actividad.",
+      href: "curso.html",
+      label: "Ver curso →"
+    };
   }
 
   function showStepInstant(targetStep) {

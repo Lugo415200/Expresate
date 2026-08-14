@@ -197,13 +197,8 @@ function renderCourse() {
     return;
   }
   container.innerHTML = data.modules.map(renderModule).join("\n");
-  if (_studioCloudError) {
-    const notice = document.createElement("p");
-    notice.className = "small studio-cloud-notice";
-    notice.setAttribute("role", "status");
-    notice.textContent = "Las lecciones de Studio no se pudieron actualizar. El curso principal sigue disponible.";
-    container.appendChild(notice);
-  }
+  // Studio content is optional. Its failure remains visible in developer
+  // diagnostics, but should not imply the handcrafted course is unavailable.
 }
 
 async function loadCloudStudioLessons() {
