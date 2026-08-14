@@ -76,6 +76,14 @@ function getLessons() {
   return { ...base, modules: [...(base.modules || []), studioModule] };
 }
 
+function getAudioReadiness(stepId) {
+  return window.ExpresateLessonAudioReadiness?.getCachedReadiness?.(stepId) || {
+    lessonId: stepId,
+    ready: true,
+    pending: false
+  };
+}
+
 /** ---------------------------
  * Render the course page from data
  *
@@ -104,6 +112,9 @@ function renderStep(step, isFirst, numbered, displayNumber) {
     ? ` data-requires="${escAttr(step.requires)}"`
     : "";
   const premiumAttr = step.premium ? ` data-premium="true"` : "";
+  const audioRequiredAttr = Array.isArray(step.requiredAudioPaths) && step.requiredAudioPaths.length
+    ? ` data-audio-required="true"`
+    : "";
 
   if (numbered) {
     const subtitle = step.subtitle
@@ -123,7 +134,7 @@ function renderStep(step, isFirst, numbered, displayNumber) {
       <span class="stepStatus" data-status-for="${escAttr(step.id)}"></span>
     `;
     if (step.type === "lesson") {
-      return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${hrefAttr}>${inner}</a>`;
+      return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${audioRequiredAttr}${hrefAttr}>${inner}</a>`;
     }
     if (step.type === "quiz") {
       return `<button class="btn${primary} courseStep" type="button" data-open-quiz="${escAttr(step.id)}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${inner}</button>`;
@@ -134,7 +145,7 @@ function renderStep(step, isFirst, numbered, displayNumber) {
   // Plain style: simple labeled button, no step number
   if (step.type === "lesson") {
     const hrefAttr = step.href ? ` data-href="${escAttr(step.href)}"` : "";
-    return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${hrefAttr}>${escText(step.title)}</a>`;
+    return `<a class="btn${primary} courseStep" href="${escAttr(step.href || "#")}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}${audioRequiredAttr}${hrefAttr}>${escText(step.title)}</a>`;
   }
   if (step.type === "quiz") {
     return `<button class="btn${primary} courseStep" type="button" data-open-quiz="${escAttr(step.id)}" data-step-id="${escAttr(step.id)}"${requiresAttr}${premiumAttr}>${escText(step.title)}</button>`;
@@ -329,6 +340,8 @@ function applyLocks() {
 
     const unlocked =
       !requires || (requires.startsWith("quiz-") ? isQuizPassed(requires) : isLessonDone(requires));
+    const audioReadiness = getAudioReadiness(stepId);
+    const audioReady = audioReadiness.ready;
 
     // Status label — premium steps show "Premium" as the dominant state
     // for non-premium users, regardless of completion or unlock status.
@@ -341,6 +354,8 @@ function applyLocks() {
           statusEl.innerHTML = `<img class="lock-icon lock-icon-img" src="assets/icons/unlock.png" alt="" aria-hidden="true" /> <span>Premium</span>`;
         } else if (isPremiumStep && userIsPremium && !done) {
           statusEl.innerHTML = `<img class="lock-icon lock-icon-img" src="assets/icons/unlock.png" alt="" aria-hidden="true" /> <span>Desbloqueado</span>`;
+        } else if (!audioReady) {
+          statusEl.textContent = "Próximamente";
         } else if (done) {
           statusEl.textContent = "Completado";
         } else if (!unlocked) {
@@ -378,7 +393,8 @@ function applyLocks() {
     }
 
     // Lock
-    if (!unlocked) {
+    el.classList.toggle("isUnavailable", !audioReady);
+    if (!unlocked || !audioReady) {
       el.classList.add("isLocked");
       el.setAttribute("aria-disabled", "true");
       if (el.tagName === "A") el.removeAttribute("href");
@@ -404,6 +420,7 @@ function applyLocks() {
     const isAvailable =
       !el.classList.contains("isDone") &&
       !el.classList.contains("isLocked") &&
+      !el.classList.contains("isUnavailable") &&
       !isGatedPremium;
     el.classList.toggle("is-next", isAvailable && !nextFound);
     if (isAvailable) nextFound = true;
@@ -660,6 +677,12 @@ document.addEventListener("DOMContentLoaded", () => {
   applyLocks();
   updateProgressUI();
   renderProgressPanel();
+
+  window.ExpresateLessonAudioReadiness?.loadManifest?.().then(() => {
+    renderCourse();
+    applyLocks();
+    renderProgressPanel();
+  });
 
   // Handcrafted lessons render immediately. Cloud lessons are additive and
   // never block the existing course if Supabase is unavailable.

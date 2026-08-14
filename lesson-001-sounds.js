@@ -52,6 +52,20 @@
     }, { once: true });
   }
 
+  function showUnavailable() {
+    var story = document.querySelector("[data-lesson001-story]");
+    var shell = document.querySelector(".shell");
+    if (story) story.hidden = true;
+    if (shell) shell.hidden = true;
+    if (document.querySelector("[data-lesson001-unavailable]")) return;
+
+    var panel = document.createElement("main");
+    panel.className = "lesson001-unavailable";
+    panel.setAttribute("data-lesson001-unavailable", "");
+    panel.innerHTML = '<span>Lección 001</span><h1>Próximamente</h1><p>Esta lección estará disponible muy pronto.</p><a class="btn primary" href="curso.html">Volver al curso</a>';
+    document.body.appendChild(panel);
+  }
+
   function hydrateNextLesson() {
     var modules = (window.ExpresateLessons && window.ExpresateLessons.modules) || [];
     var found = false;
@@ -71,9 +85,17 @@
     });
   }
 
+  document.addEventListener("lesson-audio-unavailable", showUnavailable);
+
   document.addEventListener("DOMContentLoaded", function () {
-    if (window.ExpresateContrast) window.ExpresateContrast.init();
-    hydrateNextLesson();
-    initStory();
+    window.ExpresateLessonAudioReadiness.getReadiness("lesson-001-sounds").then(function (state) {
+      if (!state.ready) {
+        showUnavailable();
+        return;
+      }
+      if (window.ExpresateContrast) window.ExpresateContrast.init();
+      hydrateNextLesson();
+      initStory();
+    });
   });
 })();

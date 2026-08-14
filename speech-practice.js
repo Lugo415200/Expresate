@@ -155,6 +155,14 @@
     var listenButton = root.querySelector("[data-speech-listen]");
     var feedback = root.querySelector("[data-speech-feedback]");
 
+    listenButton.hidden = true;
+    if (global.ExpresateAudio && global.ExpresateAudio.hasRecording) {
+      global.ExpresateAudio.hasRecording(audioPathForExpected(expected)).then(function(available) {
+        listenButton.hidden = !available;
+        listenButton.disabled = !available;
+      });
+    }
+
     function setExpected(nextExpected, nextAliases) {
       expected = nextExpected || "";
       acceptedAliases = Array.isArray(nextAliases) ? nextAliases.slice() : [];
@@ -189,20 +197,8 @@
 
       if (global.ExpresateAudio) {
         global.ExpresateAudio.play(audioPathForExpected(expected), {
-          trigger: listenButton,
-          fallbackText: expected
+          trigger: listenButton
         });
-        return;
-      }
-
-      if ("speechSynthesis" in global) {
-        try {
-          global.speechSynthesis.cancel();
-          var utterance = new SpeechSynthesisUtterance(expected);
-          utterance.lang = "en-US";
-          utterance.rate = 0.9;
-          global.speechSynthesis.speak(utterance);
-        } catch (err) {}
       }
     }
 

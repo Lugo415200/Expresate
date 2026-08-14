@@ -1317,12 +1317,9 @@
       }
 
       function playExampleWord(example, trigger) {
-        var guessedPath = example.audioPath || "assets/audio/words/" + slugifyWord(example.word) + ".mp3";
-        window.ExpresateAudio?.play?.(guessedPath, {
-          trigger: trigger || null,
-          fallbackText: [example.word, example.pronunciation].filter(Boolean).join(". "),
-          speechType: "word"
-        });
+        var recordedPath = example.audioPath || "";
+        if (!recordedPath) return;
+        window.ExpresateAudio?.play?.(recordedPath, { trigger: trigger || null });
       }
 
       function renderExampleTabs(item, exampleIndex) {

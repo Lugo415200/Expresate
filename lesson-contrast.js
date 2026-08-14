@@ -46,7 +46,10 @@
 
   global.ExpresateContrast = {
     init: function () {
-      document.querySelectorAll("[data-contrast]").forEach(setup);
+      document.querySelectorAll("[data-contrast]").forEach(function(root) {
+        if (!root.closest(".flashcard")?.classList.contains("lesson-window")) return;
+        setup(root);
+      });
     }
   };
 })(window);

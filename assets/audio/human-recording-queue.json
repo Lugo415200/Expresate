@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "policy": "Add a file only after it has been human recorded, then add its path to audio-manifest.json.",
+  "lesson": "lesson-001-sounds",
+  "recordings": [
+    { "priority": 1, "filename": "assets/audio/words/she.mp3", "text": "she", "activity": "SH / CH contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/chair.mp3", "text": "chair", "activity": "SH / CH contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/think.mp3", "text": "think", "activity": "TH contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/this.mp3", "text": "this", "activity": "TH contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/sheep.mp3", "text": "sheep", "activity": "sheep / ship contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/ship.mp3", "text": "ship", "activity": "sheep / ship contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/very.mp3", "text": "very", "activity": "V / B contrast", "type": "word", "required": true },
+    { "priority": 1, "filename": "assets/audio/words/berry.mp3", "text": "berry", "activity": "V / B contrast", "type": "word", "required": true },
+    { "priority": 2, "filename": "assets/audio/phrases/i-think-this-is-very-good.mp3", "text": "I think this is very good.", "activity": "guided phrase repetition and speech practice", "type": "phrase", "required": true },
+    { "priority": 3, "filename": "assets/audio/story/lesson-001-teacher-key-sounds.mp3", "text": "English sounds can change depending on the letter pair.", "activity": "Lesson 001 story", "type": "story", "required": false },
+    { "priority": 3, "filename": "assets/audio/story/lesson-001-sofia-fixed-sound.mp3", "text": "En español espero un sonido más fijo.", "activity": "Lesson 001 story", "type": "story", "required": false },
+    { "priority": 3, "filename": "assets/audio/story/lesson-001-alex-examples.mp3", "text": "Exacto. Por eso hoy veremos SH, CH y TH con ejemplos fáciles.", "activity": "Lesson 001 story", "type": "story", "required": false }
+  ]
+}

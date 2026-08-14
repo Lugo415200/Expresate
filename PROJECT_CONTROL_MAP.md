@@ -806,19 +806,16 @@ Role:
 
 - global app helpers
 - primary audio helper registration
-- manifest-first audio resolution
-- legacy path fallback
-- speech synthesis fallback
-- auto-binding for elements with `data-audio` / `data-audio-fallback`
+- human-recording manifest validation
+- protected alphabet recording playback
+- disabled controls for unavailable recordings
 
 ### Audio asset folders
 
 Observed folders:
 
-- `assets/audio/letters/`
-- `assets/audio/words/`
-- `assets/audio/phrases/`
-- `assets/audio/lesson-intros/`
+- `audio/alphabet/` (26 protected human recordings)
+- `assets/audio/` (future human recordings only)
 
 And metadata:
 
@@ -827,11 +824,11 @@ And metadata:
 
 ### `data-audio`
 
-If an element has `data-audio`, `app.js` treats it as a concrete local audio source.
+If an element has `data-audio`, `app.js` plays it only when it is a protected alphabet recording or a manifest-listed human recording.
 
 ### `data-audio-fallback`
 
-If no local file succeeds, `data-audio-fallback` provides the text to speak through speech synthesis fallback.
+`data-audio-fallback` is legacy metadata only; it does not trigger speech synthesis.
 
 ### Speech synthesis fallback
 

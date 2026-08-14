@@ -92,6 +92,9 @@
     wireEvents();
     wireHomePageTransitions();
     updateHub();
+    window.ExpresateLessonAudioReadiness?.loadManifest?.().then(function () {
+      updateHub();
+    });
     chooseInitialView();
   }
 
@@ -410,6 +413,15 @@
           : progress.isLessonDone(step.requires));
         if (!requirementMet) continue;
         if (step.type !== "lesson" || !step.href) return null;
+        var audioState = window.ExpresateLessonAudioReadiness?.getCachedReadiness?.(step.id);
+        if (audioState && !audioState.ready) {
+          return {
+            title: "Ver tu curso",
+            text: "Revisa tu progreso y elige tu siguiente actividad.",
+            href: "curso.html",
+            label: "Ver curso â†’"
+          };
+        }
         return {
           title: "Continuar con " + step.title,
           text: "Retoma tu ruta desde donde la dejaste.",

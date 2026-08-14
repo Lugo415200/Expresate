@@ -521,16 +521,6 @@ function boot() {
         return;
       } catch (e) {}
     }
-
-    if ("speechSynthesis" in window) {
-      try {
-        window.speechSynthesis.cancel();
-        var utterance = new SpeechSynthesisUtterance(card.en);
-        utterance.lang = "en-US";
-        utterance.rate = 0.82;
-        window.speechSynthesis.speak(utterance);
-      } catch (e) {}
-    }
   }
 
   function checkFallbackAnswer() {
@@ -592,7 +582,7 @@ function boot() {
   });
   if (nextBtn) nextBtn.addEventListener("click", goNext);
   if (skipBtn) skipBtn.addEventListener("click", skipCard);
-  if (audioBtn) audioBtn.addEventListener("click", speakCurrentWord);
+  if (audioBtn) audioBtn.hidden = true;
   if (playAgainBtn) playAgainBtn.addEventListener("click", playAgain);
   if (fallbackCheck) fallbackCheck.addEventListener("click", checkFallbackAnswer);
   if (fallbackInput) {

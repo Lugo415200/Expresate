@@ -46,7 +46,18 @@ window.ExpresateLessons = {
           title: "Lección 001 — Sonidos clave",
           subtitle: "SH / CH / TH + pares mínimos",
           href: "lesson-001-sounds.html",
-          requires: "lesson-000-alphabet"
+          requires: "lesson-000-alphabet",
+          requiredAudioPaths: [
+            "assets/audio/words/she.mp3",
+            "assets/audio/words/chair.mp3",
+            "assets/audio/words/think.mp3",
+            "assets/audio/words/this.mp3",
+            "assets/audio/words/sheep.mp3",
+            "assets/audio/words/ship.mp3",
+            "assets/audio/words/very.mp3",
+            "assets/audio/words/berry.mp3",
+            "assets/audio/phrases/i-think-this-is-very-good.mp3"
+          ]
         },
         {
           id: "lesson-000-syllables",

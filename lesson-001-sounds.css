@@ -5,6 +5,12 @@
 .lesson001-story-kicker { display: block; margin-bottom: .5rem; color: #4358f4; font-weight: 800; }
 .lesson001-story-mount { width: min(100%, 70rem); }
 .lesson001-story .exp-dialogue__scene { min-height: min(46rem, calc(100vh - 2rem)); }
+body[data-lesson-audio-ready="pending"] .lesson001-story,
+body[data-lesson-audio-ready="pending"] .shell { visibility: hidden; }
+.lesson001-unavailable { width: min(100% - 2rem, 34rem); margin: min(18vh, 10rem) auto; padding: 2rem; border-radius: .75rem; background: #fff; box-shadow: 0 1.25rem 3rem rgba(15,23,42,.14); text-align: center; }
+.lesson001-unavailable > span { color: #4358f4; font-weight: 800; }
+.lesson001-unavailable h1 { margin: .5rem 0; }
+.lesson001-unavailable p { margin: 0 0 1.25rem; }
 .sounds-lab-intro { display: grid; gap: .85rem; padding: 1rem; border: 1px solid rgba(67,88,244,.16); border-radius: .65rem; background: #f5f7ff; }
 .contrast-card .fc-body { display: grid; gap: 1rem; }
 .contrast-play { width: fit-content; min-height: 44px; }

@@ -987,9 +987,22 @@
     }
   }
 
+  function start() {
+    var requiredLessonId = document.body.dataset.lessonAudioRequired;
+    if (!requiredLessonId || !window.ExpresateLessonAudioReadiness) {
+      init();
+      return;
+    }
+    window.ExpresateLessonAudioReadiness.getReadiness(requiredLessonId).then(function (state) {
+      document.body.dataset.lessonAudioReady = state.ready ? "true" : "false";
+      if (state.ready) init();
+      else document.dispatchEvent(new CustomEvent("lesson-audio-unavailable", { detail: state }));
+    });
+  }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    init();
+    start();
   }
 })();

@@ -1,13 +1,5 @@
-# Exprésate audio assets
+# Audio policy
 
-Existing alphabet audio currently lives in `audio/alphabet/` and should not be moved or renamed.
+Production learner audio is human-recorded only. The protected alphabet recordings live in `audio/alphabet/` and must not be moved, renamed, or re-encoded.
 
-Use these folders for future local pronunciation files:
-
-- `letters/` for new letter or spelling variations
-- `words/` for single-word pronunciation, such as `name.mp3`
-- `phrases/` for short lesson phrases
-- `lesson-intros/` for optional intro narration
-
-Clickable lesson elements can use `data-audio="assets/audio/words/example.mp3"`.
-If a file is not available yet, add `data-audio-fallback="example"` to let the browser pronounce it without throwing errors.
+Add future human recordings under `assets/audio/`, register each existing file in `audio-manifest.json`, and use `human-recording-queue.json` for the Lesson 001 recording checklist. The manifest is refreshed network-first by the service worker, so lesson readiness updates after the recording and manifest files are deployed. The application does not use browser speech synthesis as a fallback.

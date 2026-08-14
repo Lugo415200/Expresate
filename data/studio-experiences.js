@@ -185,11 +185,6 @@
     });
   }
 
-  function buildWordAudioPath(example) {
-    const slug = slugifyWord(example.word);
-    return slug ? `assets/audio/words/${slug}.mp3` : "";
-  }
-
   function playLetter(letter, trigger) {
     const normalized = String(letter || "").trim().toLowerCase();
     if (!normalized || !window.ExpresateAudio?.play) return;
@@ -201,13 +196,8 @@
   }
 
   function playExample(example, trigger) {
-    if (!window.ExpresateAudio?.play) return;
-    const fallback = [example.word, example.pronunciation].filter(Boolean).join(". ");
-    window.ExpresateAudio.play(example.audioPath || buildWordAudioPath(example), {
-      trigger,
-      fallbackText: fallback || example.word,
-      speechType: "word"
-    });
+    if (!example.audioPath || !window.ExpresateAudio?.play) return;
+    window.ExpresateAudio.play(example.audioPath, { trigger });
   }
 
   function createPreviewPanel(active) {

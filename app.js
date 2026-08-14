@@ -126,11 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Audio buttons (alphabet + custom)
   // =========================
   // Existing alphabet audio lives in audio/alphabet/*.mp3.
-  // Future lesson audio can be placed in:
-  // - assets/audio/letters/
-  // - assets/audio/words/
-  // - assets/audio/phrases/
-  // - assets/audio/lesson-intros/
+  // Future human recordings must be registered in assets/audio/audio-manifest.json.
   const player = new Audio();
   player.preload = "auto";
   const audioAvailability = new Map();
@@ -182,27 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
       _audioDebug("manifest failed", { url: audioManifestUrl, error: error.message });
       return { entries: {}, byText: {} };
     });
-  const speechSynth = "speechSynthesis" in window ? window.speechSynthesis : null;
-
-  // Speech synthesis quality is controlled by the device/browser. This
-  // ranking selects the best installed English voice we can find, but real
-  // recorded audio remains the preferred and most consistent option.
-  const preferredVoiceNames = [
-    "microsoft aria",
-    "microsoft jenny",
-    "microsoft ava",
-    "google us english",
-    "samantha",
-    "allison",
-    "ava",
-    "susan",
-    "tom"
-  ];
-  let rankedEnglishVoices = [];
-  let selectedEnglishVoice = null;
   let playbackRequestId = 0;
   let currentMediaRequestId = 0;
-  let activeUtterance = null;
 
   // Tracks the button that triggered the current audio so we can apply
   // the .is-playing ripple class and remove it when playback ends.
@@ -279,44 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return match;
   }
 
-  function _voiceScore(voice) {
-    const name = String(voice?.name || "").toLowerCase();
-    const lang = String(voice?.lang || "").toLowerCase();
-    let score = 0;
-
-    if (lang === "en-us") score += 120;
-    else if (lang.startsWith("en-us")) score += 110;
-    else if (lang.startsWith("en-")) score += 45;
-    else return -1000;
-
-    if (/natural|neural|premium|enhanced|online/.test(name)) score += 45;
-    if (/google|microsoft|apple/.test(name)) score += 12;
-    if (voice.localService) score += 6;
-    if (voice.default) score += 3;
-    if (/compact|espeak|festival|mbrola/.test(name)) score -= 60;
-
-    const preferredIndex = preferredVoiceNames.findIndex((candidate) => name.includes(candidate));
-    if (preferredIndex >= 0) score += 35 - preferredIndex;
-    return score;
-  }
-
-  function _refreshSpeechVoices() {
-    if (!speechSynth) return [];
-    rankedEnglishVoices = speechSynth.getVoices()
-      .filter((voice) => String(voice.lang || "").toLowerCase().startsWith("en"))
-      .sort((a, b) => _voiceScore(b) - _voiceScore(a));
-    selectedEnglishVoice = rankedEnglishVoices[0] || null;
-    return rankedEnglishVoices;
-  }
-
-  if (speechSynth) {
-    _refreshSpeechVoices();
-    speechSynth.addEventListener?.("voiceschanged", _refreshSpeechVoices);
-    // Safari and some Chromium builds populate voices after page startup.
-    window.setTimeout(_refreshSpeechVoices, 250);
-    window.setTimeout(_refreshSpeechVoices, 1000);
-  }
-
   function _speechKind(text, options = {}) {
     if (["letter", "word", "phrase"].includes(options.speechType)) return options.speechType;
 
@@ -376,81 +315,37 @@ document.addEventListener("DOMContentLoaded", () => {
       player.pause();
       player.removeAttribute("src");
       player.currentTime = 0;
-      speechSynth?.cancel();
     } catch {}
     _clearPlayingBtn();
   }
 
-  function _audioFallbackSpeech(text, trigger, options = {}) {
-    const rawText = String(text || "").trim();
-    if (!rawText || !speechSynth || !("SpeechSynthesisUtterance" in window)) return false;
-
-    const requestId = options.requestId || ++playbackRequestId;
-    if (requestId !== playbackRequestId) return false;
-
-    try {
-      _cancelCurrentPlayback(false);
-      _refreshSpeechVoices();
-
-      const profile = _speechProfile(rawText, options);
-      const utterance = new SpeechSynthesisUtterance(_prepareSpeechText(rawText, profile.kind));
-      const requestedVoice = options.voice || selectedEnglishVoice;
-      if (requestedVoice) utterance.voice = requestedVoice;
-      utterance.lang = requestedVoice?.lang || "en-US";
-      utterance.rate = profile.rate;
-      utterance.pitch = profile.pitch;
-      utterance.volume = profile.volume;
-      utterance.onend = () => {
-        if (requestId !== playbackRequestId) return;
-        activeUtterance = null;
-        _clearPlayingBtn();
-      };
-      utterance.onerror = () => {
-        if (requestId !== playbackRequestId) return;
-        activeUtterance = null;
-        _clearPlayingBtn();
-      };
-
-      activeUtterance = utterance;
-      if (trigger) _setPlayingBtn(trigger);
-      audioDebugState.lastSelection = {
-        requestedText: rawText,
-        sourceType: "speech synthesis",
-        voice: requestedVoice?.name || "browser default",
-        resolvedUrl: null
-      };
-      _audioDebug("selected source", audioDebugState.lastSelection);
-      speechSynth.speak(utterance);
-      return true;
-    } catch {
-      if (requestId === playbackRequestId) _clearPlayingBtn();
-      return false;
-    }
+  function _isAlphabetRecording(src) {
+    return /^audio\/alphabet\/[a-z]\.mp3$/i.test(_cleanAudioSrc(src));
   }
 
-  function _shouldVerifyAudioSrc(src) {
-    return /^assets\/audio\//i.test(src) || /\/assets\/audio\//i.test(src);
+  async function _hasHumanRecording(src) {
+    const cleanSrc = _cleanAudioSrc(src);
+    if (_isAlphabetRecording(cleanSrc)) return true;
+    if (!/^assets\/audio\//i.test(cleanSrc)) return false;
+
+    const manifest = await audioManifestReady;
+    return Object.values(manifest?.entries || {}).some((entry) => _cleanAudioSrc(entry?.path) === cleanSrc);
   }
 
-  async function _audioExists(src) {
-    const resolvedSrc = _resolveAudioUrl(src);
-    if (!_shouldVerifyAudioSrc(resolvedSrc)) return true;
-    if (audioAvailability.has(resolvedSrc)) return audioAvailability.get(resolvedSrc);
-
-    try {
-      const response = await fetch(resolvedSrc, { method: "HEAD", cache: "no-cache" });
-      const ok = response.ok;
-      audioAvailability.set(resolvedSrc, ok);
-      return ok;
-    } catch {
-      audioAvailability.set(resolvedSrc, false);
-      return false;
-    }
+  function _markAudioUnavailable(trigger) {
+    if (!trigger) return;
+    trigger.classList.remove("is-playing");
+    trigger.classList.add("is-audio-unavailable");
+    trigger.setAttribute("aria-disabled", "true");
+    if ("disabled" in trigger) trigger.disabled = true;
   }
 
   async function _tryAudioSource(src, requestId, trigger, sourceType, requestedText) {
     if (!src || requestId !== playbackRequestId) return false;
-    if (_shouldVerifyAudioSrc(src) && !(await _audioExists(src))) return false;
+    if (!(await _hasHumanRecording(src))) {
+      _markAudioUnavailable(trigger);
+      return false;
+    }
     if (requestId !== playbackRequestId) return false;
 
     try {
@@ -490,47 +385,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // One tap owns playback. This invalidates older manifest/HEAD checks.
     _cancelCurrentPlayback(false);
-    const fallbackOptions = { ...options, src: legacySrc, requestId };
-
     (async () => {
-      const manifestMatch = await _manifestAudioMatch(options.fallbackText);
-      if (requestId !== playbackRequestId) return;
-
-      // Generated ElevenLabs audio is first priority. Existing explicit paths
-      // remain the second priority for legacy recordings and custom assets.
-      const candidates = [
-        { src: manifestMatch.path, type: "ElevenLabs MP3" },
-        {
-          src: legacySrc,
-          type: /^audio\/alphabet\//i.test(legacySrc) ? "original alphabet MP3" : "legacy MP3"
-        }
-      ].filter((candidate, index, all) => candidate.src && all.findIndex((item) => item.src === candidate.src) === index);
-      for (const candidate of candidates) {
-        if (await _tryAudioSource(candidate.src, requestId, trigger, candidate.type, options.fallbackText)) return;
-      }
-
-      if (requestId === playbackRequestId && options.fallbackText) {
-        _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
-      }
+      const sourceType = _isAlphabetRecording(legacySrc) ? "human alphabet recording" : "human recording";
+      if (await _tryAudioSource(legacySrc, requestId, trigger, sourceType, options.fallbackText)) return;
+      if (requestId === playbackRequestId) _markAudioUnavailable(trigger);
     })().catch(() => {
-      if (requestId === playbackRequestId && options.fallbackText) {
-        _audioFallbackSpeech(options.fallbackText, trigger, fallbackOptions);
-      }
+      if (requestId === playbackRequestId) _markAudioUnavailable(trigger);
     });
 
-    return Boolean(legacySrc || options.fallbackText);
+    return Boolean(legacySrc);
   }
 
   window.ExpresateAudio = {
     play: (src, options = {}) => playLessonAudio({ ...options, src }),
-    speak: _audioFallbackSpeech,
+    hasRecording: _hasHumanRecording,
     stop: () => _cancelCurrentPlayback(true),
     // Developer helpers:
     //   await ExpresateAudio.debugManifest()
     //   ExpresateAudio.testAudio("words-apple")
     //   await ExpresateAudio.clearAudioCache()
-    //   ExpresateAudio.debugVoices()
-    //   ExpresateAudio.previewVoice(0, "I am learning English.")
     debugManifest: async () => {
       audioDebugEnabled = true;
       try { window.localStorage.setItem("expresate_audio_debug", "1"); } catch {}
@@ -539,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
         status: audioManifestState.status,
         url: audioManifestState.url,
         entryCount: Object.keys(manifest?.entries || {}).length,
-        cacheVersionExpected: "v5",
+        cacheVersionExpected: "v72",
         error: audioManifestState.error?.message || null,
         lastRequest: audioDebugState.lastRequest,
         lastLookup: audioDebugState.lastLookup,
@@ -575,27 +448,6 @@ document.addEventListener("DOMContentLoaded", () => {
       await registration?.update();
       console.info("[ExpresateAudio] cleared PWA static caches", deleted);
       return { deleted, reloadRequired: true };
-    },
-    debugVoices: () => {
-      const rows = _refreshSpeechVoices().map((voice, index) => ({
-        index,
-        selected: voice === selectedEnglishVoice,
-        name: voice.name,
-        lang: voice.lang,
-        local: voice.localService,
-        default: voice.default,
-        score: _voiceScore(voice)
-      }));
-      console.table(rows);
-      return rows;
-    },
-    previewVoice: (voiceNameOrIndex = 0, text = "I am learning English.") => {
-      const voices = _refreshSpeechVoices();
-      const voice = typeof voiceNameOrIndex === "number"
-        ? voices[voiceNameOrIndex]
-        : voices.find((item) => item.name.toLowerCase().includes(String(voiceNameOrIndex).toLowerCase()));
-      if (!voice) return false;
-      return _audioFallbackSpeech(text, null, { voice, speechType: "phrase" });
     }
   };
 
@@ -649,36 +501,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  enhanceLessonAudioTargets();
+  audioManifestReady.then(() => {
+    document.querySelectorAll("[data-audio]").forEach((control) => {
+      if (!_isAlphabetRecording(control.getAttribute("data-audio"))) _markAudioUnavailable(control);
+    });
+  });
 
   // Optional: stop any current audio when leaving page
   window.addEventListener("beforeunload", () => {
     try {
       player.pause();
       player.currentTime = 0;
-      window.speechSynthesis?.cancel?.();
     } catch {}
   });
 
   document.addEventListener("click", (e) => {
-    const dynamicOutput = e.target.closest(".name-output");
-    if (dynamicOutput && !e.target.closest("button, a, input, textarea, select")) {
-      const text = _primaryAudioText(dynamicOutput);
-      if (text) {
-        playLessonAudio({
-          src: _audioPathForText(text),
-          trigger: dynamicOutput,
-          fallbackText: text
-        });
-      }
-      return;
-    }
-
-    // 0) Works for vowel buttons and any clickable item with audio data.
-    // Add data-audio-fallback="word or phrase" when a missing local file
-    // should fall back to browser speech synthesis. Optional fine-tuning:
-    // data-speech-type="letter|word|phrase", data-speech-rate="0.88",
-    // and data-speech-pitch="1.0".
+    // 0) Explicit human recordings only.
     const anyAudio = e.target.closest("[data-audio], [data-audio-fallback]");
     if (anyAudio) {
       const src = (anyAudio.getAttribute("data-audio") || "").trim();
@@ -728,12 +566,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
-    const dynamicOutput = e.target.closest(".name-output");
-    if (dynamicOutput) {
-      e.preventDefault();
-      dynamicOutput.click();
-      return;
-    }
     const anyAudio = e.target.closest("[data-audio], [data-audio-fallback]");
     if (!anyAudio || /^(button|a|input|textarea|select)$/i.test(anyAudio.tagName)) return;
     e.preventDefault();
