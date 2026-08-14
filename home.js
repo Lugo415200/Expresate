@@ -419,7 +419,7 @@
             title: "Ver tu curso",
             text: "Revisa tu progreso y elige tu siguiente actividad.",
             href: "curso.html",
-            label: "Ver curso â†’"
+          label: "Ver curso →"
           };
         }
         return {
