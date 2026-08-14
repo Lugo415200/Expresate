@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v69";
+const CACHE_VERSION = "v70";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -42,6 +42,7 @@ const PRECACHE_PATHS = [
   "theme-light.css",
   "gamify.css",
   "lesson-flashcard.css",
+  "dialogue-engine.css",
   "lesson-renderer.css",
   "lesson-live.css",
   "speech-practice.css",
@@ -60,6 +61,7 @@ const PRECACHE_PATHS = [
   "sync.js",
   "supabaseClient.js",
   "lesson.js",
+  "dialogue-engine.js",
   "lesson-live.js",
   "speech-practice.js",
   "home.js",
@@ -82,11 +84,16 @@ const PRECACHE_PATHS = [
   "data/studio-themes.js",
   "data/studio-activities.js",
   "data/studio-animations.js",
+  "data/studio-characters.js",
+  "data/studio-story-scenes.js",
   "data/studio-lesson-renderer.js",
   "data/quizzes.js",
   "assets/audio/audio-manifest.json",
   "assets/design/sweetink-gradient-texture.jpg",
   "assets/characters/teacher-guide.png",
+  "assets/backgrounds/classroom/classroom-day.webp",
+  "assets/characters/sofia/happy.webp",
+  "assets/characters/professor/neutral.webp",
   "assets/characters/letter-a-animals.png",
   "assets/characters/letter-b-birds.png",
   "assets/characters/letter-c-cat.png",
