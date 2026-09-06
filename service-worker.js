@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v75";
+const CACHE_VERSION = "v76";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -56,6 +56,8 @@ const PRECACHE_PATHS = [
   "app.js",
   "nav.js",
   "progress.js",
+  "shared/progress-core.js",
+  "shared/lesson000.js",
   "alerts.js",
   "access.js",
   "sync.js",

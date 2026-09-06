@@ -20,11 +20,7 @@
   function setupRecognition() {
     const root = document.querySelector("[data-letter-recognition]");
     if (!root) return;
-    const rounds = [
-      { target: "g", choices: ["b", "g", "j", "t"] },
-      { target: "m", choices: ["n", "m", "w", "e"] },
-      { target: "s", choices: ["f", "s", "x", "z"] }
-    ];
+    const rounds = window.ExpresateLesson000.recognition;
     const roundLabel = root.querySelector("[data-recognition-round]");
     const options = root.querySelector("[data-recognition-options]");
     const feedback = root.querySelector("[data-recognition-feedback]");
@@ -328,11 +324,7 @@
     setupFirstListen();
     setupRecognition();
     setupSequenceBuilder(document.querySelector("[data-sequence-builder]"), {
-      rounds: [
-        { target: ["C", "A", "T"], choices: ["C", "A", "T", "B"] },
-        { target: ["M", "A", "P"], choices: ["M", "A", "P", "N"] },
-        { target: ["B", "O", "O", "K"], choices: ["B", "O", "O", "K", "D", "P"] }
-      ],
+      rounds: window.ExpresateLesson000.spelling,
       roundSelector: "[data-sequence-round]", optionsSelector: "[data-sequence-options]", slotsSelector: "[data-sequence-slots]", feedbackSelector: "[data-sequence-feedback]", playSelector: "[data-sequence-play]", clearSelector: "[data-sequence-clear]"
     });
     setupWordSpelling();

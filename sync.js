@@ -48,6 +48,7 @@
   }
 
   function mergeProgress(cloud, local) {
+    if (window.ExpresateProgressCore) return window.ExpresateProgressCore.merge(cloud, local);
     return {
       schemaVersion: 2,
       lessons: mergeCompletionEntries(cloud?.lessons, local?.lessons, "lessons"),
@@ -108,6 +109,18 @@
     const sb = window.supabaseClient;
     if (!sb || !userId || userId !== activeUserId) return false;
     try {
+      if (window.ExpresateProgressCore) {
+        const version = switchVersion;
+        const snapshot = Progress.snapshot();
+        const next = await window.ExpresateProgressCore.sync(sb, userId, snapshot,
+          () => activeUserId === userId && switchVersion === version);
+        if (activeUserId !== userId || switchVersion !== version) return false;
+        suppressUploads = true;
+        // Keep completions made while this request was in flight.
+        Progress.replace(mergeProgress(next, Progress.snapshot()));
+        suppressUploads = false;
+        return true;
+      }
       const { error } = await sb.from("user_progress").upsert({
         user_id: userId,
         progress: Progress.snapshot(),
@@ -191,6 +204,11 @@
     Access.onAuthChange((session) => useSession(session));
     Access.ready().then(() => useSession(Access.getSession()));
   }
+
+  // Refresh a still-open website after completing a lesson on a phone.
+  window.addEventListener("focus", () => {
+    if (activeUserId && !syncTimer) useSession(Access.getSession());
+  });
 
   window.ExpresateProgress = {
     debugState() {

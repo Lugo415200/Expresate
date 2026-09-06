@@ -369,6 +369,7 @@
     // XP is derived from completions (not stored separately) so the
     // numbers stay in lock-step with the source of truth.
     getXP() {
+      if (window.ExpresateProgressCore) return window.ExpresateProgressCore.stats(load()).xp;
       const state = load();
       let xp = 0;
       Object.values(state.lessons || {}).forEach((e) => {
@@ -423,6 +424,7 @@
     // counted, we still report yesterday's streak (the "grace day"
     // gives users until end of today to maintain it).
     getStreak() {
+      if (window.ExpresateProgressCore) return window.ExpresateProgressCore.stats(load()).streak;
       const days = this.getActiveDays();
       if (days.size === 0) return 0;
       const DAY_MS = 86400000;

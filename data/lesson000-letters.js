@@ -13,40 +13,7 @@
   const LESSON_ID = "lesson-000-alphabet";
   const LETTER_KEYS = "abcdefghijklmnopqrstuvwxyz".split("");
 
-  function letterEntry(letter, word, spanish, asset) {
-    const imagePath = `assets/alphabet/examples/${asset}.webp`;
-    const example = { word, spanish, pronunciation: word, imagePath };
-    return { letter, sound: letter, word, pronunciation: word, spanish, imagePath, examples: [example], tip: "" };
-  }
-
-  const DEFAULT_LETTERS = {
-    a: letterEntry("A", "Apple", "Manzana", "a-apple"),
-    b: letterEntry("B", "Ball", "Pelota", "b-ball"),
-    c: letterEntry("C", "Cat", "Gato", "c-cat"),
-    d: letterEntry("D", "Dog", "Perro", "d-dog"),
-    e: letterEntry("E", "Elephant", "Elefante", "e-elephant"),
-    f: letterEntry("F", "Fish", "Pez", "f-fish"),
-    g: letterEntry("G", "Goat", "Cabra", "g-goat"),
-    h: letterEntry("H", "Hat", "Sombrero", "h-hat"),
-    i: letterEntry("I", "Ice cream", "Helado", "i-ice-cream"),
-    j: letterEntry("J", "Juice", "Jugo", "j-juice"),
-    k: letterEntry("K", "Kite", "Cometa", "k-kite"),
-    l: letterEntry("L", "Lion", "León", "l-lion"),
-    m: letterEntry("M", "Moon", "Luna", "m-moon"),
-    n: letterEntry("N", "Nest", "Nido", "n-nest"),
-    o: letterEntry("O", "Orange", "Naranja", "o-orange"),
-    p: letterEntry("P", "Pizza", "Pizza", "p-pizza"),
-    q: letterEntry("Q", "Queen", "Reina", "q-queen"),
-    r: letterEntry("R", "Rabbit", "Conejo", "r-rabbit"),
-    s: letterEntry("S", "Sun", "Sol", "s-sun"),
-    t: letterEntry("T", "Turtle", "Tortuga", "t-turtle"),
-    u: letterEntry("U", "Umbrella", "Paraguas", "u-umbrella"),
-    v: letterEntry("V", "Violin", "Violín", "v-violin"),
-    w: letterEntry("W", "Whale", "Ballena", "w-whale"),
-    x: letterEntry("X", "Xylophone", "Xilófono", "x-xylophone"),
-    y: letterEntry("Y", "Yo-yo", "Yo-yo", "y-yo-yo"),
-    z: letterEntry("Z", "Zebra", "Cebra", "z-zebra")
-  };
+  const DEFAULT_LETTERS = window.ExpresateLesson000.letters;
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
