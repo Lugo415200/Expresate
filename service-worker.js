@@ -4,7 +4,7 @@
  * The activate handler removes every older expresate-static cache.
  */
 const CACHE_PREFIX = "expresate-static";
-const CACHE_VERSION = "v73";
+const CACHE_VERSION = "v75";
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 // Only these same-origin, user-independent files are cached.
@@ -90,6 +90,12 @@ const PRECACHE_PATHS = [
   "data/studio-lesson-renderer.js",
   "data/quizzes.js",
   "assets/audio/audio-manifest.json",
+  "assets/video/orientation/escuchar-demo.mp4",
+  "assets/video/orientation/hablar-demo.mp4",
+  "assets/video/orientation/consejo-demo.mp4",
+  "assets/video/orientation/xp-demo.mp4",
+  "assets/video/orientation/racha-demo.mp4",
+  "assets/video/orientation/completado-demo.mp4",
   "assets/design/sweetink-gradient-texture.jpg",
   "assets/characters/teacher-guide.png",
   "assets/backgrounds/classroom/classroom-day.webp",
@@ -207,6 +213,14 @@ self.addEventListener("fetch", (event) => {
   // the last good manifest for offline use, but refresh it whenever possible.
   if (url.pathname.endsWith("/assets/audio/audio-manifest.json")) {
     event.respondWith(networkFirst(request, cacheKey));
+    return;
+  }
+
+  // Explorer artwork is requested as the learner opens individual letters.
+  // Cache each image after its first successful fetch instead of precaching
+  // the full A-Z collection during service-worker installation.
+  if (url.pathname.includes("/assets/alphabet/examples/") && request.destination === "image") {
+    event.respondWith(cacheFirst(request, cacheKey));
     return;
   }
 

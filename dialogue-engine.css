@@ -567,9 +567,10 @@
     font-size: 1.05rem;
   }
 
-  .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__next {
-    width: 100%;
-  }
+.lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__next {
+  width: 100%;
+}
+
 }
 
 body[data-lesson-id="lesson-000-alphabet"][data-story-intro-active="true"] .lesson-story-intro-card,
@@ -1132,4 +1133,49 @@ body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="orientation"] .
     width: 100%;
     min-width: 0;
   }
+}
+
+/* Lesson 000 keeps the classroom story viewport-rooted from the opening
+   orientation through the final dialogue line. */
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .lesson-story-scene-shell {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  padding: 0;
+  border-radius: 0;
+  overflow: hidden;
+  opacity: 1;
+  transform: none;
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .lesson-story-dialogue-mount,
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .exp-dialogue,
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .exp-dialogue--scene,
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .exp-dialogue__scene,
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .exp-dialogue__stage {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .lesson-story-scene .lesson-story-dialogue-mount .exp-dialogue--scene .exp-dialogue__scene {
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  border-radius: 0;
+  background-position: center;
+  background-size: cover;
+  box-shadow: none;
+}
+
+body[data-lesson-id="lesson-000-alphabet"][data-lesson000-phase="story"] .lesson-story-scene-topbar {
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: auto;
+  left: max(1rem, env(safe-area-inset-left));
+}
+
+body[data-lesson-id="lesson-000-alphabet"].lesson-story-scene-active .lesson-story-scene-metrics {
+  display: none;
 }

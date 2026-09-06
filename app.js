@@ -599,7 +599,14 @@ document.addEventListener("DOMContentLoaded", () => {
       refresh();
       if (!done && window.Alerts) {
         // !done means we just marked it complete (was false, now true)
-        Alerts.success("¡Lección completada! +10 XP 🎉");
+        if (lessonId !== "lesson-000-alphabet") {
+          Alerts.success("¡Lección completada! +10 XP 🎉");
+        }
+      }
+      if (!done && lessonId === "lesson-000-alphabet") {
+        document.dispatchEvent(new CustomEvent("expresate:lesson-completed", {
+          detail: { lessonId }
+        }));
       }
       if (!done) pulseTextureReward();
     });

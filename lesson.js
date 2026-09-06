@@ -57,7 +57,6 @@
   let stepModeEnabled = false;
   let lastDirection = "next"; // "next" or "back" — drives card enter animation
   let consejoRail = null;
-  let consejoPositionFrame = 0;
   let lessonTransitionCleanupTimer = 0;
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -74,6 +73,9 @@
     return $$(".flashcard[data-fc-id]");
   }
   function totalSections() { return getSections().length; }
+  function getProgressSections() {
+    return getSections().filter((section) => section.getAttribute("data-fc-progress-exclude") !== "true");
+  }
 
   // ---------------------------------------------------------------
   // CONSEJO PANEL — one shared, accessible learning-aid rail.
@@ -92,27 +94,18 @@
     if (options && options.focusToggle) toggle.focus();
   }
 
-  function syncConsejoPosition() {
-    if (!consejoRail || consejoRail.hidden) return;
-    const active = getSections()[currentIndex];
-    if (!active) return;
-    const rect = active.getBoundingClientRect();
-    const top = Math.max(104, Math.min(window.innerHeight - 104, rect.top + Math.min(rect.height * 0.46, 260)));
-    const left = Math.max(8, rect.left - 43);
-    consejoRail.style.setProperty("--consejo-anchor-top", `${Math.round(top)}px`);
-    consejoRail.style.setProperty("--consejo-anchor-left", `${Math.round(left)}px`);
-  }
-
   function setConsejoForCard(card) {
     if (!consejoRail) return;
     closeConsejoPanel();
-    const tip = card ? card.getAttribute("data-fc-tip") : "";
+    const isLesson000Orientation = lessonId === "lesson-000-alphabet" &&
+      card?.getAttribute("data-fc-id") === "welcome" &&
+      !!card.querySelector("[data-welcome-orientation]");
+    const tip = isLesson000Orientation ? "" : (card ? card.getAttribute("data-fc-tip") : "");
+    const host = card && card.querySelector(".fc-body");
+    if (host && consejoRail.parentElement !== host) host.prepend(consejoRail);
     consejoRail.hidden = !tip;
     const copy = consejoRail.querySelector("[data-consejo-copy]");
     if (copy) copy.textContent = tip || "";
-    if (!tip) return;
-    cancelAnimationFrame(consejoPositionFrame);
-    consejoPositionFrame = requestAnimationFrame(syncConsejoPosition);
   }
 
   function setupConsejoPanels() {
@@ -139,8 +132,6 @@
         <p data-consejo-copy></p>
       </aside>
     `;
-    document.body.appendChild(consejoRail);
-
     const toggle = consejoRail.querySelector(".consejo-toggle");
     const panel = consejoRail.querySelector(".consejo-panel");
     toggle.addEventListener("click", () => {
@@ -165,8 +156,6 @@
         closeConsejoPanel({ focusToggle: true });
       }
     });
-    window.addEventListener("resize", syncConsejoPosition, { passive: true });
-    window.addEventListener("scroll", syncConsejoPosition, { passive: true });
   }
 
   // ---------------------------------------------------------------
@@ -187,16 +176,17 @@
     `;
   }
   function updateProgressBar() {
-    const total = totalSections();
+    const total = getProgressSections().length;
     const done = sectionsDone.size;
-    const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+    const currentStep = stepModeEnabled ? currentIndex + 1 : Math.max(1, done);
+    const pct = total === 0 ? 0 : Math.round((Math.min(currentStep, total) / total) * 100);
     const stepEl = $("[data-lp-step]");
     const totalEl = $("[data-lp-total]");
     const pctEl = $("[data-lp-pct]");
     const fillEl = $("[data-lp-fill]");
     // In step mode, the leading number is "current step". Otherwise
     // it's "sections done so far" (kept for non-stepper lessons).
-    if (stepEl) stepEl.textContent = stepModeEnabled ? (currentIndex + 1) : done;
+    if (stepEl) stepEl.textContent = currentStep;
     if (totalEl) totalEl.textContent = total;
     if (pctEl) pctEl.textContent = pct;
     if (fillEl) fillEl.style.width = pct + "%";
@@ -440,7 +430,7 @@
         listo.style.display = "none";
       }
 
-      // Inject the visual upgrade meta row (badge + step indicator + XP preview)
+      // Inject the visual upgrade meta row (badge + step indicator).
       // and tag the section with its type class. Idempotent.
       if (!sec.querySelector(":scope > .fc-meta")) {
         const type = inferCardType(sec);
@@ -451,7 +441,6 @@
         meta.innerHTML = `
           <span class="fc-badge">${esc(label)}</span>
           <span class="fc-step-indicator">Paso ${i + 1} / ${cards.length}</span>
-          <span class="fc-xp-preview">+${XP_PER_LESSON} XP</span>
         `;
         sec.insertBefore(meta, sec.firstChild);
       }
@@ -465,6 +454,121 @@
 
     setupConsejoPanels();
     showCard(0);
+  }
+
+  function setupWelcomeOrientation() {
+    const orientation = document.querySelector("[data-welcome-orientation]");
+    if (!orientation) return;
+
+    const card = orientation.closest(".flashcard[data-fc-id='welcome']");
+    const tiles = $$('[data-orientation-tile]', orientation);
+    const dots = $$(".lesson-orientation-dot", orientation);
+    const title = $(".lesson-tile-orientation-copy [data-orientation-title]", orientation);
+    const copy = $(".lesson-tile-orientation-copy [data-orientation-copy]", orientation);
+    const count = $(".lesson-tile-orientation-copy [data-orientation-count]", orientation);
+    const back = $("[data-orientation-back]", orientation);
+    const next = $("[data-orientation-next]", orientation);
+    const skip = $("[data-orientation-skip]", orientation);
+    const continueButton = card && $("[data-fc-listo]", card);
+    if (!tiles.length || !title || !copy || !count || !back || !next || !continueButton) return;
+
+    let index = 0;
+    continueButton.hidden = true;
+
+    const render = () => {
+      const active = tiles[index];
+      tiles.forEach((tile, tileIndex) => {
+        const isActive = tileIndex === index;
+        tile.classList.toggle("is-active", isActive);
+        if (isActive) tile.setAttribute("aria-current", "step");
+        else tile.removeAttribute("aria-current");
+      });
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === index);
+      });
+      title.textContent = active.dataset.orientationTitle || "";
+      copy.textContent = active.dataset.orientationCopy || "";
+      count.textContent = `${index + 1} de ${tiles.length}`;
+      back.hidden = index === 0;
+      back.disabled = index === 0;
+      next.textContent = index === tiles.length - 1 ? "Continuar →" : "Siguiente →";
+      document.dispatchEvent(new CustomEvent("expresate:orientation-scene-change"));
+    };
+
+    const moveTo = (nextIndex, direction) => {
+      if (nextIndex < 0 || nextIndex >= tiles.length || nextIndex === index) return;
+      orientation.classList.remove("is-transitioning", "is-moving-forward", "is-moving-backward");
+      // Restart the directional transition for every orientation state change.
+      void orientation.offsetWidth;
+      orientation.classList.add("is-transitioning", direction === "back" ? "is-moving-backward" : "is-moving-forward");
+      index = nextIndex;
+      render();
+    };
+
+    const goNext = () => {
+      if (index === tiles.length - 1) {
+        continueButton.click();
+        return;
+      }
+      moveTo(index + 1, "forward");
+    };
+
+    next.addEventListener("click", goNext);
+    back.addEventListener("click", () => moveTo(index - 1, "back"));
+    skip?.addEventListener("click", () => {
+      // Skipping only exits this local orientation; it does not complete a card.
+      showCard(Math.min(currentIndex + 1, totalSections() - 1), "next");
+    });
+
+    orientation.addEventListener("keydown", (event) => {
+      if (!orientation.contains(document.activeElement)) return;
+      if (event.key === "ArrowLeft" && index > 0) {
+        event.preventDefault();
+        moveTo(index - 1, "back");
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goNext();
+      }
+    });
+
+    render();
+  }
+
+  function setupOrientationMedia() {
+    const videos = $$(".lesson-orientation-video");
+    if (!videos.length) return;
+
+    const activateCurrentScene = () => {
+      videos.forEach((video) => {
+        const scene = video.closest("[data-orientation-tile]");
+        const demo = video.closest(".lesson-orientation-video-demo");
+        if (!scene || !demo) return;
+
+        if (!scene.classList.contains("is-active")) {
+          video.pause();
+          return;
+        }
+
+        if (!video.dataset.videoLoaded && video.dataset.src) {
+          video.dataset.videoLoaded = "true";
+          video.src = video.dataset.src;
+          video.load();
+        }
+
+        const play = video.play();
+        if (play && typeof play.catch === "function") play.catch(() => demo.classList.add("is-video-fallback"));
+      });
+    };
+
+    videos.forEach((video) => {
+      const demo = video.closest(".lesson-orientation-video-demo");
+      if (!demo) return;
+      video.addEventListener("error", () => demo.classList.add("is-video-fallback"), { once: true });
+      video.addEventListener("loadeddata", activateCurrentScene, { once: true });
+    });
+
+    document.addEventListener("expresate:orientation-scene-change", activateCurrentScene);
+    activateCurrentScene();
   }
 
   function showCard(i, direction) {
@@ -635,6 +739,94 @@
     const lessonDone = window.Progress && Progress.isLessonDone(lessonId);
     if (gatingDone || lessonDone) revealMarkComplete();
     else hideMarkComplete();
+  }
+
+  function syncCompletionIndicator() {
+    const indicator = document.querySelector("[data-lesson-complete-indicator]");
+    if (!indicator || !window.Progress) return;
+    const done = Progress.isLessonDone(lessonId);
+    indicator.hidden = true;
+    const button = document.getElementById("markComplete");
+    if (button) button.classList.toggle("lesson-mc-claimed", done);
+  }
+
+  // ---------------------------------------------------------------
+  // LESSON 000 COMPLETION MOMENT
+  // Completion is still recorded by app.js. This listener only presents
+  // the post-completion experience after a new record has been saved.
+  // ---------------------------------------------------------------
+  function getCompletionDestination() {
+    const next = findNextStepAfter(lessonId);
+    if (!next || !next.step) {
+      return Promise.resolve({ href: "curso.html", title: "Tu ruta del curso", ready: false });
+    }
+
+    const step = next.step;
+    const fallback = { href: "curso.html", title: step.title || "Tu ruta del curso", ready: false };
+    if (step.type !== "lesson" || !step.href) return Promise.resolve(fallback);
+    if (!Array.isArray(step.requiredAudioPaths) || !step.requiredAudioPaths.length) {
+      return Promise.resolve({ href: step.href, title: step.title || "Siguiente lección", ready: true });
+    }
+    if (!window.ExpresateLessonAudioReadiness) return Promise.resolve(fallback);
+
+    return window.ExpresateLessonAudioReadiness.getReadiness(step.id)
+      .then((state) => state && state.ready
+        ? { href: step.href, title: step.title || "Siguiente lección", ready: true }
+        : fallback)
+      .catch(() => fallback);
+  }
+
+  function showLesson000Completion() {
+    if (lessonId !== "lesson-000-alphabet" || !window.Progress) return;
+    if (document.querySelector("[data-lesson-completion-overlay]")) return;
+
+    const lesson = Progress.getLesson(lessonId) || {};
+    const reward = Number.isFinite(Number(lesson.xpReward)) ? Number(lesson.xpReward) : XP_PER_LESSON;
+    const streak = Math.max(0, Number(Progress.getStreak()) || 0);
+    const overlay = document.createElement("div");
+    overlay.className = "lesson-completion-overlay";
+    overlay.setAttribute("data-lesson-completion-overlay", "");
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-labelledby", "lessonCompletionTitle");
+    overlay.innerHTML = `
+      <section class="lesson-completion-panel" tabindex="-1">
+        <p class="lesson-completion-eyebrow">Lección 000</p>
+        <h2 id="lessonCompletionTitle">¡Lección completada!</h2>
+        <p class="lesson-completion-copy">Puedes reconocer letras al escucharlas y usarlas para deletrear información.</p>
+        <div class="lesson-completion-reward" aria-label="${reward} XP ganados">+${reward} XP</div>
+        ${streak > 0 ? `<p class="lesson-completion-streak">Racha: ${streak} ${streak === 1 ? "día" : "días"}</p>` : ""}
+        <div class="lesson-completion-next" data-completion-next>
+          <span>Siguiente</span>
+          <strong>Cargando tu siguiente paso…</strong>
+        </div>
+        <button class="btn primary lesson-completion-continue" type="button" data-completion-continue disabled>
+          Continuar →
+        </button>
+      </section>
+    `;
+
+    const background = [document.querySelector(".topbar"), document.querySelector(".shell")].filter(Boolean);
+    background.forEach((element) => {
+      element.setAttribute("inert", "");
+      element.setAttribute("aria-hidden", "true");
+    });
+    document.body.classList.add("lesson-completion-open");
+    document.body.appendChild(overlay);
+
+    const panel = overlay.querySelector(".lesson-completion-panel");
+    const nextCopy = overlay.querySelector("[data-completion-next]");
+    const continueButton = overlay.querySelector("[data-completion-continue]");
+    window.requestAnimationFrame(() => panel.focus());
+
+    getCompletionDestination().then((destination) => {
+      nextCopy.innerHTML = `<span>Siguiente</span><strong>${esc(destination.title)}</strong>${destination.ready ? "" : "<small>Continúa desde tu ruta del curso.</small>"}`;
+      continueButton.disabled = false;
+      continueButton.focus();
+      continueButton.addEventListener("click", () => {
+        window.location.assign(destination.href);
+      }, { once: true });
+    });
   }
 
   // ---------------------------------------------------------------
@@ -951,13 +1143,20 @@
     setupMiniReto();
     installCompleteGate();
     setupStepMode();
+    setupWelcomeOrientation();
+    setupOrientationMedia();
     hideMarkComplete(); // start hidden; revealed by updateMarkCompleteVisibility
+
+    document.addEventListener("expresate:lesson-completed", (event) => {
+      if (event.detail?.lessonId === lessonId) showLesson000Completion();
+    });
 
     // If the lesson is already marked done in Progress, pre-fill every
     // section and show the markComplete button so the user can re-toggle.
     if (window.Progress && Progress.isLessonDone(lessonId)) {
       getSections().forEach((sec) => markSectionDone(sec.getAttribute("data-fc-id")));
       revealMarkComplete();
+      syncCompletionIndicator();
     } else {
       updateProgressBar();
       updateRightPanel();
@@ -980,6 +1179,7 @@
         }
         updateMarkCompleteGate();
         updateMarkCompleteVisibility();
+        syncCompletionIndicator();
         // Re-render right panel so the "Siguiente" CTA can light up
         renderRightPanel();
         updateRightPanel();

@@ -22,3 +22,10 @@ supabase/.temp/
 
 # Source collage used to crop/prepare food assets; not a production asset
 assets/food/ChatGPT Image May 21, 2026, 11_29_39 PM.png
+
+# Dependency and native build output
+node_modules/
+.expo/
+dist/
+coverage/
+*.tsbuildinfo
