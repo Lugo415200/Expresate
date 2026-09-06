@@ -6,21 +6,29 @@ at the repository root. Mobile uses the existing Supabase account and
 
 ## Run on your physical phone from this Windows computer
 
-Install **Expo Go compatible with SDK 54** on your phone. The App Store Expo Go
-supports SDK 54. On Android, if the Play Store build reports an SDK mismatch,
-choose SDK 54 at https://expo.dev/go and install the official Android build.
-See https://docs.expo.dev/troubleshooting/expo-go-version-mismatch/.
+Install/update **Expo Go compatible with SDK 57** on your phone. The App Store
+now offers Expo Go 57: https://apps.apple.com/us/app/expo-go/id982107779.
+On Android, if the Play Store build reports an SDK mismatch, choose SDK 57 at
+https://expo.dev/go and install the official Android build. SDK 57 requires
+iOS 16.4 or newer. Stop any older Metro terminal with Ctrl+C before restarting.
+
+Expo Go 57 requires an Expo account signed in on both the computer and phone.
+In Expo Go, tap the avatar on its home screen and sign in. For the first launch,
+add `-Login` to the command below to sign in interactively in the terminal too.
+This is separate from your Exprésate learner account. See
+https://expo.dev/changelog/expo-go-57-login.
 
 In PowerShell:
 
 ```powershell
 cd C:\Users\user\Desktop\Ynoel-english-site\apps\mobile
-powershell -ExecutionPolicy Bypass -File .\start.ps1
+powershell -ExecutionPolicy Bypass -File .\start.ps1 -Clear
 ```
 
 The process-level execution-policy flag applies only to this launcher; it does
 not change the machine's policy. The launcher uses installed Node or the existing
-Codex runtime and starts Metro on port 8081. Dependencies are already installed
+Codex runtime and starts Metro on port 8081. `-Clear` rebuilds Metro's cache after
+the SDK upgrade; it does not clear your account or progress. Dependencies are installed
 on this computer. On another computer install Node 22 LTS or newer and pnpm 11
 (`npm install --global pnpm@11`), then run `pnpm install --frozen-lockfile` here.
 
@@ -34,8 +42,8 @@ Expect the blue Exprésate course screen, Sofía, account statistics, and the
 Lesson 000 card. You can explore the complete lesson as a guest. Sign in with
 your existing account to save completion. Signup uses the same Supabase email
 confirmation flow: confirm in your email, then return and sign in in the app.
-No Expo account, Xcode, simulator, Apple membership, or native development build
-is required for this milestone. Keep the app foregrounded during the first load.
+No Xcode, simulator, Apple Developer membership, or native development build is
+required for this milestone. Keep the app foregrounded during the first load.
 
 No environment variables are required. `shared/backend.json` contains the
 website's **public** Supabase URL and anon key. `.env.example` documents optional

@@ -1,4 +1,4 @@
-param([int]$Port = 8081)
+param([int]$Port = 8081, [switch]$Clear, [switch]$Login)
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
 $taskNodeCommand = Get-Command node -ErrorAction SilentlyContinue
@@ -16,5 +16,11 @@ if (-not (Test-Path -LiteralPath 'node_modules/expo/bin/cli')) {
   & $taskPnpm install --frozen-lockfile
   if ($LASTEXITCODE -ne 0) { throw 'Dependency installation failed.' }
 }
-& $taskNode node_modules/expo/bin/cli start --lan --port $Port
+if ($Login) {
+  & $taskNode node_modules/expo/bin/cli login
+  if ($LASTEXITCODE -ne 0) { throw 'Expo login failed. Sign in before opening the project in Expo Go.' }
+}
+$expoArguments = @('start', '--lan', '--port', $Port)
+if ($Clear) { $expoArguments += '--clear' }
+& $taskNode node_modules/expo/bin/cli @expoArguments
 exit $LASTEXITCODE

@@ -6,8 +6,21 @@
     "orientation": "portrait",
     "scheme": "expresate",
     "userInterfaceStyle": "light",
-    "ios": { "supportsTablet": true, "bundleIdentifier": "co.expresate.mobile" },
-    "android": { "package": "co.expresate.mobile", "edgeToEdgeEnabled": true },
-    "plugins": [["expo-audio", { "microphonePermission": "Permite grabar tu voz para practicar pronunciación." }]]
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "co.expresate.mobile"
+    },
+    "android": {
+      "package": "co.expresate.mobile"
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Permite grabar tu voz para practicar pronunciación."
+        }
+      ],
+      "expo-asset"
+    ]
   }
 }
