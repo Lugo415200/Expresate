@@ -6,6 +6,8 @@ listening, spelling, answer feedback, the final challenge and completion.
 Typography, dialogue content, audio recordings, typing blips, replay, progression
 and completion protections are preserved. Sofía V2 and professor V2 are now the
 shared default portraits; V1 and original assets remain for rollback.
+The existing shared `data/lessons.js` release policy and its declaration are
+included because CourseMap imports them; unreleased lessons remain unavailable.
 
 ## Validation
 
