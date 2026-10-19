@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
   View,
   RefreshControl,
   Alert,
-  Image,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -14,22 +13,65 @@ import { supabase } from "./src/backend";
 import { Auth } from "./src/Auth";
 import { Lesson } from "./src/Lesson";
 import { Button, Card, Loading, colors, s } from "./src/ui";
+import { CourseMap } from "./src/CourseMap";
+import { BetaHome } from "./src/BetaHome";
+import { BrandTransition } from "./src/BrandTransition";
+import { Orientation } from "./src/Orientation";
+import { AppIntro } from "./src/AppIntro";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const learner = useLearner();
   const [screen, setScreen] = useState<
-    "course" | "profile" | "lesson" | "auth"
+    "course" | "map" | "profile" | "lesson" | "auth" | "orientation"
   >("course");
   const [authReturn, setAuthReturn] = useState<"course" | "lesson">("course");
   const [signingOut, setSigningOut] = useState(false);
+  const [brandTransitioning, setBrandTransitioning] = useState(false);
+  const [orientationSeen, setOrientationSeen] = useState<boolean | null>(null);
+  const [introVisible, setIntroVisible] = useState(true);
+  useEffect(() => {
+    let active = true;
+    AsyncStorage.getItem("expresate_mobile_orientation_v1")
+      .then((value) => {
+        if (active) setOrientationSeen(value === "seen");
+      })
+      .catch(() => {
+        if (active) setOrientationSeen(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const login = (back: "course" | "lesson" = "course") => {
     setAuthReturn(back);
     setScreen("auth");
   };
+  const openLesson000 = () => {
+    if (brandTransitioning) return;
+    setBrandTransitioning(true);
+  };
+  const replayOrientation = async () => {
+    try {
+      await AsyncStorage.removeItem("expresate_mobile_orientation_v1");
+    } catch {
+      // Development replay can still open if storage reset fails.
+    }
+    setOrientationSeen(false);
+    setScreen("orientation");
+  };
   // Keep the lesson mounted while authentication is shown, preserving answers.
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={s.screen}>
+      <SafeAreaView
+        style={s.screen}
+        edges={
+          screen === "lesson" || screen === "orientation"
+            ? []
+            : ["top", "right", "bottom", "left"]
+        }
+      >
         <StatusBar style="dark" />
         {learner.starting ? (
           <Loading />
@@ -57,10 +99,29 @@ export default function App() {
               </View>
             )}
             {screen === "auth" && <Auth close={() => setScreen(authReturn)} />}
-            {(screen === "course" || screen === "profile") && (
+            {screen === "orientation" && (
+              <Orientation
+                onCancel={() => setScreen("course")}
+                onComplete={async () => {
+                  setOrientationSeen(true);
+                  try {
+                    await AsyncStorage.setItem(
+                      "expresate_mobile_orientation_v1",
+                      "seen",
+                    );
+                  } catch {
+                    // The tutorial can still complete if local persistence fails.
+                  }
+                  setScreen("lesson");
+                }}
+              />
+            )}
+            {(screen === "course" || screen === "map" || screen === "profile") && (
               <>
                 <ScrollView
-                  contentContainerStyle={s.content}
+                  contentContainerStyle={
+                    screen === "course" ? { flexGrow: 1 } : s.content
+                  }
                   refreshControl={
                     <RefreshControl
                       refreshing={learner.busy}
@@ -69,101 +130,53 @@ export default function App() {
                     />
                   }
                 >
-                  <Text style={s.eyebrow}>EXPRÉSATE</Text>
-                  <Text style={s.title}>
-                    {screen === "course"
-                      ? "Tu inglés empieza aquí."
-                      : "Tu cuenta"}
-                  </Text>
-                  <Text style={s.muted}>
-                    {learner.session
-                      ? learner.session.user.email
-                      : "Explora la primera clase. Inicia sesión para guardar tu progreso."}
-                  </Text>
-                  {learner.error ? (
-                    <Card>
-                      <Text style={s.error}>{learner.error}</Text>
-                      <Button
-                        secondary
-                        title="Reintentar sincronización"
-                        onPress={learner.refresh}
-                        disabled={learner.busy}
-                      />
-                    </Card>
-                  ) : null}
-                  {learner.pending ? (
-                    <Text style={s.muted}>
-                      Hay un resultado guardado en este teléfono pendiente de
-                      sincronizar.
-                    </Text>
-                  ) : null}
-                  <View style={s.row}>
-                    {[
-                      [learner.stats.xp, "XP"],
-                      [learner.stats.streak, "días de racha"],
-                      [learner.stats.completed, "completadas"],
-                    ].map(([value, label]) => (
-                      <View
-                        key={label}
-                        style={{
-                          flex: 1,
-                          minWidth: 86,
-                          paddingVertical: 17,
-                          paddingHorizontal: 10,
-                          backgroundColor: colors.pale,
-                          borderRadius: 18,
-                        }}
-                      >
-                        <Text style={s.heading}>{value}</Text>
-                        <Text style={s.muted}>{label}</Text>
-                      </View>
-                    ))}
-                  </View>
                   {screen === "course" ? (
+                    <BetaHome
+                      completed={
+                        !!learner.progress.lessons?.["lesson-000-alphabet"]?.done
+                      }
+                      orientationSeen={orientationSeen}
+                      onOpenLesson={openLesson000}
+                      onReplayOrientation={replayOrientation}
+                      onOpenAccount={() => setScreen("profile")}
+                      onOpenMap={() => setScreen("map")}
+                    />
+                  ) : screen === "map" ? (
                     <>
-                      <Card>
-                        <Text style={s.eyebrow}>MÓDULO 0 · FUNDAMENTOS</Text>
-                        <Image
-                          source={require("../../assets/characters/sofia/greeting.webp")}
-                          style={{ width: "100%", height: 180 }}
-                          resizeMode="contain"
-                        />
-                        <Text style={s.heading}>000 · El alfabeto</Text>
-                        <Text style={s.body}>
-                          Conoce a Sofía. Escucha las letras y aprende a
-                          deletrear información importante.
-                        </Text>
-                        <Text style={s.muted}>
-                          A–Z · audio · práctica · 10 XP
-                        </Text>
-                        <Button
-                          title={
-                            learner.progress.lessons?.["lesson-000-alphabet"]
-                              ?.done
-                              ? "Practicar de nuevo"
-                              : "Empezar lección"
-                          }
-                          onPress={() => setScreen("lesson")}
-                        />
-                      </Card>
-                      <Card>
-                        <Text style={s.heading}>001 · Sonidos clave</Text>
-                        <Text style={s.muted}>
-                          SH / CH / TH y pares mínimos. Esta lección sigue
-                          disponible en la web; su versión nativa aún está en
-                          preparación.
-                        </Text>
-                      </Card>
-                      {!learner.session && (
-                        <Button
-                          secondary
-                          title="Iniciar sesión / Crear cuenta"
-                          onPress={() => login()}
-                        />
-                      )}
+                      <Text style={s.eyebrow}>EXPRÉSATE</Text>
+                      <Text style={s.title}>Tu recorrido</Text>
+                      <Text style={s.muted}>
+                        Aquí aparece la ruta completa después de conocer la primera lección.
+                      </Text>
+                      <CourseMap
+                        progress={learner.progress}
+                        premium={learner.premium}
+                        stats={learner.stats}
+                        onOpenLesson000={openLesson000}
+                        onReplayOrientation={replayOrientation}
+                      />
                     </>
                   ) : (
-                    <Card>
+                    <>
+                      <Text style={s.eyebrow}>EXPRÉSATE</Text>
+                      <Text style={s.title}>Tu cuenta</Text>
+                      {learner.error ? (
+                        <Card>
+                          <Text style={s.error}>{learner.error}</Text>
+                          <Button
+                            secondary
+                            title="Reintentar sincronización"
+                            onPress={learner.refresh}
+                            disabled={learner.busy}
+                          />
+                        </Card>
+                      ) : null}
+                      {learner.pending ? (
+                        <Text style={s.muted}>
+                          Hay un resultado guardado en este teléfono pendiente de sincronizar.
+                        </Text>
+                      ) : null}
+                      <Card>
                       <Text style={s.heading}>
                         {!learner.session
                           ? "Modo exploración"
@@ -223,8 +236,10 @@ export default function App() {
                         />
                       )}
                     </Card>
+                    </>
                   )}
                 </ScrollView>
+                {screen !== "course" ? (
                 <View
                   style={[
                     s.row,
@@ -239,7 +254,7 @@ export default function App() {
                   <View style={{ flex: 1 }}>
                     <Button
                       title="Curso"
-                      secondary={screen !== "course"}
+                      secondary={screen === "profile"}
                       onPress={() => setScreen("course")}
                     />
                   </View>
@@ -251,11 +266,26 @@ export default function App() {
                     />
                   </View>
                 </View>
+                ) : null}
               </>
             )}
           </>
         )}
       </SafeAreaView>
+      <BrandTransition
+        visible={brandTransitioning}
+        onCovered={() =>
+          setScreen(orientationSeen === true ? "lesson" : "orientation")
+        }
+        onFinished={() => setBrandTransitioning(false)}
+      />
+      <AppIntro
+        visible={introVisible}
+        onPrepareNext={() => {
+          setScreen(orientationSeen === true ? "course" : "orientation");
+        }}
+        onFinished={() => setIntroVisible(false)}
+      />
     </SafeAreaProvider>
   );
 }

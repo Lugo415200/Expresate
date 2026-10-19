@@ -6,13 +6,14 @@ import {
   Text,
   View,
 } from "react-native";
+import { lessonType, lessonSpace } from "./lessonTypography";
 export const colors = {
   ink: "#0f172a",
   muted: "#475569",
-  blue: "#4b66f2",
+  blue: "#4358f4",
   pale: "#e9edff",
-  paper: "#eef6fb",
-  line: "#dbe4ef",
+  paper: "#f3f5fb",
+  line: "#dce3f0",
   green: "#23764d",
   white: "#ffffff",
 };
@@ -21,11 +22,13 @@ export function Button({
   onPress,
   disabled = false,
   secondary = false,
+  readable = false,
 }: {
   title: string;
   onPress: () => void;
   disabled?: boolean;
   secondary?: boolean;
+  readable?: boolean;
 }) {
   return (
     <Pressable
@@ -35,11 +38,12 @@ export function Button({
       disabled={disabled}
       style={({ pressed }) => [
         s.button,
+        readable && { minHeight: lessonSpace.touch, paddingVertical: 16 },
         secondary && s.secondary,
         (disabled || pressed) && { opacity: 0.55 },
       ]}
     >
-      <Text style={[s.buttonText, secondary && { color: colors.blue }]}>
+      <Text style={[s.buttonText, readable && lessonType.button, secondary && { color: colors.blue }]}>
         {title}
       </Text>
     </Pressable>
@@ -59,8 +63,9 @@ export function Loading({ title = "Preparando tu clase…" }) {
 export const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.paper },
   content: {
-    padding: 22,
-    gap: 18,
+    paddingHorizontal: 16,
+    paddingTop: 18,
+    gap: 16,
     paddingBottom: 36,
     width: "100%",
     maxWidth: 620,

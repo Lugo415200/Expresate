@@ -1,17 +1,27 @@
 {
   "expo": {
     "name": "Exprésate",
-    "slug": "expresate-mobile",
+    "slug": "expresate",
     "version": "0.1.0",
     "orientation": "portrait",
     "scheme": "expresate",
     "userInterfaceStyle": "light",
+    "icon": "./assets/app/icon.png",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "co.expresate.mobile"
+      "bundleIdentifier": "co.expresate.mobile",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "co.expresate.mobile"
+      "package": "co.expresate.mobile",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
     },
     "plugins": [
       [
@@ -21,6 +31,12 @@
         }
       ],
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "720c9c7c-e3bd-407a-b183-2f874e35eb3d"
+      }
+    },
+    "owner": "expresate"
   }
 }

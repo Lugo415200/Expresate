@@ -20,7 +20,7 @@ function stagedFiles() {
 }
 
 function stagedContent(file) {
-  return execFileSync("git", ["show", `:${file}`]);
+  return execFileSync("git", ["show", `:${file}`], { maxBuffer: 16 * 1024 * 1024 });
 }
 
 function lineNumber(text, index) {
